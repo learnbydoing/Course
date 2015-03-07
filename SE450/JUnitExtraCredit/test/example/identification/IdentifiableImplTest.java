@@ -7,6 +7,7 @@ package example.identification;
 
 import example.common.InvalidDataException;
 import example.common.Point3D;
+import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,7 +19,7 @@ import static org.junit.Assert.*;
  *
  * @author Johnny
  */
-public class IdentifiableImplTest {
+public class IdentifiableImplTest extends TestCase {
     
     private Point3D testPoint3D;
     private IdentifiableImpl testIdentifiable;
@@ -84,7 +85,7 @@ public class IdentifiableImplTest {
     public void testSetIdentifier() throws Exception {
         
         //null id
-         testId = null;
+        testId = null;
         try {
             testIdentifiable.setIdentifier(testId);
             fail("InvalidDataException NOT thrown from IdentifiableImpl setIdentifier");
@@ -105,8 +106,7 @@ public class IdentifiableImplTest {
         testId = "1234";
         try {
             testIdentifiable.setIdentifier(testId);
-            assertEquals(testId, testIdentifiable.getIdentifier());
-            
+            assertEquals(testId, testIdentifiable.getIdentifier());            
         } catch (InvalidDataException ex) {
             fail("InvalidDataException(" + ex.getMessage() + ") thrown from IdentifiableImpl");
         }

@@ -7,6 +7,7 @@ package example.location;
 
 import example.common.InvalidDataException;
 import example.common.Point3D;
+import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,7 +19,7 @@ import static org.junit.Assert.*;
  *
  * @author Johnny
  */
-public class LocatableImplTest {
+public class LocatableImplTest extends TestCase {
     private Point3D testPoint3D;
     private LocatableImpl testLocatable;
     private static final double delta = 0.001;

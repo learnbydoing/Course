@@ -5,6 +5,7 @@
  */
 package example.common;
 
+import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,8 +17,8 @@ import static org.junit.Assert.*;
  *
  * @author Johnny
  */
-public class Point3DTest {
-    
+public class Point3DTest extends TestCase{
+
     public Point3DTest() {
     }
     
@@ -43,8 +44,8 @@ public class Point3DTest {
     @Test
     public void testGetZ() {
         System.out.println("getZ");
-        Point3D instance = new Point3D(1.1,2.2,-3.3);
-        double expResult = -3.3;
+        Point3D instance = new Point3D(1.1,2.2,3.3);
+        double expResult = 3.3;
         double result = instance.getZ();
         assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
@@ -190,6 +191,5 @@ public class Point3DTest {
         assertEquals(expResult2, result2);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
-    }
-    
+    }    
 }

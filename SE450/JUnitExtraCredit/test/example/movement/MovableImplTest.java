@@ -8,6 +8,7 @@ package example.movement;
 import example.common.InvalidDataException;
 import example.common.Point3D;
 import example.location.LocatableImpl;
+import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,7 +20,7 @@ import static org.junit.Assert.*;
  *
  * @author Johnny
  */
-public class MovableImplTest {
+public class MovableImplTest extends TestCase {
     
     private Point3D testLoc;
     private Point3D testDest;

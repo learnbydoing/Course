@@ -12,24 +12,25 @@ public class IdentifiableImpl implements Identifiable {
 
     /**
      * Constructs and initializes a identifiableImpl with a specified id.
-     * @param id - identity for the identifiableImpl instance
+     * @param id identity for the identifiableImpl instance
      * @throws InvalidDataException if id value is null or empty.
      */
     public IdentifiableImpl(String id) throws InvalidDataException {
         setIdentifier(id);
     }
-
-    @Override
+ 
     /**
      * Get the identifier of this identifiableImpl.
+     * @return the identifier
      */
+    @Override
     public String getIdentifier() {
         return identifier;
     }
 
     /**
      * Set identifier with the specified id.
-     * @param id
+     * @param id a string for identifying this identifiableImpl
      * @throws InvalidDataException if id value is null or empty.
      */
     public final void setIdentifier(String id) throws InvalidDataException {
