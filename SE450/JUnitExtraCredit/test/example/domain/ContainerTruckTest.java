@@ -588,7 +588,8 @@ public class ContainerTruckTest extends TestCase {
         }
         
         assertNotNull(testContainerTruck);
-        //assertEquals("ID1", testTruck.getIdentifier());      
+        String id = testContainerTruck.getIdentifier();
+        assertEquals("ID", id.substring(0, 2)); 
     }
 
     /**
@@ -670,13 +671,26 @@ public class ContainerTruckTest extends TestCase {
     @Test
     public void testToString() {
         try {
+            Point3D newloc = new Point3D(44.4, 55.5, 66.6);
+            testContainerTruck.setLocation(newloc);
             String expResult = "I am ContainerTruck " + testContainerTruck.getIdentifier() + ".\n\tI am at "
                     + testContainerTruck.getLocation() + " and am heading to " + testContainerTruck.getDestination()
                     + ".\n\tMy load is " + testContainerTruck.getCurrentLoadWeight() + " and my max load is "
                     + testContainerTruck.getMaxLoadWeight() + ".\n\tDistance to my destination is "
                     + String.format("%4.2f", testContainerTruck.distance(testContainerTruck.getDestination())) + ". "
-                    + (testContainerTruck.atDestination() ? "I am there!" : "I'm not there yet");
+                    + "I'm not there yet";
             String result = testContainerTruck.toString();
+            assertEquals(expResult, result);     
+            
+            newloc = new Point3D(77.7, 88.8, 99.9);
+            testContainerTruck.setLocation(newloc);
+            expResult = "I am ContainerTruck " + testContainerTruck.getIdentifier() + ".\n\tI am at "
+                    + testContainerTruck.getLocation() + " and am heading to " + testContainerTruck.getDestination()
+                    + ".\n\tMy load is " + testContainerTruck.getCurrentLoadWeight() + " and my max load is "
+                    + testContainerTruck.getMaxLoadWeight() + ".\n\tDistance to my destination is "
+                    + String.format("%4.2f", testContainerTruck.distance(testContainerTruck.getDestination())) + ". "
+                    + "I am there!";
+            result = testContainerTruck.toString();
             assertEquals(expResult, result);      
         } catch (InvalidDataException ex) {
             fail("InvalidDataException (" + ex.getMessage() + ") thrown from ContainerTruck");

@@ -61,6 +61,27 @@ public class TankerTruckTest extends TestCase {
     }
 
     /**
+    * Test of Constructor method, of class TankerTruck.
+    */
+    public void testConstructor() {
+         try {
+            testLoc = new Point3D(44.4, 55.5, 66.6);
+            testDest = new Point3D(77.7, 88.8, 99.9);
+            testSpeed = 100;
+            testMaxSpeed = 200;
+            testMaxLoadWeight = 1000;
+            TankerTruck tank = new TankerTruck(testLoc.getX(), testLoc.getY(), testLoc.getZ(), testDest.getX(), testDest.getY(), testDest.getZ(), testSpeed,testMaxSpeed,testMaxLoadWeight);
+            assertNotNull(tank);
+            assertEquals(testLoc, tank.getLocation());
+            assertNotSame(testLoc, tank.getLocation());
+            assertEquals(testDest, tank.getDestination());
+            assertNotSame(testDest, tank.getDestination());
+        } catch (InvalidDataException ex) {
+            fail("Fail to create object of TankerTruck, error: " + ex.getMessage());
+        }
+    }
+    
+    /**
      * Test of load method, of class TankerTruck.
      */
     @Test
@@ -630,7 +651,8 @@ public class TankerTruckTest extends TestCase {
         }
         
         assertNotNull(testTankerTruck);
-        //assertEquals("ID1", testTankerTruck.getIdentifier());
+        String id = testTankerTruck.getIdentifier();
+        assertEquals("ID", id.substring(0, 2));
     }
 
     /**
@@ -724,17 +746,29 @@ public class TankerTruckTest extends TestCase {
     @Test
     public void testToString() {
         try {
+            Point3D newloc = new Point3D(44.4, 55.5, 66.6);
+            testTankerTruck.setLocation(newloc);
             String expResult = "I am TankerTruck " + testTankerTruck.getIdentifier() + ".\n\tI am at "
                     + testTankerTruck.getLocation() + " and am heading to " + testTankerTruck.getDestination()
                     + ".\n\tMy load is " + testTankerTruck.getCurrentLoadWeight() + " and my max load is "
                     + testTankerTruck.getMaxLoadWeight() + ".\n\tDistance to my destination is "
                     + String.format("%4.2f", testTankerTruck.distance(testTankerTruck.getDestination())) + ". "
-                    + (testTankerTruck.atDestination() ? "I am there!" : "I'm not there yet");
+                    + "I'm not there yet";
             String result = testTankerTruck.toString();
-            assertEquals(expResult, result);      
+            assertEquals(expResult, result);            
+            
+            newloc = new Point3D(77.7, 88.8, 99.9);
+            testTankerTruck.setLocation(newloc);
+            expResult = "I am TankerTruck " + testTankerTruck.getIdentifier() + ".\n\tI am at "
+                    + testTankerTruck.getLocation() + " and am heading to " + testTankerTruck.getDestination()
+                    + ".\n\tMy load is " + testTankerTruck.getCurrentLoadWeight() + " and my max load is "
+                    + testTankerTruck.getMaxLoadWeight() + ".\n\tDistance to my destination is "
+                    + String.format("%4.2f", testTankerTruck.distance(testTankerTruck.getDestination())) + ". "
+                    + "I am there!";
+            result = testTankerTruck.toString();
+            assertEquals(expResult, result);
         } catch (InvalidDataException ex) {
             fail("InvalidDataException (" + ex.getMessage() + ") thrown from TankerTruck.");
-        }
+        }           
     }
-    
 }

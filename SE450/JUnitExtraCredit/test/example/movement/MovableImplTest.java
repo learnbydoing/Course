@@ -7,7 +7,6 @@ package example.movement;
 
 import example.common.InvalidDataException;
 import example.common.Point3D;
-import example.location.LocatableImpl;
 import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.AfterClass;

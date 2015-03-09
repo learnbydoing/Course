@@ -50,6 +50,19 @@ public class LocatableImplTest extends TestCase {
     }
 
     /**
+     * Test of Constructor method, of class LocatableImpl.
+     */
+    @Test
+    public void testConstructor() {
+        try {
+            LocatableImpl locatable = new LocatableImpl(56.2, 37.1, 23.4);
+            assertEquals(23.4, locatable.getLocationZ(), 0.0);
+        } catch (InvalidDataException ex) {
+            fail("Creation of test fixture object in @Before 'setUp' failed: " + ex.getMessage());
+        }
+    }
+    
+    /**
      * Test of getLocation method, of class LocatableImpl.
      */
     @Test
@@ -119,6 +132,18 @@ public class LocatableImplTest extends TestCase {
         } catch (InvalidDataException ex) {
             assertEquals(ex.getMessage(), "Null location sent to setLocation");
             assertNotNull(testLocatable.getLocation());
+        }
+        
+        try {
+            testLocatable.setLocation(123.1,456.4,789.7);
+            Point3D p = testLocatable.getLocation();
+            assertNotNull(p);
+            assertEquals(123.1, testLocatable.getLocationX(), delta);
+            assertEquals(456.4, testLocatable.getLocationY(), delta);
+            assertEquals(789.7, testLocatable.getLocationZ(), delta);
+        } catch (InvalidDataException ex) {
+            fail("InvalidDataException (" + ex.getMessage() + ") thrown from LocatableImpl "
+                    + "setLocation(double, double, double)");
         }
     }
 

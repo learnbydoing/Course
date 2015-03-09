@@ -48,6 +48,11 @@ public class Point3DTest extends TestCase{
         double expResult = 3.3;
         double result = instance.getZ();
         assertEquals(expResult, result, 0.0);
+        
+        Point3D point2 = new Point3D(4.4, 5.5);
+        double expResult2 = 0.0;
+        double result2 = point2.getZ();
+        assertEquals(expResult2, result2, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
