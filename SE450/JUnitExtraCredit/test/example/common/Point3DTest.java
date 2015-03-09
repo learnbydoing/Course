@@ -5,7 +5,6 @@
  */
 package example.common;
 
-import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,7 +16,7 @@ import static org.junit.Assert.*;
  *
  * @author Johnny
  */
-public class Point3DTest extends TestCase{
+public class Point3DTest {
 
     public Point3DTest() {
     }

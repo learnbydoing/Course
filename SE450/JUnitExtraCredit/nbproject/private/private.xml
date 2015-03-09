@@ -4,7 +4,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/hieldc/Desktop/Docs/JUnitExtraCredit/src/example/Main.java</file>
+            <file>file:/D:/DePaul_Study/Course/SE450/JUnitExtraCredit/test/example/common/Point3DTest.java</file>
+            <file>file:/D:/DePaul_Study/Course/SE450/JUnitExtraCredit/src/example/common/Point3D.java</file>
+            <file>file:/D:/DePaul_Study/Course/SE450/JUnitExtraCredit/test/example/domain/ContainerTruckTest.java</file>
+            <file>file:/D:/DePaul_Study/Course/SE450/JUnitExtraCredit/test/example/domain/StandardCargoTruckTest.java</file>
+            <file>file:/D:/DePaul_Study/Course/SE450/JUnitExtraCredit/test/example/movement/MovableImplTest.java</file>
+            <file>file:/D:/DePaul_Study/Course/SE450/JUnitExtraCredit/src/example/location/LocatableImpl.java</file>
+            <file>file:/D:/DePaul_Study/Course/SE450/JUnitExtraCredit/src/example/Main.java</file>
+            <file>file:/D:/DePaul_Study/Course/SE450/JUnitExtraCredit/test/example/truck/TruckImplTest.java</file>
+            <file>file:/D:/DePaul_Study/Course/SE450/JUnitExtraCredit/test/example/domain/TankerTruckTest.java</file>
+            <file>file:/D:/DePaul_Study/Course/SE450/JUnitExtraCredit/test/example/identification/IdentifiableImplTest.java</file>
+            <file>file:/D:/DePaul_Study/Course/SE450/JUnitExtraCredit/test/example/location/LocatableImplTest.java</file>
         </group>
     </open-files>
 </project-private>

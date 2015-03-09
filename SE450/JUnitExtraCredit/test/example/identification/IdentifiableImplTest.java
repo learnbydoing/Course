@@ -7,7 +7,6 @@ package example.identification;
 
 import example.common.InvalidDataException;
 import example.common.Point3D;
-import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,7 +18,7 @@ import static org.junit.Assert.*;
  *
  * @author Johnny
  */
-public class IdentifiableImplTest extends TestCase {
+public class IdentifiableImplTest {
     
     private Point3D testPoint3D;
     private IdentifiableImpl testIdentifiable;

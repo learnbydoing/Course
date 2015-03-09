@@ -8,7 +8,6 @@ package example.domain;
 import example.common.CannotFitException;
 import example.common.InvalidDataException;
 import example.common.Point3D;
-import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,7 +19,7 @@ import static org.junit.Assert.*;
  *
  * @author Johnny
  */
-public class TankerTruckTest extends TestCase {
+public class TankerTruckTest {
     private Point3D testLoc;
     private Point3D testDest;
     private double testSpeed;
