@@ -77,7 +77,7 @@ public class LocatableImplTest {
      */
     @Test
     public void testGetLocationX() {
-        assertEquals(testLocatable.getLocationX(), testPoint3D.getX(), delta);
+        assertEquals(testPoint3D.getX(), testLocatable.getLocationX(), delta);
     }
 
     /**
@@ -85,7 +85,7 @@ public class LocatableImplTest {
      */
     @Test
     public void testGetLocationY() {
-        assertEquals(testLocatable.getLocationY(), testPoint3D.getY(), delta);
+        assertEquals(testPoint3D.getY(), testLocatable.getLocationY(), delta);
     }
 
     /**
@@ -93,7 +93,7 @@ public class LocatableImplTest {
      */
     @Test
     public void testGetLocationZ() {
-        assertEquals(testLocatable.getLocationZ(), testPoint3D.getZ(), delta);
+        assertEquals(testPoint3D.getZ(), testLocatable.getLocationZ(), delta);
     }
 
     /**
@@ -119,7 +119,7 @@ public class LocatableImplTest {
             fail("InvalidDataException NOT thrown from LocatableImpl setLocation(Point3D)"
                     +" with an invalid Point3D: " + newPoint);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to setLocation(x,y,z)");
+            assertEquals("Invalid X,Y,Z point sent to setLocation(x,y,z)", ex.getMessage());
             assertFalse(newPoint.equals(testLocatable.getLocation()));
         }
         
@@ -129,7 +129,7 @@ public class LocatableImplTest {
             fail("InvalidDataException NOT thrown from LocatableImpl setLocation(Point3D) "
                     +" with a null Point3D");
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Null location sent to setLocation");
+            assertEquals("Null location sent to setLocation", ex.getMessage());
             assertNotNull(testLocatable.getLocation());
         }
         
@@ -172,7 +172,7 @@ public class LocatableImplTest {
             fail("InvalidDataException NOT thrown from LocatableImpl setLocation(Point3D) "
                     +" with a invalid x, y, z: " + x + ", " + y + ", " + z);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to setLocation(x,y,z)");
+            assertEquals("Invalid X,Y,Z point sent to setLocation(x,y,z)", ex.getMessage());
             assertTrue(x != testLocatable.getLocationX());
             assertTrue(y != testLocatable.getLocationY());
             assertTrue(z != testLocatable.getLocationZ());
@@ -185,7 +185,7 @@ public class LocatableImplTest {
             fail("InvalidDataException NOT thrown from LocatableImpl setLocation(Point3D) "
                     +" with a invalid x, y, z: " + x + ", " + y + ", " + z);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to setLocation(x,y,z)");
+            assertEquals("Invalid X,Y,Z point sent to setLocation(x,y,z)", ex.getMessage());
             assertTrue(x != testLocatable.getLocationX());
             assertTrue(y != testLocatable.getLocationY());
             assertTrue(z != testLocatable.getLocationZ());
@@ -198,7 +198,7 @@ public class LocatableImplTest {
             fail("InvalidDataException NOT thrown from LocatableImpl setLocation(Point3D) "
                     +" with a invalid x, y, z: " + x + ", " + y + ", " + z);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to setLocation(x,y,z)");
+            assertEquals("Invalid X,Y,Z point sent to setLocation(x,y,z)", ex.getMessage());
             assertTrue(x != testLocatable.getLocationX());
             assertTrue(y != testLocatable.getLocationY());
             assertTrue(z != testLocatable.getLocationZ());
@@ -219,7 +219,7 @@ public class LocatableImplTest {
             distance = testLocatable.distance(destination);
             assertEquals(distance, testLocatable.distance(destination), delta);            
         } catch (InvalidDataException ex) {
-           assertEquals(ex.getMessage(), "Null location sent to distance");
+           assertEquals("Null location sent to distance", ex.getMessage());
         }
         
         destination = new Point3D(11.1, 22.2, 33.3);
@@ -254,7 +254,7 @@ public class LocatableImplTest {
             distance = testLocatable.distance(-x,y,z);
             assertEquals(expect, distance, delta);            
         } catch (InvalidDataException ex) {
-           assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to distance(x,y,z)");
+           assertEquals("Invalid X,Y,Z point sent to distance(x,y,z)", ex.getMessage());
         }
         
         try {
@@ -262,7 +262,7 @@ public class LocatableImplTest {
             distance = testLocatable.distance(x,-y,z);
             assertEquals(expect, distance, delta);            
         } catch (InvalidDataException ex) {
-           assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to distance(x,y,z)");
+           assertEquals("Invalid X,Y,Z point sent to distance(x,y,z)", ex.getMessage());
         }
         
         try {
@@ -270,7 +270,7 @@ public class LocatableImplTest {
             distance = testLocatable.distance(x,y,-z);
             assertEquals(expect, distance, delta);            
         } catch (InvalidDataException ex) {
-           assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to distance(x,y,z)");
+           assertEquals("Invalid X,Y,Z point sent to distance(x,y,z)", ex.getMessage());
         }
 
         try {

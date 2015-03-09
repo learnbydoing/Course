@@ -8,6 +8,7 @@ import example.truck.Truck;
 
 /**
  * A specific implementation of the {@link Truck} interface, the StandardCargoTruck.
+ * The StandardCargoTruck does everything in a “standard” way, including “load” and “unload” behavior.
  * @author Rong Zhuang
  */
 public class StandardCargoTruck implements Truck {

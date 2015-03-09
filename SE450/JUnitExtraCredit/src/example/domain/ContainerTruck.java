@@ -8,6 +8,7 @@ import example.truck.Truck;
 
 /**
  * A specific implementation of the {@link Truck} interface, the ContainerTruck.
+ * The ContainerTruck can ONLY be fully loaded or unloaded – no partial loading or unloading.
  * @author Rong Zhuang
  */
 public class ContainerTruck implements Truck {

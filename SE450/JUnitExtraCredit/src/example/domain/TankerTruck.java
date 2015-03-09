@@ -8,6 +8,7 @@ import example.truck.Truck;
 
 /**
  * A specific implementation of the {@link Truck} interface, the TankerTruck.
+ * The TankerTruck must be loaded slowly, not all at once.
  * @author Rong Zhuang
  */
 public class TankerTruck implements Truck {

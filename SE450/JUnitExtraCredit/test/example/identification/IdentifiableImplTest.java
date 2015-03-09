@@ -64,7 +64,7 @@ public class IdentifiableImplTest {
             testIdentifiable = new IdentifiableImpl(testId);
             fail("InvalidDataException NOT thrown from IdentifiableImpl constructor");
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Null or empty ID passed to setIdentifier");
+            assertEquals("Null or empty ID passed to setIdentifier", ex.getMessage());
         }
         
         //empty id
@@ -73,7 +73,7 @@ public class IdentifiableImplTest {
             testIdentifiable = new IdentifiableImpl(testId);
             fail("InvalidDataException NOT thrown from IdentifiableImpl constructor");
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Null or empty ID passed to setIdentifier");
+            assertEquals("Null or empty ID passed to setIdentifier", ex.getMessage());
         }                
     }
 
@@ -89,7 +89,7 @@ public class IdentifiableImplTest {
             testIdentifiable.setIdentifier(testId);
             fail("InvalidDataException NOT thrown from IdentifiableImpl setIdentifier");
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Null or empty ID passed to setIdentifier");
+            assertEquals("Null or empty ID passed to setIdentifier", ex.getMessage());
         }
         
         //empty id
@@ -98,7 +98,7 @@ public class IdentifiableImplTest {
             testIdentifiable.setIdentifier(testId);
             fail("InvalidDataException NOT thrown from IdentifiableImpl setIdentifier");
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Null or empty ID passed to setIdentifier");
+            assertEquals("Null or empty ID passed to setIdentifier", ex.getMessage());
         }
         
         //valid id

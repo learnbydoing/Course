@@ -70,9 +70,9 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck load(amount) "
                     +" with a invalid amount: " + amount);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "A Container Truck can only be *fully* loaded (" 
+            assertEquals("A Container Truck can only be *fully* loaded (" 
                     + testContainerTruck.getMaxLoadWeight()
-                    + ")- not partially loaded (" + amount + ")");
+                    + ")- not partially loaded (" + amount + ")", ex.getMessage());
         }
         
         amount = 1000.0;
@@ -99,9 +99,9 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck unLoad(amount) "
                     +" with a invalid amount: " + amount);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "A Container Truck can only be *fully* unloaded ("
+            assertEquals("A Container Truck can only be *fully* unloaded ("
                     + testContainerTruck.getMaxLoadWeight()
-                    + ")- not partially unloaded (" + amount + ")");
+                    + ")- not partially unloaded (" + amount + ")", ex.getMessage());
         }
         
         amount = 1000;
@@ -152,7 +152,7 @@ public class ContainerTruckTest {
      */
     @Test
     public void testGetDestinationX() {
-        assertEquals(testContainerTruck.getDestinationX(), testDest.getX(), delta);
+        assertEquals(testDest.getX(), testContainerTruck.getDestinationX(), delta);
     }
 
     /**
@@ -160,7 +160,7 @@ public class ContainerTruckTest {
      */
     @Test
     public void testGetDestinationY() {
-        assertEquals(testContainerTruck.getDestinationY(), testDest.getY(), delta);
+        assertEquals(testDest.getY(), testContainerTruck.getDestinationY(), delta);
     }
 
     /**
@@ -168,7 +168,7 @@ public class ContainerTruckTest {
      */
     @Test
     public void testGetDestinationZ() {
-        assertEquals(testContainerTruck.getDestinationZ(), testDest.getZ(), delta);
+        assertEquals(testDest.getZ(), testContainerTruck.getDestinationZ(), delta);
     }
 
     /**
@@ -213,7 +213,7 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck setDestination(x,y,z) "
                     +" with a invalid x, y, z: " + x + ", " + y + ", " + z);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to setDestination(x,y,z): (" + x + "," + y + "," + z + ")");
+            assertEquals("Invalid X,Y,Z point sent to setDestination(x,y,z): (" + x + "," + y + "," + z + ")", ex.getMessage());
             assertTrue(x != testContainerTruck.getDestinationX());
             assertTrue(y != testContainerTruck.getDestinationY());
             assertTrue(z != testContainerTruck.getDestinationZ());
@@ -227,7 +227,7 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck setDestination(x,y,z) "
                     +" with a invalid x, y, z: " + x + ", " + y + ", " + z);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to setDestination(x,y,z): (" + x + "," + y + "," + z + ")");
+            assertEquals("Invalid X,Y,Z point sent to setDestination(x,y,z): (" + x + "," + y + "," + z + ")", ex.getMessage());
             assertTrue(x != testContainerTruck.getDestinationX());
             assertTrue(y != testContainerTruck.getDestinationY());
             assertTrue(z != testContainerTruck.getDestinationZ());
@@ -241,7 +241,7 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck setDestination(x,y,z) "
                     +" with a invalid x, y, z: " + x + ", " + y + ", " + z);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to setDestination(x,y,z): (" + x + "," + y + "," + z + ")");
+            assertEquals("Invalid X,Y,Z point sent to setDestination(x,y,z): (" + x + "," + y + "," + z + ")", ex.getMessage());
             assertTrue(x != testContainerTruck.getDestinationX());
             assertTrue(y != testContainerTruck.getDestinationY());
             assertTrue(z != testContainerTruck.getDestinationZ());
@@ -271,7 +271,7 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck SetDestination(Point3D)"
                     +" with an invalid Point3D: " + newPoint);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to setDestination(x,y,z): (" + newPoint.getX() + "," + newPoint.getY() + "," + newPoint.getZ() + ")");
+            assertEquals("Invalid X,Y,Z point sent to setDestination(x,y,z): (" + newPoint.getX() + "," + newPoint.getY() + "," + newPoint.getZ() + ")", ex.getMessage());
             assertFalse(newPoint.equals(testContainerTruck.getLocation()));
         }
         
@@ -281,7 +281,7 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck SetDestination(Point3D) "
                     +" with a null Point3D");
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Null Point3D sent to setDestination(Point3D)");
+            assertEquals("Null Point3D sent to setDestination(Point3D)", ex.getMessage());
             assertNotNull(testContainerTruck.getDestination());
         }
     }
@@ -297,7 +297,7 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck SetMaxSpeed(ms) "
                     +" with a negative max speed value");
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Negative maxSpeed sent to setMaxSpeed:" + ms);
+            assertEquals("Negative maxSpeed sent to setMaxSpeed:" + ms, ex.getMessage());
             assertNotNull(testContainerTruck.getMaxSpeed());
         }
         
@@ -307,7 +307,7 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck SetMaxSpeed(s) "
                     +" with a max speed value smaller than speed");
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Attempt to set maxSpeed less than speed in setMaxSpeed: " + ms);
+            assertEquals("Attempt to set maxSpeed less than speed in setMaxSpeed: " + ms, ex.getMessage());
             assertNotNull(testContainerTruck.getMaxSpeed());
         }
         
@@ -332,7 +332,7 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck SetSpeed(s) "
                     +" with a negative speed value");
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Negative speed sent to setSpeed:" + s);
+            assertEquals("Negative speed sent to setSpeed:" + s, ex.getMessage());
             assertNotNull(testContainerTruck.getSpeed());
         }
         
@@ -342,8 +342,8 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck SetSpeed(s) "
                     +" with a speed value larger than maximum speed");
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Attempt to set speed (" + s + ") greater than maxSpeed (" 
-                    + testContainerTruck.getMaxSpeed() + ") in setSpeed");
+            assertEquals("Attempt to set speed (" + s + ") greater than maxSpeed (" 
+                    + testContainerTruck.getMaxSpeed() + ") in setSpeed", ex.getMessage());
             assertNotNull(testContainerTruck.getSpeed());
         }
         
@@ -371,7 +371,7 @@ public class ContainerTruckTest {
             distance = testContainerTruck.distance(destination);
             assertEquals(distance, testContainerTruck.distance(destination), delta);            
         } catch (InvalidDataException ex) {
-           assertEquals(ex.getMessage(), "Null location sent to distance");
+           assertEquals("Null location sent to distance", ex.getMessage());
         }
         
         destination = new Point3D(11.1, 22.2, 33.3);
@@ -404,7 +404,7 @@ public class ContainerTruckTest {
             distance = testContainerTruck.distance(-x,y,z);
             assertEquals(expect, distance, delta);            
         } catch (InvalidDataException ex) {
-           assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to distance(x,y,z)");
+           assertEquals("Invalid X,Y,Z point sent to distance(x,y,z)", ex.getMessage());
         }
         
         try {
@@ -412,7 +412,7 @@ public class ContainerTruckTest {
             distance = testContainerTruck.distance(x,-y,z);
             assertEquals(expect, distance, delta);            
         } catch (InvalidDataException ex) {
-           assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to distance(x,y,z)");
+           assertEquals("Invalid X,Y,Z point sent to distance(x,y,z)", ex.getMessage());
         }
         
         try {
@@ -420,7 +420,7 @@ public class ContainerTruckTest {
             distance = testContainerTruck.distance(x,y,-z);
             assertEquals(expect, distance, delta);            
         } catch (InvalidDataException ex) {
-           assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to distance(x,y,z)");
+           assertEquals("Invalid X,Y,Z point sent to distance(x,y,z)", ex.getMessage());
         }
 
         try {
@@ -454,7 +454,7 @@ public class ContainerTruckTest {
      */
     @Test
     public void testGetLocationX() {
-        assertEquals(testContainerTruck.getLocationX(), testLoc.getX(), delta);
+        assertEquals(testLoc.getX(), testContainerTruck.getLocationX(), delta);
     }
 
     /**
@@ -462,7 +462,7 @@ public class ContainerTruckTest {
      */
     @Test
     public void testGetLocationY() {
-        assertEquals(testContainerTruck.getLocationY(), testLoc.getY(), delta);
+        assertEquals(testLoc.getY(), testContainerTruck.getLocationY(), delta);
     }
 
     /**
@@ -470,7 +470,7 @@ public class ContainerTruckTest {
      */
     @Test
     public void testGetLocationZ() {
-        assertEquals(testContainerTruck.getLocationZ(), testLoc.getZ(), delta);
+        assertEquals(testLoc.getZ(), testContainerTruck.getLocationZ(), delta);
     }
 
     /**
@@ -496,7 +496,7 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck setLocation(Point3D)"
                     +" with an invalid Point3D: " + newPoint);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to setLocation(x,y,z)");
+            assertEquals("Invalid X,Y,Z point sent to setLocation(x,y,z)", ex.getMessage());
             assertFalse(newPoint.equals(testContainerTruck.getLocation()));
         }
         
@@ -506,7 +506,7 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck setLocation(Point3D) "
                     +" with a null Point3D");
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Null location sent to setLocation");
+            assertEquals("Null location sent to setLocation", ex.getMessage());
             assertNotNull(testContainerTruck.getLocation());
         }
     }
@@ -537,7 +537,7 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck setLocation(Point3D) "
                     +" with a invalid x, y, z: " + x + ", " + y + ", " + z);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to setLocation(x,y,z)");
+            assertEquals("Invalid X,Y,Z point sent to setLocation(x,y,z)", ex.getMessage());
             assertTrue(x != testContainerTruck.getLocationX());
             assertTrue(y != testContainerTruck.getLocationY());
             assertTrue(z != testContainerTruck.getLocationZ());
@@ -550,7 +550,7 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck setLocation(Point3D) "
                     +" with a invalid x, y, z: " + x + ", " + y + ", " + z);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to setLocation(x,y,z)");
+            assertEquals("Invalid X,Y,Z point sent to setLocation(x,y,z)", ex.getMessage());
             assertTrue(x != testContainerTruck.getLocationX());
             assertTrue(y != testContainerTruck.getLocationY());
             assertTrue(z != testContainerTruck.getLocationZ());
@@ -563,7 +563,7 @@ public class ContainerTruckTest {
             fail("InvalidDataException NOT thrown from ContainerTruck setLocation(Point3D) "
                     +" with a invalid x, y, z: " + x + ", " + y + ", " + z);
         } catch (InvalidDataException ex) {
-            assertEquals(ex.getMessage(), "Invalid X,Y,Z point sent to setLocation(x,y,z)");
+            assertEquals("Invalid X,Y,Z point sent to setLocation(x,y,z)", ex.getMessage());
             assertTrue(x != testContainerTruck.getLocationX());
             assertTrue(y != testContainerTruck.getLocationY());
             assertTrue(z != testContainerTruck.getLocationZ());

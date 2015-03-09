@@ -18,6 +18,8 @@ import static org.junit.Assert.*;
  */
 public class Point3DTest {
 
+    private static final double delta = 0.0;
+    
     public Point3DTest() {
     }
     
@@ -46,12 +48,12 @@ public class Point3DTest {
         Point3D instance = new Point3D(1.1,2.2,3.3);
         double expResult = 3.3;
         double result = instance.getZ();
-        assertEquals(expResult, result, 0.0);
+        assertEquals(expResult, result, delta);
         
         Point3D point2 = new Point3D(4.4, 5.5);
         double expResult2 = 0.0;
         double result2 = point2.getZ();
-        assertEquals(expResult2, result2, 0.0);
+        assertEquals(expResult2, result2, delta);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -67,9 +69,9 @@ public class Point3DTest {
         double zIn = 6.6;
         Point3D instance = new Point3D();
         instance.setCoordinates(xIn, yIn, zIn);
-        assertEquals(xIn, instance.getX(), 0.0);
-        assertEquals(yIn, instance.getY(), 0.0);
-        assertEquals(zIn, instance.getZ(), 0.0);
+        assertEquals(xIn, instance.getX(), delta);
+        assertEquals(yIn, instance.getY(), delta);
+        assertEquals(zIn, instance.getZ(), delta);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -86,9 +88,9 @@ public class Point3DTest {
         Point3D aPoint = new Point3D(12.3,45.6,78.9);
         Point3D instance = new Point3D();
         instance.setLocation(aPoint);
-        assertEquals(xIn, instance.getX(), 0.0);
-        assertEquals(yIn, instance.getY(), 0.0);
-        assertEquals(zIn, instance.getZ(), 0.0);
+        assertEquals(xIn, instance.getX(), delta);
+        assertEquals(yIn, instance.getY(), delta);
+        assertEquals(zIn, instance.getZ(), delta);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -104,9 +106,9 @@ public class Point3DTest {
         double zIn = 13.3;
         Point3D instance = new Point3D();
         instance.setLocation(xIn, yIn, zIn);
-        assertEquals(xIn, instance.getX(), 0.0);
-        assertEquals(yIn, instance.getY(), 0.0);
-        assertEquals(zIn, instance.getZ(), 0.0);
+        assertEquals(xIn, instance.getX(), delta);
+        assertEquals(yIn, instance.getY(), delta);
+        assertEquals(zIn, instance.getZ(), delta);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -123,9 +125,9 @@ public class Point3DTest {
         Point3D aPoint = new Point3D(xIn, yIn, zIn);
         Point3D instance = new Point3D();
         instance.setCoordinates(aPoint);
-        assertEquals(xIn, instance.getX(), 0.0);
-        assertEquals(yIn, instance.getY(), 0.0);
-        assertEquals(zIn, instance.getZ(), 0.0);
+        assertEquals(xIn, instance.getX(), delta);
+        assertEquals(yIn, instance.getY(), delta);
+        assertEquals(zIn, instance.getZ(), delta);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -156,7 +158,7 @@ public class Point3DTest {
         Point3D instance = new Point3D(7.1, 8.2,9.3);
         double expResult = Math.sqrt(36.0+36.0+36.0);
         double result = instance.distance(xIn, yIn, zIn);
-        assertEquals(expResult, result, 0.0);
+        assertEquals(expResult, result, delta);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -171,7 +173,7 @@ public class Point3DTest {
         Point3D instance = new Point3D(7.1, 8.2,9.3);
         double expResult = Math.sqrt(25.0+36.0+49.0);
         double result = instance.distance(aPoint);
-        assertEquals(expResult, result, 0.0);
+        assertEquals(expResult, result, delta);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
