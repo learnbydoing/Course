@@ -55,9 +55,11 @@ public class LocatableImplTest {
     public void testConstructor() {
         try {
             LocatableImpl locatable = new LocatableImpl(56.2, 37.1, 23.4);
+            assertEquals(56.2, locatable.getLocationX(), 0.0);
+            assertEquals(37.1, locatable.getLocationY(), 0.0);
             assertEquals(23.4, locatable.getLocationZ(), 0.0);
         } catch (InvalidDataException ex) {
-            fail("Creation of test fixture object in @Before 'setUp' failed: " + ex.getMessage());
+            fail("Creation of new LocatableImpl object failed: " + ex.getMessage());
         }
     }
     
@@ -234,7 +236,17 @@ public class LocatableImplTest {
         } catch (InvalidDataException ex) {
             fail("InvalidDataException (" + ex.getMessage() + ") thrown from LocatableImpl "
                     + "distance(Point3D) with a valid Point3D: " + destination);
-        }        
+        }
+        
+        try {
+            testLocatable.setLocation(location);
+            distance = testLocatable.distance(new Point3D(-11.1, -22.2, -33.3));
+            fail("InvalidDataException NOT thrown from LocatableImpl distance(Point3D)) "
+                    +" with a invalid x, y, z: -11.1, -22.2, -33.3");
+        } catch (InvalidDataException ex) {
+           assertEquals("Invalid X,Y,Z point sent to distance(Point3D)", ex.getMessage());
+        }
+        
     }
 
     /**
@@ -252,7 +264,8 @@ public class LocatableImplTest {
         try {
             testLocatable.setLocation(location);
             distance = testLocatable.distance(-x,y,z);
-            assertEquals(expect, distance, delta);            
+            fail("InvalidDataException NOT thrown from LocatableImpl distance(x,y,z)) "
+                    +" with a invalid x, y, z: " + (-x) + ", " + y + ", " + z);
         } catch (InvalidDataException ex) {
            assertEquals("Invalid X,Y,Z point sent to distance(x,y,z)", ex.getMessage());
         }
@@ -260,17 +273,19 @@ public class LocatableImplTest {
         try {
             testLocatable.setLocation(location);
             distance = testLocatable.distance(x,-y,z);
-            assertEquals(expect, distance, delta);            
+            fail("InvalidDataException NOT thrown from LocatableImpl distance(x,y,z)) "
+                    +" with a invalid x, y, z: " + x + ", " + (-y) + ", " + z);
         } catch (InvalidDataException ex) {
-           assertEquals("Invalid X,Y,Z point sent to distance(x,y,z)", ex.getMessage());
+            assertEquals("Invalid X,Y,Z point sent to distance(x,y,z)", ex.getMessage());
         }
         
         try {
             testLocatable.setLocation(location);
             distance = testLocatable.distance(x,y,-z);
-            assertEquals(expect, distance, delta);            
+            fail("InvalidDataException NOT thrown from LocatableImpl distance(x,y,z)) "
+                    +" with a invalid x, y, z: " + x + ", " + y + ", " + (-z));         
         } catch (InvalidDataException ex) {
-           assertEquals("Invalid X,Y,Z point sent to distance(x,y,z)", ex.getMessage());
+            assertEquals("Invalid X,Y,Z point sent to distance(x,y,z)", ex.getMessage());
         }
 
         try {
@@ -281,7 +296,6 @@ public class LocatableImplTest {
             z= Math.pow(z-location.getZ(), 2);
             expect = Math.sqrt(x+y+z);
             assertEquals(expect, distance, delta);            
-            
         } catch (InvalidDataException ex) {
             fail("InvalidDataException (" + ex.getMessage() + ") thrown from LocatableImpl "
                     + "distance(double x, double y, double z) with a valid xyz.");

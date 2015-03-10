@@ -748,26 +748,17 @@ public class TankerTruckTest {
     public void testToString() {
         try {
             Point3D newloc = new Point3D(44.4, 55.5, 66.6);
-            testTankerTruck.setLocation(newloc);
-            String expResult = "I am TankerTruck " + testTankerTruck.getIdentifier() + ".\n\tI am at "
-                    + testTankerTruck.getLocation() + " and am heading to " + testTankerTruck.getDestination()
-                    + ".\n\tMy load is " + testTankerTruck.getCurrentLoadWeight() + " and my max load is "
-                    + testTankerTruck.getMaxLoadWeight() + ".\n\tDistance to my destination is "
-                    + String.format("%4.2f", testTankerTruck.distance(testTankerTruck.getDestination())) + ". "
-                    + "I'm not there yet";
+            testTankerTruck.setLocation(newloc);            
             String result = testTankerTruck.toString();
-            assertEquals(expResult, result);            
+            assertTrue(result.contains("I am TankerTruck"));
+            assertTrue(result.contains("I'm not there yet"));
+            assertFalse(result.contains("I am there"));
             
             newloc = new Point3D(77.7, 88.8, 99.9);
-            testTankerTruck.setLocation(newloc);
-            expResult = "I am TankerTruck " + testTankerTruck.getIdentifier() + ".\n\tI am at "
-                    + testTankerTruck.getLocation() + " and am heading to " + testTankerTruck.getDestination()
-                    + ".\n\tMy load is " + testTankerTruck.getCurrentLoadWeight() + " and my max load is "
-                    + testTankerTruck.getMaxLoadWeight() + ".\n\tDistance to my destination is "
-                    + String.format("%4.2f", testTankerTruck.distance(testTankerTruck.getDestination())) + ". "
-                    + "I am there!";
+            testTankerTruck.setLocation(newloc);            
             result = testTankerTruck.toString();
-            assertEquals(expResult, result);
+            assertFalse(result.contains("I'm not there yet"));
+            assertTrue(result.contains("I am there"));           
         } catch (InvalidDataException ex) {
             fail("InvalidDataException (" + ex.getMessage() + ") thrown from TankerTruck.");
         }           

@@ -37,13 +37,13 @@ public class TankerTruck implements Truck {
 
     /**
      * Constructs and initializes a TankerTruck with specified location and destination Point3D.
-     * @param loc - the location Point3D
-     * @param dest - the destination Point3D
-     * @param spd - the speed
-     * @param mxSpd - the maximum speed
-     * @param mlw - the maximum load weight
+     * @param loc the location Point3D
+     * @param dest the destination Point3D
+     * @param spd the speed
+     * @param mxSpd the maximum speed
+     * @param mlw the maximum load weight
      * @throws InvalidDataException if the input parameters are invalid to construct a new TankerTruck.
-     *  @see #TankerTruck(double, double, double, double, double, double, double, double, double)
+     * @see #TankerTruck(double, double, double, double, double, double, double, double, double)
      */
     public TankerTruck(Point3D loc, Point3D dest, double spd, double mxSpd, double mlw) throws InvalidDataException {
         this(loc.getX(), loc.getY(), loc.getZ(), dest.getX(), dest.getY(), dest.getZ(), spd, mxSpd, mlw);

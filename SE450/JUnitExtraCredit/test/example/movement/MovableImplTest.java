@@ -57,6 +57,24 @@ public class MovableImplTest {
     @After
     public void tearDown() {
     }
+    
+    /**
+     * Test of Constructor method, of class LocatableImpl.
+     */
+    @Test
+    public void testConstructor() {
+        MovableImpl movable = null;
+        try {
+            testLoc = new Point3D(44.4, 55.5, 66.6);
+            testDest = new Point3D(77.7, 88.8, 99.9);
+            testSpeed = 200.0;
+            testMaxSpeed = 100.0; //less than speed
+            movable = new MovableImpl(testLoc,testDest,testSpeed,testMaxSpeed);
+            fail("InvalidDataException NOT thrown from MovableImpl constructor with a invalid speed:"+testSpeed+" and maxspeed:" + testMaxSpeed);
+        } catch (InvalidDataException ex) {
+            assertNull(movable);
+        }
+    }
 
     /**
      * Test of getDestination method, of class MovableImpl.
@@ -541,7 +559,23 @@ public class MovableImplTest {
         assertNotNull(p3);
         assertEquals(p3, testDest);
         assertTrue(testMovable.atDestination());
-
+        
+        
+        //invalid millis
+        double x = 10.1;
+        double y = 20.2;
+        double z = 30.3;
+        try {
+            testMovable.setLocation(x, y, z);
+            millis = -100.0; //Can not be negetive value;
+            testMovable.update(millis);
+            fail("InvalidDataException NOT thrown from update setLocation(Point3D) "
+                    +" with a invalid millis: " + millis);
+        } catch (InvalidDataException ex) {            
+            assertEquals(x, testMovable.getLocationX(), delta);
+            assertEquals(y, testMovable.getLocationY(), delta);
+            assertEquals(z, testMovable.getLocationZ(), delta);             
+        }
     }
     
 }

@@ -60,6 +60,26 @@ public class TruckImplTest {
     }
 
     /**
+     * Test of Constructor method, of class LocatableImpl.
+     */
+    @Test
+    public void testConstructor() {
+        TruckImpl truck = null;
+        try {
+            testLoc = new Point3D(44.4, 55.5, 66.6);
+            testDest = new Point3D(77.7, 88.8, 99.9);
+            testSpeed = 100;
+            testMaxSpeed = 200;
+            testMaxLoadWeight = -3500; //should not be negative value
+            truck = new TruckImpl(testLoc,testDest,testSpeed,testMaxSpeed,testMaxLoadWeight);
+            fail("InvalidDataException NOT thrown from TruckImpl constructor() "
+                    +" with a invalid testMaxLoadWeight: " + testMaxLoadWeight);
+        } catch (InvalidDataException ex) {
+            assertNull(truck);
+        }
+    }
+    
+    /**
      * Test of load method, of class TruckImpl.
      */
     @Test

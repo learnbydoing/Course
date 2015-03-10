@@ -720,26 +720,17 @@ public class StandardCargoTruckTest {
     public void testToString() {
         try {
             Point3D newloc = new Point3D(44.4, 55.5, 66.6);
-            testStandardCargoTruck.setLocation(newloc);
-            String expResult = "I am StandardCargoTruck " + testStandardCargoTruck.getIdentifier() + ".\n\tI am at "
-                    + testStandardCargoTruck.getLocation() + " and am heading to " + testStandardCargoTruck.getDestination()
-                    + ".\n\tMy load is " + testStandardCargoTruck.getCurrentLoadWeight() + " and my max load is "
-                    + testStandardCargoTruck.getMaxLoadWeight() + ".\n\tDistance to my destination is "
-                    + String.format("%4.2f", testStandardCargoTruck.distance(testStandardCargoTruck.getDestination())) + ". "
-                    + "I'm not there yet";
+            testStandardCargoTruck.setLocation(newloc);            
             String result = testStandardCargoTruck.toString();
-            assertEquals(expResult, result);
+            assertTrue(result.contains("I am StandardCargoTruck"));
+            assertTrue(result.contains("I'm not there yet"));
+            assertFalse(result.contains("I am there"));
             
             newloc = new Point3D(77.7, 88.8, 99.9);
-            testStandardCargoTruck.setLocation(newloc);
-            expResult = "I am StandardCargoTruck " + testStandardCargoTruck.getIdentifier() + ".\n\tI am at "
-                    + testStandardCargoTruck.getLocation() + " and am heading to " + testStandardCargoTruck.getDestination()
-                    + ".\n\tMy load is " + testStandardCargoTruck.getCurrentLoadWeight() + " and my max load is "
-                    + testStandardCargoTruck.getMaxLoadWeight() + ".\n\tDistance to my destination is "
-                    + String.format("%4.2f", testStandardCargoTruck.distance(testStandardCargoTruck.getDestination())) + ". "
-                     + "I am there!";
+            testStandardCargoTruck.setLocation(newloc);            
             result = testStandardCargoTruck.toString();
-            assertEquals(expResult, result);
+            assertFalse(result.contains("I'm not there yet"));
+            assertTrue(result.contains("I am there"));            
         } catch (InvalidDataException ex) {
             fail("InvalidDataException (" + ex.getMessage() + ") thrown from StandardCargoTruck.");
         }        
