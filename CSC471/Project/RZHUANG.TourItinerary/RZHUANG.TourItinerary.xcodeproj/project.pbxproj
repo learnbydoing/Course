@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B21B2CE81B040B5400FE7ABF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B2CE71B040B5400FE7ABF /* SettingsViewController.swift */; };
 		B246FF101B0409E4004B7F77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */; };
-		B246FF121B0409E4004B7F77 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF111B0409E4004B7F77 /* FirstViewController.swift */; };
-		B246FF141B0409E4004B7F77 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF131B0409E4004B7F77 /* SecondViewController.swift */; };
+		B246FF121B0409E4004B7F77 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF111B0409E4004B7F77 /* MyViewController.swift */; };
+		B246FF141B0409E4004B7F77 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF131B0409E4004B7F77 /* SearchViewController.swift */; };
 		B246FF171B0409E4004B7F77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B246FF151B0409E4004B7F77 /* Main.storyboard */; };
 		B246FF191B0409E4004B7F77 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B246FF181B0409E4004B7F77 /* Images.xcassets */; };
 		B246FF1C1B0409E4004B7F77 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B246FF1A1B0409E4004B7F77 /* LaunchScreen.xib */; };
@@ -27,11 +28,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B21B2CE71B040B5400FE7ABF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B246FF0A1B0409E4004B7F77 /* RZHUANG.TourItinerary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RZHUANG.TourItinerary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B246FF0E1B0409E4004B7F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B246FF111B0409E4004B7F77 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		B246FF131B0409E4004B7F77 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		B246FF111B0409E4004B7F77 /* MyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
+		B246FF131B0409E4004B7F77 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		B246FF161B0409E4004B7F77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B246FF181B0409E4004B7F77 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B246FF1B1B0409E4004B7F77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -80,8 +82,9 @@
 			isa = PBXGroup;
 			children = (
 				B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */,
-				B246FF111B0409E4004B7F77 /* FirstViewController.swift */,
-				B246FF131B0409E4004B7F77 /* SecondViewController.swift */,
+				B246FF111B0409E4004B7F77 /* MyViewController.swift */,
+				B246FF131B0409E4004B7F77 /* SearchViewController.swift */,
+				B21B2CE71B040B5400FE7ABF /* SettingsViewController.swift */,
 				B246FF151B0409E4004B7F77 /* Main.storyboard */,
 				B246FF181B0409E4004B7F77 /* Images.xcassets */,
 				B246FF1A1B0409E4004B7F77 /* LaunchScreen.xib */,
@@ -215,9 +218,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B246FF141B0409E4004B7F77 /* SecondViewController.swift in Sources */,
+				B246FF141B0409E4004B7F77 /* SearchViewController.swift in Sources */,
 				B246FF101B0409E4004B7F77 /* AppDelegate.swift in Sources */,
-				B246FF121B0409E4004B7F77 /* FirstViewController.swift in Sources */,
+				B246FF121B0409E4004B7F77 /* MyViewController.swift in Sources */,
+				B21B2CE81B040B5400FE7ABF /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,6 +419,7 @@
 				B246FF2D1B0409E4004B7F77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B246FF2E1B0409E4004B7F77 /* Build configuration list for PBXNativeTarget "RZHUANG.TourItineraryTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +428,7 @@
 				B246FF301B0409E4004B7F77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
