@@ -7,48 +7,48 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B246FEE01B040455004B7F77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FEDF1B040455004B7F77 /* AppDelegate.swift */; };
-		B246FEE21B040455004B7F77 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FEE11B040455004B7F77 /* FirstViewController.swift */; };
-		B246FEE41B040455004B7F77 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FEE31B040455004B7F77 /* SecondViewController.swift */; };
-		B246FEE71B040455004B7F77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B246FEE51B040455004B7F77 /* Main.storyboard */; };
-		B246FEE91B040455004B7F77 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B246FEE81B040455004B7F77 /* Images.xcassets */; };
-		B246FEEC1B040455004B7F77 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B246FEEA1B040455004B7F77 /* LaunchScreen.xib */; };
-		B246FEF81B040455004B7F77 /* RZHUANG_TourItineraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FEF71B040455004B7F77 /* RZHUANG_TourItineraryTests.swift */; };
+		B246FF101B0409E4004B7F77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */; };
+		B246FF121B0409E4004B7F77 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF111B0409E4004B7F77 /* FirstViewController.swift */; };
+		B246FF141B0409E4004B7F77 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF131B0409E4004B7F77 /* SecondViewController.swift */; };
+		B246FF171B0409E4004B7F77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B246FF151B0409E4004B7F77 /* Main.storyboard */; };
+		B246FF191B0409E4004B7F77 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B246FF181B0409E4004B7F77 /* Images.xcassets */; };
+		B246FF1C1B0409E4004B7F77 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B246FF1A1B0409E4004B7F77 /* LaunchScreen.xib */; };
+		B246FF281B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF271B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B246FEF21B040455004B7F77 /* PBXContainerItemProxy */ = {
+		B246FF221B0409E4004B7F77 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B246FED21B040454004B7F77 /* Project object */;
+			containerPortal = B246FF021B0409E4004B7F77 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B246FED91B040454004B7F77;
+			remoteGlobalIDString = B246FF091B0409E4004B7F77;
 			remoteInfo = RZHUANG.TourItinerary;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B246FEDA1B040455004B7F77 /* RZHUANG.TourItinerary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RZHUANG.TourItinerary.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B246FEDE1B040455004B7F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B246FEDF1B040455004B7F77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B246FEE11B040455004B7F77 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		B246FEE31B040455004B7F77 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
-		B246FEE61B040455004B7F77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B246FEE81B040455004B7F77 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		B246FEEB1B040455004B7F77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		B246FEF11B040455004B7F77 /* RZHUANG.TourItineraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZHUANG.TourItineraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B246FEF61B040455004B7F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B246FEF71B040455004B7F77 /* RZHUANG_TourItineraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZHUANG_TourItineraryTests.swift; sourceTree = "<group>"; };
+		B246FF0A1B0409E4004B7F77 /* RZHUANG.TourItinerary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RZHUANG.TourItinerary.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B246FF0E1B0409E4004B7F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B246FF111B0409E4004B7F77 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		B246FF131B0409E4004B7F77 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		B246FF161B0409E4004B7F77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B246FF181B0409E4004B7F77 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		B246FF1B1B0409E4004B7F77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		B246FF211B0409E4004B7F77 /* RZHUANG.TourItineraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZHUANG.TourItineraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B246FF261B0409E4004B7F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B246FF271B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZHUANG_TourItineraryTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		B246FED71B040454004B7F77 /* Frameworks */ = {
+		B246FF071B0409E4004B7F77 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B246FEEE1B040455004B7F77 /* Frameworks */ = {
+		B246FF1E1B0409E4004B7F77 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -58,59 +58,59 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B246FED11B040454004B7F77 = {
+		B246FF011B0409E4004B7F77 = {
 			isa = PBXGroup;
 			children = (
-				B246FEDC1B040455004B7F77 /* RZHUANG.TourItinerary */,
-				B246FEF41B040455004B7F77 /* RZHUANG.TourItineraryTests */,
-				B246FEDB1B040455004B7F77 /* Products */,
+				B246FF0C1B0409E4004B7F77 /* RZHUANG.TourItinerary */,
+				B246FF241B0409E4004B7F77 /* RZHUANG.TourItineraryTests */,
+				B246FF0B1B0409E4004B7F77 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		B246FEDB1B040455004B7F77 /* Products */ = {
+		B246FF0B1B0409E4004B7F77 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B246FEDA1B040455004B7F77 /* RZHUANG.TourItinerary.app */,
-				B246FEF11B040455004B7F77 /* RZHUANG.TourItineraryTests.xctest */,
+				B246FF0A1B0409E4004B7F77 /* RZHUANG.TourItinerary.app */,
+				B246FF211B0409E4004B7F77 /* RZHUANG.TourItineraryTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B246FEDC1B040455004B7F77 /* RZHUANG.TourItinerary */ = {
+		B246FF0C1B0409E4004B7F77 /* RZHUANG.TourItinerary */ = {
 			isa = PBXGroup;
 			children = (
-				B246FEDF1B040455004B7F77 /* AppDelegate.swift */,
-				B246FEE11B040455004B7F77 /* FirstViewController.swift */,
-				B246FEE31B040455004B7F77 /* SecondViewController.swift */,
-				B246FEE51B040455004B7F77 /* Main.storyboard */,
-				B246FEE81B040455004B7F77 /* Images.xcassets */,
-				B246FEEA1B040455004B7F77 /* LaunchScreen.xib */,
-				B246FEDD1B040455004B7F77 /* Supporting Files */,
+				B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */,
+				B246FF111B0409E4004B7F77 /* FirstViewController.swift */,
+				B246FF131B0409E4004B7F77 /* SecondViewController.swift */,
+				B246FF151B0409E4004B7F77 /* Main.storyboard */,
+				B246FF181B0409E4004B7F77 /* Images.xcassets */,
+				B246FF1A1B0409E4004B7F77 /* LaunchScreen.xib */,
+				B246FF0D1B0409E4004B7F77 /* Supporting Files */,
 			);
 			path = RZHUANG.TourItinerary;
 			sourceTree = "<group>";
 		};
-		B246FEDD1B040455004B7F77 /* Supporting Files */ = {
+		B246FF0D1B0409E4004B7F77 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B246FEDE1B040455004B7F77 /* Info.plist */,
+				B246FF0E1B0409E4004B7F77 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		B246FEF41B040455004B7F77 /* RZHUANG.TourItineraryTests */ = {
+		B246FF241B0409E4004B7F77 /* RZHUANG.TourItineraryTests */ = {
 			isa = PBXGroup;
 			children = (
-				B246FEF71B040455004B7F77 /* RZHUANG_TourItineraryTests.swift */,
-				B246FEF51B040455004B7F77 /* Supporting Files */,
+				B246FF271B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift */,
+				B246FF251B0409E4004B7F77 /* Supporting Files */,
 			);
 			path = RZHUANG.TourItineraryTests;
 			sourceTree = "<group>";
 		};
-		B246FEF51B040455004B7F77 /* Supporting Files */ = {
+		B246FF251B0409E4004B7F77 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B246FEF61B040455004B7F77 /* Info.plist */,
+				B246FF261B0409E4004B7F77 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -118,13 +118,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B246FED91B040454004B7F77 /* RZHUANG.TourItinerary */ = {
+		B246FF091B0409E4004B7F77 /* RZHUANG.TourItinerary */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B246FEFB1B040455004B7F77 /* Build configuration list for PBXNativeTarget "RZHUANG.TourItinerary" */;
+			buildConfigurationList = B246FF2B1B0409E4004B7F77 /* Build configuration list for PBXNativeTarget "RZHUANG.TourItinerary" */;
 			buildPhases = (
-				B246FED61B040454004B7F77 /* Sources */,
-				B246FED71B040454004B7F77 /* Frameworks */,
-				B246FED81B040454004B7F77 /* Resources */,
+				B246FF061B0409E4004B7F77 /* Sources */,
+				B246FF071B0409E4004B7F77 /* Frameworks */,
+				B246FF081B0409E4004B7F77 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -132,46 +132,46 @@
 			);
 			name = RZHUANG.TourItinerary;
 			productName = RZHUANG.TourItinerary;
-			productReference = B246FEDA1B040455004B7F77 /* RZHUANG.TourItinerary.app */;
+			productReference = B246FF0A1B0409E4004B7F77 /* RZHUANG.TourItinerary.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B246FEF01B040455004B7F77 /* RZHUANG.TourItineraryTests */ = {
+		B246FF201B0409E4004B7F77 /* RZHUANG.TourItineraryTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B246FEFE1B040455004B7F77 /* Build configuration list for PBXNativeTarget "RZHUANG.TourItineraryTests" */;
+			buildConfigurationList = B246FF2E1B0409E4004B7F77 /* Build configuration list for PBXNativeTarget "RZHUANG.TourItineraryTests" */;
 			buildPhases = (
-				B246FEED1B040455004B7F77 /* Sources */,
-				B246FEEE1B040455004B7F77 /* Frameworks */,
-				B246FEEF1B040455004B7F77 /* Resources */,
+				B246FF1D1B0409E4004B7F77 /* Sources */,
+				B246FF1E1B0409E4004B7F77 /* Frameworks */,
+				B246FF1F1B0409E4004B7F77 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				B246FEF31B040455004B7F77 /* PBXTargetDependency */,
+				B246FF231B0409E4004B7F77 /* PBXTargetDependency */,
 			);
 			name = RZHUANG.TourItineraryTests;
 			productName = RZHUANG.TourItineraryTests;
-			productReference = B246FEF11B040455004B7F77 /* RZHUANG.TourItineraryTests.xctest */;
+			productReference = B246FF211B0409E4004B7F77 /* RZHUANG.TourItineraryTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		B246FED21B040454004B7F77 /* Project object */ = {
+		B246FF021B0409E4004B7F77 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "CDM of DePaul University";
 				TargetAttributes = {
-					B246FED91B040454004B7F77 = {
+					B246FF091B0409E4004B7F77 = {
 						CreatedOnToolsVersion = 6.3;
 					};
-					B246FEF01B040455004B7F77 = {
+					B246FF201B0409E4004B7F77 = {
 						CreatedOnToolsVersion = 6.3;
-						TestTargetID = B246FED91B040454004B7F77;
+						TestTargetID = B246FF091B0409E4004B7F77;
 					};
 				};
 			};
-			buildConfigurationList = B246FED51B040454004B7F77 /* Build configuration list for PBXProject "RZHUANG.TourItinerary" */;
+			buildConfigurationList = B246FF051B0409E4004B7F77 /* Build configuration list for PBXProject "RZHUANG.TourItinerary" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -179,29 +179,29 @@
 				en,
 				Base,
 			);
-			mainGroup = B246FED11B040454004B7F77;
-			productRefGroup = B246FEDB1B040455004B7F77 /* Products */;
+			mainGroup = B246FF011B0409E4004B7F77;
+			productRefGroup = B246FF0B1B0409E4004B7F77 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B246FED91B040454004B7F77 /* RZHUANG.TourItinerary */,
-				B246FEF01B040455004B7F77 /* RZHUANG.TourItineraryTests */,
+				B246FF091B0409E4004B7F77 /* RZHUANG.TourItinerary */,
+				B246FF201B0409E4004B7F77 /* RZHUANG.TourItineraryTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		B246FED81B040454004B7F77 /* Resources */ = {
+		B246FF081B0409E4004B7F77 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B246FEE71B040455004B7F77 /* Main.storyboard in Resources */,
-				B246FEEC1B040455004B7F77 /* LaunchScreen.xib in Resources */,
-				B246FEE91B040455004B7F77 /* Images.xcassets in Resources */,
+				B246FF171B0409E4004B7F77 /* Main.storyboard in Resources */,
+				B246FF1C1B0409E4004B7F77 /* LaunchScreen.xib in Resources */,
+				B246FF191B0409E4004B7F77 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B246FEEF1B040455004B7F77 /* Resources */ = {
+		B246FF1F1B0409E4004B7F77 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -211,47 +211,47 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B246FED61B040454004B7F77 /* Sources */ = {
+		B246FF061B0409E4004B7F77 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B246FEE41B040455004B7F77 /* SecondViewController.swift in Sources */,
-				B246FEE01B040455004B7F77 /* AppDelegate.swift in Sources */,
-				B246FEE21B040455004B7F77 /* FirstViewController.swift in Sources */,
+				B246FF141B0409E4004B7F77 /* SecondViewController.swift in Sources */,
+				B246FF101B0409E4004B7F77 /* AppDelegate.swift in Sources */,
+				B246FF121B0409E4004B7F77 /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B246FEED1B040455004B7F77 /* Sources */ = {
+		B246FF1D1B0409E4004B7F77 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B246FEF81B040455004B7F77 /* RZHUANG_TourItineraryTests.swift in Sources */,
+				B246FF281B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B246FEF31B040455004B7F77 /* PBXTargetDependency */ = {
+		B246FF231B0409E4004B7F77 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B246FED91B040454004B7F77 /* RZHUANG.TourItinerary */;
-			targetProxy = B246FEF21B040455004B7F77 /* PBXContainerItemProxy */;
+			target = B246FF091B0409E4004B7F77 /* RZHUANG.TourItinerary */;
+			targetProxy = B246FF221B0409E4004B7F77 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		B246FEE51B040455004B7F77 /* Main.storyboard */ = {
+		B246FF151B0409E4004B7F77 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B246FEE61B040455004B7F77 /* Base */,
+				B246FF161B0409E4004B7F77 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		B246FEEA1B040455004B7F77 /* LaunchScreen.xib */ = {
+		B246FF1A1B0409E4004B7F77 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B246FEEB1B040455004B7F77 /* Base */,
+				B246FF1B1B0409E4004B7F77 /* Base */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -259,7 +259,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		B246FEF91B040455004B7F77 /* Debug */ = {
+		B246FF291B0409E4004B7F77 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -300,10 +300,11 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		B246FEFA1B040455004B7F77 /* Release */ = {
+		B246FF2A1B0409E4004B7F77 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -336,11 +337,12 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		B246FEFC1B040455004B7F77 /* Debug */ = {
+		B246FF2C1B0409E4004B7F77 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -350,7 +352,7 @@
 			};
 			name = Debug;
 		};
-		B246FEFD1B040455004B7F77 /* Release */ = {
+		B246FF2D1B0409E4004B7F77 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -360,7 +362,7 @@
 			};
 			name = Release;
 		};
-		B246FEFF1B040455004B7F77 /* Debug */ = {
+		B246FF2F1B0409E4004B7F77 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -379,7 +381,7 @@
 			};
 			name = Debug;
 		};
-		B246FF001B040455004B7F77 /* Release */ = {
+		B246FF301B0409E4004B7F77 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -397,32 +399,32 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B246FED51B040454004B7F77 /* Build configuration list for PBXProject "RZHUANG.TourItinerary" */ = {
+		B246FF051B0409E4004B7F77 /* Build configuration list for PBXProject "RZHUANG.TourItinerary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B246FEF91B040455004B7F77 /* Debug */,
-				B246FEFA1B040455004B7F77 /* Release */,
+				B246FF291B0409E4004B7F77 /* Debug */,
+				B246FF2A1B0409E4004B7F77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B246FEFB1B040455004B7F77 /* Build configuration list for PBXNativeTarget "RZHUANG.TourItinerary" */ = {
+		B246FF2B1B0409E4004B7F77 /* Build configuration list for PBXNativeTarget "RZHUANG.TourItinerary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B246FEFC1B040455004B7F77 /* Debug */,
-				B246FEFD1B040455004B7F77 /* Release */,
+				B246FF2C1B0409E4004B7F77 /* Debug */,
+				B246FF2D1B0409E4004B7F77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
-		B246FEFE1B040455004B7F77 /* Build configuration list for PBXNativeTarget "RZHUANG.TourItineraryTests" */ = {
+		B246FF2E1B0409E4004B7F77 /* Build configuration list for PBXNativeTarget "RZHUANG.TourItineraryTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B246FEFF1B040455004B7F77 /* Debug */,
-				B246FF001B040455004B7F77 /* Release */,
+				B246FF2F1B0409E4004B7F77 /* Debug */,
+				B246FF301B0409E4004B7F77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = B246FED21B040454004B7F77 /* Project object */;
+	rootObject = B246FF021B0409E4004B7F77 /* Project object */;
 }
