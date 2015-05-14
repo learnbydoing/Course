@@ -9,12 +9,17 @@
 /* Begin PBXBuildFile section */
 		B21B2CE81B040B5400FE7ABF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B2CE71B040B5400FE7ABF /* SettingsViewController.swift */; };
 		B246FF101B0409E4004B7F77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */; };
-		B246FF121B0409E4004B7F77 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF111B0409E4004B7F77 /* MyViewController.swift */; };
 		B246FF141B0409E4004B7F77 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF131B0409E4004B7F77 /* SearchViewController.swift */; };
 		B246FF171B0409E4004B7F77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B246FF151B0409E4004B7F77 /* Main.storyboard */; };
 		B246FF191B0409E4004B7F77 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B246FF181B0409E4004B7F77 /* Images.xcassets */; };
 		B246FF1C1B0409E4004B7F77 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B246FF1A1B0409E4004B7F77 /* LaunchScreen.xib */; };
 		B246FF281B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF271B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift */; };
+		B2E0A6991B05343D00AAC71B /* TripListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A6981B05343D00AAC71B /* TripListViewController.swift */; };
+		B2E0A69B1B05356200AAC71B /* Trips.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A69A1B05356200AAC71B /* Trips.swift */; };
+		B2E0A69D1B053A8F00AAC71B /* TripItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A69C1B053A8F00AAC71B /* TripItemViewController.swift */; };
+		B2E0A6A11B05567B00AAC71B /* ContinentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A6A01B05567B00AAC71B /* ContinentViewController.swift */; };
+		B2E0A6A31B05587800AAC71B /* ContinentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A6A21B05587800AAC71B /* ContinentViewCell.swift */; };
+		B2E0A6A51B055C5800AAC71B /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = B2E0A6A41B055C5800AAC71B /* circle.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +37,6 @@
 		B246FF0A1B0409E4004B7F77 /* RZHUANG.TourItinerary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RZHUANG.TourItinerary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B246FF0E1B0409E4004B7F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B246FF111B0409E4004B7F77 /* MyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
 		B246FF131B0409E4004B7F77 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		B246FF161B0409E4004B7F77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B246FF181B0409E4004B7F77 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -40,6 +44,12 @@
 		B246FF211B0409E4004B7F77 /* RZHUANG.TourItineraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZHUANG.TourItineraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B246FF261B0409E4004B7F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B246FF271B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZHUANG_TourItineraryTests.swift; sourceTree = "<group>"; };
+		B2E0A6981B05343D00AAC71B /* TripListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripListViewController.swift; sourceTree = "<group>"; };
+		B2E0A69A1B05356200AAC71B /* Trips.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trips.swift; sourceTree = "<group>"; };
+		B2E0A69C1B053A8F00AAC71B /* TripItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripItemViewController.swift; sourceTree = "<group>"; };
+		B2E0A6A01B05567B00AAC71B /* ContinentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinentViewController.swift; sourceTree = "<group>"; };
+		B2E0A6A21B05587800AAC71B /* ContinentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinentViewCell.swift; sourceTree = "<group>"; };
+		B2E0A6A41B055C5800AAC71B /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circle.png; path = ../../circle.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,13 +92,17 @@
 			isa = PBXGroup;
 			children = (
 				B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */,
-				B246FF111B0409E4004B7F77 /* MyViewController.swift */,
 				B246FF131B0409E4004B7F77 /* SearchViewController.swift */,
 				B21B2CE71B040B5400FE7ABF /* SettingsViewController.swift */,
 				B246FF151B0409E4004B7F77 /* Main.storyboard */,
 				B246FF181B0409E4004B7F77 /* Images.xcassets */,
 				B246FF1A1B0409E4004B7F77 /* LaunchScreen.xib */,
 				B246FF0D1B0409E4004B7F77 /* Supporting Files */,
+				B2E0A6981B05343D00AAC71B /* TripListViewController.swift */,
+				B2E0A69A1B05356200AAC71B /* Trips.swift */,
+				B2E0A69C1B053A8F00AAC71B /* TripItemViewController.swift */,
+				B2E0A6A01B05567B00AAC71B /* ContinentViewController.swift */,
+				B2E0A6A21B05587800AAC71B /* ContinentViewCell.swift */,
 			);
 			path = RZHUANG.TourItinerary;
 			sourceTree = "<group>";
@@ -96,6 +110,7 @@
 		B246FF0D1B0409E4004B7F77 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B2E0A6A41B055C5800AAC71B /* circle.png */,
 				B246FF0E1B0409E4004B7F77 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -201,6 +216,7 @@
 				B246FF171B0409E4004B7F77 /* Main.storyboard in Resources */,
 				B246FF1C1B0409E4004B7F77 /* LaunchScreen.xib in Resources */,
 				B246FF191B0409E4004B7F77 /* Images.xcassets in Resources */,
+				B2E0A6A51B055C5800AAC71B /* circle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,10 +234,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2E0A69D1B053A8F00AAC71B /* TripItemViewController.swift in Sources */,
+				B2E0A6A11B05567B00AAC71B /* ContinentViewController.swift in Sources */,
+				B2E0A69B1B05356200AAC71B /* Trips.swift in Sources */,
 				B246FF141B0409E4004B7F77 /* SearchViewController.swift in Sources */,
+				B2E0A6991B05343D00AAC71B /* TripListViewController.swift in Sources */,
 				B246FF101B0409E4004B7F77 /* AppDelegate.swift in Sources */,
-				B246FF121B0409E4004B7F77 /* MyViewController.swift in Sources */,
 				B21B2CE81B040B5400FE7ABF /* SettingsViewController.swift in Sources */,
+				B2E0A6A31B05587800AAC71B /* ContinentViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

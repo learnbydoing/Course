@@ -8,6 +8,17 @@
 
 import UIKit
 
+extension NSDate {
+    var formatted: String {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
+        formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
+        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        return formatter.stringFromDate(self)
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
