@@ -9,7 +9,10 @@
 import UIKit
 
 class TripListViewController: UITableViewController {
-
+    
+    var isEditMode = false
+    @IBOutlet weak var btnEdit: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -61,7 +64,7 @@ class TripListViewController: UITableViewController {
             let okayAction = UIAlertAction(title: "Okay", style: .Default, handler: nil)
             alertController.addAction(okayAction)
             presentViewController(alertController, animated: true, completion: nil)
-            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -75,6 +78,65 @@ class TripListViewController: UITableViewController {
         }
     }
     
+    @IBAction func unwindToTripList(segue : UIStoryboardSegue) {
+        if let from = segue.sourceViewController as? TripItemViewController {
+            //message = "Unwind from GreenViewController"
+            //if !from.textField.text.isEmpty {
+            //    message += "\nMessage: \(from.textField.text)"
+            //}
+            if let t = from.trip {
+                //lblTitle.title = t.destination
+                //lblCountry.text = 
+                t.destination = from.txtCity.text
+                t.country = from.txtCountry.text
+                t.from = convertDate(from.btnFrom.titleLabel?.text)
+                t.to = convertDate(from.btnTo.titleLabel?.text)
+                t.flight1 = from.txtFlight1.text
+                t.flight2 = from.txtFlight2.text
+                t.hotel = from.txtHotel.text
+                t.sights[0] = from.txtSight1.text
+                t.sights[1] = from.txtSight2.text
+                t.sights[2] = from.txtSight3.text
+                t.sights[3] = from.txtSight4.text
+                t.sights[4] = from.txtSight5.text
+                t.note = from.txtNote.text
+                tableView.reloadData()
+            }
+            else {
+                var newTrip = Trip()
+                newTrip.destination = from.txtCity.text
+                newTrip.country = from.txtCountry.text
+                newTrip.from = convertDate(from.btnFrom.titleLabel?.text)
+                newTrip.to = convertDate(from.btnTo.titleLabel?.text)
+                newTrip.flight1 = from.txtFlight1.text
+                newTrip.flight2 = from.txtFlight2.text
+                newTrip.hotel = from.txtHotel.text
+                newTrip.sights[0] = from.txtSight1.text
+                newTrip.sights[1] = from.txtSight2.text
+                newTrip.sights[2] = from.txtSight3.text
+                newTrip.sights[3] = from.txtSight4.text
+                newTrip.sights[4] = from.txtSight5.text
+                newTrip.note = from.txtNote.text
+                trips.insert(newTrip, atIndex: 0)
+                tableView.reloadData()
+
+            }
+        }
+        
+    }
+    
+    @IBAction func switchEditMode(sender: UIBarButtonItem) {
+        if isEditMode==false {
+            tableView.setEditing(true, animated: true)
+            btnEdit.title = "Done"
+            isEditMode = true
+        }
+        else {
+            tableView.setEditing(false, animated: true)
+            btnEdit.title = "Edit"
+            isEditMode = false
+        }
+    }
     /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
@@ -93,17 +155,18 @@ class TripListViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
+            trips.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.

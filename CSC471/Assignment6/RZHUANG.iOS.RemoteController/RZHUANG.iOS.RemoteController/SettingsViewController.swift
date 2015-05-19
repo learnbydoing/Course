@@ -68,7 +68,7 @@ class SettingsViewController: UIViewController {
             let channelNo = lblNumber.text!.toInt()
             let channelNoStr = String(format:"%02d", channelNo!)
             if item.Number == channelNo {
-                let alertController = UIAlertController(title: "Error", message: "The number \(channelNoStr) has been used by Id: \(item.Id), choose another one!", preferredStyle: .Alert)
+                let alertController = UIAlertController(title: "Error", message: "The number \(channelNoStr) has been used by Id: \(item.Id), choose another number!", preferredStyle: .Alert)
                 let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
                 alertController.addAction(okAction)
                 presentViewController(alertController, animated: true, completion: nil)

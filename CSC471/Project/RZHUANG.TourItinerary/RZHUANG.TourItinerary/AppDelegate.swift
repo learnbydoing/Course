@@ -11,12 +11,36 @@ import UIKit
 extension NSDate {
     var formatted: String {
         let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
-        formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-        formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        //formatter.dateFormat = "yyyy-MM-dd' 'hh:mm a'"
+        //formatter.dateFormat = "EEE yyyy MMMM dd' 'hh:mm a'"
+        formatter.dateFormat = "YYYY MMMM dd' 'hh:mm a'"
+        //formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        //formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
+        formatter.locale = NSLocale(localeIdentifier: "en_US")
         return formatter.stringFromDate(self)
     }
+}
+
+func convertDate(datestr: String?) -> NSDate {
+    if let str = datestr {
+        var dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "YYYY MMMM dd' 'hh:mm a'"
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
+        var date = dateFormatter.dateFromString(str)
+        return date!
+    }
+    else {
+        return NSDate()
+    }
+}
+
+func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+    return UIColor(
+        red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+        green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+        blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+        alpha: CGFloat(1.0)
+    )
 }
 
 @UIApplicationMain
