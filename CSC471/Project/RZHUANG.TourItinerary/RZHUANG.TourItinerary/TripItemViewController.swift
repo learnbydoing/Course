@@ -11,6 +11,7 @@ import UIKit
 class TripItemViewController: UITableViewController {
 
     var trip: Trip?
+    var city: City?
    
     @IBOutlet weak var navigationTitle: UINavigationItem!
 
@@ -38,7 +39,13 @@ class TripItemViewController: UITableViewController {
         btnTo.titleLabel?.textAlignment = .Right
         
         if trip == nil {
-            navigationTitle.title = ""
+            if let c = city {
+                navigationTitle.title = city?.name
+                txtCity.text = city?.name
+            }
+            else {
+                navigationTitle.title = ""
+            }
             btnFrom.setTitle(NSDate().formatted, forState: .Normal)
             btnTo.setTitle(NSDate().formatted, forState: .Normal)
         }
@@ -71,6 +78,7 @@ class TripItemViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.tabBarController?.tabBar.hidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,6 +87,9 @@ class TripItemViewController: UITableViewController {
     }
     
     
+    @IBAction func saveTrip(sender: UIBarButtonItem) {
+        
+    }
     @IBAction func editEnded(sender: UITextField) {
         sender.resignFirstResponder()
     }
@@ -195,14 +206,62 @@ class TripItemViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        //performSegueWithIdentifier("toTripList", sender: self)
+        if let t = trip {
+            //lblTitle.title = t.destination
+            //lblCountry.text =
+            t.destination = txtCity.text
+            t.country = txtCountry.text
+            t.from = convertDate(btnFrom.titleLabel?.text)
+            t.to = convertDate(btnTo.titleLabel?.text)
+            t.flight1 = txtFlight1.text
+            t.flight2 = txtFlight2.text
+            t.hotel = txtHotel.text
+            t.sights[0] = txtSight1.text
+            t.sights[1] = txtSight2.text
+            t.sights[2] = txtSight3.text
+            t.sights[3] = txtSight4.text
+            t.sights[4] = txtSight5.text
+            t.note = txtNote.text
+            tableView.reloadData()
+        }
+        else {
+            var newTrip = Trip()
+            newTrip.destination = txtCity.text
+            newTrip.country = txtCountry.text
+            newTrip.from = convertDate(btnFrom.titleLabel?.text)
+            newTrip.to = convertDate(btnTo.titleLabel?.text)
+            newTrip.flight1 = txtFlight1.text
+            newTrip.flight2 = txtFlight2.text
+            newTrip.hotel = txtHotel.text
+            newTrip.sights[0] = txtSight1.text
+            newTrip.sights[1] = txtSight2.text
+            newTrip.sights[2] = txtSight3.text
+            newTrip.sights[3] = txtSight4.text
+            newTrip.sights[4] = txtSight5.text
+            newTrip.note = txtNote.text
+            trips.insert(newTrip, atIndex: 0)
+            //tableView.reloadData()
+            
+        }
+        /*
+        if let destVC = segue.destinationViewController as? TripListViewController {
+            //self.hidesBottomBarWhenPushed = false
+            //if let tab = self.parentViewController!.tabBarController {
+            //    tab.
+            //}
+            
+            //destVC.hidesBottomBarWhenPushed = false
+            destVC.tabBarController?.selectedIndex = 0
+        }*/
     }
-    */
+   
 
 }

@@ -4,7 +4,7 @@
 //
 //  Created by Johnny on 5/14/15.
 //  Copyright (c) 2015 CDM of DePaul University. All rights reserved.
-//
+//  Component controller: http://www.brianjcoleman.com/tutorial-collection-view-using-swift/
 
 import UIKit
 
@@ -31,7 +31,7 @@ class ContinentViewController: UICollectionViewController {
         collectionView!.registerClass(ContinentViewCell.self, forCellWithReuseIdentifier: "ContinentViewCell")
         collectionView!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(collectionView!)
-        //http://www.brianjcoleman.com/tutorial-collection-view-using-swift/
+        
         
         // Do any additional setup after loading the view.
     }
@@ -85,7 +85,8 @@ class ContinentViewController: UICollectionViewController {
         let continent = continents[indexPath.row]
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ContinentViewCell", forIndexPath: indexPath) as! ContinentViewCell
         cell.backgroundColor = UIColorFromRGB(0x209624)
-        cell.textLabel.text = continent.name
+        cell.txtName.text = continent.name
+        cell.txtDetails.text = "\(continent.locations) countries/areas"
 
         //cell.textLabel.alignmentRectForFrame(CGRect(x: 0, y: 0, width: cell.frame.size.width/3, height: cell.frame.size.height*2/3))
         //cell.detailTextLabel?.text = "\(continent.locations) countries or areas"

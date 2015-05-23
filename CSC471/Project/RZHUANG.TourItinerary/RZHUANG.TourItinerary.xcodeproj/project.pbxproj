@@ -8,31 +8,46 @@
 
 /* Begin PBXBuildFile section */
 		B21B2CE81B040B5400FE7ABF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B2CE71B040B5400FE7ABF /* SettingsViewController.swift */; };
+		B22286D71B1101EE00A9D5C7 /* China.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286CF1B1101EE00A9D5C7 /* China.png */; };
+		B22286D81B1101EE00A9D5C7 /* India.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286D01B1101EE00A9D5C7 /* India.png */; };
+		B22286D91B1101EE00A9D5C7 /* Japan.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286D11B1101EE00A9D5C7 /* Japan.png */; };
+		B22286DA1B1101EE00A9D5C7 /* Mongolia.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286D21B1101EE00A9D5C7 /* Mongolia.png */; };
+		B22286DB1B1101EE00A9D5C7 /* SaudiArabia.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286D31B1101EE00A9D5C7 /* SaudiArabia.png */; };
+		B22286DC1B1101EE00A9D5C7 /* Singapore.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286D41B1101EE00A9D5C7 /* Singapore.png */; };
+		B22286DD1B1101EE00A9D5C7 /* SouthKorea.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286D51B1101EE00A9D5C7 /* SouthKorea.png */; };
+		B22286DE1B1101EE00A9D5C7 /* Thailand.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286D61B1101EE00A9D5C7 /* Thailand.png */; };
+		B22286E31B1101FF00A9D5C7 /* Canada.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286DF1B1101FF00A9D5C7 /* Canada.png */; };
+		B22286E41B1101FF00A9D5C7 /* Cuba.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286E01B1101FF00A9D5C7 /* Cuba.png */; };
+		B22286E51B1101FF00A9D5C7 /* Mexico.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286E11B1101FF00A9D5C7 /* Mexico.png */; };
+		B22286E61B1101FF00A9D5C7 /* UnitedStates.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286E21B1101FF00A9D5C7 /* UnitedStates.png */; };
+		B22286EC1B11022200A9D5C7 /* Beijing.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286E71B11022200A9D5C7 /* Beijing.png */; };
+		B22286ED1B11022200A9D5C7 /* Hangzhou.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286E81B11022200A9D5C7 /* Hangzhou.png */; };
+		B22286EE1B11022200A9D5C7 /* Lhasa.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286E91B11022200A9D5C7 /* Lhasa.png */; };
+		B22286EF1B11022200A9D5C7 /* Sanya.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286EA1B11022200A9D5C7 /* Sanya.png */; };
+		B22286F01B11022200A9D5C7 /* Shanghai.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286EB1B11022200A9D5C7 /* Shanghai.png */; };
+		B22286F21B11022F00A9D5C7 /* NewYork.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286F11B11022F00A9D5C7 /* NewYork.png */; };
+		B22286F41B11181F00A9D5C7 /* Honolulu.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286F31B11181F00A9D5C7 /* Honolulu.png */; };
 		B23A029E1B0BCABE00AB7003 /* CountryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23A029D1B0BCABD00AB7003 /* CountryViewController.swift */; };
 		B23A02A01B0BDED100AB7003 /* CountryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23A029F1B0BDED100AB7003 /* CountryViewCell.swift */; };
-		B23A02AA1B0BE6CE00AB7003 /* Africa80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02A31B0BE6CE00AB7003 /* Africa80x80.png */; };
-		B23A02AB1B0BE6CE00AB7003 /* Antarctica80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02A41B0BE6CE00AB7003 /* Antarctica80x80.png */; };
-		B23A02AC1B0BE6CE00AB7003 /* Asia80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02A51B0BE6CE00AB7003 /* Asia80x80.png */; };
-		B23A02AD1B0BE6CE00AB7003 /* Europe80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02A61B0BE6CE00AB7003 /* Europe80x80.png */; };
-		B23A02AE1B0BE6CE00AB7003 /* NorthAmerica80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02A71B0BE6CE00AB7003 /* NorthAmerica80x80.png */; };
-		B23A02AF1B0BE6CE00AB7003 /* Oceania80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02A81B0BE6CE00AB7003 /* Oceania80x80.png */; };
-		B23A02B01B0BE6CE00AB7003 /* SouthAmerica80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02A91B0BE6CE00AB7003 /* SouthAmerica80x80.png */; };
-		B23A02B91B0BEB9300AB7003 /* China.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02B11B0BEB9300AB7003 /* China.png */; };
-		B23A02BA1B0BEB9300AB7003 /* India.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02B21B0BEB9300AB7003 /* India.png */; };
-		B23A02BB1B0BEB9300AB7003 /* Japan.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02B31B0BEB9300AB7003 /* Japan.png */; };
-		B23A02BC1B0BEB9300AB7003 /* Mongolia.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02B41B0BEB9300AB7003 /* Mongolia.png */; };
-		B23A02BD1B0BEB9300AB7003 /* SaudiArabia.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02B51B0BEB9300AB7003 /* SaudiArabia.png */; };
-		B23A02BE1B0BEB9300AB7003 /* Singapore.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02B61B0BEB9300AB7003 /* Singapore.png */; };
-		B23A02BF1B0BEB9300AB7003 /* SouthKorea.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02B71B0BEB9300AB7003 /* SouthKorea.png */; };
-		B23A02C01B0BEB9300AB7003 /* Thailand.png in Resources */ = {isa = PBXBuildFile; fileRef = B23A02B81B0BEB9300AB7003 /* Thailand.png */; };
 		B246FF101B0409E4004B7F77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */; };
 		B246FF141B0409E4004B7F77 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF131B0409E4004B7F77 /* SearchViewController.swift */; };
 		B246FF171B0409E4004B7F77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B246FF151B0409E4004B7F77 /* Main.storyboard */; };
 		B246FF191B0409E4004B7F77 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B246FF181B0409E4004B7F77 /* Images.xcassets */; };
 		B246FF1C1B0409E4004B7F77 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B246FF1A1B0409E4004B7F77 /* LaunchScreen.xib */; };
 		B246FF281B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF271B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift */; };
+		B262476D1B0CE25F00FEA245 /* CityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B262476C1B0CE25F00FEA245 /* CityViewCell.swift */; };
+		B262476F1B0CE27600FEA245 /* CityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B262476E1B0CE27600FEA245 /* CityViewController.swift */; };
+		B26247811B0CED2D00FEA245 /* Africa.png in Resources */ = {isa = PBXBuildFile; fileRef = B262477A1B0CED2D00FEA245 /* Africa.png */; };
+		B26247821B0CED2D00FEA245 /* Antarctica.png in Resources */ = {isa = PBXBuildFile; fileRef = B262477B1B0CED2D00FEA245 /* Antarctica.png */; };
+		B26247831B0CED2D00FEA245 /* Asia.png in Resources */ = {isa = PBXBuildFile; fileRef = B262477C1B0CED2D00FEA245 /* Asia.png */; };
+		B26247841B0CED2D00FEA245 /* Europe.png in Resources */ = {isa = PBXBuildFile; fileRef = B262477D1B0CED2D00FEA245 /* Europe.png */; };
+		B26247851B0CED2D00FEA245 /* NorthAmerica.png in Resources */ = {isa = PBXBuildFile; fileRef = B262477E1B0CED2D00FEA245 /* NorthAmerica.png */; };
+		B26247861B0CED2D00FEA245 /* Oceania.png in Resources */ = {isa = PBXBuildFile; fileRef = B262477F1B0CED2D00FEA245 /* Oceania.png */; };
+		B26247871B0CED2D00FEA245 /* SouthAmerica.png in Resources */ = {isa = PBXBuildFile; fileRef = B26247801B0CED2D00FEA245 /* SouthAmerica.png */; };
+		B26247891B0CEE3700FEA245 /* CityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26247881B0CEE3700FEA245 /* CityDetailViewController.swift */; };
+		B262478D1B0D31E500FEA245 /* EntryTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B262478C1B0D31E500FEA245 /* EntryTabBarController.swift */; };
 		B2E0A6991B05343D00AAC71B /* TripListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A6981B05343D00AAC71B /* TripListViewController.swift */; };
-		B2E0A69B1B05356200AAC71B /* Trips.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A69A1B05356200AAC71B /* Trips.swift */; };
+		B2E0A69B1B05356200AAC71B /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A69A1B05356200AAC71B /* Data.swift */; };
 		B2E0A69D1B053A8F00AAC71B /* TripItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A69C1B053A8F00AAC71B /* TripItemViewController.swift */; };
 		B2E0A6A11B05567B00AAC71B /* ContinentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A6A01B05567B00AAC71B /* ContinentViewController.swift */; };
 		B2E0A6A31B05587800AAC71B /* ContinentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A6A21B05587800AAC71B /* ContinentViewCell.swift */; };
@@ -51,23 +66,27 @@
 
 /* Begin PBXFileReference section */
 		B21B2CE71B040B5400FE7ABF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		B22286CF1B1101EE00A9D5C7 /* China.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = China.png; path = ../../images/country/country_Asia/China.png; sourceTree = "<group>"; };
+		B22286D01B1101EE00A9D5C7 /* India.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = India.png; path = ../../images/country/country_Asia/India.png; sourceTree = "<group>"; };
+		B22286D11B1101EE00A9D5C7 /* Japan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Japan.png; path = ../../images/country/country_Asia/Japan.png; sourceTree = "<group>"; };
+		B22286D21B1101EE00A9D5C7 /* Mongolia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Mongolia.png; path = ../../images/country/country_Asia/Mongolia.png; sourceTree = "<group>"; };
+		B22286D31B1101EE00A9D5C7 /* SaudiArabia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SaudiArabia.png; path = ../../images/country/country_Asia/SaudiArabia.png; sourceTree = "<group>"; };
+		B22286D41B1101EE00A9D5C7 /* Singapore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Singapore.png; path = ../../images/country/country_Asia/Singapore.png; sourceTree = "<group>"; };
+		B22286D51B1101EE00A9D5C7 /* SouthKorea.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SouthKorea.png; path = ../../images/country/country_Asia/SouthKorea.png; sourceTree = "<group>"; };
+		B22286D61B1101EE00A9D5C7 /* Thailand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Thailand.png; path = ../../images/country/country_Asia/Thailand.png; sourceTree = "<group>"; };
+		B22286DF1B1101FF00A9D5C7 /* Canada.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Canada.png; path = ../../images/country/country_Na/Canada.png; sourceTree = "<group>"; };
+		B22286E01B1101FF00A9D5C7 /* Cuba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Cuba.png; path = ../../images/country/country_Na/Cuba.png; sourceTree = "<group>"; };
+		B22286E11B1101FF00A9D5C7 /* Mexico.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Mexico.png; path = ../../images/country/country_Na/Mexico.png; sourceTree = "<group>"; };
+		B22286E21B1101FF00A9D5C7 /* UnitedStates.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = UnitedStates.png; path = ../../images/country/country_Na/UnitedStates.png; sourceTree = "<group>"; };
+		B22286E71B11022200A9D5C7 /* Beijing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Beijing.png; path = ../../images/city/city_cn/Beijing.png; sourceTree = "<group>"; };
+		B22286E81B11022200A9D5C7 /* Hangzhou.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Hangzhou.png; path = ../../images/city/city_cn/Hangzhou.png; sourceTree = "<group>"; };
+		B22286E91B11022200A9D5C7 /* Lhasa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Lhasa.png; path = ../../images/city/city_cn/Lhasa.png; sourceTree = "<group>"; };
+		B22286EA1B11022200A9D5C7 /* Sanya.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Sanya.png; path = ../../images/city/city_cn/Sanya.png; sourceTree = "<group>"; };
+		B22286EB1B11022200A9D5C7 /* Shanghai.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Shanghai.png; path = ../../images/city/city_cn/Shanghai.png; sourceTree = "<group>"; };
+		B22286F11B11022F00A9D5C7 /* NewYork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NewYork.png; path = ../../images/city/city_usa/NewYork.png; sourceTree = "<group>"; };
+		B22286F31B11181F00A9D5C7 /* Honolulu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Honolulu.png; path = ../../images/city/city_usa/Honolulu.png; sourceTree = "<group>"; };
 		B23A029D1B0BCABD00AB7003 /* CountryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryViewController.swift; sourceTree = "<group>"; };
 		B23A029F1B0BDED100AB7003 /* CountryViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryViewCell.swift; sourceTree = "<group>"; };
-		B23A02A31B0BE6CE00AB7003 /* Africa80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Africa80x80.png; path = ../../images/continent/Africa80x80.png; sourceTree = "<group>"; };
-		B23A02A41B0BE6CE00AB7003 /* Antarctica80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Antarctica80x80.png; path = ../../images/continent/Antarctica80x80.png; sourceTree = "<group>"; };
-		B23A02A51B0BE6CE00AB7003 /* Asia80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Asia80x80.png; path = ../../images/continent/Asia80x80.png; sourceTree = "<group>"; };
-		B23A02A61B0BE6CE00AB7003 /* Europe80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Europe80x80.png; path = ../../images/continent/Europe80x80.png; sourceTree = "<group>"; };
-		B23A02A71B0BE6CE00AB7003 /* NorthAmerica80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NorthAmerica80x80.png; path = ../../images/continent/NorthAmerica80x80.png; sourceTree = "<group>"; };
-		B23A02A81B0BE6CE00AB7003 /* Oceania80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Oceania80x80.png; path = ../../images/continent/Oceania80x80.png; sourceTree = "<group>"; };
-		B23A02A91B0BE6CE00AB7003 /* SouthAmerica80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SouthAmerica80x80.png; path = ../../images/continent/SouthAmerica80x80.png; sourceTree = "<group>"; };
-		B23A02B11B0BEB9300AB7003 /* China.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = China.png; path = ../../images/country/China.png; sourceTree = "<group>"; };
-		B23A02B21B0BEB9300AB7003 /* India.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = India.png; path = ../../images/country/India.png; sourceTree = "<group>"; };
-		B23A02B31B0BEB9300AB7003 /* Japan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Japan.png; path = ../../images/country/Japan.png; sourceTree = "<group>"; };
-		B23A02B41B0BEB9300AB7003 /* Mongolia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Mongolia.png; path = ../../images/country/Mongolia.png; sourceTree = "<group>"; };
-		B23A02B51B0BEB9300AB7003 /* SaudiArabia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SaudiArabia.png; path = ../../images/country/SaudiArabia.png; sourceTree = "<group>"; };
-		B23A02B61B0BEB9300AB7003 /* Singapore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Singapore.png; path = ../../images/country/Singapore.png; sourceTree = "<group>"; };
-		B23A02B71B0BEB9300AB7003 /* SouthKorea.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SouthKorea.png; path = ../../images/country/SouthKorea.png; sourceTree = "<group>"; };
-		B23A02B81B0BEB9300AB7003 /* Thailand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Thailand.png; path = ../../images/country/Thailand.png; sourceTree = "<group>"; };
 		B246FF0A1B0409E4004B7F77 /* RZHUANG.TourItinerary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RZHUANG.TourItinerary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B246FF0E1B0409E4004B7F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,8 +97,19 @@
 		B246FF211B0409E4004B7F77 /* RZHUANG.TourItineraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZHUANG.TourItineraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B246FF261B0409E4004B7F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B246FF271B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZHUANG_TourItineraryTests.swift; sourceTree = "<group>"; };
+		B262476C1B0CE25F00FEA245 /* CityViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityViewCell.swift; sourceTree = "<group>"; };
+		B262476E1B0CE27600FEA245 /* CityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityViewController.swift; sourceTree = "<group>"; };
+		B262477A1B0CED2D00FEA245 /* Africa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Africa.png; path = ../../images/continent/Africa.png; sourceTree = "<group>"; };
+		B262477B1B0CED2D00FEA245 /* Antarctica.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Antarctica.png; path = ../../images/continent/Antarctica.png; sourceTree = "<group>"; };
+		B262477C1B0CED2D00FEA245 /* Asia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Asia.png; path = ../../images/continent/Asia.png; sourceTree = "<group>"; };
+		B262477D1B0CED2D00FEA245 /* Europe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Europe.png; path = ../../images/continent/Europe.png; sourceTree = "<group>"; };
+		B262477E1B0CED2D00FEA245 /* NorthAmerica.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NorthAmerica.png; path = ../../images/continent/NorthAmerica.png; sourceTree = "<group>"; };
+		B262477F1B0CED2D00FEA245 /* Oceania.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Oceania.png; path = ../../images/continent/Oceania.png; sourceTree = "<group>"; };
+		B26247801B0CED2D00FEA245 /* SouthAmerica.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SouthAmerica.png; path = ../../images/continent/SouthAmerica.png; sourceTree = "<group>"; };
+		B26247881B0CEE3700FEA245 /* CityDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityDetailViewController.swift; sourceTree = "<group>"; };
+		B262478C1B0D31E500FEA245 /* EntryTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryTabBarController.swift; sourceTree = "<group>"; };
 		B2E0A6981B05343D00AAC71B /* TripListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripListViewController.swift; sourceTree = "<group>"; };
-		B2E0A69A1B05356200AAC71B /* Trips.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trips.swift; sourceTree = "<group>"; };
+		B2E0A69A1B05356200AAC71B /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		B2E0A69C1B053A8F00AAC71B /* TripItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripItemViewController.swift; sourceTree = "<group>"; };
 		B2E0A6A01B05567B00AAC71B /* ContinentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinentViewController.swift; sourceTree = "<group>"; };
 		B2E0A6A21B05587800AAC71B /* ContinentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinentViewCell.swift; sourceTree = "<group>"; };
@@ -133,12 +163,16 @@
 				B246FF1A1B0409E4004B7F77 /* LaunchScreen.xib */,
 				B246FF0D1B0409E4004B7F77 /* Supporting Files */,
 				B2E0A6981B05343D00AAC71B /* TripListViewController.swift */,
-				B2E0A69A1B05356200AAC71B /* Trips.swift */,
+				B2E0A69A1B05356200AAC71B /* Data.swift */,
 				B2E0A69C1B053A8F00AAC71B /* TripItemViewController.swift */,
 				B2E0A6A01B05567B00AAC71B /* ContinentViewController.swift */,
 				B2E0A6A21B05587800AAC71B /* ContinentViewCell.swift */,
 				B23A029D1B0BCABD00AB7003 /* CountryViewController.swift */,
 				B23A029F1B0BDED100AB7003 /* CountryViewCell.swift */,
+				B262476E1B0CE27600FEA245 /* CityViewController.swift */,
+				B262476C1B0CE25F00FEA245 /* CityViewCell.swift */,
+				B26247881B0CEE3700FEA245 /* CityDetailViewController.swift */,
+				B262478C1B0D31E500FEA245 /* EntryTabBarController.swift */,
 			);
 			path = RZHUANG.TourItinerary;
 			sourceTree = "<group>";
@@ -146,21 +180,32 @@
 		B246FF0D1B0409E4004B7F77 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B23A02B11B0BEB9300AB7003 /* China.png */,
-				B23A02B21B0BEB9300AB7003 /* India.png */,
-				B23A02B31B0BEB9300AB7003 /* Japan.png */,
-				B23A02B41B0BEB9300AB7003 /* Mongolia.png */,
-				B23A02B51B0BEB9300AB7003 /* SaudiArabia.png */,
-				B23A02B61B0BEB9300AB7003 /* Singapore.png */,
-				B23A02B71B0BEB9300AB7003 /* SouthKorea.png */,
-				B23A02B81B0BEB9300AB7003 /* Thailand.png */,
-				B23A02A31B0BE6CE00AB7003 /* Africa80x80.png */,
-				B23A02A41B0BE6CE00AB7003 /* Antarctica80x80.png */,
-				B23A02A51B0BE6CE00AB7003 /* Asia80x80.png */,
-				B23A02A61B0BE6CE00AB7003 /* Europe80x80.png */,
-				B23A02A71B0BE6CE00AB7003 /* NorthAmerica80x80.png */,
-				B23A02A81B0BE6CE00AB7003 /* Oceania80x80.png */,
-				B23A02A91B0BE6CE00AB7003 /* SouthAmerica80x80.png */,
+				B262477A1B0CED2D00FEA245 /* Africa.png */,
+				B262477B1B0CED2D00FEA245 /* Antarctica.png */,
+				B262477C1B0CED2D00FEA245 /* Asia.png */,
+				B22286F31B11181F00A9D5C7 /* Honolulu.png */,
+				B262477D1B0CED2D00FEA245 /* Europe.png */,
+				B22286F11B11022F00A9D5C7 /* NewYork.png */,
+				B22286E71B11022200A9D5C7 /* Beijing.png */,
+				B22286E81B11022200A9D5C7 /* Hangzhou.png */,
+				B22286E91B11022200A9D5C7 /* Lhasa.png */,
+				B22286EA1B11022200A9D5C7 /* Sanya.png */,
+				B22286EB1B11022200A9D5C7 /* Shanghai.png */,
+				B262477E1B0CED2D00FEA245 /* NorthAmerica.png */,
+				B262477F1B0CED2D00FEA245 /* Oceania.png */,
+				B26247801B0CED2D00FEA245 /* SouthAmerica.png */,
+				B22286CF1B1101EE00A9D5C7 /* China.png */,
+				B22286DF1B1101FF00A9D5C7 /* Canada.png */,
+				B22286E01B1101FF00A9D5C7 /* Cuba.png */,
+				B22286E11B1101FF00A9D5C7 /* Mexico.png */,
+				B22286E21B1101FF00A9D5C7 /* UnitedStates.png */,
+				B22286D01B1101EE00A9D5C7 /* India.png */,
+				B22286D11B1101EE00A9D5C7 /* Japan.png */,
+				B22286D21B1101EE00A9D5C7 /* Mongolia.png */,
+				B22286D31B1101EE00A9D5C7 /* SaudiArabia.png */,
+				B22286D41B1101EE00A9D5C7 /* Singapore.png */,
+				B22286D51B1101EE00A9D5C7 /* SouthKorea.png */,
+				B22286D61B1101EE00A9D5C7 /* Thailand.png */,
 				B2E0A6A41B055C5800AAC71B /* circle.png */,
 				B246FF0E1B0409E4004B7F77 /* Info.plist */,
 			);
@@ -264,25 +309,36 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B26247871B0CED2D00FEA245 /* SouthAmerica.png in Resources */,
+				B26247851B0CED2D00FEA245 /* NorthAmerica.png in Resources */,
 				B246FF171B0409E4004B7F77 /* Main.storyboard in Resources */,
+				B26247811B0CED2D00FEA245 /* Africa.png in Resources */,
+				B22286E61B1101FF00A9D5C7 /* UnitedStates.png in Resources */,
+				B22286E51B1101FF00A9D5C7 /* Mexico.png in Resources */,
+				B22286EF1B11022200A9D5C7 /* Sanya.png in Resources */,
+				B22286EC1B11022200A9D5C7 /* Beijing.png in Resources */,
+				B22286EE1B11022200A9D5C7 /* Lhasa.png in Resources */,
+				B22286DA1B1101EE00A9D5C7 /* Mongolia.png in Resources */,
+				B26247841B0CED2D00FEA245 /* Europe.png in Resources */,
+				B22286ED1B11022200A9D5C7 /* Hangzhou.png in Resources */,
+				B22286F21B11022F00A9D5C7 /* NewYork.png in Resources */,
+				B22286DD1B1101EE00A9D5C7 /* SouthKorea.png in Resources */,
 				B246FF1C1B0409E4004B7F77 /* LaunchScreen.xib in Resources */,
-				B23A02B01B0BE6CE00AB7003 /* SouthAmerica80x80.png in Resources */,
-				B23A02AD1B0BE6CE00AB7003 /* Europe80x80.png in Resources */,
-				B23A02BC1B0BEB9300AB7003 /* Mongolia.png in Resources */,
-				B23A02AF1B0BE6CE00AB7003 /* Oceania80x80.png in Resources */,
-				B23A02BF1B0BEB9300AB7003 /* SouthKorea.png in Resources */,
-				B23A02AB1B0BE6CE00AB7003 /* Antarctica80x80.png in Resources */,
-				B23A02AC1B0BE6CE00AB7003 /* Asia80x80.png in Resources */,
-				B23A02BD1B0BEB9300AB7003 /* SaudiArabia.png in Resources */,
-				B23A02B91B0BEB9300AB7003 /* China.png in Resources */,
-				B23A02C01B0BEB9300AB7003 /* Thailand.png in Resources */,
+				B26247821B0CED2D00FEA245 /* Antarctica.png in Resources */,
+				B22286DB1B1101EE00A9D5C7 /* SaudiArabia.png in Resources */,
+				B22286D71B1101EE00A9D5C7 /* China.png in Resources */,
+				B22286DE1B1101EE00A9D5C7 /* Thailand.png in Resources */,
+				B22286F41B11181F00A9D5C7 /* Honolulu.png in Resources */,
+				B22286E41B1101FF00A9D5C7 /* Cuba.png in Resources */,
+				B26247861B0CED2D00FEA245 /* Oceania.png in Resources */,
+				B22286DC1B1101EE00A9D5C7 /* Singapore.png in Resources */,
 				B246FF191B0409E4004B7F77 /* Images.xcassets in Resources */,
-				B23A02BE1B0BEB9300AB7003 /* Singapore.png in Resources */,
+				B22286F01B11022200A9D5C7 /* Shanghai.png in Resources */,
+				B22286D81B1101EE00A9D5C7 /* India.png in Resources */,
 				B2E0A6A51B055C5800AAC71B /* circle.png in Resources */,
-				B23A02BA1B0BEB9300AB7003 /* India.png in Resources */,
-				B23A02AA1B0BE6CE00AB7003 /* Africa80x80.png in Resources */,
-				B23A02BB1B0BEB9300AB7003 /* Japan.png in Resources */,
-				B23A02AE1B0BE6CE00AB7003 /* NorthAmerica80x80.png in Resources */,
+				B22286E31B1101FF00A9D5C7 /* Canada.png in Resources */,
+				B22286D91B1101EE00A9D5C7 /* Japan.png in Resources */,
+				B26247831B0CED2D00FEA245 /* Asia.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,13 +359,17 @@
 				B23A029E1B0BCABE00AB7003 /* CountryViewController.swift in Sources */,
 				B2E0A69D1B053A8F00AAC71B /* TripItemViewController.swift in Sources */,
 				B2E0A6A11B05567B00AAC71B /* ContinentViewController.swift in Sources */,
-				B2E0A69B1B05356200AAC71B /* Trips.swift in Sources */,
+				B2E0A69B1B05356200AAC71B /* Data.swift in Sources */,
+				B262476D1B0CE25F00FEA245 /* CityViewCell.swift in Sources */,
 				B246FF141B0409E4004B7F77 /* SearchViewController.swift in Sources */,
 				B23A02A01B0BDED100AB7003 /* CountryViewCell.swift in Sources */,
 				B2E0A6991B05343D00AAC71B /* TripListViewController.swift in Sources */,
+				B26247891B0CEE3700FEA245 /* CityDetailViewController.swift in Sources */,
 				B246FF101B0409E4004B7F77 /* AppDelegate.swift in Sources */,
+				B262478D1B0D31E500FEA245 /* EntryTabBarController.swift in Sources */,
 				B21B2CE81B040B5400FE7ABF /* SettingsViewController.swift in Sources */,
 				B2E0A6A31B05587800AAC71B /* ContinentViewCell.swift in Sources */,
+				B262476F1B0CE27600FEA245 /* CityViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

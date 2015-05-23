@@ -1,8 +1,8 @@
 //
-//  CountryViewController.swift
+//  CityViewController.swift
 //  RZHUANG.TourItinerary
 //
-//  Created by Johnny on 5/19/15.
+//  Created by Johnny on 5/20/15.
 //  Copyright (c) 2015 CDM of DePaul University. All rights reserved.
 //
 
@@ -10,21 +10,20 @@ import UIKit
 
 //let reuseIdentifier = "Cell"
 
-class CountryViewController: UICollectionViewController {
+class CityViewController: UICollectionViewController {
 
-    var continent: Continent?
+    var country: Country?
     var selectedCell: NSIndexPath?
-    var countryList = Array<Country>()
+    var cityList = Array<City>()
     
     @IBOutlet weak var navigationTitle: UINavigationItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let cnt = continent {
-            navigationTitle.title = cnt.name
-            countryList = getCountryList(cnt.key)
-
+        if let cnty = country {
+            navigationTitle.title = cnty.name
+            cityList = getCityList(cnty.key)
             // Uncomment the following line to preserve selection between presentations
             // self.clearsSelectionOnViewWillAppear = false
 
@@ -37,9 +36,9 @@ class CountryViewController: UICollectionViewController {
             let imagewidth = (self.view.frame.width - 40)/3 - 1
             layout.itemSize = CGSize(width: imagewidth, height: imagewidth)
             collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-            //collectionView!.dataSource = self
-            //collectionView!.delegate = self
-            collectionView!.registerClass(CountryViewCell.self, forCellWithReuseIdentifier: "CountryViewCell")
+            collectionView!.dataSource = self
+            collectionView!.delegate = self
+            collectionView!.registerClass(CityViewCell.self, forCellWithReuseIdentifier: "CityViewCell")
             collectionView!.backgroundColor = UIColor.whiteColor()
             self.view.addSubview(collectionView!)
         }
@@ -49,6 +48,7 @@ class CountryViewController: UICollectionViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
     
     // MARK: - Navigation
 
@@ -56,12 +56,9 @@ class CountryViewController: UICollectionViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
-        if segue.identifier == "toCity" {
-            if let cityViewController = segue.destinationViewController as? CityViewController {
-                //let cell = sender as! UICollectionViewCell
-                //if let indexPath = self.collectionView!.indexPathForCell(cell) {
-                cityViewController.country = countryList[selectedCell!.item]
-                //}
+        if segue.identifier == "toCityDetail" {
+            if let cityDetailViewController = segue.destinationViewController as? CityDetailViewController {
+                cityDetailViewController.city = cityList[selectedCell!.item]
             }
         }
     }
@@ -76,34 +73,25 @@ class CountryViewController: UICollectionViewController {
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //#warning Incomplete method implementation -- Return the number of items in the section
-        
-        return countryList.count
+        return cityList.count
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        //let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! UICollectionViewCell
-    
-        // Configure the cell
-    
-        //return cell
-        let country = countryList[indexPath.row]
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CountryViewCell", forIndexPath: indexPath) as! CountryViewCell
+        let city = cityList[indexPath.row]
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CityViewCell", forIndexPath: indexPath) as! CityViewCell
         //cell.backgroundColor = UIColorFromRGB(0x209624)
-        cell.txtName.text = country.name
-        cell.txtDetails.text = "\(country.locations)"
-        
-        //cell.textLabel.alignmentRectForFrame(CGRect(x: 0, y: 0, width: cell.frame.size.width/3, height: cell.frame.size.height*2/3))
-        //cell.detailTextLabel?.text = "\(continent.locations) countries or areas"
-        cell.imageView.image = UIImage(named: country.image)
+        cell.textLabel.text = city.name
+        cell.imageView.image = UIImage(named: city.image)
         
         return cell
+
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         selectedCell = indexPath
-        //var nametext = countryList[indexPath.item].name
-        //println(nametext)
-        performSegueWithIdentifier("toCity", sender: self)
+        var nametext = cityList[indexPath.item].name
+        println(nametext)
+        performSegueWithIdentifier("toCityDetail", sender: self)
     }
 
     // MARK: UICollectionViewDelegate

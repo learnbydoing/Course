@@ -13,21 +13,31 @@ class CountryViewCell: UICollectionViewCell {
         super.init(coder: aDecoder)
     }
     
-    var textLabel: UILabel = UILabel()
+    var txtName: UILabel = UILabel()
+    var txtDetails: UILabel = UILabel()
     var imageView: UIImageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        imageView = UIImageView(frame: CGRect(x: 60, y: 10, width: frame.size.width/2, height: frame.size.height*1/3))
+        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         contentView.addSubview(imageView)
         
-        let textFrame = CGRect(x: 10, y: frame.size.height-70, width: frame.size.width, height: frame.size.height)
-        textLabel = UILabel(frame: textFrame)
-        textLabel.font = UIFont.systemFontOfSize(UIFont.smallSystemFontSize())
-        textLabel.textAlignment = .Left
-        //textLabel.sizeToFit()
-        contentView.addSubview(textLabel)
+        //Country Name
+        let nameFrame = CGRect(x: 5, y: frame.size.height-40, width: frame.size.width, height: frame.size.height/2)
+        txtName = UILabel(frame: nameFrame)
+        txtName.font = UIFont.boldSystemFontOfSize(12.0)
+        txtName.textColor = UIColor.whiteColor()
+        txtName.textAlignment = .Left
+        contentView.addSubview(txtName)
+        
+        //Count of cities with this country
+        let detailsFrame = CGRect(x: frame.size.width-10, y: frame.size.height-40, width: frame.size.width, height: frame.size.height/2)
+        txtDetails = UILabel(frame: detailsFrame)
+        txtDetails.font = UIFont.boldSystemFontOfSize(12.0)
+        txtDetails.textColor = UIColor.whiteColor()
+        txtDetails.textAlignment = .Left
+        contentView.addSubview(txtDetails)
     }
 }

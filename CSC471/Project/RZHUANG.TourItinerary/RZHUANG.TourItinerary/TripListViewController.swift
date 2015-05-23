@@ -8,10 +8,20 @@
 
 import UIKit
 
+let selectedIndex = 0
+
 class TripListViewController: UITableViewController {
     
     var isEditMode = false
+    var newTrip: Trip?
     @IBOutlet weak var btnEdit: UIBarButtonItem!
+    
+    override func viewWillAppear(animated: Bool) {
+        self.tabBarController?.tabBar.hidden = false
+        self.hidesBottomBarWhenPushed = false
+        super.viewWillAppear(animated)
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +31,34 @@ class TripListViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        //self.hidesBottomBarWhenPushed = false
+        
+        /*
+        if let tabBarCtrl = self.tabBarController {
+            if let viewCtrl = tabBarCtrl.viewControllers?[selectedIndex] as? UIViewController {
+                //self.tabBarController?.selectedViewController = self
+                UIView.transitionFromView(viewCtrl.view,
+                    toView: self.view,
+                    duration: 0.5,
+                    options: UIViewAnimationOptions.TransitionFlipFromRight,
+                    completion: {
+                        finished in
+                        if finished {
+                            tabBarCtrl.selectedIndex = selectedIndex
+                        }
+                })
+            }
+        }*/
+        
+        
+        self.tabBarController?.tabBar.hidden = false
+        self.hidesBottomBarWhenPushed = false
+        
+        tableView.reloadData()
     }
 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -75,6 +111,11 @@ class TripListViewController: UITableViewController {
             if let indexPath = self.tableView.indexPathForSelectedRow() {
                 tripViewController.trip = trips[indexPath.row]
             }
+            /*
+            tripViewController.tabBarController?.tabBar.hidden = true
+            if let tabBarCtrl = tripViewController.tabBarController {
+                tabBarCtrl.tabBar.hidden = true
+            }*/
         }
     }
     
