@@ -17,6 +17,7 @@ class TripItemViewController: UITableViewController {
 
     @IBOutlet var textFields: [UITextField]!
     
+    @IBOutlet weak var lblCity: UILabel!
     @IBOutlet weak var txtCity: UITextField!
     @IBOutlet weak var txtCountry: UITextField!
     @IBOutlet weak var btnFrom: UIButton!
@@ -178,6 +179,21 @@ class TripItemViewController: UITableViewController {
         return true
     }
     
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        
+        if (indexPath.row == 0 && indexPath.section == 0 && trip != nil)
+        {
+            lblCity.hidden = true
+            txtCity.hidden = true
+            return 0.0
+        }
+        else {
+            return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+        }
+        
+        //return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+    }
 
     /*
     // Override to support editing the table view.

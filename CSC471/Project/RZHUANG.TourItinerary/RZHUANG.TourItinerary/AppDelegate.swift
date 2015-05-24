@@ -21,6 +21,15 @@ extension NSDate {
     }
 }
 
+extension String {
+    
+    func format(args: CVarArgType...) -> String {
+        
+        return NSString(format: self, arguments: getVaList(args)) as String
+        
+    }
+}
+
 func convertDate(datestr: String?) -> NSDate {
     if let str = datestr {
         var dateFormatter = NSDateFormatter()
