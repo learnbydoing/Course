@@ -8,6 +8,8 @@
 
 import UIKit
 
+/*-----------------------------------------------------*/
+//common methods
 extension NSDate {
     var formatted: String {
         let formatter = NSDateFormatter()
@@ -22,11 +24,13 @@ extension NSDate {
 }
 
 extension String {
-    
     func format(args: CVarArgType...) -> String {
-        
         return NSString(format: self, arguments: getVaList(args)) as String
-        
+    }    
+}
+extension String {
+    var doubleValue: Double {
+        return (self as NSString).doubleValue
     }
 }
 
@@ -43,6 +47,25 @@ func convertDate(datestr: String?) -> NSDate {
     }
 }
 
+func convertDateTime(timezoneid: String, time: String) -> String {
+    //println(timezoneid)
+    var dateFormatter = NSDateFormatter()
+    dateFormatter.dateFormat = "YYYY-MM-dd hh:mm a"
+    dateFormatter.timeZone = NSTimeZone(name: timezoneid)
+    
+    if let date = dateFormatter.dateFromString(time) {
+        var displayFormatter = NSDateFormatter()
+        displayFormatter.dateFormat = "YYYY MMM dd' 'hh:mm a'"
+        let formattedTimeString = displayFormatter.stringFromDate(date)
+        dateFormatter.dateFormat = "EEE"
+        let formattedDayNameString = dateFormatter.stringFromDate(date)
+        return formattedDayNameString + ", " + formattedTimeString
+    }
+    else {
+        return ""
+    }
+}
+
 func UIColorFromRGB(rgbValue: UInt) -> UIColor {
     return UIColor(
         red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
@@ -52,15 +75,122 @@ func UIColorFromRGB(rgbValue: UInt) -> UIColor {
     )
 }
 
+func getImage(imagename: String) -> UIImage {
+    var image: UIImage? = UIImage(named: imagename)
+    if image == nil {
+        image = UIImage(named: "City_Default")
+    }
+    return image!
+}
+
+//Network connection status
+enum NetworkStatus {
+    case NoConnetion
+    case Wifi
+    case Cellular
+}
+
+var networkStatus = NetworkStatus.NoConnetion
+var deviceOrientation = false //false: portrait; true: landscape
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    private var reachability:Reachability?;
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        sleep(1); //hold the launch screen, splash image.
+        
+        //Global settings
+        appSettings.onlyDownloadDataInWifiMode = false
+
+        //check the initial orientation
+        handleRotationChanged()
+        
+        //detect rotation change
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleRotationChanged", name: UIDeviceOrientationDidChangeNotification, object: nil)
+
+        //detect network change
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:"handleNetworkConnectionNotification:", name: kReachabilityChangedNotification, object: nil);
+        
+        reachability = Reachability.reachabilityForInternetConnection();
+        reachability?.startNotifier();
+        if reachability != nil {
+            networkStatus = getNetworkStatus(reachability!)
+            showPopUp(networkStatus)
+        }
+        
         return true
+    }
+    
+    func handleRotationChanged()
+    {
+        if(UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation))
+        {
+            deviceOrientation = true
+        }
+        
+        if(UIDeviceOrientationIsPortrait(UIDevice.currentDevice().orientation))
+        {
+            deviceOrientation = false
+        }
+        
+    }
+    
+    //Handle the notification of connetion change
+    func handleNetworkConnectionNotification(notification:NSNotification)
+    {
+        let networkReachability = notification.object as! Reachability;
+        networkStatus = getNetworkStatus(networkReachability)
+        showPopUp(networkStatus)
+    }
+    
+    //Get the status
+    func getNetworkStatus(currentReachability: Reachability) -> NetworkStatus{
+        var connectionStatus = NetworkStatus.NoConnetion
+        
+        let reachablityStatus = currentReachability.currentReachabilityStatus()
+        
+        if (reachablityStatus.value == NotReachable.value)
+        {
+            connectionStatus = NetworkStatus.NoConnetion
+        }
+        else if (reachablityStatus.value == ReachableViaWiFi.value)
+        {
+            connectionStatus = NetworkStatus.Wifi
+        }
+        else if (reachablityStatus.value == ReachableViaWWAN.value)
+        {
+            connectionStatus = NetworkStatus.Cellular
+        }
+        else {
+            connectionStatus = NetworkStatus.NoConnetion
+        }
+        
+        return connectionStatus
+    }
+
+    //Show popup if there is no connection
+    func showPopUp(status: NetworkStatus) {
+        if (status == NetworkStatus.NoConnetion)
+        {
+            let alertController = UIAlertController(title: "Network unavailable", message: "Your device is not connected to intenet, you can turn on wifi or cellular data in Settings.", preferredStyle: .Alert)
+            
+            let callActionHandler = { (action:UIAlertAction!) -> Void in
+                UIApplication.sharedApplication().openURL(NSURL(string:UIApplicationOpenSettingsURLString)!)
+                //UIApplication.sharedApplication().openURL(NSURL(string:"prefs:root=General")!)
+            }
+            
+            // Create the action.
+            let settingsAction = UIAlertAction(title: "Settings", style: .Cancel, handler: callActionHandler)
+            alertController.addAction(settingsAction)
+            let cancelAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(cancelAction)
+            self.window?.makeKeyAndVisible()
+            self.window?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
+        }
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -83,6 +213,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: kReachabilityChangedNotification, object: nil);
     }
 
 

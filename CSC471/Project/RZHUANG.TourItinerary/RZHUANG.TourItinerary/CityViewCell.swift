@@ -23,7 +23,7 @@ class CityViewCell: UICollectionViewCell {
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         contentView.addSubview(imageView)
         
-        let textFrame = CGRect(x: 5, y: frame.size.height-40, width: frame.size.width, height: frame.size.height/2)
+        let textFrame = CGRect(x: 5, y: frame.size.height-20, width: frame.size.width, height: 20)
         textLabel = UILabel(frame: textFrame)
         textLabel.font = UIFont.boldSystemFontOfSize(12.0)
         textLabel.textColor = UIColor.whiteColor()

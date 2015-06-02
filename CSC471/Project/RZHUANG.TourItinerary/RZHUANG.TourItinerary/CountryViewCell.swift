@@ -25,19 +25,27 @@ class CountryViewCell: UICollectionViewCell {
         contentView.addSubview(imageView)
         
         //Country Name
-        let nameFrame = CGRect(x: 5, y: frame.size.height-40, width: frame.size.width, height: frame.size.height/2)
+        let nameFrame = CGRect(x: 5, y: frame.size.height-20, width: frame.size.width, height: 20)
         txtName = UILabel(frame: nameFrame)
         txtName.font = UIFont.boldSystemFontOfSize(12.0)
         txtName.textColor = UIColor.whiteColor()
         txtName.textAlignment = .Left
+        //txtName.layer.borderColor = UIColor.greenColor().CGColor
+        //txtName.layer.borderWidth = 1.0;
         contentView.addSubview(txtName)
         
         //Count of cities with this country
-        let detailsFrame = CGRect(x: frame.size.width-10, y: frame.size.height-40, width: frame.size.width, height: frame.size.height/2)
+        let detailsFrame = CGRect(x: frame.size.width-10, y: frame.size.height-20, width: frame.size.width, height: 20)
         txtDetails = UILabel(frame: detailsFrame)
         txtDetails.font = UIFont.boldSystemFontOfSize(12.0)
         txtDetails.textColor = UIColor.whiteColor()
         txtDetails.textAlignment = .Left
         contentView.addSubview(txtDetails)
+    }
+    
+    func updateLayout(frame: CGRect) {
+        imageView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
+        txtName.frame = CGRect(x: 5, y: frame.size.height-20, width: frame.size.width, height: 20)
+        txtDetails.frame = CGRect(x: frame.size.width-10, y: frame.size.height-20, width: frame.size.width, height: 20)
     }
 }

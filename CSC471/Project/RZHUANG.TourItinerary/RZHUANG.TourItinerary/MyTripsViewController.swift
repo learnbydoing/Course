@@ -1,5 +1,5 @@
 //
-//  TripListViewController.swift
+//  MyTripsViewController.swift
 //  RZHUANG.TourItinerary
 //
 //  Created by Johnny on 5/14/15.
@@ -10,18 +10,11 @@ import UIKit
 
 let selectedIndex = 0
 
-class TripListViewController: UITableViewController {
+class MyTripsViewController: UITableViewController {
     
     var isEditMode = false
     var newTrip: Trip?
     @IBOutlet weak var btnEdit: UIBarButtonItem!
-    
-    override func viewWillAppear(animated: Bool) {
-        self.tabBarController?.tabBar.hidden = false
-        self.hidesBottomBarWhenPushed = false
-        super.viewWillAppear(animated)
-        
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,39 +24,18 @@ class TripListViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-        //self.hidesBottomBarWhenPushed = false
-        
-        /*
-        if let tabBarCtrl = self.tabBarController {
-            if let viewCtrl = tabBarCtrl.viewControllers?[selectedIndex] as? UIViewController {
-                //self.tabBarController?.selectedViewController = self
-                UIView.transitionFromView(viewCtrl.view,
-                    toView: self.view,
-                    duration: 0.5,
-                    options: UIViewAnimationOptions.TransitionFlipFromRight,
-                    completion: {
-                        finished in
-                        if finished {
-                            tabBarCtrl.selectedIndex = selectedIndex
-                        }
-                })
-            }
-        }*/
-        
-        
-        self.tabBarController?.tabBar.hidden = false
-        self.hidesBottomBarWhenPushed = false
-        
-        tableView.reloadData()
     }
-
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -85,8 +57,8 @@ class TripListViewController: UITableViewController {
         // Configure the cell...
         
         cell.textLabel?.text = trip.destination
-        
-        cell.detailTextLabel?.text = trip.destination
+        cell.detailTextLabel?.text = trip.country        
+        cell.imageView?.image = getImage(trip.destination)
         
         return cell
     }
@@ -94,8 +66,8 @@ class TripListViewController: UITableViewController {
     override func tableView(tableView: UITableView,
         accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
             let trip = trips[indexPath.row]
-            let title = trip.destination
-            let message = trip.from.formatted + "\n" + trip.to.formatted
+            let title = trip.destination + "(" + trip.country + ")"
+            let message = "From: " + trip.from.formatted + "\n" + "To: " + trip.to.formatted
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .ActionSheet)
             let okayAction = UIAlertAction(title: "Okay", style: .Default, handler: nil)
             alertController.addAction(okayAction)
@@ -107,20 +79,17 @@ class TripListViewController: UITableViewController {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         
-        if let tripViewController = segue.destinationViewController as? TripItemViewController {
+        if let tripDetailViewController = segue.destinationViewController as? TripDetailViewController {
             if let indexPath = self.tableView.indexPathForSelectedRow() {
-                tripViewController.trip = trips[indexPath.row]
+                let trip = trips[indexPath.row]
+                tripDetailViewController.viewTitle = trip.destination
+                tripDetailViewController.trip = trip
             }
-            /*
-            tripViewController.tabBarController?.tabBar.hidden = true
-            if let tabBarCtrl = tripViewController.tabBarController {
-                tabBarCtrl.tabBar.hidden = true
-            }*/
         }
     }
-    
+    /*
     @IBAction func unwindToTripList(segue : UIStoryboardSegue) {
-        if let from = segue.sourceViewController as? TripItemViewController {
+        if let from = segue.sourceViewController as? TripDetailViewController {
             //message = "Unwind from GreenViewController"
             //if !from.textField.text.isEmpty {
             //    message += "\nMessage: \(from.textField.text)"
@@ -140,7 +109,7 @@ class TripListViewController: UITableViewController {
                 t.sights[2] = from.txtSight3.text
                 t.sights[3] = from.txtSight4.text
                 t.sights[4] = from.txtSight5.text
-                t.note = from.txtNote.text
+                t.note = from.textviewNote.text
                 tableView.reloadData()
             }
             else {
@@ -157,14 +126,14 @@ class TripListViewController: UITableViewController {
                 newTrip.sights[2] = from.txtSight3.text
                 newTrip.sights[3] = from.txtSight4.text
                 newTrip.sights[4] = from.txtSight5.text
-                newTrip.note = from.txtNote.text
+                newTrip.note = from.textviewNote.text
                 trips.insert(newTrip, atIndex: 0)
                 tableView.reloadData()
 
             }
         }
         
-    }
+    }*/
     
     @IBAction func switchEditMode(sender: UIBarButtonItem) {
         if isEditMode==false {

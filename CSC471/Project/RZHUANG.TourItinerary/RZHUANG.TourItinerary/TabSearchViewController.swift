@@ -1,5 +1,5 @@
 //
-//  ContinentViewController.swift
+//  TabSearchViewController.swift
 //  RZHUANG.TourItinerary
 //
 //  Created by Johnny on 5/14/15.
@@ -10,7 +10,7 @@ import UIKit
 
 let reuseIdentifier = "Cell"
 
-class ContinentViewController: UICollectionViewController {
+class TabSearchViewController: UICollectionViewController {
 
     var selectedCell: NSIndexPath?
     
@@ -39,8 +39,15 @@ class ContinentViewController: UICollectionViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-
+    }    
+    /*
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        if let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.itemSize = CGSize(width: (size.width - 30)/2, height: 60)
+            layout.invalidateLayout()
+        }
+    }*/
     
     // MARK: - Navigation
 

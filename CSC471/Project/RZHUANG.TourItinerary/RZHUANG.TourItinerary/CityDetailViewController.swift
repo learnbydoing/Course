@@ -12,19 +12,48 @@ import MapKit
 class CityDetailViewController: UITableViewController {
 
     var city: City?
+    var isFavorite = false
     @IBOutlet weak var navigationTitle: UINavigationItem!
     
+    @IBOutlet weak var imageCell: UITableViewCell!
     @IBOutlet weak var imageCity: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
-    //@IBOutlet weak var txtviewOthers: UITextView!
+    @IBOutlet weak var btnFavorite: UIButton!
     @IBOutlet weak var lblDescription: UILabel!
- 
     @IBOutlet weak var lblArea: UILabel!
     @IBOutlet weak var lblFounded: UILabel!
     @IBOutlet weak var lblLocalTime: UILabel!
     @IBOutlet weak var lblWeather: UILabel!
     @IBOutlet weak var lblPopulation: UILabel!
     @IBOutlet weak var mapView: MKMapView!
+    
+    @IBAction func addFavorite(sender: UIButton) {
+        if isFavorite {
+            removeFavorite(city!.key)
+            isFavorite = false;
+            let image = UIImage(named: "Me_Favorite_Black") as UIImage!
+            btnFavorite.setImage(image, forState: .Normal)
+        }
+        else {
+            addNewFavorite(city!.key)
+            isFavorite = true;
+            let image = UIImage(named: "Me_Favorite") as UIImage!
+            btnFavorite.setImage(image, forState: .Normal)
+            
+        }       
+    }
+    
+    @IBAction func shareCity(sender: UIBarButtonItem) {
+        let textToShare = "Hi, I found a beautiful city in Travel Note. I'd like to share it with you!\n\n\(city!.name):"
+        let params = city!.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
+        if let myWebsite = NSURL(string: "https://www.google.com/?gws_rd=ssl#q=\(params!)")
+        {
+            let objectsToShare = [textToShare, myWebsite]
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+                
+            self.presentViewController(activityVC, animated: true, completion: nil)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,29 +66,14 @@ class CityDetailViewController: UITableViewController {
         if let c = city {
             imageCity.image = UIImage(named: c.image)
             lblTitle.text = c.title
-            //txtviewDescription.text = c.description
             lblDescription.numberOfLines = 0;
             lblDescription.text = c.description
             self.lblDescription.sizeToFit()
-             //var frame = txtviewDescription.frame;
-            //frame.size.height = txtviewDescription.contentSize.height
-            //txtviewDescription.frame = frame
-            /*txtviewOthers.text = "Area: " + "\(c.area)" + "\n"
-                                + "Founded: " + "\(c.founded)" + "\n"
-           + "Local time: " + "\(c.localtime)" + "\n"
-            + "Weather: " + "\(c.weather)" + "\n"
-            + "Population: " + "\(c.population)"*/
             lblArea.text = c.area
             lblFounded.text = c.founded
-            //lblLocalTime.text = c.localtime
-            //lblWeather.text = c.weather
             lblPopulation.text = c.population
             
             // 1
-            /*let location = CLLocationCoordinate2D(
-                latitude: 51.50007773,
-                longitude: -0.1246402
-            )*/
             let location = CLLocationCoordinate2D(
                 latitude: c.latitude,
                 longitude: c.longitude
@@ -67,13 +81,30 @@ class CityDetailViewController: UITableViewController {
             // 2
             let span = MKCoordinateSpanMake(0.95, 0.95)
             let region = MKCoordinateRegion(center: location, span: span)
-            mapView.setRegion(region, animated: true)
             
             //3
             let annotation = MKPointAnnotation()
             annotation.coordinate = location
-            annotation.title = "Big Ben"
-            annotation.subtitle = "London"
+            //annotation.title = "Big Ben"
+            //annotation.subtitle = "London"
+            
+            
+            isFavorite = checkFavorite(c.key)
+            if isFavorite {
+                let image = UIImage(named: "Me_Favorite") as UIImage!
+                btnFavorite.setImage(image, forState: .Normal)
+            }
+            else {
+                let image = UIImage(named: "Me_Favorite_Black") as UIImage!
+                btnFavorite.setImage(image, forState: .Normal)
+            }
+            
+            if appSettings.onlyDownloadDataInWifiMode == true {
+                return
+            }
+            
+            //locate position in map
+            mapView.setRegion(region, animated: true)
             mapView.addAnnotation(annotation)
             
             //get localtime
@@ -110,21 +141,34 @@ class CityDetailViewController: UITableViewController {
     func setLabels(weatherData: NSData) {
         var jsonError: NSError?
         
-        let json = NSJSONSerialization.JSONObjectWithData(weatherData, options: nil, error: &jsonError) as! NSDictionary
-        
-        var temp: Double = 0.0
-        var humidity: Double = 0.0
-        
-        if let main = json["main"] as? NSDictionary {
-            if let tempvalue = main["temp"] as? Double {
-                temp = tempvalue
+        if let json: AnyObject = NSJSONSerialization.JSONObjectWithData(weatherData, options: nil, error:&jsonError) {
+            if let dict = json as? NSDictionary {
+                var temp: Double = 0.0
+                var humidity: Double = 0.0
+                
+                if let main = json["main"] as? NSDictionary {
+                    if let tempvalue = main["temp"] as? Double {
+                        temp = tempvalue
+                    }
+                    if let humidityvalue = main["humidity"] as? Double {
+                        humidity = humidityvalue
+                    }
+                    lblWeather.text = formatWeather(temp, humidity: humidity)
+                }
+                else {
+                    lblWeather.text = "[Fail to get the weather!]"
+                }
+                
+                
+            } else {
+                println("not a dictionary")
+                return
             }
-            if let humidityvalue = main["humidity"] as? Double {
-                humidity = humidityvalue
-            }
+        } else {
+            println("Could not parse JSON: \(jsonError!)")
+            return
         }
-        
-        lblWeather.text = formatWeather(temp, humidity: humidity)
+
     }
     
     func formatWeather(temp: Double, humidity: Double) -> String{
@@ -157,21 +201,38 @@ class CityDetailViewController: UITableViewController {
     func setLocalTimeLabel(timeData: NSData) {
         var jsonError: NSError?
         
-        let json = NSJSONSerialization.JSONObjectWithData(timeData, options: nil, error: &jsonError) as! NSDictionary
-        
-       
-        var timezoneid: String = ""
-        var time: String = ""
-        
-        if let timezoneidvalue = json["timezoneId"] as? String {
-            timezoneid = timezoneidvalue
-        }
-        if let timevalue = json["time"] as? String {
-            time = timevalue
-        }
-        
-        if !timezoneid.isEmpty && !time.isEmpty {        
-            lblLocalTime.text = convertDateTime(timezoneid, time: time)
+        if let json: AnyObject = NSJSONSerialization.JSONObjectWithData(timeData, options: nil, error:&jsonError) {
+            if let dict = json as? NSDictionary {
+                var timezoneid: String = ""
+                var time: String = ""
+                    
+                if let timezoneidvalue = json["timezoneId"] as? String {
+                    timezoneid = timezoneidvalue
+                }
+                if let timevalue = json["time"] as? String {
+                    time = timevalue
+                }
+                
+                if !timezoneid.isEmpty && !time.isEmpty {
+                    var str = convertDateTime(timezoneid, time)
+                    if str.isEmpty {
+                        str = "[Fail to get the local time!]"
+                    }
+                    lblLocalTime.text = str
+                }
+                else {
+                    lblLocalTime.text = "[Fail to get the local time!]"
+                }
+
+            } else {
+                println("not a dictionary")
+                lblLocalTime.text = "[Fail to get the local time!]"
+                return
+            }
+        } else {
+            println("Could not parse JSON: \(jsonError!)")
+            lblLocalTime.text = "[Fail to get the local time!]"
+            return
         }
     }
     
@@ -193,24 +254,7 @@ class CityDetailViewController: UITableViewController {
         println("formattedDateString: \(formattedDateString)") // formattedDateString: 8:22 AM
         
         return formattedDateString
-    }*/
-    
-    func convertDateTime(timezoneid: String, time: String) -> String {
-        //let currenttime = NSDate()
-        //var dateff = NSDateFormatter()
-        //dateff.dateFormat = "YYYY-MM-dd' 'HH:mm'"
-        //let str = dateff.stringFromDate(currenttime)
-        var dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-dd' 'HH:mm'"
-        dateFormatter.timeZone = NSTimeZone(name: timezoneid)
-        let date = dateFormatter.dateFromString(time)
-        dateFormatter.dateFormat = "hh:mm a"
-        let formattedTimeString = dateFormatter.stringFromDate(date!)
-        dateFormatter.dateFormat = "EEEE"
-        let formattedDayNameString = dateFormatter.stringFromDate(date!)
-        return formattedDayNameString + " " + formattedTimeString
-    }
-    
+    }*/ 
     
 
     override func viewDidLayoutSubviews() {
@@ -241,15 +285,33 @@ class CityDetailViewController: UITableViewController {
         return 0
     }*/
 
-    /*
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
-
-        // Configure the cell...
-
-        return cell
+        if indexPath.row == 0 {
+            
+            //city name in the left corner of the image
+            let cityFrame = CGRect(x: 10, y: imageCity.frame.height-25, width: imageCity.frame.width-10, height: 20)
+            var lblCity = UILabel(frame: cityFrame)
+            lblCity.font = UIFont.boldSystemFontOfSize(17.0)
+            lblCity.textColor = UIColor.whiteColor()
+            lblCity.textAlignment = .Left
+            lblCity.lineBreakMode = .ByWordWrapping // or NSLineBreakMode.ByWordWrapping
+            lblCity.numberOfLines = 0
+            
+            lblCity.text = city!.name + String(format: " (Lat: %.2f  Lon: %.2f)", city!.latitude, city!.longitude)            
+            
+            //border, for debug
+            //lblCity.layer.borderColor = UIColor.greenColor().CGColor
+            //lblCity.layer.borderWidth = 1.0;
+            imageCell.addSubview(lblCity)
+           
+            return imageCell
+        }
+        else {
+            return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+        }
     }
-    */
+
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
@@ -271,10 +333,10 @@ class CityDetailViewController: UITableViewController {
             //self.txtviewDescription.addConstraint(aspectRatioTextViewConstraint)
             
             //var height = self.txtviewDescription.frame.height + 2;
-            println("self.lblDescription.frame.height:" + "\(self.lblDescription.frame.height)")
+            //println("self.lblDescription.frame.height:" + "\(self.lblDescription.frame.height)")
             //lblDescription.numberOfLines = 0;
             //self.lblDescription.sizeToFit()
-            println("self.lblDescription.frame.height:" + "\(self.lblDescription.frame.height)")
+            //println("self.lblDescription.frame.height:" + "\(self.lblDescription.frame.height)")
             return self.lblDescription.frame.height * (2.3)
 
         }
@@ -322,7 +384,7 @@ class CityDetailViewController: UITableViewController {
 
     
     // MARK: - Navigation
-
+/*
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
@@ -331,6 +393,6 @@ class CityDetailViewController: UITableViewController {
             tripItemViewController.city = self.city
             //tripItemViewController.tabBarController?.selectedIndex = 0
         }
-    }    
+    }    */
 
 }

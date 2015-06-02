@@ -15,6 +15,7 @@ class CountryViewController: UICollectionViewController {
     var continent: Continent?
     var selectedCell: NSIndexPath?
     var countryList = Array<Country>()
+    var cellwidth: CGFloat = 0.0
     
     @IBOutlet weak var navigationTitle: UINavigationItem!
     
@@ -34,8 +35,8 @@ class CountryViewController: UICollectionViewController {
             // Do any additional setup after loading the view.
             let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
             layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-            let imagewidth = (self.view.frame.width - 40)/3 - 1
-            layout.itemSize = CGSize(width: imagewidth, height: imagewidth)
+            cellwidth = (self.view.frame.width - 40)/3 - 1
+            layout.itemSize = CGSize(width: cellwidth, height: cellwidth)
             collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
             //collectionView!.dataSource = self
             //collectionView!.delegate = self
@@ -49,6 +50,23 @@ class CountryViewController: UICollectionViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    /*
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        let imagewidth = (self.view.frame.width - 40)/3 - 1
+        layout.itemSize = CGSize(width: imagewidth, height: imagewidth)
+        collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        //collectionView!.dataSource = self
+        //collectionView!.delegate = self
+        collectionView!.registerClass(CountryViewCell.self, forCellWithReuseIdentifier: "CountryViewCell")
+        collectionView!.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(collectionView!)
+
+    }*/
     
     // MARK: - Navigation
 
@@ -95,7 +113,9 @@ class CountryViewController: UICollectionViewController {
         //cell.textLabel.alignmentRectForFrame(CGRect(x: 0, y: 0, width: cell.frame.size.width/3, height: cell.frame.size.height*2/3))
         //cell.detailTextLabel?.text = "\(continent.locations) countries or areas"
         cell.imageView.image = UIImage(named: country.image)
-        
+        //println("cell.width=\(cell.frame.size.width)")
+        //println("cell.height=\(cell.frame.size.height)")
+        //cell.updateLayout(cell.frame)
         return cell
     }
     
@@ -105,7 +125,28 @@ class CountryViewController: UICollectionViewController {
         //println(nametext)
         performSegueWithIdentifier("toCity", sender: self)
     }
-
+/*
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animateAlongsideTransition(nil) { context in
+            //self.resizePhotosCollectionView()
+            self.view.setNeedsLayout()
+            self.view.layoutIfNeeded()
+        }
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+    }*/
+    /*
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        
+        println("width=\(size.width)")
+        println("height=\(size.height)")
+        if let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {            
+            let imagewidth = (size.width - 40)/3 - 1
+            layout.itemSize = CGSize(width: imagewidth, height: imagewidth)
+            layout.invalidateLayout()
+            collectionView?.reloadInputViews()
+        }
+    }*/
     // MARK: UICollectionViewDelegate
 
     /*

@@ -49,6 +49,23 @@ class CityViewController: UICollectionViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        let imagewidth = (self.view.frame.width - 40)/3 - 1
+        layout.itemSize = CGSize(width: imagewidth, height: imagewidth)
+        collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        collectionView!.dataSource = self
+        collectionView!.delegate = self
+        collectionView!.registerClass(CityViewCell.self, forCellWithReuseIdentifier: "CityViewCell")
+        collectionView!.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(collectionView!)
+        
+    }
+
     
     // MARK: - Navigation
 
