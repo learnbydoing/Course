@@ -13,6 +13,11 @@ class CityDetailViewController: UITableViewController {
 
     var city: City?
     var isFavorite = false
+    let container = UIView()
+    var pointsViews = [UIImageView]()
+    var indexImage = 0
+    var btnSwitch = UIButton()
+    
     @IBOutlet weak var navigationTitle: UINavigationItem!
     
     @IBOutlet weak var imageCell: UITableViewCell!
@@ -25,7 +30,11 @@ class CityDetailViewController: UITableViewController {
     @IBOutlet weak var lblLocalTime: UILabel!
     @IBOutlet weak var lblWeather: UILabel!
     @IBOutlet weak var lblPopulation: UILabel!
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapView: MKMapView!    
+    @IBOutlet weak var pointsCell: UITableViewCell!
+    @IBOutlet weak var lblPoint: UILabel!    
+    @IBOutlet weak var mapCell: UITableViewCell!
+    @IBOutlet weak var descriptionCell: UITableViewCell!
     
     @IBAction func addFavorite(sender: UIButton) {
         if isFavorite {
@@ -39,7 +48,6 @@ class CityDetailViewController: UITableViewController {
             isFavorite = true;
             let image = UIImage(named: "Me_Favorite") as UIImage!
             btnFavorite.setImage(image, forState: .Normal)
-            
         }       
     }
     
@@ -55,8 +63,29 @@ class CityDetailViewController: UITableViewController {
         }
     }
     
+    @IBAction func switchImage(sender: UIButton) {
+        var transitionOptions = appSettings.transitionOptions
+        var current = indexImage
+        var next = current + 1
+        if next >= 5 {
+            next = 0
+        }
+        
+        UIView.transitionWithView(self.container, duration: 1.0, options: transitionOptions, animations: {
+            self.pointsViews[current].removeFromSuperview()
+            self.container.addSubview(self.pointsViews[next])
+            self.lblPoint.text = self.city!.pointsofinterest[next]
+            }, completion: nil)
+        
+        indexImage++
+        if indexImage >= 5 {
+            indexImage = 0
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationTitle.title = city?.name
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -85,9 +114,6 @@ class CityDetailViewController: UITableViewController {
             //3
             let annotation = MKPointAnnotation()
             annotation.coordinate = location
-            //annotation.title = "Big Ben"
-            //annotation.subtitle = "London"
-            
             
             isFavorite = checkFavorite(c.key)
             if isFavorite {
@@ -99,7 +125,17 @@ class CityDetailViewController: UITableViewController {
                 btnFavorite.setImage(image, forState: .Normal)
             }
             
-            if appSettings.onlyDownloadDataInWifiMode == true {
+            //assign new pictures
+            for i in 0..<city!.pointsofinterest.count {
+                pointsViews.append(UIImageView(image: UIImage(named: city!.pointsofinterest[i])))
+            }
+            self.lblPoint.text = self.city!.pointsofinterest[0]
+            
+            if appSettings.onlyDownloadDataInWifiMode == true && networkStatus != NetworkStatus.Wifi{
+                lblLocalTime.text = "[Fail to get the local time!]"
+                lblWeather.text = "[Fail to get the weather!]"
+                //activityIndicatorTime.stopAnimating()
+                //activityIndicatorWeather.stopAnimating()
                 return
             }
             
@@ -235,33 +271,11 @@ class CityDetailViewController: UITableViewController {
             return
         }
     }
-    
-    /*
-    func formatDateTime(timezoneid: String, time: String) -> String{
-        let dateString = "17:33"
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "HH:mm"
-        formatter.timeZone = NSTimeZone(name: timezoneid)
-        
-        let date = formatter.dateFromString(dateString)
-        formatter.timeStyle = .ShortStyle
-        println("date: \(date!)") // date: 2014-10-09 14:22:00 +0000
-        
-        formatter.dateFormat = "H:mm"
-        formatter.timeStyle = .ShortStyle
-        formatter.timeZone = NSTimeZone(name: timezoneid)
-        let formattedDateString = formatter.stringFromDate(date!)
-        println("formattedDateString: \(formattedDateString)") // formattedDateString: 8:22 AM
-        
-        return formattedDateString
-    }*/ 
-    
+  
 
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
-        
-        
         
     }
     
@@ -288,7 +302,6 @@ class CityDetailViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            
             //city name in the left corner of the image
             let cityFrame = CGRect(x: 10, y: imageCity.frame.height-25, width: imageCity.frame.width-10, height: 20)
             var lblCity = UILabel(frame: cityFrame)
@@ -297,24 +310,69 @@ class CityDetailViewController: UITableViewController {
             lblCity.textAlignment = .Left
             lblCity.lineBreakMode = .ByWordWrapping // or NSLineBreakMode.ByWordWrapping
             lblCity.numberOfLines = 0
-            
-            lblCity.text = city!.name + String(format: " (Lat: %.2f  Lon: %.2f)", city!.latitude, city!.longitude)            
-            
-            //border, for debug
+            lblCity.text = city!.name
             //lblCity.layer.borderColor = UIColor.greenColor().CGColor
             //lblCity.layer.borderWidth = 1.0;
             imageCell.addSubview(lblCity)
            
             return imageCell
         }
+        else if indexPath.row == 3 {
+            let locationFrame = CGRect(x: 0, y: mapView.frame.height-20, width: 175, height: 20)
+            var lblLocation = UILabel(frame: locationFrame)
+            lblLocation.backgroundColor = UIColor.darkGrayColor()
+            lblLocation.font = UIFont.boldSystemFontOfSize(12.0)
+            lblLocation.textColor = UIColor.whiteColor()
+            lblLocation.textAlignment = .Left
+            lblLocation.lineBreakMode = .ByWordWrapping // or NSLineBreakMode.ByWordWrapping
+            lblLocation.numberOfLines = 0
+            lblLocation.text = String(format: "  Lat: %.4f   Lon: %.4f", city!.latitude, city!.longitude)
+            //lblLocation.layer.borderColor = UIColor.greenColor().CGColor
+            //lblLocation.layer.borderWidth = 1.0;
+            
+            mapCell.addSubview(lblLocation)
+            return mapCell
+        }
+        else if indexPath.row == 5 {
+            container.frame = CGRect(x: 0, y: 0, width: imageCity.frame.width, height: imageCity.frame.height)
+            pointsCell.addSubview(container)
+            
+            for i in 0..<city!.pointsofinterest.count {
+                pointsViews[i].frame = container.frame
+                pointsViews[i].contentMode = .ScaleToFill
+            }
+            container.addSubview(pointsViews[0])
+            
+            //button
+            var btnFrame = CGRect(x: 0, y: 0, width: imageCity.frame.width, height: imageCity.frame.height)
+            btnSwitch = UIButton(frame: btnFrame)
+            btnSwitch.addTarget(self, action: "switchImage:", forControlEvents: .TouchUpInside)
+            pointsCell.addSubview(btnSwitch)
+            return pointsCell
+        }
         else {
             return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
         }
     }
 
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (indexPath.row == 5)
+        {
+            //println("cell.frame.width:\(cell.frame.width)")
+            if container.frame.width != cell.frame.width {
+                container.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
+                //big_ben.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
+                //eiffel.frame = big_ben.frame
+                for i in 0..<city!.pointsofinterest.count {
+                    pointsViews[i].frame = container.frame
+                }
+                btnSwitch.frame = container.frame
+            }
+        }
+        //super.tableView(tableView, willDisplayCell: cell, forRowAtIndexPath: indexPath)
+    }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
         
         if (indexPath.row == 2 && indexPath.section == 0)
         {
@@ -337,14 +395,19 @@ class CityDetailViewController: UITableViewController {
             //lblDescription.numberOfLines = 0;
             //self.lblDescription.sizeToFit()
             //println("self.lblDescription.frame.height:" + "\(self.lblDescription.frame.height)")
-            return self.lblDescription.frame.height * (2.3)
-
+            //println("descriptionCell.frame.height\(descriptionCell.frame.height)")
+            //println("lblDescription.frame.height:\(lblDescription.frame.height)")
+            if descriptionCell.frame.height < lblDescription.frame.height {
+                return lblDescription.frame.height * (2.3)
+            }
+            else
+            {
+                return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+            }
         }
         else {
             return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
         }
-        
-        //return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
     }
 
     /*

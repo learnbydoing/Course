@@ -28,6 +28,7 @@
 		B22286F21B11022F00A9D5C7 /* NewYork.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286F11B11022F00A9D5C7 /* NewYork.png */; };
 		B22286F41B11181F00A9D5C7 /* Honolulu.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286F31B11181F00A9D5C7 /* Honolulu.png */; };
 		B222FC511B1E4F1B00C06005 /* Apps-Sharing-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B222FC501B1E4F1B00C06005 /* Apps-Sharing-icon.png */; };
+		B222FC531B1F785E00C06005 /* SettingsAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B222FC521B1F785E00C06005 /* SettingsAnimationViewController.swift */; };
 		B226E1421B17D3B6008E4802 /* RateMyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B226E1411B17D3B6008E4802 /* RateMyApp.swift */; };
 		B226E1441B17D458008E4802 /* TabSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B226E1431B17D458008E4802 /* TabSettingsViewController.swift */; };
 		B226E1481B1A1732008E4802 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B226E1471B1A1732008E4802 /* Reachability.m */; };
@@ -67,6 +68,16 @@
 		B2E0A69D1B053A8F00AAC71B /* TripDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A69C1B053A8F00AAC71B /* TripDetailViewController.swift */; };
 		B2E0A6A11B05567B00AAC71B /* TabSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A6A01B05567B00AAC71B /* TabSearchViewController.swift */; };
 		B2E0A6A31B05587800AAC71B /* ContinentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0A6A21B05587800AAC71B /* ContinentViewCell.swift */; };
+		B2F036591B1F8D70008A42F7 /* Lujiazui.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F036541B1F8D70008A42F7 /* Lujiazui.png */; };
+		B2F0365A1B1F8D70008A42F7 /* OrientalPearlTower.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F036551B1F8D70008A42F7 /* OrientalPearlTower.png */; };
+		B2F0365B1B1F8D70008A42F7 /* PeoplesSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F036561B1F8D70008A42F7 /* PeoplesSquare.png */; };
+		B2F0365C1B1F8D70008A42F7 /* TheBund.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F036571B1F8D70008A42F7 /* TheBund.png */; };
+		B2F0365D1B1F8D70008A42F7 /* YuyuanGarden.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F036581B1F8D70008A42F7 /* YuyuanGarden.png */; };
+		B2F036631B1F8D86008A42F7 /* AdlerPlanetarium.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0365E1B1F8D86008A42F7 /* AdlerPlanetarium.png */; };
+		B2F036641B1F8D86008A42F7 /* CloudGate.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0365F1B1F8D86008A42F7 /* CloudGate.png */; };
+		B2F036651B1F8D86008A42F7 /* FieldMuseum.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F036601B1F8D86008A42F7 /* FieldMuseum.png */; };
+		B2F036661B1F8D86008A42F7 /* SheddAquarium.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F036611B1F8D86008A42F7 /* SheddAquarium.png */; };
+		B2F036671B1F8D86008A42F7 /* Skydeck.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F036621B1F8D86008A42F7 /* Skydeck.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +112,7 @@
 		B22286F11B11022F00A9D5C7 /* NewYork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NewYork.png; path = ../../images/city/city_usa/NewYork.png; sourceTree = "<group>"; };
 		B22286F31B11181F00A9D5C7 /* Honolulu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Honolulu.png; path = ../../images/city/city_usa/Honolulu.png; sourceTree = "<group>"; };
 		B222FC501B1E4F1B00C06005 /* Apps-Sharing-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Apps-Sharing-icon.png"; path = "../../icon/Apps-Sharing-icon.png"; sourceTree = "<group>"; };
+		B222FC521B1F785E00C06005 /* SettingsAnimationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsAnimationViewController.swift; path = ../SettingsAnimationViewController.swift; sourceTree = "<group>"; };
 		B226E1411B17D3B6008E4802 /* RateMyApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMyApp.swift; sourceTree = "<group>"; };
 		B226E1431B17D458008E4802 /* TabSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabSettingsViewController.swift; sourceTree = "<group>"; };
 		B226E1451B1A1730008E4802 /* RZHUANG.TourItinerary-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RZHUANG.TourItinerary-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -146,6 +158,16 @@
 		B2E0A69C1B053A8F00AAC71B /* TripDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripDetailViewController.swift; sourceTree = "<group>"; };
 		B2E0A6A01B05567B00AAC71B /* TabSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabSearchViewController.swift; sourceTree = "<group>"; };
 		B2E0A6A21B05587800AAC71B /* ContinentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinentViewCell.swift; sourceTree = "<group>"; };
+		B2F036541B1F8D70008A42F7 /* Lujiazui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Lujiazui.png; path = ../../images/city/city_cn/ShanghaiPoints/Lujiazui.png; sourceTree = "<group>"; };
+		B2F036551B1F8D70008A42F7 /* OrientalPearlTower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = OrientalPearlTower.png; path = ../../images/city/city_cn/ShanghaiPoints/OrientalPearlTower.png; sourceTree = "<group>"; };
+		B2F036561B1F8D70008A42F7 /* PeoplesSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PeoplesSquare.png; path = ../../images/city/city_cn/ShanghaiPoints/PeoplesSquare.png; sourceTree = "<group>"; };
+		B2F036571B1F8D70008A42F7 /* TheBund.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TheBund.png; path = ../../images/city/city_cn/ShanghaiPoints/TheBund.png; sourceTree = "<group>"; };
+		B2F036581B1F8D70008A42F7 /* YuyuanGarden.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = YuyuanGarden.png; path = ../../images/city/city_cn/ShanghaiPoints/YuyuanGarden.png; sourceTree = "<group>"; };
+		B2F0365E1B1F8D86008A42F7 /* AdlerPlanetarium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AdlerPlanetarium.png; path = ../../images/city/city_usa/ChicagoPoints/AdlerPlanetarium.png; sourceTree = "<group>"; };
+		B2F0365F1B1F8D86008A42F7 /* CloudGate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CloudGate.png; path = ../../images/city/city_usa/ChicagoPoints/CloudGate.png; sourceTree = "<group>"; };
+		B2F036601B1F8D86008A42F7 /* FieldMuseum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FieldMuseum.png; path = ../../images/city/city_usa/ChicagoPoints/FieldMuseum.png; sourceTree = "<group>"; };
+		B2F036611B1F8D86008A42F7 /* SheddAquarium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SheddAquarium.png; path = ../../images/city/city_usa/ChicagoPoints/SheddAquarium.png; sourceTree = "<group>"; };
+		B2F036621B1F8D86008A42F7 /* Skydeck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Skydeck.png; path = ../../images/city/city_usa/ChicagoPoints/Skydeck.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +229,7 @@
 				B262476C1B0CE25F00FEA245 /* CityViewCell.swift */,
 				B26247881B0CEE3700FEA245 /* CityDetailViewController.swift */,
 				B226E1431B17D458008E4802 /* TabSettingsViewController.swift */,
+				B222FC521B1F785E00C06005 /* SettingsAnimationViewController.swift */,
 				B2B157EC1B165C7D00F98A7B /* OneShotLocationManager.swift */,
 				B226E1411B17D3B6008E4802 /* RateMyApp.swift */,
 				B2E0A69A1B05356200AAC71B /* Data.swift */,
@@ -217,9 +240,19 @@
 		B246FF0D1B0409E4004B7F77 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B222FC501B1E4F1B00C06005 /* Apps-Sharing-icon.png */,
 				B226E1461B1A1732008E4802 /* Reachability.h */,
 				B226E1471B1A1732008E4802 /* Reachability.m */,
+				B2F036541B1F8D70008A42F7 /* Lujiazui.png */,
+				B2F036551B1F8D70008A42F7 /* OrientalPearlTower.png */,
+				B2F0365E1B1F8D86008A42F7 /* AdlerPlanetarium.png */,
+				B2F0365F1B1F8D86008A42F7 /* CloudGate.png */,
+				B2F036601B1F8D86008A42F7 /* FieldMuseum.png */,
+				B2F036611B1F8D86008A42F7 /* SheddAquarium.png */,
+				B2F036621B1F8D86008A42F7 /* Skydeck.png */,
+				B2F036561B1F8D70008A42F7 /* PeoplesSquare.png */,
+				B2F036571B1F8D70008A42F7 /* TheBund.png */,
+				B2F036581B1F8D70008A42F7 /* YuyuanGarden.png */,
+				B222FC501B1E4F1B00C06005 /* Apps-Sharing-icon.png */,
 				B2B157F01B1780A800F98A7B /* City_Default.png */,
 				B2B157EA1B162FD300F98A7B /* Travel.png */,
 				B262477A1B0CED2D00FEA245 /* Africa.png */,
@@ -359,18 +392,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				B26247871B0CED2D00FEA245 /* SouthAmerica.png in Resources */,
+				B2F036661B1F8D86008A42F7 /* SheddAquarium.png in Resources */,
 				B26247851B0CED2D00FEA245 /* NorthAmerica.png in Resources */,
 				B246FF171B0409E4004B7F77 /* Main.storyboard in Resources */,
+				B2F0365B1B1F8D70008A42F7 /* PeoplesSquare.png in Resources */,
 				B2B157E51B1546C700F98A7B /* LasVegas.png in Resources */,
+				B2F036631B1F8D86008A42F7 /* AdlerPlanetarium.png in Resources */,
+				B2F036671B1F8D86008A42F7 /* Skydeck.png in Resources */,
 				B2B157EB1B162FD300F98A7B /* Travel.png in Resources */,
 				B26247811B0CED2D00FEA245 /* Africa.png in Resources */,
+				B2F0365A1B1F8D70008A42F7 /* OrientalPearlTower.png in Resources */,
 				B22286E61B1101FF00A9D5C7 /* UnitedStates.png in Resources */,
+				B2F036641B1F8D86008A42F7 /* CloudGate.png in Resources */,
 				B22286E51B1101FF00A9D5C7 /* Mexico.png in Resources */,
 				B22286EF1B11022200A9D5C7 /* Sanya.png in Resources */,
 				B2B157CD1B14DD8D00F98A7B /* London.png in Resources */,
 				B22286EC1B11022200A9D5C7 /* Beijing.png in Resources */,
 				B22286EE1B11022200A9D5C7 /* Lhasa.png in Resources */,
 				B22286DA1B1101EE00A9D5C7 /* Mongolia.png in Resources */,
+				B2F036651B1F8D86008A42F7 /* FieldMuseum.png in Resources */,
+				B2F0365D1B1F8D70008A42F7 /* YuyuanGarden.png in Resources */,
 				B26247841B0CED2D00FEA245 /* Europe.png in Resources */,
 				B22286ED1B11022200A9D5C7 /* Hangzhou.png in Resources */,
 				B22286F21B11022F00A9D5C7 /* NewYork.png in Resources */,
@@ -393,7 +434,9 @@
 				B22286E31B1101FF00A9D5C7 /* Canada.png in Resources */,
 				B222FC511B1E4F1B00C06005 /* Apps-Sharing-icon.png in Resources */,
 				B2B157E31B1546C100F98A7B /* LosAngeles.png in Resources */,
+				B2F0365C1B1F8D70008A42F7 /* TheBund.png in Resources */,
 				B2B157F11B1780A800F98A7B /* City_Default.png in Resources */,
+				B2F036591B1F8D70008A42F7 /* Lujiazui.png in Resources */,
 				B22286D91B1101EE00A9D5C7 /* Japan.png in Resources */,
 				B2B157D11B14DD9F00F98A7B /* Australia.png in Resources */,
 				B26247831B0CED2D00FEA245 /* Asia.png in Resources */,
@@ -416,6 +459,7 @@
 			files = (
 				B2B157ED1B165C7D00F98A7B /* OneShotLocationManager.swift in Sources */,
 				B23A029E1B0BCABE00AB7003 /* CountryViewController.swift in Sources */,
+				B222FC531B1F785E00C06005 /* SettingsAnimationViewController.swift in Sources */,
 				B2B157D51B14F36000F98A7B /* MyFavoritesViewController.swift in Sources */,
 				B2E0A69D1B053A8F00AAC71B /* TripDetailViewController.swift in Sources */,
 				B2E0A6A11B05567B00AAC71B /* TabSearchViewController.swift in Sources */,

@@ -11,6 +11,8 @@ import MapKit
 
 class MyLocationViewController: UITableViewController {
 
+    var strTime = ""
+    var strWeather = ""
     var manager: OneShotLocationManager?
     var location = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
 
@@ -82,7 +84,11 @@ class MyLocationViewController: UITableViewController {
     }
     
     func setMapView() {
-        if appSettings.onlyDownloadDataInWifiMode == true {
+        if appSettings.onlyDownloadDataInWifiMode == true && networkStatus != NetworkStatus.Wifi{
+            lblLocalTime.text = "[Fail to get the local time!]"
+            lblLocalWeather.text = "[Fail to get the weather!]"
+            self.activityIndicatorTime.stopAnimating()
+            self.activityIndicatorWeather.stopAnimating()
             return
         }
         
@@ -145,7 +151,6 @@ class MyLocationViewController: UITableViewController {
         }
         
         task.resume()
-        
     }
     
     func setLabels(weatherData: NSData) {
