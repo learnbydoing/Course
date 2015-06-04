@@ -8,10 +8,10 @@
 
 import UIKit
 
-//let reuseIdentifier = "Cell"
-
 class CityViewController: UICollectionViewController {
 
+    let reuseIdentifier = "CityViewCell"
+    
     var country: Country?
     var selectedCell: NSIndexPath?
     var cityList = Array<City>()
@@ -21,16 +21,17 @@ class CityViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+        
+        // Register cell classes
+        //self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        
+        // Do any additional setup after loading the view.
+
         if let cnty = country {
             navigationTitle.title = cnty.name
             cityList = getCityList(cnty.key)
-            // Uncomment the following line to preserve selection between presentations
-            // self.clearsSelectionOnViewWillAppear = false
-
-            // Register cell classes
-            //self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-            // Do any additional setup after loading the view.
             let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
             layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
             let imagewidth = (self.view.frame.width - 40)/3 - 1
@@ -38,7 +39,7 @@ class CityViewController: UICollectionViewController {
             collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
             collectionView!.dataSource = self
             collectionView!.delegate = self
-            collectionView!.registerClass(CityViewCell.self, forCellWithReuseIdentifier: "CityViewCell")
+            collectionView!.registerClass(CityViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
             collectionView!.backgroundColor = UIColor.whiteColor()
             self.view.addSubview(collectionView!)
         }
@@ -49,6 +50,7 @@ class CityViewController: UICollectionViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    /*
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
@@ -60,11 +62,11 @@ class CityViewController: UICollectionViewController {
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView!.dataSource = self
         collectionView!.delegate = self
-        collectionView!.registerClass(CityViewCell.self, forCellWithReuseIdentifier: "CityViewCell")
+        collectionView!.registerClass(CityViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(collectionView!)
         
-    }
+    }*/
 
     
     // MARK: - Navigation
@@ -95,19 +97,15 @@ class CityViewController: UICollectionViewController {
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let city = cityList[indexPath.row]
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CityViewCell", forIndexPath: indexPath) as! CityViewCell
-        //cell.backgroundColor = UIColorFromRGB(0x209624)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CityViewCell
         cell.textLabel.text = city.name
         cell.imageView.image = UIImage(named: city.image)
         
         return cell
-
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         selectedCell = indexPath
-        var nametext = cityList[indexPath.item].name
-        println(nametext)
         performSegueWithIdentifier("toCityDetail", sender: self)
     }
 

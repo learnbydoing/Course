@@ -21,17 +21,9 @@ class MyLocationViewController: UITableViewController {
     @IBOutlet weak var lblLocalTime: UILabel!
     @IBOutlet weak var lblLocalWeather: UILabel!
     @IBOutlet weak var mapView: MKMapView!
-    
     @IBOutlet weak var activityIndicatorTime: UIActivityIndicatorView!
     @IBOutlet weak var activityIndicatorWeather: UIActivityIndicatorView!
-    /*
-    @IBAction func refreshLocation(sender: UIBarButtonItem) {
-        txtLatitude.resignFirstResponder()
-        txtLongitude.resignFirstResponder()
-        
-        setMapView()
-    }*/
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -58,7 +50,6 @@ class MyLocationViewController: UITableViewController {
         //self.tabBarController?.tabBar.hidden = false
         //self.hidesBottomBarWhenPushed = false
         super.viewWillAppear(animated)
-        
     }
     
     func getLocation() {
@@ -131,8 +122,6 @@ class MyLocationViewController: UITableViewController {
         //3
         let annotation = MKPointAnnotation()
         annotation.coordinate = location
-        //annotation.title = "Big Ben"
-        //annotation.subtitle = "London"
         mapView.addAnnotation(annotation)
     }
     
@@ -174,19 +163,21 @@ class MyLocationViewController: UITableViewController {
                 lblLocalWeather.text = formatWeather(temp, humidity: humidity)
             } else {
                 println("not a dictionary")
+                lblLocalWeather.text = "[Fail to get the weather!]"
+                self.activityIndicatorWeather.stopAnimating()
                 return
             }
         } else {
             println("Could not parse JSON: \(jsonError!)")
+            lblLocalWeather.text = "[Fail to get the weather!]"
+            self.activityIndicatorWeather.stopAnimating()
             return
         }
-        
     }
     
     func formatWeather(temp: Double, humidity: Double) -> String{
         let celsius = temp - 273.15
         let fahrenheit = celsius * 1.8 + 32
-        //let labelstr: String = "\(fahrenheit)°F (\(celsius)°C), \(humidity)% Humidity"
         let labelstr: String = "%.0f°F (%.0f°C), %.0f".format(fahrenheit, celsius, humidity) + "% Humidity"
         
         return labelstr
@@ -229,17 +220,24 @@ class MyLocationViewController: UITableViewController {
                     activityIndicatorTime.stopAnimating()
                     lblLocalTime.text = convertDateTime(timezoneid, time)
                 }
+                else {
+                    lblLocalTime.text = "[Fail to get the local time!]"
+                    self.activityIndicatorTime.stopAnimating()
+                }
                 
                 
             } else {
                 println("not a dictionary")
+                lblLocalTime.text = "[Fail to get the local time!]"
+                self.activityIndicatorTime.stopAnimating()
                 return
             }
         } else {
             println("Could not parse JSON: \(jsonError!)")
+            lblLocalTime.text = "[Fail to get the local time!]"
+            self.activityIndicatorTime.stopAnimating()
             return
         }
-        
     }
 
     @IBAction func getCurrentLocation(sender: UIButton) {
@@ -250,7 +248,6 @@ class MyLocationViewController: UITableViewController {
     @IBAction func updateLocation(sender: UIButton) {
         txtLatitude.resignFirstResponder()
         txtLongitude.resignFirstResponder()
-
         setMapView()
     }
     @IBAction func editEnded(sender: UITextField) {

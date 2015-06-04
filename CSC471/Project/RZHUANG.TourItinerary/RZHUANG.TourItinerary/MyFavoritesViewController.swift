@@ -70,12 +70,10 @@ class MyFavoritesViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("basic", forIndexPath: indexPath) as! UITableViewCell
         
         // Configure the cell...
-        
         cell.textLabel?.text = city.name
         cell.detailTextLabel?.text = city.title
         cell.imageView?.image = UIImage(named: city.image)
         return cell
-
     }
     
     /*

@@ -30,8 +30,6 @@ class CountryViewCell: UICollectionViewCell {
         txtName.font = UIFont.boldSystemFontOfSize(12.0)
         txtName.textColor = UIColor.whiteColor()
         txtName.textAlignment = .Left
-        //txtName.layer.borderColor = UIColor.greenColor().CGColor
-        //txtName.layer.borderWidth = 1.0;
         contentView.addSubview(txtName)
         
         //Count of cities with this country
@@ -43,9 +41,10 @@ class CountryViewCell: UICollectionViewCell {
         contentView.addSubview(txtDetails)
     }
     
+    /*
     func updateLayout(frame: CGRect) {
         imageView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
         txtName.frame = CGRect(x: 5, y: frame.size.height-20, width: frame.size.width, height: 20)
         txtDetails.frame = CGRect(x: frame.size.width-10, y: frame.size.height-20, width: frame.size.width, height: 20)
-    }
+    }*/
 }

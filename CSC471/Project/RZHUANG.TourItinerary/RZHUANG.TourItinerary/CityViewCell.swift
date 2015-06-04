@@ -28,7 +28,6 @@ class CityViewCell: UICollectionViewCell {
         textLabel.font = UIFont.boldSystemFontOfSize(12.0)
         textLabel.textColor = UIColor.whiteColor()
         textLabel.textAlignment = .Left
-        //textLabel.sizeToFit()
         contentView.addSubview(textLabel)
     }
 }

@@ -12,11 +12,10 @@ class TripDetailViewController: UITableViewController {
 
     var trip: Trip?
     var viewTitle: String?
-   
-    @IBOutlet weak var navigationTitle: UINavigationItem!
-
+    
     @IBOutlet var textFields: [UITextField]!
     
+    @IBOutlet weak var navigationTitle: UINavigationItem!
     @IBOutlet weak var imageCity: UIImageView!
     @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var lblCity: UILabel!
@@ -24,7 +23,6 @@ class TripDetailViewController: UITableViewController {
     @IBOutlet weak var txtCountry: UITextField!
     @IBOutlet weak var btnFrom: UIButton!
     @IBOutlet weak var btnTo: UIButton!
-    
     @IBOutlet weak var txtFlight1: UITextField!
     @IBOutlet weak var txtFlight2: UITextField!
     @IBOutlet weak var txtHotel: UITextField!
@@ -35,13 +33,21 @@ class TripDetailViewController: UITableViewController {
     @IBOutlet weak var txtSight5: UITextField!
     @IBOutlet weak var textviewNote: UITextView!
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        btnFrom.titleLabel?.textAlignment = .Right
-        btnTo.titleLabel?.textAlignment = .Right
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        //self.tabBarController?.tabBar.hidden = true
         
         navigationTitle.title = viewTitle
+        btnFrom.titleLabel?.textAlignment = .Right
+        btnTo.titleLabel?.textAlignment = .Right
+        textviewNote!.layer.borderWidth = 1
+        textviewNote!.layer.borderColor = UIColor.grayColor().CGColor
         
         if trip == nil {
             btnFrom.setTitle(NSDate().formatted, forState: .Normal)
@@ -52,7 +58,6 @@ class TripDetailViewController: UITableViewController {
             imageCity.image = getImage(t.destination)
             txtCity.text = t.destination
             txtCountry.text = t.country
-            //txtCountry.enabled = false
             btnFrom.setTitle(t.from.formatted, forState: .Normal)
             btnTo.setTitle(t.to.formatted, forState: .Normal)
             txtFlight1.text = t.flight1
@@ -66,34 +71,24 @@ class TripDetailViewController: UITableViewController {
             textviewNote.text = t.note
         }
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        //self.tabBarController?.tabBar.hidden = true
-        textviewNote!.layer.borderWidth = 1
-        textviewNote!.layer.borderColor = UIColor.grayColor().CGColor
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
     
     @IBAction func shareTrip(sender: UIButton) {
-        var textToShare = "Hi, \n\nbelow is the trip details!\n\n"
+        var textToShare = "Hi, \n\nbelow are the trip details!\n\n"
         textToShare += "City: \(trip!.destination)\n"
         textToShare += "Country: \(trip!.country)\n"
         textToShare += "From: \(trip!.from.formatted)\n"
         textToShare += "To: \(trip!.to.formatted)\n"
-        textToShare += "Flight Departure: \(trip!.flight1)\n"
-        textToShare += "Flight Return: \(trip!.flight2)\n"
+        textToShare += "Departure Flight: \(trip!.flight1)\n"
+        textToShare += "Return Flight: \(trip!.flight2)\n"
         textToShare += "Hotel: \(trip!.hotel)\n"
         textToShare += "Note: \(trip!.note)\n"
         let objectsToShare = [textToShare, []]
@@ -101,6 +96,7 @@ class TripDetailViewController: UITableViewController {
         
         self.presentViewController(activityVC, animated: true, completion: nil)
     }
+    
     @IBAction func saveTrip(sender: UIBarButtonItem) {
     
         if txtCity.text.isEmpty{
@@ -177,10 +173,6 @@ class TripDetailViewController: UITableViewController {
         var message = "\n\n\n\n\n\n\n\n\n\n\n\n\n";
         var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.ActionSheet);
         alert.modalInPopover = true;
-        
-        //Create a frame (placeholder/wrapper) for the picker and then create the picker
-        //println("self.view.frame.width:\(self.view.frame.width)")
-        //println("self.view.frame.height:\(self.view.frame.height)")
         
         var pickerFrame: CGRect
         if deviceOrientation == true {
@@ -300,55 +292,7 @@ class TripDetailViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-        //performSegueWithIdentifier("toTripList", sender: self)
-        if let t = trip {
-            //lblTitle.title = t.destination
-            //lblCountry.text =
-            t.destination = txtCity.text
-            t.country = txtCountry.text
-            t.from = convertDate(btnFrom.titleLabel?.text)
-            t.to = convertDate(btnTo.titleLabel?.text)
-            t.flight1 = txtFlight1.text
-            t.flight2 = txtFlight2.text
-            t.hotel = txtHotel.text
-            t.sights[0] = txtSight1.text
-            t.sights[1] = txtSight2.text
-            t.sights[2] = txtSight3.text
-            t.sights[3] = txtSight4.text
-            t.sights[4] = txtSight5.text
-            t.note = textviewNote.text
-            tableView.reloadData()
-        }
-        else {
-            var newTrip = Trip()
-            newTrip.destination = txtCity.text
-            newTrip.country = txtCountry.text
-            newTrip.from = convertDate(btnFrom.titleLabel?.text)
-            newTrip.to = convertDate(btnTo.titleLabel?.text)
-            newTrip.flight1 = txtFlight1.text
-            newTrip.flight2 = txtFlight2.text
-            newTrip.hotel = txtHotel.text
-            newTrip.sights[0] = txtSight1.text
-            newTrip.sights[1] = txtSight2.text
-            newTrip.sights[2] = txtSight3.text
-            newTrip.sights[3] = txtSight4.text
-            newTrip.sights[4] = txtSight5.text
-            newTrip.note = textviewNote.text
-            trips.insert(newTrip, atIndex: 0)
-            //tableView.reloadData()
-            
-        }
-        /*
-        if let destVC = segue.destinationViewController as? TripListViewController {
-            //self.hidesBottomBarWhenPushed = false
-            //if let tab = self.parentViewController!.tabBarController {
-            //    tab.
-            //}
-            
-            //destVC.hidesBottomBarWhenPushed = false
-            destVC.tabBarController?.selectedIndex = 0
-        }*/
+        // Pass the selected object to the new view controller.    
     }
    */
 

@@ -8,8 +8,6 @@
 
 import UIKit
 
-let selectedIndex = 0
-
 class MyTripsViewController: UITableViewController {
     
     var isEditMode = false
@@ -55,7 +53,6 @@ class MyTripsViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("basic", forIndexPath: indexPath) as! UITableViewCell
         
         // Configure the cell...
-        
         cell.textLabel?.text = trip.destination
         cell.detailTextLabel?.text = trip.country        
         cell.imageView?.image = getImage(trip.destination)
@@ -87,54 +84,7 @@ class MyTripsViewController: UITableViewController {
             }
         }
     }
-    /*
-    @IBAction func unwindToTripList(segue : UIStoryboardSegue) {
-        if let from = segue.sourceViewController as? TripDetailViewController {
-            //message = "Unwind from GreenViewController"
-            //if !from.textField.text.isEmpty {
-            //    message += "\nMessage: \(from.textField.text)"
-            //}
-            if let t = from.trip {
-                //lblTitle.title = t.destination
-                //lblCountry.text = 
-                t.destination = from.txtCity.text
-                t.country = from.txtCountry.text
-                t.from = convertDate(from.btnFrom.titleLabel?.text)
-                t.to = convertDate(from.btnTo.titleLabel?.text)
-                t.flight1 = from.txtFlight1.text
-                t.flight2 = from.txtFlight2.text
-                t.hotel = from.txtHotel.text
-                t.sights[0] = from.txtSight1.text
-                t.sights[1] = from.txtSight2.text
-                t.sights[2] = from.txtSight3.text
-                t.sights[3] = from.txtSight4.text
-                t.sights[4] = from.txtSight5.text
-                t.note = from.textviewNote.text
-                tableView.reloadData()
-            }
-            else {
-                var newTrip = Trip()
-                newTrip.destination = from.txtCity.text
-                newTrip.country = from.txtCountry.text
-                newTrip.from = convertDate(from.btnFrom.titleLabel?.text)
-                newTrip.to = convertDate(from.btnTo.titleLabel?.text)
-                newTrip.flight1 = from.txtFlight1.text
-                newTrip.flight2 = from.txtFlight2.text
-                newTrip.hotel = from.txtHotel.text
-                newTrip.sights[0] = from.txtSight1.text
-                newTrip.sights[1] = from.txtSight2.text
-                newTrip.sights[2] = from.txtSight3.text
-                newTrip.sights[3] = from.txtSight4.text
-                newTrip.sights[4] = from.txtSight5.text
-                newTrip.note = from.textviewNote.text
-                trips.insert(newTrip, atIndex: 0)
-                tableView.reloadData()
-
-            }
-        }
         
-    }*/
-    
     @IBAction func switchEditMode(sender: UIBarButtonItem) {
         if isEditMode==false {
             tableView.setEditing(true, animated: true)

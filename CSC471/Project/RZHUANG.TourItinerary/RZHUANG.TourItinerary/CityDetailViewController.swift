@@ -13,7 +13,7 @@ class CityDetailViewController: UITableViewController {
 
     var city: City?
     var isFavorite = false
-    let container = UIView()
+    var container = UIView()
     var pointsViews = [UIImageView]()
     var indexImage = 0
     var btnSwitch = UIButton()
@@ -24,7 +24,6 @@ class CityDetailViewController: UITableViewController {
     @IBOutlet weak var imageCity: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var btnFavorite: UIButton!
-    @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var lblArea: UILabel!
     @IBOutlet weak var lblFounded: UILabel!
     @IBOutlet weak var lblLocalTime: UILabel!
@@ -35,6 +34,74 @@ class CityDetailViewController: UITableViewController {
     @IBOutlet weak var lblPoint: UILabel!    
     @IBOutlet weak var mapCell: UITableViewCell!
     @IBOutlet weak var descriptionCell: UITableViewCell!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        navigationTitle.title = city?.name
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        if let c = city {
+            imageCity.image = UIImage(named: c.image)
+            lblTitle.text = c.title
+            lblArea.text = c.area
+            lblFounded.text = c.founded
+            lblPopulation.text = c.population
+            
+            let location = CLLocationCoordinate2D(latitude: c.latitude, longitude: c.longitude)
+            let span = MKCoordinateSpanMake(0.95, 0.95)
+            let region = MKCoordinateRegion(center: location, span: span)
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = location
+            
+            //set favorite icon
+            isFavorite = checkFavorite(c.key)
+            if isFavorite {
+                let image = UIImage(named: "Me_Favorite") as UIImage!
+                btnFavorite.setImage(image, forState: .Normal)
+            }
+            else {
+                let image = UIImage(named: "Me_Favorite_Black") as UIImage!
+                btnFavorite.setImage(image, forState: .Normal)
+            }
+            
+            //assign new pictures
+            for i in 0..<city!.pointsofinterest.count {
+                pointsViews.append(UIImageView(image: UIImage(named: city!.pointsofinterest[i])))
+            }
+            self.lblPoint.text = self.city!.pointsofinterest[0]
+            
+            if appSettings.onlyDownloadDataInWifiMode == true && networkStatus != NetworkStatus.Wifi{
+                lblLocalTime.text = "[Fail to get the local time!]"
+                lblWeather.text = "[Fail to get the weather!]"
+                return
+            }
+            
+            //locate position in map
+            mapView.setRegion(region, animated: true)
+            mapView.addAnnotation(annotation)
+            
+            //get localtime
+            getTimezoneInfo("http://api.geonames.org/timezoneJSON?lat=\(c.latitude)&lng=\(c.longitude)&username=demo")
+            
+            //get weather
+            var escapedParams = c.name.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())
+            if let encodedAddress = escapedParams {
+                let urlpath = "http://api.openweathermap.org/data/2.5/weather?q=" + encodedAddress
+                getWeatherInfo(urlpath)
+            }
+            
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     
     @IBAction func addFavorite(sender: UIButton) {
         if isFavorite {
@@ -48,7 +115,7 @@ class CityDetailViewController: UITableViewController {
             isFavorite = true;
             let image = UIImage(named: "Me_Favorite") as UIImage!
             btnFavorite.setImage(image, forState: .Normal)
-        }       
+        }
     }
     
     @IBAction func shareCity(sender: UIBarButtonItem) {
@@ -58,7 +125,7 @@ class CityDetailViewController: UITableViewController {
         {
             let objectsToShare = [textToShare, myWebsite]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-                
+            
             self.presentViewController(activityVC, animated: true, completion: nil)
         }
     }
@@ -80,79 +147,6 @@ class CityDetailViewController: UITableViewController {
         indexImage++
         if indexImage >= 5 {
             indexImage = 0
-        }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        navigationTitle.title = city?.name
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        if let c = city {
-            imageCity.image = UIImage(named: c.image)
-            lblTitle.text = c.title
-            lblDescription.numberOfLines = 0;
-            lblDescription.text = c.description
-            self.lblDescription.sizeToFit()
-            lblArea.text = c.area
-            lblFounded.text = c.founded
-            lblPopulation.text = c.population
-            
-            // 1
-            let location = CLLocationCoordinate2D(
-                latitude: c.latitude,
-                longitude: c.longitude
-            )
-            // 2
-            let span = MKCoordinateSpanMake(0.95, 0.95)
-            let region = MKCoordinateRegion(center: location, span: span)
-            
-            //3
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = location
-            
-            isFavorite = checkFavorite(c.key)
-            if isFavorite {
-                let image = UIImage(named: "Me_Favorite") as UIImage!
-                btnFavorite.setImage(image, forState: .Normal)
-            }
-            else {
-                let image = UIImage(named: "Me_Favorite_Black") as UIImage!
-                btnFavorite.setImage(image, forState: .Normal)
-            }
-            
-            //assign new pictures
-            for i in 0..<city!.pointsofinterest.count {
-                pointsViews.append(UIImageView(image: UIImage(named: city!.pointsofinterest[i])))
-            }
-            self.lblPoint.text = self.city!.pointsofinterest[0]
-            
-            if appSettings.onlyDownloadDataInWifiMode == true && networkStatus != NetworkStatus.Wifi{
-                lblLocalTime.text = "[Fail to get the local time!]"
-                lblWeather.text = "[Fail to get the weather!]"
-                //activityIndicatorTime.stopAnimating()
-                //activityIndicatorWeather.stopAnimating()
-                return
-            }
-            
-            //locate position in map
-            mapView.setRegion(region, animated: true)
-            mapView.addAnnotation(annotation)
-            
-            //get localtime
-            getTimezoneInfo("http://api.geonames.org/timezoneJSON?lat=\(c.latitude)&lng=\(c.longitude)&username=demo")
-            
-            //get weather
-            var escapedParams = c.name.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())
-            if let encodedAddress = escapedParams {
-                let urlpath = "http://api.openweathermap.org/data/2.5/weather?q=" + encodedAddress
-                getWeatherInfo(urlpath)
-            }
-            
         }
     }
     
@@ -271,18 +265,6 @@ class CityDetailViewController: UITableViewController {
             return
         }
     }
-  
-
-    override func viewDidLayoutSubviews() {
-        
-        super.viewDidLayoutSubviews()
-        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     /*
     // MARK: - Table view data source
@@ -298,7 +280,6 @@ class CityDetailViewController: UITableViewController {
         // Return the number of rows in the section.
         return 0
     }*/
-
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
@@ -317,8 +298,18 @@ class CityDetailViewController: UITableViewController {
            
             return imageCell
         }
+        else if indexPath.row == 2 {
+            //set city descripton
+            descriptionCell.textLabel!.lineBreakMode = .ByWordWrapping
+            descriptionCell.textLabel!.numberOfLines = 0;
+            descriptionCell.textLabel!.text = city!.description
+            descriptionCell.textLabel!.font = UIFont(name: lblTitle.font.familyName, size: 14.0)
+            descriptionCell.textLabel!.sizeToFit()
+            return descriptionCell
+        }
         else if indexPath.row == 3 {
-            let locationFrame = CGRect(x: 0, y: mapView.frame.height-20, width: 175, height: 20)
+            //Display location info in the left bottom of map view
+            let locationFrame = CGRect(x: 4, y: mapView.frame.height-19, width: 175, height: 20)
             var lblLocation = UILabel(frame: locationFrame)
             lblLocation.backgroundColor = UIColor.darkGrayColor()
             lblLocation.font = UIFont.boldSystemFontOfSize(12.0)
@@ -327,13 +318,11 @@ class CityDetailViewController: UITableViewController {
             lblLocation.lineBreakMode = .ByWordWrapping // or NSLineBreakMode.ByWordWrapping
             lblLocation.numberOfLines = 0
             lblLocation.text = String(format: "  Lat: %.4f   Lon: %.4f", city!.latitude, city!.longitude)
-            //lblLocation.layer.borderColor = UIColor.greenColor().CGColor
-            //lblLocation.layer.borderWidth = 1.0;
-            
             mapCell.addSubview(lblLocation)
             return mapCell
         }
         else if indexPath.row == 5 {
+            //create images for the points of interest
             container.frame = CGRect(x: 0, y: 0, width: imageCity.frame.width, height: imageCity.frame.height)
             pointsCell.addSubview(container)
             
@@ -343,7 +332,7 @@ class CityDetailViewController: UITableViewController {
             }
             container.addSubview(pointsViews[0])
             
-            //button
+            //create a button upon the images to receive the on touch event
             var btnFrame = CGRect(x: 0, y: 0, width: imageCity.frame.width, height: imageCity.frame.height)
             btnSwitch = UIButton(frame: btnFrame)
             btnSwitch.addTarget(self, action: "switchImage:", forControlEvents: .TouchUpInside)
@@ -358,52 +347,28 @@ class CityDetailViewController: UITableViewController {
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if (indexPath.row == 5)
         {
-            //println("cell.frame.width:\(cell.frame.width)")
+            //resize the image
             if container.frame.width != cell.frame.width {
                 container.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
-                //big_ben.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
-                //eiffel.frame = big_ben.frame
                 for i in 0..<city!.pointsofinterest.count {
                     pointsViews[i].frame = container.frame
                 }
                 btnSwitch.frame = container.frame
             }
         }
-        //super.tableView(tableView, willDisplayCell: cell, forRowAtIndexPath: indexPath)
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         if (indexPath.row == 2 && indexPath.section == 0)
         {
-            //var height: CGFloat = 0.0
-            //println("self.txtviewDescripton.frame.height:" + "\(self.txtviewDescription.frame.height)");
-            //println(self.txtviewDescription.text)
-            
-            //let contentSize = self.txtviewDescription.sizeThatFits(self.txtviewDescription.bounds.size)
-            //var frame = self.txtviewDescription.frame
-            //frame.size.height = contentSize.height
-            //frame.size.height = txtviewDescription.contentSize.height
-            //println("frame.size.height:" + "\(frame.size.height)")
-            //self.txtviewDescription.frame = frame
-            
-            //let aspectRatioTextViewConstraint = NSLayoutConstraint(item: self.txtviewDescription, attribute: .Height, relatedBy: .Equal, toItem: self.txtviewDescription, attribute: .Width, multiplier: txtviewDescription.bounds.height/txtviewDescription.bounds.width, constant: 1)
-            //self.txtviewDescription.addConstraint(aspectRatioTextViewConstraint)
-            
-            //var height = self.txtviewDescription.frame.height + 2;
-            //println("self.lblDescription.frame.height:" + "\(self.lblDescription.frame.height)")
-            //lblDescription.numberOfLines = 0;
-            //self.lblDescription.sizeToFit()
-            //println("self.lblDescription.frame.height:" + "\(self.lblDescription.frame.height)")
-            //println("descriptionCell.frame.height\(descriptionCell.frame.height)")
-            //println("lblDescription.frame.height:\(lblDescription.frame.height)")
-            if descriptionCell.frame.height < lblDescription.frame.height {
-                return lblDescription.frame.height * (2.3)
-            }
-            else
-            {
-                return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
-            }
+            //enlarge the height of cell which shows the description of city
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.width-20, height: 10000))
+            label.text = city!.description
+            label.numberOfLines = 100
+            label.font = UIFont(name: lblTitle.font.familyName, size: 14.0)
+            label.sizeToFit()
+            return label.frame.height + 25            //var height: CGFloat = 0.0
         }
         else {
             return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
@@ -444,18 +409,5 @@ class CityDetailViewController: UITableViewController {
         return true
     }
     */
-
-    
-    // MARK: - Navigation
-/*
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-        if let tripItemViewController = segue.destinationViewController as? TripItemViewController {
-            tripItemViewController.city = self.city
-            //tripItemViewController.tabBarController?.selectedIndex = 0
-        }
-    }    */
 
 }

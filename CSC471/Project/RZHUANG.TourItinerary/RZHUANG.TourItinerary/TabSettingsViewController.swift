@@ -29,14 +29,9 @@ class TabSettingsViewController: UITableViewController {
         appSettings.onlyDownloadDataInWifiMode = sender.on
     }
     
-    /*
-    @IBAction func switchUseLocalTimezone(sender: UISwitch) {
-        appSettings.useLocalTimezoneLibrary = sender.on
-    }*/
-    
     @IBAction func rateApp(sender: UIButton) {
         var rate = RateMyApp.sharedInstance
-        rate.appID = "284882215"
+        rate.appID = "284882215" //facebook
         
         //dispatch_async(dispatch_get_main_queue(), { () -> Void in
             rate.trackAppUsage()
@@ -52,6 +47,7 @@ class TabSettingsViewController: UITableViewController {
         alertController.addAction(cancelAction)
         presentViewController(alertController, animated: true, completion: nil)
     }
+    
     /*
     // MARK: - Table view data source
 

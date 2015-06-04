@@ -49,17 +49,16 @@ func convertDate(datestr: String?) -> NSDate {
 
 func convertDateTime(timezoneid: String, time: String) -> String {
     //println(timezoneid)
+    //println(time)
+    //let timezoneid2 = "Asia/Shanghai"
+    //let time2 = "2015-06-05 04:51"
     var dateFormatter = NSDateFormatter()
-    dateFormatter.dateFormat = "YYYY-MM-dd hh:mm a"
+    dateFormatter.dateFormat = "YYYY-MM-dd HH:mm"
     dateFormatter.timeZone = NSTimeZone(name: timezoneid)
     
     if let date = dateFormatter.dateFromString(time) {
-        var displayFormatter = NSDateFormatter()
-        displayFormatter.dateFormat = "YYYY MMM dd' 'hh:mm a'"
-        let formattedTimeString = displayFormatter.stringFromDate(date)
-        dateFormatter.dateFormat = "EEE"
-        let formattedDayNameString = dateFormatter.stringFromDate(date)
-        return formattedDayNameString + ", " + formattedTimeString
+        dateFormatter.dateFormat = "EEE, YYYY MMM dd' 'hh:mm a'"
+        return dateFormatter.stringFromDate(date)
     }
     else {
         return ""

@@ -9,20 +9,21 @@
 import Foundation
 import UIKit
 
+//Global app settings
 var appSettings = AppSettings()
 
 class AppSettings {
     var onlyDownloadDataInWifiMode: Bool = false
-    var useLocalTimezoneLibrary: Bool = false
     var transitionOptions = UIViewAnimationOptions.TransitionCurlUp
     init(){
     }
     
-    init(onlyDownloadDataInWifiMode: Bool, useLocalTimezoneLibrary: Bool) {
+    init(onlyDownloadDataInWifiMode: Bool) {
         self.onlyDownloadDataInWifiMode = onlyDownloadDataInWifiMode
-        self.useLocalTimezoneLibrary = useLocalTimezoneLibrary
     }
 }
+
+//Trips
 var sights1: [String] = ["Cloud Gate", "Shedd Aquarium", "Skydeck", "Field Museum", "Adler Planetarium"]
 var sights2: [String] = ["Yu Garden", "Oriental Pearl Tower", "Shanghai French Consession", "Xin Tian Di", "Longhua Temple"]
 var sights3: [String] = ["Port Jackson", "Sydney Harbour Bridge", "Bondi Beach", "Taronga Zoo", "Sea Life Aquarium"]
@@ -81,7 +82,7 @@ func getNextTrip() ->Trip? {
     }
 }
 
-//continents, image size: 80x80
+//Continents, image size: 80x80
 var continents = [
     Continent(key: "C1", name: "Asia", locations: 8, image: "Asia"),
     Continent(key: "C2", name: "Europe", locations: 1, image: "Europe"),
@@ -110,7 +111,7 @@ class Continent {
     }
 }
 
-//countries, image size: 300x300
+//Countries, image size: 300x300
 var countries = [
     //Asia
     Country(continent: "C1", key: "CNTY11", name: "China", locations: 5, image: "China"),
@@ -170,6 +171,7 @@ func getCountryList(continent: String) -> Array<Country> {
     }
 }
 
+//Cities
 var pointsofinterest1: [String] = ["YuyuanGarden", "TheBund", "PeoplesSquare", "OrientalPearlTower", "Lujiazui"]
 var pointsofinterest2: [String] = ["CloudGate", "SheddAquarium", "Skydeck", "FieldMuseum", "AdlerPlanetarium"]
 //cities, image size: 300x300
@@ -177,9 +179,9 @@ var cities = [
     //China
     City(country: "CNTY11", key:"CITY111", name: "Shanghai", image: "Shanghai", latitude: 31.2000, longitude: 121.5000, area: "2,448 mi² (6,340 km²)", founded: "1291", localtime: "Sunday 3:18 AM", weather: "70°F (21°C), 83% Humidity", population: "14.35 million (2000)", title: "City in China", description: "Enormous Shanghai, on China’s central coast, is the country's biggest city and a global financial hub. Its heart is the Bund, a famed waterfront promenade lined with colonial-era buildings. Across the Huangpu River rises Pudong’s futuristic skyline, including 632m Shanghai Tower and the Oriental Pearl TV Tower, with distinctive pink spheres. Sprawling Yuyuan Garden has traditional pavilions, towers and ponds.", pointsofinterest: pointsofinterest1),
     City(country: "CNTY11", key:"CITY112", name: "Beijing", image: "Beijing", latitude: 39.9167, longitude: 116.3833, area: "6,487 mi² (16,801 km²)", founded: "907", localtime: "Sunday 3:18 AM", weather: "68°F (20°C), 68% Humidity", population: "11.51 million (2000)", title: "Capital of China", description: "Beijing, China’s massive capital, has history stretching back 3 millennia. Yet it’s known as much for its modern architecture as its ancient sites such as the grand Forbidden City complex, the imperial palace during the Ming and Qing dynasties. Nearby, the massive Tiananmen Square pedestrian plaza is site of Mao Zedong’s mausoleum and the National Museum of China, displaying a vast collection of cultural relics.", pointsofinterest: pointsofinterest2),
-    City(country: "CNTY11", key:"CITY113", name: "Hangzhou", image: "Hangzhou", latitude: 30.2500, longitude: 120.1667, area: "5,362 mi² (13,887 km²)", founded: "220BC", localtime: "Sunday 3:18 AM", weather: "70°F (21°C), 78% Humidity", population: "2.451 million (2000)", title: "City in China", description: "Hangzhou, formerly romanised as Hangchow, is the capital and largest city of Zhejiang Province in Eastern China. It sits at the head of Hangzhou Bay on China's coast between Shanghai and Ningbo.", pointsofinterest: pointsofinterest2),
+    City(country: "CNTY11", key:"CITY113", name: "Hangzhou", image: "Hangzhou", latitude: 30.2500, longitude: 120.1667, area: "5,362 mi² (13,887 km²)", founded: "220BC", localtime: "Sunday 3:18 AM", weather: "70°F (21°C), 78% Humidity", population: "2.451 million (2000)", title: "City in China", description: "Hangzhou, the capital of China’s Zhejiang province, is known as the southern terminus of the ancient Grand Canal waterway, originating in Beijing. Its West Lake, celebrated by poets and artists since the 9th century, encompasses islands (reachable by boat), temples, pavilions, gardens and arched bridges. On its south bank is 5-story Leifeng Pagoda, a modern reconstruction of a structure built in 975 C.E.", pointsofinterest: pointsofinterest2),
     City(country: "CNTY11", key:"CITY114", name: "Sanya", image: "Sanya", latitude: 18.2533, longitude: 109.5036, area: "740 mi² (1,919 km²)", founded: "1905", localtime: "Sunday 3:18 AM", weather: "84°F (29°C), 89% Humidity", population: "482,296 (2000)", title: "City in China", description: "Sanya, a city on the southern end of China’s Hainan Island, has several bays with large beach resorts. Yalong Bay is known for upscale hotels, while Wuzhizhou Island and its coral reefs are destinations for scuba diving, surfing and other water sports. At the city's expansive Nanshan Temple complex, a 108m-high Guan Yin bronze statue rises on a man-made island.", pointsofinterest: pointsofinterest2),
-    City(country: "CNTY11", key:"CITY115", name: "Lhasa", image: "Lhasa", latitude: 29.6500, longitude: 91.1167, area: "11,396 mi² (29,518 km²)", founded: "633", localtime: "Sunday 3:18 AM", weather: "51°F (11°C), 50% Humidity", population: "223,001 (2000)", title: "City in China", description: "Lhasa is a city and administrative capital of the Tibet Autonomous Region of the People's Republic of China.", pointsofinterest: pointsofinterest2),
+    City(country: "CNTY11", key:"CITY115", name: "Lhasa", image: "Lhasa", latitude: 29.6500, longitude: 91.1167, area: "11,396 mi² (29,518 km²)", founded: "633", localtime: "Sunday 3:18 AM", weather: "51°F (11°C), 50% Humidity", population: "223,001 (2000)", title: "City in China", description: "Lhasa, the capital of the Tibet Autonomous Region, lies on the Lhasa River's north bank in a valley of the Himalaya Mountains. Rising atop Red Mountain at an altitude of 3,700m, the red-and-white Potala Palace once served as the winter home of the Dalai Lama. The palace’s rooms, numbering nearly 1,000, include the Dalai Lama’s living quarters, murals, chapels and tombs.", pointsofinterest: pointsofinterest2),
 
     //United Kindom
     City(country: "CNTY21", key:"CITY211", name: "London", image: "London", latitude: 51.5072, longitude: -0.1275, area: "607 mi² (1,572 km²)", founded: "BC", localtime: "Tuesday 4:50 PM", weather: "66°F (19°C), 42% Humidity", population: "8.000 million (2010)", title: "Capital of England", description: "London, England’s capital, set on the River Thames, is a 21st-century city with history stretching back to Roman times. At its centre stand the imposing Houses of Parliament, the iconic ‘Big Ben’ clock tower and Westminster Abbey, site of British monarch coronations. Across the Thames, the London Eye observation wheel provides panoramic views of the South Bank cultural complex, and the entire city.", pointsofinterest: pointsofinterest2),
@@ -278,8 +280,7 @@ class LocalTimeZone {
     }
 }
 
-
-//Favorite
+//Favorites
 var favorites = [
     Favorite(city: "CITY111", addedtime: convertDate("2015 May 26 08:00 AM")),
     Favorite(city: "CITY511", addedtime: convertDate("2015 May 22 08:00 AM")),

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B21B2CE81B040B5400FE7ABF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B2CE71B040B5400FE7ABF /* SettingsViewController.swift */; };
 		B22286D71B1101EE00A9D5C7 /* China.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286CF1B1101EE00A9D5C7 /* China.png */; };
 		B22286D81B1101EE00A9D5C7 /* India.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286D01B1101EE00A9D5C7 /* India.png */; };
 		B22286D91B1101EE00A9D5C7 /* Japan.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286D11B1101EE00A9D5C7 /* Japan.png */; };
@@ -28,18 +27,17 @@
 		B22286F21B11022F00A9D5C7 /* NewYork.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286F11B11022F00A9D5C7 /* NewYork.png */; };
 		B22286F41B11181F00A9D5C7 /* Honolulu.png in Resources */ = {isa = PBXBuildFile; fileRef = B22286F31B11181F00A9D5C7 /* Honolulu.png */; };
 		B222FC511B1E4F1B00C06005 /* Apps-Sharing-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B222FC501B1E4F1B00C06005 /* Apps-Sharing-icon.png */; };
-		B222FC531B1F785E00C06005 /* SettingsAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B222FC521B1F785E00C06005 /* SettingsAnimationViewController.swift */; };
 		B226E1421B17D3B6008E4802 /* RateMyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B226E1411B17D3B6008E4802 /* RateMyApp.swift */; };
 		B226E1441B17D458008E4802 /* TabSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B226E1431B17D458008E4802 /* TabSettingsViewController.swift */; };
 		B226E1481B1A1732008E4802 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B226E1471B1A1732008E4802 /* Reachability.m */; };
 		B23A029E1B0BCABE00AB7003 /* CountryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23A029D1B0BCABD00AB7003 /* CountryViewController.swift */; };
 		B23A02A01B0BDED100AB7003 /* CountryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23A029F1B0BDED100AB7003 /* CountryViewCell.swift */; };
 		B246FF101B0409E4004B7F77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */; };
-		B246FF141B0409E4004B7F77 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF131B0409E4004B7F77 /* SearchViewController.swift */; };
 		B246FF171B0409E4004B7F77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B246FF151B0409E4004B7F77 /* Main.storyboard */; };
 		B246FF191B0409E4004B7F77 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B246FF181B0409E4004B7F77 /* Images.xcassets */; };
 		B246FF1C1B0409E4004B7F77 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B246FF1A1B0409E4004B7F77 /* LaunchScreen.xib */; };
 		B246FF281B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B246FF271B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift */; };
+		B24EE7711B20DA5600C64A12 /* SettingsAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24EE7701B20DA5600C64A12 /* SettingsAnimationViewController.swift */; };
 		B262476D1B0CE25F00FEA245 /* CityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B262476C1B0CE25F00FEA245 /* CityViewCell.swift */; };
 		B262476F1B0CE27600FEA245 /* CityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B262476E1B0CE27600FEA245 /* CityViewController.swift */; };
 		B26247811B0CED2D00FEA245 /* Africa.png in Resources */ = {isa = PBXBuildFile; fileRef = B262477A1B0CED2D00FEA245 /* Africa.png */; };
@@ -91,7 +89,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B21B2CE71B040B5400FE7ABF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B22286CF1B1101EE00A9D5C7 /* China.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = China.png; path = ../../images/country/country_Asia/China.png; sourceTree = "<group>"; };
 		B22286D01B1101EE00A9D5C7 /* India.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = India.png; path = ../../images/country/country_Asia/India.png; sourceTree = "<group>"; };
 		B22286D11B1101EE00A9D5C7 /* Japan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Japan.png; path = ../../images/country/country_Asia/Japan.png; sourceTree = "<group>"; };
@@ -112,7 +109,6 @@
 		B22286F11B11022F00A9D5C7 /* NewYork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NewYork.png; path = ../../images/city/city_usa/NewYork.png; sourceTree = "<group>"; };
 		B22286F31B11181F00A9D5C7 /* Honolulu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Honolulu.png; path = ../../images/city/city_usa/Honolulu.png; sourceTree = "<group>"; };
 		B222FC501B1E4F1B00C06005 /* Apps-Sharing-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Apps-Sharing-icon.png"; path = "../../icon/Apps-Sharing-icon.png"; sourceTree = "<group>"; };
-		B222FC521B1F785E00C06005 /* SettingsAnimationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsAnimationViewController.swift; path = ../SettingsAnimationViewController.swift; sourceTree = "<group>"; };
 		B226E1411B17D3B6008E4802 /* RateMyApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMyApp.swift; sourceTree = "<group>"; };
 		B226E1431B17D458008E4802 /* TabSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabSettingsViewController.swift; sourceTree = "<group>"; };
 		B226E1451B1A1730008E4802 /* RZHUANG.TourItinerary-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RZHUANG.TourItinerary-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -123,13 +119,13 @@
 		B246FF0A1B0409E4004B7F77 /* Travel Note.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Travel Note.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B246FF0E1B0409E4004B7F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B246FF131B0409E4004B7F77 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		B246FF161B0409E4004B7F77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B246FF181B0409E4004B7F77 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B246FF1B1B0409E4004B7F77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		B246FF211B0409E4004B7F77 /* RZHUANG.TourItineraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZHUANG.TourItineraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B246FF261B0409E4004B7F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B246FF271B0409E4004B7F77 /* RZHUANG_TourItineraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZHUANG_TourItineraryTests.swift; sourceTree = "<group>"; };
+		B24EE7701B20DA5600C64A12 /* SettingsAnimationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsAnimationViewController.swift; sourceTree = "<group>"; };
 		B262476C1B0CE25F00FEA245 /* CityViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityViewCell.swift; sourceTree = "<group>"; };
 		B262476E1B0CE27600FEA245 /* CityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityViewController.swift; sourceTree = "<group>"; };
 		B262477A1B0CED2D00FEA245 /* Africa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Africa.png; path = ../../images/continent/Africa.png; sourceTree = "<group>"; };
@@ -210,8 +206,6 @@
 			isa = PBXGroup;
 			children = (
 				B246FF0F1B0409E4004B7F77 /* AppDelegate.swift */,
-				B246FF131B0409E4004B7F77 /* SearchViewController.swift */,
-				B21B2CE71B040B5400FE7ABF /* SettingsViewController.swift */,
 				B246FF151B0409E4004B7F77 /* Main.storyboard */,
 				B246FF181B0409E4004B7F77 /* Images.xcassets */,
 				B246FF1A1B0409E4004B7F77 /* LaunchScreen.xib */,
@@ -229,7 +223,7 @@
 				B262476C1B0CE25F00FEA245 /* CityViewCell.swift */,
 				B26247881B0CEE3700FEA245 /* CityDetailViewController.swift */,
 				B226E1431B17D458008E4802 /* TabSettingsViewController.swift */,
-				B222FC521B1F785E00C06005 /* SettingsAnimationViewController.swift */,
+				B24EE7701B20DA5600C64A12 /* SettingsAnimationViewController.swift */,
 				B2B157EC1B165C7D00F98A7B /* OneShotLocationManager.swift */,
 				B226E1411B17D3B6008E4802 /* RateMyApp.swift */,
 				B2E0A69A1B05356200AAC71B /* Data.swift */,
@@ -242,6 +236,7 @@
 			children = (
 				B226E1461B1A1732008E4802 /* Reachability.h */,
 				B226E1471B1A1732008E4802 /* Reachability.m */,
+				B226E1451B1A1730008E4802 /* RZHUANG.TourItinerary-Bridging-Header.h */,
 				B2F036541B1F8D70008A42F7 /* Lujiazui.png */,
 				B2F036551B1F8D70008A42F7 /* OrientalPearlTower.png */,
 				B2F0365E1B1F8D86008A42F7 /* AdlerPlanetarium.png */,
@@ -289,7 +284,6 @@
 				B22286D51B1101EE00A9D5C7 /* SouthKorea.png */,
 				B22286D61B1101EE00A9D5C7 /* Thailand.png */,
 				B246FF0E1B0409E4004B7F77 /* Info.plist */,
-				B226E1451B1A1730008E4802 /* RZHUANG.TourItinerary-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -459,13 +453,12 @@
 			files = (
 				B2B157ED1B165C7D00F98A7B /* OneShotLocationManager.swift in Sources */,
 				B23A029E1B0BCABE00AB7003 /* CountryViewController.swift in Sources */,
-				B222FC531B1F785E00C06005 /* SettingsAnimationViewController.swift in Sources */,
 				B2B157D51B14F36000F98A7B /* MyFavoritesViewController.swift in Sources */,
+				B24EE7711B20DA5600C64A12 /* SettingsAnimationViewController.swift in Sources */,
 				B2E0A69D1B053A8F00AAC71B /* TripDetailViewController.swift in Sources */,
 				B2E0A6A11B05567B00AAC71B /* TabSearchViewController.swift in Sources */,
 				B2E0A69B1B05356200AAC71B /* Data.swift in Sources */,
 				B262476D1B0CE25F00FEA245 /* CityViewCell.swift in Sources */,
-				B246FF141B0409E4004B7F77 /* SearchViewController.swift in Sources */,
 				B23A02A01B0BDED100AB7003 /* CountryViewCell.swift in Sources */,
 				B2E0A6991B05343D00AAC71B /* MyTripsViewController.swift in Sources */,
 				B226E1481B1A1732008E4802 /* Reachability.m in Sources */,
@@ -474,7 +467,6 @@
 				B246FF101B0409E4004B7F77 /* AppDelegate.swift in Sources */,
 				B226E1441B17D458008E4802 /* TabSettingsViewController.swift in Sources */,
 				B2B157D71B150E0500F98A7B /* TabMeViewController.swift in Sources */,
-				B21B2CE81B040B5400FE7ABF /* SettingsViewController.swift in Sources */,
 				B2E0A6A31B05587800AAC71B /* ContinentViewCell.swift in Sources */,
 				B262476F1B0CE27600FEA245 /* CityViewController.swift in Sources */,
 				B2B157EF1B165F2C00F98A7B /* MyLocationViewController.swift in Sources */,

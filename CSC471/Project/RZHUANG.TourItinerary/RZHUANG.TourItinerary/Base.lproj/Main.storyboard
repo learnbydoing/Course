@@ -1145,6 +1145,12 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="20" id="ues-DJ-f1F">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ues-DJ-f1F" id="1oB-0y-EDU">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -1373,19 +1379,6 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="A5a-MQ-udt" id="SYm-hD-3GU">
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YBk-se-jaP">
-                                                    <rect key="frame" x="8" y="8" width="592" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="YBk-se-jaP" firstAttribute="leading" secondItem="SYm-hD-3GU" secondAttribute="leadingMargin" id="bgJ-9I-eQ0"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="YBk-se-jaP" secondAttribute="trailing" constant="-8" id="p9q-1V-slR"/>
-                                                <constraint firstItem="YBk-se-jaP" firstAttribute="top" secondItem="SYm-hD-3GU" secondAttribute="topMargin" id="rwX-cY-fmV"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="300" id="Je3-Zc-qNY">
@@ -1455,7 +1448,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Points of Interests:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJ5-N0-tzo">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Points of Interest:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJ5-N0-tzo">
                                                     <rect key="frame" x="8" y="133" width="130" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="130" id="l6p-o2-S8K"/>
@@ -1565,11 +1558,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="btnFavorite" destination="bc5-il-XfE" id="uTn-vN-jPo"/>
-                        <outlet property="descriptionCell" destination="A5a-MQ-udt" id="cIF-cJ-vcM"/>
+                        <outlet property="descriptionCell" destination="A5a-MQ-udt" id="BMP-yF-Nyu"/>
                         <outlet property="imageCell" destination="GwL-KX-G16" id="r4m-mA-e0i"/>
                         <outlet property="imageCity" destination="DM3-9t-0fC" id="f7n-MW-IMU"/>
                         <outlet property="lblArea" destination="mev-M3-Y7N" id="Hb1-fL-ir3"/>
-                        <outlet property="lblDescription" destination="YBk-se-jaP" id="STq-QQ-J9V"/>
                         <outlet property="lblFounded" destination="RMf-Ll-bed" id="xBD-rl-I2v"/>
                         <outlet property="lblLocalTime" destination="fOT-2F-Qnw" id="B0F-WW-ZQ5"/>
                         <outlet property="lblPoint" destination="cFi-0s-XdR" id="rHo-l5-Vjc"/>
