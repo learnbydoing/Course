@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D7FFD01C-BC31-4E29-8695-E8413586E1F8</string>
+	<key>IDESourceControlProjectName</key>
+	<string>RZHUANG.TourItinerary</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>AEBCA3D9858DA43A6BB4994A6169AAE8E28FEFFE</key>
+		<string>https://github.com/jojozhuang/Course</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>CSC471/Project/RZHUANG.TourItinerary/RZHUANG.TourItinerary.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>AEBCA3D9858DA43A6BB4994A6169AAE8E28FEFFE</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/jojozhuang/Course</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>AEBCA3D9858DA43A6BB4994A6169AAE8E28FEFFE</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>AEBCA3D9858DA43A6BB4994A6169AAE8E28FEFFE</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Course</string>
+		</dict>
+	</array>
+</dict>
+</plist>
