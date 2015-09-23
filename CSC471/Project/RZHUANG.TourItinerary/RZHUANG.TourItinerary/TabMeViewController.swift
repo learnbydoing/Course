@@ -52,7 +52,7 @@ class TabMeViewController: UITableViewController {
             //The button is transparent and cover the image, just response to the onclick event
             btnImage.enabled = true
             btnImage.frame = imageViewNextTrip.frame //make the same size with image control.
-            lblNextTrip.text = "Next Trip:\nTo:     \(nextTrip!.destination) (\(nextTrip!.country))\nDate: \(nextTrip!.from.formatted)"
+            lblNextTrip.text = "Next Trip\nTo:     \(nextTrip!.destination) (\(nextTrip!.country))\nDate: \(nextTrip!.from.formatted)"
         }
 
         lblMyTrips.text = "My Trips (\(trips.count))"
