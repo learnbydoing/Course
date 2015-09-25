@@ -588,7 +588,6 @@ public class JokeServer {
 						printer.println("The server is temporarily unavailable -- check-back shortly.");
 						printer.flush();
 						printer.close();
-						socket.close();
 						break;
 					default:
 						break;
