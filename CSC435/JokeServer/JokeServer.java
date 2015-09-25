@@ -44,9 +44,15 @@ again when a request is made.
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,14 +71,14 @@ interface ServerModeListener {
  * accept requests for the client and send results back.
  */
 class Worker extends Thread {
+  String FILE_USERSTATES = "ServerUserStates.txt";
 	Socket socket;
   // Server Mode
-	JokeServer.ServerMode servermode = JokeServer.ServerMode.JOKE;
+	JokeServer.ServerMode serverMode = JokeServer.ServerMode.JOKE;
 	// Joke or Proverb list
-	HashMap<Integer, String> maplist = new HashMap<Integer, String>();
+	HashMap<Integer, String> mapJokesProverbs = new HashMap<Integer, String>();
 	// User state, key is UUID, value is states list
-	HashMap<String, int[]> jokeStates = new HashMap<String, int[]>();
-  HashMap<String, int[]> proverbStates = new HashMap<String, int[]>();
+	HashMap<String, int[]> mapStates = new HashMap<String, int[]>();
 
 	/**
    * Construct
@@ -84,18 +90,9 @@ class Worker extends Thread {
 	public Worker (Socket s, JokeServer.ServerMode mode, HashMap<Integer, String> list, HashMap<String, int[]> ss)
 	{
 		socket = s;
-		servermode = mode;
-		maplist = list;
-    switch (servermode) {
-      case JOKE:
-        jokeStates = ss;
-        break;
-      case PROVERB:
-        proverbStates = ss;
-        break;
-      default:
-        break;
-    }
+		serverMode = mode;
+		mapJokesProverbs = list;
+    mapStates = ss;
 	}
 
 	/**
@@ -117,22 +114,22 @@ class Worker extends Thread {
 				userName =  clientId.split(" ")[0];
 				userKey =  clientId.split(" ")[1];
         // Check the server mode
-        switch (servermode) {
+        switch (serverMode) {
           case JOKE:
             System.out.println(userName + " is seeking for a new joke...");
-            // Seek joke
-            seekJokeProverb(userName, userKey, servermode, maplist, jokeStates, printer);
             break;
           case PROVERB:
             System.out.println(userName + " is seeking for a new proverb...");
-            // Seek proverb
-            seekJokeProverb(userName, userKey, servermode, maplist, proverbStates, printer);
             break;
           default:
             System.out.println("Wrong mode, can't continue.");
             socket.close();
             return;
         }
+        // Seek joke/proverb
+        seekJokeProverb(userName, userKey, serverMode, mapJokesProverbs, mapStates, printer);
+        // Save states to file
+        saveStates(FILE_USERSTATES, mapStates);
 				System.out.println("I'm waiting for new request...");
 			}
 			catch(IOException ex){
@@ -157,11 +154,13 @@ class Worker extends Thread {
 	 * @param printer, the output stream object of the client
      */
 	private void seekJokeProverb(String username, String userkey,
-              JokeServer.ServerMode mode, HashMap<Integer, String> maplist,
-              HashMap<String, int[]> statelist, PrintStream printer){
+              JokeServer.ServerMode mode, HashMap<Integer, String> mapjokesproverbs,
+              HashMap<String, int[]> mapstates, PrintStream printer){
 		try{
-			printer.println("Server is working for [" + username + "] in {" + servermode + "} mode ...");
+			printer.println("Server is working for [" + username + "] in {" + mode + "} mode ...");
 
+     // Get the joke or proverb states
+      HashMap<String, int[]> statelist = getStates(mode, mapstates);
 			// The remaining joke/proverb list
 			HashMap<Integer, Integer> mapRemaining = new HashMap<Integer, Integer>();
 			// The state for the current user
@@ -169,7 +168,7 @@ class Worker extends Thread {
 
 			if (stateArray == null){ // A new user
 				// Initial the state for new user
-				stateArray = new int[maplist.size()];
+				stateArray = new int[mapjokesproverbs.size()];
 			}
 			else { // A existing user
 				int index = 0;
@@ -196,7 +195,7 @@ class Worker extends Thread {
 			// Mapping to the actual index in joke/proverb list
 			int actualIndex = mapRemaining.get(remainingIndex);
 			// Get joke/proverb content
-			String newJokeProverb = maplist.get(actualIndex);
+			String newJokeProverb = mapjokesproverbs.get(actualIndex);
 			// Replace the content with current user name
 			newJokeProverb = newJokeProverb.replace("[Xname]", username);
 			switch (mode) {
@@ -214,24 +213,158 @@ class Worker extends Thread {
 
 			// The current worker is working on the last valid joke/perverb
 			if (mapRemaining.size() == 1) {
-				// Reset the state if all jokes have been used
+				// Reset the state if all jokes/proverbs have been used
 				for(int ix=0; ix < stateArray.length; ix++) {
 					stateArray[ix] = 0;
 				}
 			}
-			else { // There are still some jokes/proverbs have been used
+			else { // There are still some jokes/proverbs have not been used
         // Mark the current joke/perverb has been used
 				stateArray[actualIndex] = 1;
 			}
 
 			// Update the states for the current user
 			statelist.put(userkey, stateArray);
+      updateStates(mode, mapstates, statelist);
+      //System.out.println("Size of mapstates: " + mapstates.size());
+      //System.out.println("Size of statelist: " + statelist.size());
 		}
 		catch(Exception ex) {
       //Handle the exception
 			printer.println("Failed in attemp to seek joke/proverb for [" + username +"]");
 		}
 	}
+
+  /**
+   * Get the joke or proverb states from the whole list
+   * @param mode, Server mode
+   * @param mapstates, user states(whole)
+   * @return, user states(partial)
+   */
+  private HashMap<String, int[]> getStates(JokeServer.ServerMode mode,
+                                           HashMap<String, int[]> mapstates) {
+    // Define the return list
+    HashMap<String, int[]> retStates = new HashMap<String, int[]>();
+    // Filter the state, joke or proverb
+    switch (mode) {
+      case JOKE:
+        int[] jokeStates = new int[5];
+        for (Map.Entry<String, int[]> entry : mapstates.entrySet()) {
+          String uuid = entry.getKey();
+          int[] states = entry.getValue();
+          // Only get the first 5 which are joke states
+          for (int ix = 0; ix < 5; ix++){
+            jokeStates[ix] = states[ix];
+          }
+          retStates.put(uuid, jokeStates);
+        }
+        break;
+      case PROVERB:
+        int[] proverbStates = new int[5];
+        for (Map.Entry<String, int[]> entry : mapstates.entrySet()) {
+          String uuid = entry.getKey();
+          int[] states = entry.getValue();
+          // Only get the last 5 which are proverb states
+          for (int ix = 5; ix < states.length; ix++){
+            proverbStates[ix-5] = states[ix];
+          }
+          retStates.put(uuid, proverbStates);
+        }
+        break;
+      default:
+        break;
+    }
+
+    return retStates;
+  }
+
+  /**
+   * Update original whole state list
+   * @param mode, Server mode
+   * @param wholestates, user states(whole)
+   * @param partialstates, user states(partial, joke or proverb)
+   */
+  private static void updateStates(JokeServer.ServerMode mode,
+    HashMap<String, int[]> wholestates, HashMap<String, int[]> partialstates) {
+
+    for (Map.Entry<String, int[]> entry : partialstates.entrySet()) {
+        String uuid = entry.getKey();
+        int[] partial = entry.getValue();
+        int[] states = wholestates.get(uuid);
+        if (states == null || states.length == 0) { // New user
+          states = new int[10];
+          if (mode == JokeServer.ServerMode.JOKE) {
+            for (int ix = 0; ix < states.length; ix++){
+              if (ix < partial.length)
+                states[ix] = partial[ix];
+              else
+                states[ix] = 0;
+            }
+          }
+          else if (mode == JokeServer.ServerMode.PROVERB) {
+            for (int ix = 0; ix < states.length; ix++){
+              if (ix < partial.length)
+                states[ix] = 0;
+              else
+                states[ix] = partial[ix - 5];
+            }
+          }
+        }
+        else { // Existing user
+          if (mode == JokeServer.ServerMode.JOKE) {
+            for (int ix = 0; ix <= partial.length; ix++){
+              states[ix] = partial[ix];
+            }
+          }
+          else if (mode == JokeServer.ServerMode.PROVERB) {
+            for (int ix = 0; ix <= partial.length; ix++){
+              states[ix + 5] = partial[ix];
+            }
+          }
+        }
+
+        wholestates.put(uuid, states);
+    }
+  }
+
+  /**
+   * Store whole states to the specified file
+   * @param filename, the name of the file
+   * @param statelist, user states(whole)
+   */
+  private static void saveStates(String filename, HashMap<String, int[]> statelist) {
+    try {
+      // Open the state file, create new one if not exists
+      FileWriter fileWriterState = new FileWriter(filename);
+      // User BufferedWriter to add new line
+      BufferedWriter bufferedWriterdState = new BufferedWriter(fileWriterState);
+      //System.out.println("Size of statelist: " + statelist.size());
+      for (Map.Entry<String, int[]> entry : statelist.entrySet()) {
+          String uuid = entry.getKey();
+          int[] states = entry.getValue();
+          StringBuilder sb = new StringBuilder();
+          for(int ix = 0; ix < states.length; ix++) {
+            sb.append(states[ix]);
+            if (ix != states.length - 1)
+              sb.append(",");
+          }
+
+          // Concatenate user name and key with a space
+          bufferedWriterdState.write(uuid + " " + sb.toString());
+          // One user one line
+          bufferedWriterdState.newLine();
+      }
+
+      // Always close files.
+      bufferedWriterdState.close();
+    }
+    catch(FileNotFoundException ex) {
+      System.out.println("Unable to open file '" + filename + "'");
+    }
+    catch(IOException ex) {
+      ex.printStackTrace();
+    }
+  }
 }
 
 /**
@@ -403,6 +536,7 @@ class AdminListener implements Runnable, ServerModeListener {
  * or Admin Workers.
  */
 public class JokeServer {
+  private static final String FILE_USERSTATES = "ServerUserStates.txt";
 	// Define an enum with four server mode
 	public enum ServerMode { JOKE, PROVERB, MAINTENANCE, SHUTDOWN };
   // Current server mode
@@ -422,8 +556,7 @@ public class JokeServer {
     // A reference of the client socket
 		Socket socket;
     // User states, the key is user key(UUID) and the value is state list
-    HashMap<String, int[]> jokeStates = new HashMap<String, int[]>();
-    HashMap<String, int[]> proverbStates = new HashMap<String, int[]>();
+    HashMap<String, int[]> stateList = new HashMap<String, int[]>();
 
 		try{
       // create a new AdminListener instance for admin purpose
@@ -444,14 +577,14 @@ public class JokeServer {
 					// Update the latest mode
 					currentMode = adminLnr.servermode;
 				}
+        // Get states from file
+        stateList = getStates(FILE_USERSTATES);
+        // Work on different server mode
 				switch(currentMode) {
 					case JOKE:
-            // Assign task to general work to get jokes
-            new Worker(socket, currentMode, createList(currentMode), jokeStates).start();
-            break;
 					case PROVERB:
-						// Assign task to general work to get proverbs
-						new Worker(socket, currentMode, createList(currentMode), proverbStates).start();
+						// Assign task to general work to get joke or proverb
+						new Worker(socket, currentMode, createList(currentMode), stateList).start();
 						break;
 					case SHUTDOWN:
             // Stop the current general service
@@ -463,7 +596,7 @@ public class JokeServer {
 						printer.println("The server is temporarily unavailable -- check-back shortly.");
             printer.flush();
             printer.close();
-            socket.close();         
+            socket.close();
 						break;
 					default:
 						break;
@@ -482,6 +615,7 @@ public class JokeServer {
 	/**
    * Create joke/proverb list according to the server mode
    * @param mode, server mode
+   * @return, joke/proverb list
    */
   private static HashMap<Integer, String> createList(ServerMode mode) {
 		//Joke or proverb list, the key is index and the value is the joke/proverb content
@@ -511,4 +645,57 @@ public class JokeServer {
 		return list;
 	}
 
+  /**
+	 * Get the user states from the specified file
+   * @param filename, the name of the file
+	 * @return, user states
+   */
+	private static HashMap<String, int[]> getStates(String filename) {
+		// Use hashmap to store the user list, the key is UUID and the value is statelist
+		HashMap<String, int[]> mapStates = new HashMap<String, int[]>();
+		// This will reference one line at a time
+    String lineState = null;
+
+    try {
+				//check file exists
+				File statefile = new File(filename);
+				if(!statefile.exists() || statefile.isDirectory()) {
+					return mapStates;
+				}
+        // Open the state file
+        FileReader fileReaderState = new FileReader(filename);
+        // User bufferedReader to go through the file
+        BufferedReader bufferedReaderState = new BufferedReader(fileReaderState);
+
+				// Read the file in lines one by one
+        while((lineState = bufferedReaderState.readLine()) != null) {
+          // Split the key(UUID) and state list
+					String[] keyState = lineState.split(" ");
+					if (keyState.length != 2) { // Validate the data
+						System.out.println("Invalid line: '" + lineState + "' in '" + filename + "'");
+						return mapStates;
+					}
+
+          // Split the state list(5 for joke, 5 for proverb)
+          String[] arrStates = keyState[1].split(",");
+          int[] intStates = new int[arrStates.length];
+          for (int ix = 0; ix <= arrStates.length; ix++){
+            intStates[ix] = Integer.parseInt(arrStates[ix]);
+    			}
+					// Key(UUID) + State list
+          mapStates.put(keyState[0], intStates);
+        }
+        // Always close files.
+        bufferedReaderState.close();
+    }
+    catch(FileNotFoundException ex) {
+        System.out.println("Unable to open file '" + filename + "'");
+    }
+    catch(IOException ex) {
+        ex.printStackTrace();
+    }
+		finally {
+			return mapStates;
+		}
+	}
 }
