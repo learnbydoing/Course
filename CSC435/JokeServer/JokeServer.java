@@ -35,10 +35,18 @@ if the server is running at 140.192.34.32 then you would type:
  f. AdminWorker.class
 
 6. Notes:
-I hard-code the port number to 4653 both in JokeServer and JokeClient.
-If any exception occurs and the server hangs, kill server and restart it.
-The clients are not necessarily to restart, they will find the server
-again when a request is made.
+ a. Server will monitor two ports: 4653 for general joke and proverb service,
+    8722 for admin service.
+ b. Regarding the general service, server can return random joke or proverb.
+    Each user's state will be remembered, even if server restarts from shutdown.
+ c. Server can read and write user states from/to disk. The states can be
+    re-initialized after the server restart.
+ d. The states are stored in file ServerUserStates.txt.
+    Format of the state file.
+    UUID, Blank Space, 10 digits separate by comma (1-used, 0-not used)
+    One user one line, Exmaple:
+    2b703f01-e9a4-4b20-a7a7-402009f1ded9 1,1,1,0,1,0,1,1,0,1
+ e. To stop the server, type 'SD' in admin client.
 
 ----------------------------------------------------------*/
 import java.io.BufferedReader;
@@ -161,12 +169,12 @@ class Worker extends Thread {
 		try{
 			printer.println("Server is working for [" + username + "] in {" + mode + "} mode ...");
 
-			// Get the joke or proverb states
-			HashMap<String, int[]> statelist = getStates(mode, mapstates);
 			// The remaining joke/proverb list
 			HashMap<Integer, Integer> mapRemaining = new HashMap<Integer, Integer>();
 			// The state for the current user
-			int[] stateArray = statelist.get(userkey);
+			int[] stateArray = getStates(mode, mapstates, userkey);
+			//System.out.println("userkey:"+ userkey);
+			//System.out.println("stateArray:" + Arrays.toString(stateArray));
 
 			if (stateArray == null){ // A new user
 				// Initial the state for new user
@@ -226,8 +234,7 @@ class Worker extends Thread {
 			}
 
 			// Update the states for the current user
-			statelist.put(userkey, stateArray);
-			updateStates(mode, mapstates, statelist);
+			updateStates(mode, mapstates, userkey, stateArray);
 		}
 		catch(Exception ex) {
 			//Handle the exception
@@ -241,34 +248,25 @@ class Worker extends Thread {
 	 * @param mapstates, user states(whole)
 	 * @return, user states(partial)
 	 */
-	private HashMap<String, int[]> getStates(JokeServer.ServerMode mode,
-		HashMap<String, int[]> mapstates) {
+	private int[] getStates(JokeServer.ServerMode mode,
+		HashMap<String, int[]> mapstates, String key) {
 		// Define the return list
-		HashMap<String, int[]> retStates = new HashMap<String, int[]>();
+		int[] retStates = new int[5];
+		// Get states for current user
+		int[] states = mapstates.get(key);
+		if (states == null)
+			 return null;
+
 		// Filter the state, joke or proverb
 		switch (mode) {
 			case JOKE:
-				int[] jokeStates = new int[5];
-				for (Map.Entry<String, int[]> entry : mapstates.entrySet()) {
-					String uuid = entry.getKey();
-					int[] states = entry.getValue();
-					// Only get the first 5 which are joke states
-					for (int ix = 0; ix < 5; ix++){
-						jokeStates[ix] = states[ix];
-					}
-					retStates.put(uuid, jokeStates);
+				for (int ix = 0; ix < 5; ix++){
+					retStates[ix] = states[ix];
 				}
 				break;
 			case PROVERB:
-				int[] proverbStates = new int[5];
-				for (Map.Entry<String, int[]> entry : mapstates.entrySet()) {
-					String uuid = entry.getKey();
-					int[] states = entry.getValue();
-					// Only get the last 5 which are proverb states
-					for (int ix = 5; ix < states.length; ix++){
-						proverbStates[ix-5] = states[ix];
-					}
-					retStates.put(uuid, proverbStates);
+				for (int ix = 5; ix < states.length; ix++){
+					retStates[ix-5] = states[ix];
 				}
 				break;
 			default:
@@ -285,46 +283,41 @@ class Worker extends Thread {
 	 * @param partialstates, user states(partial, joke or proverb)
 	 */
 	private static void updateStates(JokeServer.ServerMode mode,
-		HashMap<String, int[]> wholestates, HashMap<String, int[]> partialstates) {
+		HashMap<String, int[]> mapstates, String key, int[] partialstate) {
 
-		for (Map.Entry<String, int[]> entry : partialstates.entrySet()) {
-			String uuid = entry.getKey();
-			int[] partial = entry.getValue();
-			int[] states = wholestates.get(uuid);
-			if (states == null || states.length == 0) { // New user
-				states = new int[10];
-				if (mode == JokeServer.ServerMode.JOKE) {
-					for (int ix = 0; ix < states.length; ix++){
-						if (ix < partial.length)
-							states[ix] = partial[ix];
-						else
-							states[ix] = 0;
-					}
-				}
-				else if (mode == JokeServer.ServerMode.PROVERB) {
-					for (int ix = 0; ix < states.length; ix++){
-						if (ix < partial.length)
-							states[ix] = 0;
-						else
-							states[ix] = partial[ix - 5];
-					}
+		int[] states = mapstates.get(key);
+		if (states == null || states.length == 0) { // New user
+			states = new int[10];
+			if (mode == JokeServer.ServerMode.JOKE) {
+				for (int ix = 0; ix < states.length; ix++){
+					if (ix < partialstate.length)
+						states[ix] = partialstate[ix];
+					else
+						states[ix] = 0;
 				}
 			}
-			else { // Existing user
-				if (mode == JokeServer.ServerMode.JOKE) {
-					for (int ix = 0; ix < partial.length; ix++){
-						states[ix] = partial[ix];
-					}
-				}
-				else if (mode == JokeServer.ServerMode.PROVERB) {
-					for (int ix = 0; ix < partial.length; ix++){
-						states[ix + 5] = partial[ix];
-					}
+			else if (mode == JokeServer.ServerMode.PROVERB) {
+				for (int ix = 0; ix < states.length; ix++){
+					if (ix < partialstate.length)
+						states[ix] = 0;
+					else
+						states[ix] = partialstate[ix - 5];
 				}
 			}
-
-			wholestates.put(uuid, states);
 		}
+		else { // Existing user
+			if (mode == JokeServer.ServerMode.JOKE) {
+				for (int ix = 0; ix < partialstate.length; ix++){
+					states[ix] = partialstate[ix];
+				}
+			}
+			else if (mode == JokeServer.ServerMode.PROVERB) {
+				for (int ix = 0; ix < partialstate.length; ix++){
+					states[ix + 5] = partialstate[ix];
+				}
+			}
+		}
+		mapstates.put(key, states);
 	}
 
 	/**
@@ -680,6 +673,8 @@ public class JokeServer {
 				}
 				// Key(UUID) + State list
 				mapStates.put(keyState[0], intStates);
+				//System.out.println("keyState[0]:" + keyState[0]);
+				//System.out.println("intStates:" + Arrays.toString(intStates));
 			}
 			// Always close files.
 			bufferedReaderState.close();
