@@ -38,9 +38,9 @@ if the server is running at 140.192.34.32 then you would type:
  a. The admin client uses 8722 as the port number for admin service.
  b. Four modes are supported:
     J - for Joke Mode
-		P - for Proverb Mode
-		M - for Maintenance Mode
-		SD - to shutdown the server
+    P - for Proverb Mode
+    M - for Maintenance Mode
+    SD - to shutdown the server
  c. Type 'quit' to stop the admin client.
 
 ----------------------------------------------------------*/
@@ -61,11 +61,11 @@ public class JokeClientAdmin{
 	// Use a different port for admin service.
 	private static final int PORT_NUMBER = 8722;
 	/**
-   * The admin client will start a Socket, wait for user's commands. Only the
+	 * The admin client will start a Socket, wait for user's commands. Only the
 	 * pre-defined commands are acceptable. The server will response to these
 	 * commands and switch the server mode accordingly. Type 'quit' to stop the
 	 * admin client, otherwise, it will always be waiting for the new command.
-   */
+	 */
 	public static void main(String args[]) {
 		String serverName;
 		// If no server name is specified, means client and server are setup in the
@@ -106,11 +106,11 @@ public class JokeClientAdmin{
 	}
 
 	/**
-   * Connect to the server, send command and get the feedback
-   * @param command, the command for maintenance mode
+	 * Connect to the server, send command and get the feedback
+	 * @param command, the command for maintenance mode
 	 * @param servername, the server to be connected
 	 * @param port, the port for the socket
-   */
+	 */
 	private static void sendCommand(String command, String servername, int port){
 		Socket socket;
 		BufferedReader fromServer;

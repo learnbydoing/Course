@@ -39,20 +39,20 @@ if the server is running at 140.192.34.32 then you would type:
     service.
  b. The first time you run this client, you need to provide your name. After
     that, you just press enter(no name required), a new joke/proverb will be
-		returned.
+    returned.
  c. This client also supports multiple users. You can switch between users by
     provideing a different name when you trying to get a new joke/proverb. If
-	  you just click the enter key without any name provided, the latest user
-	  will be remembered and sent to server to get a new random joke/proverb.
+    you just click the enter key without any name provided, the latest user
+    will be remembered and sent to server to get a new random joke/proverb.
  d. The users in this client will be persistent to disk, stored in file
     "ClientUsers.txt" which locates in the same folder fo JokeClient.class. When
-	  you stop the client and restart again, you need to provide a name first, and
-	  the server will response as the same person, just like you haven't shutdonw
-	  the client.
+    you stop the client and restart again, you need to provide a name first, and
+    the server will response as the same person, just like you haven't shutdonw
+    the client.
  e. Format of the user file. One user one line.
     Name, Blank Space, UUID
-	  Exmaple:
-	  johnny 9094926a-d32b-4b73-a32a-8a0ae6d14e1f
+    Exmaple:
+    johnny 9094926a-d32b-4b73-a32a-8a0ae6d14e1f
  f. The running logs are stored to file ClientLogs.txt
  g. Type 'quit' to stop the admin client.
 
@@ -84,17 +84,17 @@ public class JokeClient{
 	private static ArrayList<String> alLogs = new ArrayList<String>();
 
 	/**
-   * The joke client just needs user to provide the name once, and it will
+	 * The joke client just needs user to provide the name once, and it will
 	 * connect to the joke server to get a new joke or proverb (depends on the
 	 * current server mode). Type 'quit' to stop the client, otherwise, it will
 	 * always be waiting for the new request.
-   */
+	 */
 	public static void main(String args[]) {
 		String serverName;
 		// Users in the same client, which are persistent to disk
 		HashMap<String, String> users = new HashMap<String, String>();
 
-    // If no server name is specified, means client and server are setup in the
+		// If no server name is specified, means client and server are setup in the
 		// same machine
 		if (args.length < 1) {
 			// The local machine(127.0.0.1) will be used as server.
@@ -109,7 +109,7 @@ public class JokeClient{
 		writeLog("Using server: " + serverName + ", Port: " + PORT_NUMBER);
 		saveLogs(false);
 
-    // Read user list from file
+		// Read user list from file
 		//System.out.println("Read file from disk to get user list...");
 		users = getUsers(FILE_USERS);
 
@@ -184,18 +184,17 @@ public class JokeClient{
 	}
 
 	/**
-   * Connect to the server, send user name and unique key(UUID) and get a random
+	 * Connect to the server, send user name and unique key(UUID) and get a random
 	 * joke or proverb.
-   * @param username, the user name who asks for a joke or proverb
+	 * @param username, the user name who asks for a joke or proverb
 	 * @param userkey, the user key which is used to identify the unique user
 	 * @param servername, the server name to be connected to
 	 * @param port, the port for the socket
-   */
+	 */
 	private static void getJokeOrProverb(String username, String userkey, String servername, int port){
 		Socket socket;
 		BufferedReader fromServer;
 		PrintStream toServer;
-
 
 		try{
 			// Open a new socket connection to the server with the specified port number
@@ -206,7 +205,7 @@ public class JokeClient{
 			toServer.println(username + " " + userkey);
 			toServer.flush();
 
-      // There is nothing special for the number(50) of iteration times
+			// There is nothing special for the number(50) of iteration times
 			String strOutput;
 			for (int ix = 1; ix <= 50; ix++){
 				strOutput = fromServer.readLine();
@@ -230,56 +229,56 @@ public class JokeClient{
 
 	/**
 	 * Get the user list from the specified file
-   * @param filename, the name of the file
+	 * @param filename, the name of the file
 	 * @return, user list
-   */
+	 */
 	private static HashMap<String, String> getUsers(String filename) {
 		// Use hashmap to store the user list, the key is user name and the value is UUID
 		HashMap<String, String> mapUsers = new HashMap<String, String>();
 		// This will reference one line at a time
-    String lineUser = null;
+		String lineUser = null;
 
-    try {
-				//check file exists
-				File userfile = new File(filename);
-				if(!userfile.exists() || userfile.isDirectory()) {
+		try {
+			// Check file exists
+			File userfile = new File(filename);
+			if(!userfile.exists() || userfile.isDirectory()) {
+				return mapUsers;
+			}
+			// Open the user file
+			FileReader fileReader = new FileReader(filename);
+			// User bufferedReader to go through the file
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+			// Read the file in lines one by one
+			while((lineUser = bufferedReader.readLine()) != null) {
+				String[] namekey = lineUser.split(" "); // Split the name and key
+				if (namekey.length != 2) { // Validate the data
+					System.out.println("Invalid line: '" + lineUser + "' in '" + filename + "'");
 					return mapUsers;
 				}
-        // Open the user file
-        FileReader fileReader = new FileReader(filename);
-        // User bufferedReader to go through the file
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-				// Read the file in lines one by one
-        while((lineUser = bufferedReader.readLine()) != null) {
-					String[] namekey = lineUser.split(" "); // Split the name and key
-					if (namekey.length != 2) { // Validate the data
-						System.out.println("Invalid line: '" + lineUser + "' in '" + filename + "'");
-						return mapUsers;
-					}
-					// Name + Key(UUID)
-          mapUsers.put(namekey[0], namekey[1]);
-        }
-        // Always close files.
-        bufferedReader.close();
-    }
-    catch(FileNotFoundException ex) {
-        System.out.println("Unable to open file '" + filename + "'");
-    }
-    catch(IOException ex) {
-        ex.printStackTrace();
-    }
+				// Name + Key(UUID)
+				mapUsers.put(namekey[0], namekey[1]);
+			}
+			// Always close files.
+			bufferedReader.close();
+		}
+		catch(FileNotFoundException ex) {
+			System.out.println("Unable to open file '" + filename + "'");
+		}
+		catch(IOException ex) {
+			ex.printStackTrace();
+		}
 		finally {
 			return mapUsers;
 		}
 	}
 
 	/**
-   * Store new user to the specified file
-   * @param filename, the name of the file
+	 * Store new user to the specified file
+	 * @param filename, the name of the file
 	 * @param username, the name of the user
 	 * @param userkey, the key(UUID)
-   */
+	 */
 	private static void addUser(String filename, String username, String userkey) {
 		try {
 			// Open the user file, create new one if not exists
@@ -287,7 +286,7 @@ public class JokeClient{
 			// User BufferedWriter to add new line
 			BufferedWriter bufferedWriterdUser = new BufferedWriter(fileWriterUser);
 
-      // Concatenate user name and key with a space
+			// Concatenate user name and key with a space
 			bufferedWriterdUser.write(username + " " + userkey);
 			// One user one line
 			bufferedWriterdUser.newLine();
@@ -303,12 +302,18 @@ public class JokeClient{
 		}
 	}
 
-	private static void writeLog(String log) {
-		writeLog(log, true);
-	}
 	/**
 	 * Write log to local storage list
 	 * @param log, the content of the log
+	 */
+	private static void writeLog(String log) {
+		writeLog(log, true);
+	}
+
+	/**
+	 * Write log to local storage list
+	 * @param log, the content of the log
+	 * @param print, print to screen
 	 */
 	private static void writeLog(String log, boolean print) {
 		// Store new log
@@ -321,9 +326,9 @@ public class JokeClient{
 	}
 
 	/**
-   * Save logs to the specified file
-   * @param append, ture is append, false is override
-   */
+	 * Save logs to the specified file
+	 * @param append, ture is append, false is override
+	 */
 	private static void saveLogs(boolean append) {
 		try {
 			if (alLogs!=null && alLogs.size()>0) {
