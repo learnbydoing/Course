@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/D:/WorkSpace/GitHub/Course/CSC472/Assignment3/RZHUANG.Android.Pos/app/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- From: file:/D:/WorkSpace/GitHub/Course/CSC472/Assignment3/RZHUANG.Android.Pos/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">RZHUANG\'s POS</string>
+    <string name="btn_new_item">New Item</string>
+    <string name="btn_new_order">New Order</string>
+    <string name="btn_total">Total</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="item">Item: </string>
+    <string name="quantity">Quantity: </string>
+    <string name="unit_price">Unit Price:</string>
+    <!-- From: file:/D:/WorkSpace/GitHub/Course/CSC472/Assignment3/RZHUANG.Android.Pos/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+</resources>
