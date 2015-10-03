@@ -50,22 +50,15 @@ if the server is running at 140.192.34.32 then you would type:
 
 ----------------------------------------------------------*/
 import java.io.*;
-import java.nio.file.Path;
+import java.net.*;
+import java.util.*;
 import java.nio.file.Paths;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.URLDecoder;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.text.SimpleDateFormat;
 
 /**
- * An instance of Worker for the server.
- * The Worker handles the joke/proverb service for the server. Its job is to
- * accept requests for the client and send results back.
+ * An instance of HttpWorker for the Web Server.
+ * The Worker handles the http requests for the server. Its job is to accept
+ * requests for the client and send results back.
  */
 class HttpWorker extends Thread {
 	String FILE_USERSTATES = "ServerUserStates.txt";
@@ -74,9 +67,6 @@ class HttpWorker extends Thread {
 	/**
 	 * Construct
 	 * @param s, the socket which is to be monitored
-	 * @param mode, server mode
-	 * @param list, joke/proverb list
-	 * @param ss, user states
 	 */
 	public HttpWorker (Socket s)
 	{
@@ -99,12 +89,14 @@ class HttpWorker extends Thread {
 				String clientRequest = "";
 				String rootDir = "";
 				String path = "";
-				// Accept the command(user name + user key) from the client
+				// Accept the http get request from the client
 				clientRequest = reader.readLine();
 
-				if (clientRequest!=null&&clientRequest.startsWith("GET") && clientRequest.endsWith("HTTP/1.1")) {
+				if (clientRequest != null && clientRequest.startsWith("GET") && clientRequest.endsWith("HTTP/1.1")) {
 					String req = clientRequest.substring(4, clientRequest.length()-9).trim();
-					if (req.indexOf(".")>-1) {// Request for file
+					// Decode url, eg. New%20folder -> New folder
+					req = URLDecoder.decode(req, "UTF-8");
+					if (req.indexOf(".")>-1) { // Request for signle file
 						if (req.indexOf(".fake-cgi")>-1) { // CGI request
 							Map<String, String> params = parseUrlParams(req);
 							StringBuilder sbCGIHtml = new StringBuilder();
@@ -122,9 +114,8 @@ class HttpWorker extends Thread {
 						else { // General file request
 							rootDir = getRootFolder();
 							path = Paths.get(rootDir, req).toString();
-							//printer.println("path:" + path);
 							File f = new File(path);
-							if (!f.exists()||!f.isFile()) {
+							if (!f.exists() || !f.isFile()) {
 								printer.println("No such resource:" + req);
 							}
 							else {
@@ -135,10 +126,10 @@ class HttpWorker extends Thread {
 						}
 					}
 					else { // Request for directory
-						String filedir ;
+						// Get the root folder of the webserver
 						rootDir = getRootFolder();
+						// Get the real file path
 						path = Paths.get(rootDir, req).toString();
-						//printer.println("path:" + path);
 						File f = new File (path) ;
 						if (!f.exists()) {
 							printer.println("No such resource:" + req);
@@ -148,32 +139,50 @@ class HttpWorker extends Thread {
 							// Get all the files and directory under your diretcory
 							File[] strFilesDirs = f.listFiles();
 							StringBuilder sbDirHtml = new StringBuilder();
+							sbDirHtml.append("<table>");
+							sbDirHtml.append("<tr>");
+							sbDirHtml.append("  <th>Name</th>");
+							sbDirHtml.append("  <th>Last Modified</th>");
+							sbDirHtml.append("  <th>Size(Bytes)</th>");
+							sbDirHtml.append("</tr>");
 
 							// Parent folder
-
-							String parent = path.substring(0, path.lastIndexOf("\\"));
-							System.out.println("parent:"+parent);
-							System.out.println("rootDir:"+rootDir);
-							if (parent.equals(rootDir)) {
-								parent = "../";
-							}
-							else {
-								parent = parent.replace(rootDir, "");
-							}
-							System.out.println("parent:"+parent);
-							//System.out.println("parent:"+parent);
-							sbDirHtml.append("<a href=\""+parent+"\">Parent Directory/</a><br>");
-
-							for (int ix = 0; ix < strFilesDirs.length; ix++) {
-								//System.out.println("strFilesDirs[ix]:"+strFilesDirs[ix]);
-								if (strFilesDirs[ix].isDirectory()) {
-									sbDirHtml.append("<a href=\""+strFilesDirs[ix].getName()+"/\">"+strFilesDirs[ix].getName()+"/</a><br>");
+							if (!path.equals(rootDir)) {
+								String parent = path.substring(0, path.lastIndexOf("\\"));
+								if (parent.equals(rootDir)) {
+									parent = "../";
 								}
-								else if (strFilesDirs[ix].isFile()) {
-									sbDirHtml.append("<a href=\""+strFilesDirs[ix].getName()+"\">"+strFilesDirs[ix].getName()+"</a><br>");
+								else {
+									parent = parent.replace(rootDir, "");
 								}
+								System.out.println("parent:"+parent);
+								//System.out.println("parent:"+parent);
+								sbDirHtml.append("<tr>");
+								sbDirHtml.append("  <td><img src=\""+buildImageLink(req,"images/folder.png")+"\"></img><a href=\"" + parent +"\">../</a></td>");
+								sbDirHtml.append("  <td></td>");
+								sbDirHtml.append("  <td></td>");
+								sbDirHtml.append("</tr>");
+							}
+							// Build directories
+							ArrayList<File> folders = getFileByType(strFilesDirs, true);
+							for (File folder: folders) {
+								sbDirHtml.append("<tr>");
+						    sbDirHtml.append("  <td><img src=\""+buildImageLink(req,"images/folder.png")+"\"></img><a href=\""+buildRelativeLink(req, folder.getName())+"\">"+folder.getName()+"</a></td>");
+						    sbDirHtml.append("  <td>" + getFormattedDate(folder.lastModified()) + "</td>");
+						    sbDirHtml.append("  <td></td>");
+						    sbDirHtml.append("</tr>");
 							}
 
+							ArrayList<File> files = getFileByType(strFilesDirs, false);
+							for (File file: files) {
+								sbDirHtml.append("<tr>");
+						    sbDirHtml.append("  <td><img src=\""+buildImageLink(req, getFileImage(file.getName()))+"\" width=\"16\"></img><a href=\""+buildRelativeLink(req, file.getName())+"\">"+file.getName()+"</a></td>");
+						    sbDirHtml.append("  <td>" + getFormattedDate(file.lastModified()) + "</td>");
+						    sbDirHtml.append("  <td>" + file.length() + "</td>");
+						    sbDirHtml.append("</tr>");
+							}
+
+							sbDirHtml.append("</table>");
 							String htmlPage = buildHtmlPage(sbDirHtml.toString());
 							printHttpHeader(path, htmlPage.length(), printer);
 							printer.println(htmlPage);
@@ -184,12 +193,6 @@ class HttpWorker extends Thread {
 				else {
 					printer.println("Unknown request:" + clientRequest);
 				}
-
-				// Seek joke/proverb
-				//buildResponse(clientRequest, printer);
-				// Save states to file
-				//saveStates(FILE_USERSTATES, mapStates);
-				System.out.println("I'm waiting for new request...");
 			}
 			catch(IOException ex){
 				System.out.println ("Exception occurs, see the below details:");
@@ -230,6 +233,30 @@ class HttpWorker extends Thread {
 		return root;
 	}
 
+	private ArrayList<File> getFileByType(File[] filelist, boolean isfolder) {
+		ArrayList<File> files = new ArrayList<File>();
+		if (filelist == null || filelist.length == 0) {
+			return files;
+		}
+
+		for(int ix = 0; ix < filelist.length; ix++) {
+			if (filelist[ix].isDirectory() && isfolder) {
+				files.add(filelist[ix]);
+			}
+			else if (filelist[ix].isFile() && !isfolder) {
+				files.add(filelist[ix]);
+			}
+		}
+
+		return files;
+	}
+
+	private String getFormattedDate(long lastmodified) {
+		Date lm = new Date(lastmodified);
+		String lasmod = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(lm);
+		return lasmod;
+	}
+
 	private static void sendFile(InputStream stream, OutputStream printer)
 	{
 		try {
@@ -239,6 +266,29 @@ class HttpWorker extends Thread {
 		}
 		catch(IOException ex){
 			ex.printStackTrace();
+		}
+	}
+
+	private String buildRelativeLink(String current, String file) {
+		if (current == null || current == "" || current.equals("/")) {
+			return file;
+		}
+		else {
+			return current + "/" +file;
+		}
+	}
+	private String buildImageLink(String current, String file) {
+		if (current == null || current == "" || current.equals("/")) {
+			return file;
+		}
+		else {
+			String imageLink = file;
+			for(int ix = 0; ix < current.length(); ix++) {
+				if (current.charAt(ix) == '/') {
+					imageLink = "../" + imageLink;
+				}
+			}
+			return imageLink;
 		}
 	}
 	/**
@@ -265,6 +315,30 @@ class HttpWorker extends Thread {
 			printer.println("Failed in attemp to build response!");
 		}
 	}
+	private static String getFileImage(String path)
+	{
+		if (path == null || path == "")
+			return "images/file.png";
+		if (path.lastIndexOf(".") < 0)
+	 		return "images/file.png";
+
+		String extension = path.substring(path.lastIndexOf("."));
+		switch(extension) {
+			case ".class":
+				return "images/class.png";
+			case ".html":
+				return "images/html.png";
+			case ".java":
+				return "images/java.png";
+			case ".txt":
+				return "images/text.png";
+			case ".xml":
+				return "images/xml.png";
+			default:
+				return "images/file.png";
+		}
+	}
+
 	private static String getContentType(String path)
 	{
 		if (path=="")
@@ -298,11 +372,16 @@ class HttpWorker extends Thread {
 		sbHtml.append("<!DOCTYPE html>");
 		sbHtml.append("<html>");
 		sbHtml.append("<head>");
+		sbHtml.append("<style>");
+		sbHtml.append("	table { width:50%; } ");
+		sbHtml.append("	th, td { padding: 3px; text-align: left; }");
+		sbHtml.append("</style>");
 		sbHtml.append("<title>My Listener</title>");
 		sbHtml.append("</head>");
 		sbHtml.append("<body>");
-		sbHtml.append("<h1>Server got your request:</h1>");
-		sbHtml.append("<h3>" + content + "</h3>");
+		sbHtml.append("<h1>File Explorer in Rong's Zhuang Web Server </h1>");
+		sbHtml.append(content);
+		sbHtml.append("<hr>");
 		sbHtml.append("<p>*This page is returned by Rong Zhuang's Web Server.</p>");
 		sbHtml.append("</body>");
 		sbHtml.append("</html>");
@@ -312,22 +391,24 @@ class HttpWorker extends Thread {
 
 
 /**
- * A server can create Worker to handle the general joke/proverb requests from
- * the client. It can also create Admin Worker to accept admin commands to
- * switch server mode. The server does nothing but dispatches tasks to Workers
- * or Admin Workers.
+ * This web server can create HttpWorker to handle the http requests from the
+ * client(Web browser). The server does nothing but dispatches requests to
+ * workers. Each worker starts a new thread to handle the request. So the web
+ * server can handle multiple requests simultaneously. The main functions
+ * provided by this web server include: explore files/directories in the root
+ * folder of the webserver; display content of a single file from server;
+ * handle fake-cgi request, eg. add number.
  */
 public class MyWebServer {
 	private static final String FILE_USERSTATES = "ServerUserStates.txt";
 	/**
-	 * Start a new AdminListener to monitor and admin service from Admin Client.
-	 * Meanwhile, start a new Server Socket to handle general joke/proverb service
-	 * from joke client.
+	 * Start a Server Socket to monitor client requests and dispatches the http
+	 * request to HttpWorkers.
 	 */
 	public static void main(String args[]){
 		// The maximum queue length for incoming connection
 		int queue_len = 6;
-		// Port number for general requests(joke or proverb)
+		// Port number for http request
 		int port = 2540;
 		// A reference of the client socket
 		Socket socket;
@@ -340,8 +421,7 @@ public class MyWebServer {
 			while(true){
 				// Make the server socket wait for the next client request
 				socket = servsocket.accept();
-				// Get states from file
-				// Assign task to general work to get joke or proverb
+				// Assign http requests to HttpWorker
 				new HttpWorker(socket).start();
 			}
 		}
@@ -353,5 +433,4 @@ public class MyWebServer {
 			System.out.println("Server has been shutdown!");
 		}
 	}
-
 }
