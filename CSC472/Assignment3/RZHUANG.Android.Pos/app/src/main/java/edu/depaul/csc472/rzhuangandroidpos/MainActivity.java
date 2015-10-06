@@ -63,7 +63,8 @@ public class MainActivity extends Activity {
 
         @Override
         public String toString() {
-            return itemname + " x " + quantity + " = " + quantity * unitprice;
+            DecimalFormat df = new DecimalFormat("#.00");
+            return itemname + " x " + quantity + " = " + "$"+String.valueOf(df.format(quantity * unitprice));
         }
     }
 
@@ -131,7 +132,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        etUnitPrice.setRawInputType(Configuration.KEYBOARD_12KEY);
+        //etUnitPrice.setRawInputType(Configuration.KEYBOARD_12KEY);
         etUnitPrice.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
             }
