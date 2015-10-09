@@ -215,7 +215,7 @@ public class MainActivity extends Activity
 
         currentChannel = channel;
         TextView txvChannel = (TextView) findViewById(R.id.tvchannel);
-        txvChannel.setText(currentChannel);
+        txvChannel.setText(String.valueOf(currentChannel));
 
         //Set text color for the selected button of favorite channel
         Button btnChannelFavorite1 = (Button) findViewById(R.id.channelfavorite1);
