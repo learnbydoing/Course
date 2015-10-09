@@ -96,20 +96,29 @@ class HttpWorker extends Thread {
 					String req = clientRequest.substring(4, clientRequest.length()-9).trim();
 					// Decode url, eg. New%20folder -> New folder
 					req = URLDecoder.decode(req, "UTF-8");
+					// Remove the last slash if exists
+					if (req.endsWith("/")) {
+						req = req.substring(0, req.length() - 1);
+					}
 					if (req.indexOf(".")>-1) { // Request for signle file
 						if (req.indexOf(".fake-cgi")>-1) { // CGI request
 							Map<String, String> params = parseUrlParams(req);
-							StringBuilder sbCGIHtml = new StringBuilder();
-							sbCGIHtml.append("Dear " + params.get("person") + ", the sum of ");
-							sbCGIHtml.append(params.get("num1") + " and " + params.get("num2") + " is ");
-							int number1 = Integer.parseInt(params.get("num1"));
-							int number2 = Integer.parseInt(params.get("num2"));
 
-							sbCGIHtml.append(number1+number2);
-							sbCGIHtml.append(".");
-							String htmlPage = buildHtmlPage(sbCGIHtml.toString());
-							printHttpHeader("aa.html", htmlPage.length(), printer);
-							printer.println(htmlPage);
+							Integer number1 = tryParse(params.get("num1"));
+							Integer number2 = tryParse(params.get("num2"));
+							if (number1 == null || number2 == null) {
+								printer.println("Invalid parameter, num1 and num2 must be integer!");
+							}
+							else {
+								StringBuilder sbCGIHtml = new StringBuilder();
+								sbCGIHtml.append("Dear " + params.get("person") + ", the sum of ");
+								sbCGIHtml.append(params.get("num1") + " and " + params.get("num2") + " is ");
+								sbCGIHtml.append(number1+number2);
+								sbCGIHtml.append(".");
+								String htmlPage = buildHtmlPage(sbCGIHtml.toString(), "Fake-CGI: AddNumber");
+								printHttpHeader("aa.html", htmlPage.length(), printer);
+								printer.println(htmlPage);
+							}
 						}
 						else { // General file request
 							rootDir = getRootFolder();
@@ -126,6 +135,9 @@ class HttpWorker extends Thread {
 						}
 					}
 					else { // Request for directory
+						if (req.endsWith(".zr")) { // from index.html, explore request
+
+						}
 						// Get the root folder of the webserver
 						rootDir = getRootFolder();
 						// Get the real file path
@@ -156,6 +168,11 @@ class HttpWorker extends Thread {
 									parent = parent.replace(rootDir, "");
 								}
 								System.out.println("parent:"+parent);
+								/*if (parent.startsWith("\\")) {
+									parent = "/" + parent.substring(1, parent.length());
+								}*/
+								parent = parent.replace("\\", "/");
+								System.out.println("parent:"+parent);
 								//System.out.println("parent:"+parent);
 								sbDirHtml.append("<tr>");
 								sbDirHtml.append("  <td><img src=\""+buildImageLink(req,"images/folder.png")+"\"></img><a href=\"" + parent +"\">../</a></td>");
@@ -183,7 +200,7 @@ class HttpWorker extends Thread {
 							}
 
 							sbDirHtml.append("</table>");
-							String htmlPage = buildHtmlPage(sbDirHtml.toString());
+							String htmlPage = buildHtmlPage(sbDirHtml.toString(), "");
 							printHttpHeader(path, htmlPage.length(), printer);
 							printer.println(htmlPage);
 
@@ -220,6 +237,13 @@ class HttpWorker extends Thread {
 		return mapParams;
 	}
 
+	private Integer tryParse(String text) {
+		try {
+			return Integer.parseInt(text);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
 	private String getRootFolder() {
 		String root = "";
 		try{
@@ -302,7 +326,7 @@ class HttpWorker extends Thread {
 	 */
 	private void buildResponse(String request, PrintStream printer){
 		try{
-			String htmlPage = buildHtmlPage(request);
+			String htmlPage = buildHtmlPage(request, "");
 			//printHttpHeader(htmlPage, printer);
 			printer.println(htmlPage);
 
@@ -356,6 +380,8 @@ class HttpWorker extends Thread {
 				return "text/plain";
 			case ".ico":
 				return "image/x-icon .ico";
+			case ".wml":
+				return "text/html"; //text/vnd.wap.wml
 			default:
 				return "text/plain";
 		}
@@ -367,7 +393,7 @@ class HttpWorker extends Thread {
 		printer.println("");
 	}
 
-	private String buildHtmlPage(String content) {
+	private String buildHtmlPage(String content, String header1) {
 		StringBuilder sbHtml = new StringBuilder();
 		sbHtml.append("<!DOCTYPE html>");
 		sbHtml.append("<html>");
@@ -379,7 +405,12 @@ class HttpWorker extends Thread {
 		sbHtml.append("<title>My Listener</title>");
 		sbHtml.append("</head>");
 		sbHtml.append("<body>");
-		sbHtml.append("<h1>File Explorer in Rong's Zhuang Web Server </h1>");
+		if (header1 != null && !header1.isEmpty()) {
+			sbHtml.append("<h1>" + header1 + "</h1>");
+		}
+		else {
+			sbHtml.append("<h1>File Explorer in Rong's Zhuang Web Server </h1>");
+		}
 		sbHtml.append(content);
 		sbHtml.append("<hr>");
 		sbHtml.append("<p>*This page is returned by Rong Zhuang's Web Server.</p>");

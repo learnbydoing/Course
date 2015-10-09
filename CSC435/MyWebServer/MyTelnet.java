@@ -1,78 +1,66 @@
 /*--------------------------------------------------------
 1. Name / Date:
 Rong Zhuang
-11 Sep, 2015
+09 Oct, 2015
 
 2. Java version used:
 build 1.8.0_60
 
 3. Precise command-line compilation examples / instructions:
-> javac InetServer.java
-> javac InetClient.java
+> javac MyTelnet.java
 
 4. Precise examples / instructions to run this program:
 In separate shell windows:
-> java InetServer
-> java InetClient
-
-All acceptable commands are displayed on the various consoles.
-
-If the server is running on the different machine with the client, you
-need to pass the IP address of the server to the clients. For exmaple,
-if the server is running at 140.192.34.32 then you would type:
-
-> java InetClient 140.192.34.32
+> java MyTelnet condor.depaul.edu
 
 5. List of files needed for running the program.
- a. Worker.class
- b. InetServer.class
- c. InetClient.class
+ a. MyTelnet.class
 
 6. Notes:
-I hard-code the port number to 4653 both in InetClient and InetServer.
-If any exception occurs and the server hangs, kill server and restart it.
-The clients are not necessarily to restart, they will find the server
-again when a request is made.
+This tool is used to see what Http response is returned from server after sending
+out an http Get request. Run it as follows:
+> java MyTelnet condor.depaul.edu
+> GET /elliott/cat.html HTTP/1.1
+> GET /elliott/dog.txt HTTP/1.1
+> GET /elliott/cat.html HTTP/1.0
+> GET /elliott/dog.txt HTTP/1.0
+
+Running logs are stored in http-streams.txt
 
 ----------------------------------------------------------*/
-import java.io.*; // Import the io libraries
-import java.net.*; // Import the networking libraries
+import java.io.*;
+import java.net.*;
 
 /**
- * A client can be setup in the same machine or different machine with the server.
- * The client sends the request to the server and get the result from it.
+ * Telnet client sends http request to server and receive response from it.
+ * Launch it by providing the hostname or IP address. Port is fixed to 80.
  */
 public class MyTelnet{
 	private static final int PORT_NUMBER = 80;
-	/**
-     * The client will start a Socket, wait for user's inputs,
-	 * then send them to the server, and print out the results. Type 'quit' to
-	 * stop the client, otherwise, it will always be waiting for the new request.
-     */
+
 	public static void main(String args[]) {
-		String serverName;
-		if (args.length < 1) { // If no server name is specified, means client and server are setup in the same machine
-			serverName = "localhost"; // The local machine(127.0.0.1) will be used as server.
+		String hostName;
+		if (args.length < 1) {
+			hostName = "localhost"; // The local machine(127.0.0.1) will be used as server.
 		}
 		else {
-			serverName = args[0];
+			hostName = args[0];
 		}
 
-    serverName = "www.depaul.edu";
-		System.out.println("Rong Zhuang's Telnet Client.");
-		System.out.println("Using server: " + serverName + ", Port: " + PORT_NUMBER); // Same port number with the server
+		System.out.println("Rong Zhuang's Telnet Client is starting up.");
+		System.out.println("Will connect host: " + hostName + " at port: " + PORT_NUMBER);
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		try{
-			String hostName; // The target host to be searched
+			String getRequest; // The request contain Get method
 			do {
-				System.out.print("Enter page/url, (quit) to end: ");
+				System.out.print("Enter Http Get request, (quit) to end: ");
 				System.out.flush();
-				hostName = reader.readLine(); // Receive the request from end user's input
-				if (!hostName.equals("quit")){ // Not the quit command
-					getRemoteAddress(hostName, serverName); // Connect to server and work on the request
+				getRequest = reader.readLine(); // Receive the request from end user's input
+				if (!getRequest.equals("quit")){ // Not the quit command
+					sendHttpGetRequest(getRequest, hostName, PORT_NUMBER);
 				}
-			} while (!hostName.equals("quit")); // End the client if 'quit' is an input
+			} while (!getRequest.equals("quit")); // End the client if 'quit' is an input
 
 			System.out.println ("Telnet Client has been shut down!");
 			System.out.println ("--Input 'java MyTelnet' to start a new one.--");
@@ -84,33 +72,42 @@ public class MyTelnet{
 	}
 
 	/**
-     * Connect to the server, send requests and get requests
-     * @param hostname, the host name to be looked up
-	 * @param servername, the server name to be connected to
-     */
-	private static void getRemoteAddress(String hostname, String servername){
+	 * Send request to host, support both HTTP1.0 and HTTP1.1
+	 * @param getrequest, the get request from user input
+	 * @param hostname, the host name to be connected
+	 * @param port, default port for http: 80
+	 */
+	private static void sendHttpGetRequest(String getrequest, String hostname, int port){
 		Socket socket;
 		BufferedReader fromServer;
 		PrintStream toServer;
 		String textFromServer;
 		try{
-			// Open a new socket connection to the server with the specified port number
-			socket = new Socket(servername, PORT_NUMBER);
+			// Open a new socket connection to the host with 80 port number
+			socket = new Socket(hostname, port);
 			fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			toServer = new PrintStream(socket.getOutputStream());
-			// Send machine name or IP address to server
-			toServer.println(hostname);
+			// Check the http standard 1.0 or 1.1
+			if (getrequest.endsWith("HTTP/1.1")) { //HTTP1.1, need to add host
+				System.out.println(getrequest + "\r\nHost:" + hostname + "\r\n");
+				toServer.println(getrequest + "\r\nHost:" + hostname + "\r\n");
+			}
+			else { //HTTP1.0, not need to append host info
+				System.out.println(getrequest + "\r\n");
+				toServer.println(getrequest + "\r\n");
+			}
 			toServer.flush();
-			// Read two or three lines of response from the server,
+
+			// Read multiple lines of response from the server,
 			// and block while synchronously waiting:
-			for (int i = 1; i <=50; i++){ // Three lines for "Look up...", "Host name" and "Host IP"
-			 //System.out.println("i="+i);
+			for (int i = 1; i <= 1000; i++){
 				textFromServer = fromServer.readLine();
 				if (textFromServer != null){
 					System.out.println(textFromServer);
 				}
-				else
+				else {
 					break;
+				}
 			}
 			socket.close();
 		}

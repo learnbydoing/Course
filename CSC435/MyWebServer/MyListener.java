@@ -50,14 +50,8 @@ if the server is running at 140.192.34.32 then you would type:
 
 ----------------------------------------------------------*/
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.net.*;
+import java.util.*;
 
 /**
  * An instance of Worker for the server.
@@ -246,7 +240,7 @@ public class MyListener {
 		try{
 			// Setup the server socket
 			ServerSocket servsocket = new ServerSocket(port, queue_len);
-			System.out.println("Rong Zhuang's Web Server is starting up, listening at port " + port + ".");
+			System.out.println("Rong Zhuang's My Listener is starting up, listening at port " + port + ".");
 
 			while(true){
 				// Make the server socket wait for the next client request
