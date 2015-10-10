@@ -103,7 +103,7 @@ Yes                    </b></td></tr>
 
 <tr> <td align="left"><b>
 Implemented basic security by restricting access to directory tree  </b></td><td align="left"><b>
-Partial                    </b></td></tr>
+Yes                    </b></td></tr>
 
 <tr> <td align="left"><b>
 MyWebServer serves files from
@@ -168,7 +168,7 @@ Yes                    </b></td></tr>
 
 <tr> <td align="left"><b>
 Have been INTENTIONAL about security of the files exposed by my webserver  </b></td><td align="left"><b>
-Partial                    </b></td></tr>
+Yes                    </b></td></tr>
 
 <tr> <td align="center"><b>
 ------------------- BRAGGING RIGHTS BELOW ---------------------    </b></td><td align="left"><b>
@@ -176,7 +176,7 @@ THIS LINE                    </b></td></tr>
 
 <tr> <td align="left"><b>
 [Return wml files with MIME from MyWebServer] </b></td><td align="left"><b>
-Yes                    </b></td></tr>
+Yes(in html format)                    </b></td></tr>
 
 <tr> <td align="left"><b>
 Implements index.html to remove promiscuity of directories   </b></td><td align="left"><b>
@@ -184,7 +184,7 @@ No                    </b></td></tr>
 
 <tr> <td align="left"><b>
 Restricts directory browsing to server subtree for security  </b></td><td align="left"><b>
-No                    </b></td></tr>
+Yes(can't access direcotries above root)                  </b></td></tr>
 
 <tr> <td align="left"><b>
 (Hard) Effects the true running of arbitrary cgi scripts in some language  </b></td><td align="left"><b>
@@ -201,22 +201,32 @@ Yes                    </b></td></tr>
 <tr> <td align="left"><b>
 [Extra]Apply icons to each file or diretory, keep correct in recursive directories </b></td><td align="left"><b>
 Yes                    </b></td></tr>
+<tr> <td align="left"><b>
+[Extra]Implement http head check, return 400 bad request error if no HTTP1.0 or HTTP1.1 header found </b></td><td align="left"><b>
+Yes                    </b></td></tr>
+<tr> <td align="left"><b>
+[Extra]Validate the url, return 403 forbidden error if hack attack found, like ../ or ..\ in the url </b></td><td align="left"><b>
+Yes                    </b></td></tr>
 </tbody></table>
 
 </font></p><h3><font face="Cambria" size="3"> Your special comments to me, only if needed: </font></h3><font face="Cambria" size="3">
 
 <pre>
 Notes:
- a. Web Server monitors the http request at port: 2540.
- b. Web Server is capable of handling requests simultaneously.
- c. The logs in console will be saved to file MyWebServerLogs.txt. The requests for icons will not be displayed, since there are too many such logs when you are exploreing the direcotry.
- d. Main functions:
-  1) Explore files/directories recursively;
-  2) Display content of a single file;
+ a. Main functions of this web server:
+  1) Explore files/directories recursively, with appropriate icons displayed, depends on different file extension;
+  2) Display content of a single file, eg. txt, html
   3) Handle dynamical script execution, eg. fake-cgi request;
-  4) Logs will be saved each time after a new request is handled. 
- e. Sub folder "images" contains the icons for file explorer.
- f. Sub folder "Johnny" contains files and direcotries to demonstrate the functionality of "Explore directory recursively".</pre>
+  4) Log function: logs will be saved each time after a new request is handled. 
+  5) Security check: 400 bad request, 403 forbidden
+ b. Web Server monitors the http request at port: 2540.
+ c. Web Server is capable of handling requests simultaneously.
+ d. You can access every file on this web server through web browser.
+ e. The logs in console will be saved to file <a href="MyWebServerLogs.txt">MyWebServerLogs.txt</a>
+    Each step you operate will be recorded, you can find the logs just click it in the file explorer.
+    The requests for icons will not be recorded, since there are too many such logs when you are exploreing the direcotry.
+ f. Sub folder "images" contains the icons for file explorer.
+ g. Sub folder "Johnny" contains files and direcotries to demonstrate the functionality of "Explore directory recursively".</pre>
 	<p>
 
 

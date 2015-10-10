@@ -61,26 +61,42 @@ class HttpWorker extends Thread {
 	 * Start to work, after being assigned tasks by the server
 	 */
 	public void run(){
-		// Output stream to the client
-		PrintStream printer = null;
-		// Local reader from the client
-		BufferedReader reader = null;
-
 		try{
-			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			printer = new PrintStream(socket.getOutputStream());
-			try{
-				alLogs.clear();
-				if (!clientRequest.contains("/images/")&&!clientRequest.contains("favicon.ico")) {
+			// Clear list each time for handling new reqeust
+			alLogs.clear();
+			// Local reader from the client
+			BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		  // Output stream to the client
+			PrintStream printer = new PrintStream(socket.getOutputStream());
+
+			if (!clientRequest.startsWith("GET") || clientRequest.length() < 14 ||
+					!(clientRequest.endsWith("HTTP/1.0") || clientRequest.endsWith("HTTP/1.1"))) {
+				// bad request
+				writeLog("");
+				writeLog("Rong Zhuang's Web Server is working...");
+				writeLog("400(Bad Request): " + clientRequest);
+				String errorPage = buildErrorPage("400", "Bad Request", "Your browser sent a request that this server could not understand.");
+				printer.println(errorPage);
+			}
+			else {
+				String req = clientRequest.substring(4, clientRequest.length()-9).trim();
+				if (req.indexOf("..") > -1 || req.indexOf("/.ht") > -1 || req.endsWith("~")) {
+					// hack attack
 					writeLog("");
 					writeLog("Rong Zhuang's Web Server is working...");
-					// Accept the http get request from the client
-					//String clientRequest = reader.readLine();
-					writeLog("> New request received: " + clientRequest);
+					writeLog("403(Forbidden): " + req);
+					String errorPage = buildErrorPage("403", "Forbidden", "You don't have permission to access the requested URL.");
+					printer.println(errorPage);
 				}
-
-				if (clientRequest != null && clientRequest.startsWith("GET") && clientRequest.endsWith("HTTP/1.1")) {
-					String req = clientRequest.substring(4, clientRequest.length()-9).trim();
+				else {
+					if (!req.startsWith("/images/") && !req.endsWith("favicon.ico")) {
+						// Avoid printing messages/logs for icon requests
+						writeLog("");
+						writeLog("Rong Zhuang's Web Server is working...");
+						// Accept the http get request from the client
+						//String clientRequest = reader.readLine();
+						writeLog("> New request received: " + clientRequest);
+					}
 					// Decode url, eg. New%20folder -> New folder
 					req = URLDecoder.decode(req, "UTF-8");
 					// Remove the last slash if exists
@@ -90,33 +106,22 @@ class HttpWorker extends Thread {
 					// Handle requests
 					if (req.indexOf(".")>-1) { // Request for signle file
 						if (req.indexOf(".fake-cgi")>-1) { // CGI request
-							writeLog("> This is a [FAKE CGI] request..");
+							writeLog("> This is a [CGI] request..");
 							handleCgiRequest(req, printer);
 						}
 						else { // Single file request
 							if (!req.startsWith("/images/")&&!req.startsWith("/favicon.ico")) {
-								writeLog("> This is a [FILE] request..");
+								writeLog("> This is a [SINGLE FILE] request..");
 							}
 							handleFileRequest(req, printer);
 						}
 					}
 					else { // Request for directory
-						if (req.endsWith(".zr")) { // from index.html, explore request
-
-						}
-						writeLog("> This is a [FILE/DIRECTORY EXPLORE] request..");
+						writeLog("> This is a [DIRECTORY EXPLORE] request..");
 						handleExploreRequest(req, printer);
 					}
 				}
-				else {
-					printer.println("Unknown request:" + clientRequest);
-				}
 			}
-			catch(IOException ex){
-				writeLog("Exception occurs, see the below details:");
-				ex.printStackTrace ();
-			}
-
 			// Save logs to file
 			saveLogs(true);
 			socket.close();
@@ -312,6 +317,31 @@ class HttpWorker extends Thread {
 			sbHtml.append("<h1>File Explorer in Rong's Zhuang Web Server </h1>");
 		}
 		sbHtml.append(content);
+		sbHtml.append("<hr>");
+		sbHtml.append("<p>*This page is returned by Rong Zhuang's Web Server.</p>");
+		sbHtml.append("</body>");
+		sbHtml.append("</html>");
+		return sbHtml.toString();
+	}
+
+	/**
+	 * Build error page for bad request
+	 * @param code, http cde: 400, 301, 200
+	 * @param title, page title
+	 * @param msg, error message
+	 * @return, page text
+	 */
+	private String buildErrorPage(String code, String title, String msg) {
+		StringBuilder sbHtml = new StringBuilder();
+		sbHtml.append("HTTP/1.1 " + code + " " + title + "\r\n\r\n");
+		sbHtml.append("<!DOCTYPE html>");
+		sbHtml.append("<html>");
+		sbHtml.append("<head>");
+		sbHtml.append("<title>" + code + " " + title + "</title>");
+		sbHtml.append("</head>");
+		sbHtml.append("<body>");
+		sbHtml.append("<h1>" + code + " " + title + "</h1>");
+		sbHtml.append("<p>" + msg + "</p>");
 		sbHtml.append("<hr>");
 		sbHtml.append("<p>*This page is returned by Rong Zhuang's Web Server.</p>");
 		sbHtml.append("</body>");
