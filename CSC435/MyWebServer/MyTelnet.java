@@ -98,16 +98,11 @@ public class MyTelnet{
 			}
 			toServer.flush();
 
-			// Read multiple lines of response from the server,
-			// and block while synchronously waiting:
-			for (int i = 1; i <= 1000; i++){
-				textFromServer = fromServer.readLine();
-				if (textFromServer != null){
-					System.out.println(textFromServer);
-				}
-				else {
+			while ((textFromServer = fromServer.readLine()) != null) {
+				/*if (textFromServer.equals("")) {
 					break;
-				}
+				}*/
+				System.out.println(textFromServer);
 			}
 			socket.close();
 		}

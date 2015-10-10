@@ -1,0 +1,128 @@
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny HTTP/1.1
+> This is a [FILE/DIRECTORY EXPLORE] request..
+>> Explore the content under folder: Johnny
+>>> Directory: New folder
+>>> File: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET / HTTP/1.1
+> This is a [FILE/DIRECTORY EXPLORE] request..
+>> Explore the content under folder: MyWebServer
+>>> Directory: images
+>>> Directory: Johnny
+>>> Directory: MyWebServer
+>>> File: addnums.html
+>>> File: cat.html
+>>> File: dog.txt
+>>> File: favicon.ico
+>>> File: filelist.html
+>>> File: http-streams.txt
+>>> File: HttpWorker.class
+>>> File: index.html
+>>> File: MyListener.class
+>>> File: MyListener.java
+>>> File: MyTelnet.class
+>>> File: MyTelnet.java
+>>> File: MyWebServer.class
+>>> File: MyWebServer.java
+>>> File: MyWebServerLogs.txt
+>>> File: serverlog.txt
+>>> File: template.html
+>>> File: [Rong Zhuang]'s MyWebServer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /[Rong%20Zhuang]'s%20MyWebServer%20Checklist.html HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: [Rong Zhuang]'s MyWebServer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/sample.wml HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/sample.wml HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/sample.wml HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/sample.wml HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/sample.wml HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/sample.wml HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/sample.wml HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/sample.wml HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/sample.wml HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /[Rong%20Zhuang]'s%20MyWebServer%20Checklist.html HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: [Rong Zhuang]'s MyWebServer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /[Rong%20Zhuang]'s%20MyWebServer%20Checklist.html HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: [Rong Zhuang]'s MyWebServer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /[Rong%20Zhuang]'s%20MyWebServer%20Checklist.html HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: [Rong Zhuang]'s MyWebServer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /[Rong%20Zhuang]'s%20MyWebServer%20Checklist.html HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: [Rong Zhuang]'s MyWebServer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /[Rong%20Zhuang]'s%20MyWebServer%20Checklist.html HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: [Rong Zhuang]'s MyWebServer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /[Rong%20Zhuang]'s%20MyWebServer%20Checklist.html HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: [Rong Zhuang]'s MyWebServer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /[Rong%20Zhuang]'s%20MyWebServer%20Checklist.html HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: [Rong Zhuang]'s MyWebServer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /[Rong%20Zhuang]'s%20MyWebServer%20Checklist.html HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: [Rong Zhuang]'s MyWebServer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /[Rong%20Zhuang]'s%20MyWebServer%20Checklist.html HTTP/1.1
+> This is a [FILE] request..
+>> Seek the content of file: [Rong Zhuang]'s MyWebServer Checklist.html
