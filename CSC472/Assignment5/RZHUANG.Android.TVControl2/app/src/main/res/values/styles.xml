@@ -8,8 +8,12 @@
         <item name="android:textColor">@drawable/button_color</item>
         <item name="android:textSize">14sp</item>
     </style>
-    <style name="screenStyle">
+    <style name="tvScreenStyle">
         <item name="android:textColor">@drawable/text_color</item>
         <item name="android:textSize">20sp</item>
+    </style>
+    <style name="dvrScreenStyle">
+        <item name="android:textColor">@drawable/text_color</item>
+        <item name="android:textSize">18sp</item>
     </style>
 </resources>

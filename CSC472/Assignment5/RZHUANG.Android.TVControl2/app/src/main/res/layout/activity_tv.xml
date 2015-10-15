@@ -24,17 +24,17 @@
                     <TableRow>
                         <TextView
                             android:text="@string/tv_power"
-                            style="@style/screenStyle"/>
+                            style="@style/tvScreenStyle"/>
                     </TableRow>
                     <TableRow>
                         <TextView
                             android:text="@string/tv_volume"
-                            style="@style/screenStyle"/>
+                            style="@style/tvScreenStyle"/>
                     </TableRow>
                     <TableRow>
                         <TextView
                             android:text="@string/tv_channel"
-                            style="@style/screenStyle"/>
+                            style="@style/tvScreenStyle"/>
                     </TableRow>
                 </TableLayout>
                 <TableLayout
@@ -43,20 +43,20 @@
                         <TextView
                             android:id="@+id/tvpower"
                             android:text="@string/tv_off"
-                            style="@style/screenStyle"
+                            style="@style/tvScreenStyle"
                             android:layout_marginEnd="30dp"/>
                     </TableRow>
                     <TableRow>
                         <TextView
                             android:id="@+id/tvvolume"
                             android:text="50"
-                            style="@style/screenStyle"/>
+                            style="@style/tvScreenStyle"/>
                     </TableRow>
                     <TableRow>
                         <TextView
                             android:id="@+id/tvchannel"
                             android:text="184"
-                            style="@style/screenStyle"/>
+                            style="@style/tvScreenStyle"/>
                     </TableRow>
                 </TableLayout>
             </TableRow>
@@ -195,5 +195,30 @@
                     android:text="@string/control_favorite_3"/>
             </TableRow>
         </TableLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp">
+        <Button
+            android:id="@+id/todvr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/buttonStyle"
+            android:text="@string/switch_todvr"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/toconfig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/buttonStyle"
+            android:text="@string/switch_toconfig"
+            android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>

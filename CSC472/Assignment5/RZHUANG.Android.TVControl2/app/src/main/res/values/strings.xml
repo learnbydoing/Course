@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Remote TV Control</string>
+    <string name="app_name">Remote Control</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -29,5 +29,35 @@
     <string name="control_favorite_1">ABC</string>
     <string name="control_favorite_2">NBC</string>
     <string name="control_favorite_3">CBS</string>
-
+    <string name="switch_todvr">Switch to DVR</string>
+    <string name="switch_totv">Switch to TV</string>
+    <string name="switch_toconfig">Configure</string>
+    <string name="dvr_title">My DVR</string>
+    <string name="dvr_power">DVR Power:</string>
+    <string name="dvr_state">State:</string>
+    <string name="dvr_state_stopped">Stopped    </string>
+    <string name="dvr_state_playing">Playing</string>
+    <string name="dvr_state_paused">Paused</string>
+    <string name="dvr_state_fastforwarding">Fast forwarding</string>
+    <string name="dvr_state_fastrewinding">Fast rewinding</string>
+    <string name="dvr_state_recording">Recording</string>
+    <string name="dvr_control_title">DVR Remote Control</string>
+    <string name="dvr_control_power">Power</string>
+    <string name="dvr_control_play">Play</string>
+    <string name="dvr_control_stop">Stop</string>
+    <string name="dvr_control_pause">Pause</string>
+    <string name="dvr_control_fastforward">Fast Forward</string>
+    <string name="dvr_control_fastrewind">Fast Rewind</string>
+    <string name="dvr_control_record">Record</string>
+    <string name="config_title">Configure Favorite Channels</string>
+    <string name="config_channel_button">Favorite\nChannel\nButton</string>
+    <string name="config_channel_button_left">Left</string>
+    <string name="config_channel_button_middle">Middle</string>
+    <string name="config_channel_button_right">Right</string>
+    <string name="config_label">Label</string>
+    <string name="config_channel">Channel</string>
+    <string name="config_cancel">Cancel</string>
+    <string name="config_save">Save</string>
+    <string name="title_activity_activity_dvr">Activity_dvr</string>
+    <string name="title_activity_activity_config">Activity_config</string>
 </resources>

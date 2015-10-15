@@ -1,8 +1,8 @@
 package edu.depaul.csc472.rzhuangandroidtvcontrol;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,23 +12,27 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends Activity
+public class Activity_tv extends Activity
         implements CompoundButton.OnCheckedChangeListener {
 
+    private static final int ASK_QUESTION = 100; // request code
     private int favorite1 = 100;
     private int favorite2 = 333;
     private int favorite3 = 888;
+    private String txtFovorite1 = "";
+    private String txtFovorite2 = "";
+    private String txtFovorite3 = "";
     private int currentChannel = 187;
     List<Integer> numbers = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_tv);
 
         //Initial
         final TextView txvPower = (TextView) findViewById(R.id.tvpower);
@@ -142,6 +146,62 @@ public class MainActivity extends Activity
         btnChannelFavorite1.setOnClickListener(listeneFavorite1);
         btnChannelFavorite2.setOnClickListener(listeneFavorite2);
         btnChannelFavorite3.setOnClickListener(listeneFavorite3);
+        txtFovorite1 = getResources().getString(R.string.control_favorite_1);
+        txtFovorite2 = getResources().getString(R.string.control_favorite_2);
+        txtFovorite3 = getResources().getString(R.string.control_favorite_3);
+        // update text
+        updateFavorite(0, "", 0);
+
+        //Intent
+        Button btnToDvr = (Button) findViewById(R.id.todvr);
+        btnToDvr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Activity_tv.this, Activity_dvr.class);
+                startActivity(intent);
+            }
+        });
+        Button btnToConfig = (Button) findViewById(R.id.toconfig);
+        btnToConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Activity_tv.this, Activity_config.class);
+                startActivityForResult(intent, ASK_QUESTION);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ASK_QUESTION) {
+            if (resultCode == RESULT_OK) {
+                updateFavorite(data.getIntExtra("favorite", 0), String.valueOf(data.getCharSequenceExtra("label")), data.getIntExtra("channel", 1));
+            }
+        }
+    }
+
+    private void updateFavorite(int favorite, String label, int channel) {
+        if (favorite == 0) {
+
+        }
+        else if (favorite == 1) {
+            txtFovorite1 = label;
+            favorite1 = channel;
+        }
+        else if (favorite == 2) {
+            txtFovorite2 = label;
+            favorite2 = channel;
+        }
+        else if (favorite == 3) {
+            txtFovorite3 = label;
+            favorite3 = channel;
+        }
+        Button btnChannelFavorite1 = (Button) findViewById(R.id.channelfavorite1);
+        Button btnChannelFavorite2 = (Button) findViewById(R.id.channelfavorite2);
+        Button btnChannelFavorite3 = (Button) findViewById(R.id.channelfavorite3);
+        btnChannelFavorite1.setText(txtFovorite1);
+        btnChannelFavorite2.setText(txtFovorite2);
+        btnChannelFavorite3.setText(txtFovorite3);
     }
 
     public void onCheckedChanged(CompoundButton button, boolean isChecked) {

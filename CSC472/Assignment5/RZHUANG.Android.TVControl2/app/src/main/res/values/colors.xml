@@ -7,5 +7,6 @@
     <color name="green">#00ff00</color>
     <color name="black">#000000</color>
     <color name="yellow">#ffff00</color>
+    <color name="darkyellow">#ffc318</color>
     <color name="disable">#9D9FA2</color>
 </resources>
