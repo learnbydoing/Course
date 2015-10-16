@@ -1,0 +1,145 @@
+/********************************************************/
+Operation steps for the following logs:
+1) home page: http://localhost:2540/
+2) cat.html, dog.txt, addnums.html
+3) drill down to folder "Johnny"
+4) forbidden request, http://localhost:2540/Johnny/..%5C
+5) return back from the deepest folder/file
+
+/********************************************************/
+Rong Zhuang's Web Server is working...
+> New request received: GET / HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: MyWebServer
+>>> Directory: images
+>>> Directory: Johnny
+>>> File: addnums.html
+>>> File: cat.html
+>>> File: dog.txt
+>>> File: favicon.ico
+>>> File: filelist.html
+>>> File: http-streams.txt
+>>> File: HttpWorker.class
+>>> File: index.html
+>>> File: MyListener.class
+>>> File: MyListener.java
+>>> File: MyTelnet.class
+>>> File: MyTelnet.java
+>>> File: MyWebServer.class
+>>> File: MyWebServer.java
+>>> File: serverlog.txt
+>>> File: template.html
+>>> File: [Rong Zhuang]'s MyWebServer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /cat.html HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: cat.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /dog.txt HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: dog.txt
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /addnums.html HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: addnums.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /addnums.fake-cgi?person=johnn&num1=4aa&num2=678 HTTP/1.1
+> This is a [CGI] request..
+>> Invalid parameter: 4aa or 678, both must be integer!
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /addnums.fake-cgi?person=JOHNNY&num1=41&num2=678 HTTP/1.1
+> This is a [CGI] request..
+>> 41 + 678 = 719
+
+Rong Zhuang's Web Server is working...
+403(Forbidden): /Johnny/..%5C
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: Johnny
+>>> Directory: New folder
+>>> File: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/sample.wml HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/New%20folder HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: New folder
+>>> Directory: test
+>>> File: cat2.html
+>>> File: New Text Document.txt
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/New%20folder/test HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: test
+>>> Directory: New folder
+>>> File: New1.txt
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/New%20folder/test/New%20folder HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: New folder
+>>> File: New Text Document1.txt
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/New%20folder/test/New%20folder/New%20Text%20Document1.txt HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: New Text Document1.txt
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/New%20folder/test HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: test
+>>> Directory: New folder
+>>> File: New1.txt
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny/New%20folder HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: New folder
+>>> Directory: test
+>>> File: cat2.html
+>>> File: New Text Document.txt
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: Johnny
+>>> Directory: New folder
+>>> File: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET / HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: MyWebServer
+>>> Directory: images
+>>> Directory: Johnny
+>>> File: addnums.html
+>>> File: cat.html
+>>> File: dog.txt
+>>> File: favicon.ico
+>>> File: filelist.html
+>>> File: http-streams.txt
+>>> File: HttpWorker.class
+>>> File: index.html
+>>> File: MyListener.class
+>>> File: MyListener.java
+>>> File: MyTelnet.class
+>>> File: MyTelnet.java
+>>> File: MyWebServer.class
+>>> File: MyWebServer.java
+>>> File: MyWebServerLogs.txt
+>>> File: serverlog.txt
+>>> File: template.html
+>>> File: [Rong Zhuang]'s MyWebServer Checklist.html

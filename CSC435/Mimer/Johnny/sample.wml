@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.2//EN"
+"http://www.wapforum.org/DTD/wml12.dtd">
+
+<wml>
+
+<card id="one" title="First Card">
+<p>
+This is the first card in the deck
+</p>
+</card>
+
+<card id="two" title="Second Card">
+<p>
+Ths is the second card in the deck
+</p>
+</card>
+
+</wml>
