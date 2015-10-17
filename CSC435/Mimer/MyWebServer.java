@@ -36,71 +36,113 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-
-class myDataArray {
-	int num_lines = 0;
-  String[] lines = new String[10];
+/**
+ * A model to persist data.
+ */
+class MyDataArray {
+	int num_lines = 0; // line count
+  String[] lines = new String[10]; // 10 lines by default
 }
 
+/**
+ * An instance of BCWorker for the BC Listener.
+ * The BC worker handles the back channel requests for the server. Its job is
+ * to accept string lists from client which are actually the content of an xml
+ * file, then deserialize it to MyDataArray object, then print out all of the
+ * content of the object to screen.
+ */
 class BCWorker extends Thread {
-    private Socket sock;
-    private int i;
-    BCWorker (Socket s){sock = s;}
-    PrintStream out = null; BufferedReader in = null;
+		private Socket sock;
+		final String newLine = System.getProperty("line.separator");
 
-    String[] xmlLines = new String[15];
-    String[] testLines = new String[10];
-    String xml;
-    String temp;
-    XStream xstream = new XStream();
-    final String newLine = System.getProperty("line.separator");
-    myDataArray da = new myDataArray();
+		/**
+		 * Construct
+		 * @param s, the socket which is to be monitored
+		 */
+		public BCWorker (Socket s) {
+			sock = s;
+		}
 
-    public void run(){
-      System.out.println("Called BC worker.");
-      try{
-	in =  new BufferedReader(new InputStreamReader(sock.getInputStream()));
-	out = new PrintStream(sock.getOutputStream()); // to send ack back to client
-	i = 0; xml = "";
-	while(true){
-	  temp = in.readLine();
-	  if (temp.indexOf("end_of_xml") > -1) break;
-	  else xml = xml + temp + newLine; // Should use StringBuilder in 1.5
-	}
-	System.out.println("The XML marshaled data:");
-	System.out.println(xml);
-	out.println("Acknowledging Back Channel Data Receipt"); // send the ack
-	out.flush(); sock.close();
+		public void run(){
+			StringBuilder sbXml = new StringBuilder();
+			String inputLine = "";
+			String xml = "";
 
-        da = (myDataArray) xstream.fromXML(xml); // deserialize / unmarshal data
-	System.out.println("Here is the restored data: ");
-	for(i = 0; i < da.num_lines; i++){
-	  System.out.println(da.lines[i]);
-	}
-      }catch (IOException ioe){
-      } // end run
-    }
+			System.out.println("");
+			System.out.println("Called BC worker.");
+			try{
+				BufferedReader in =  new BufferedReader(new InputStreamReader(sock.getInputStream()));
+				PrintStream out = new PrintStream(sock.getOutputStream()); // to send ack back to client
+				while(true){
+					inputLine = in.readLine();
+					if (inputLine.indexOf("end_of_xml") > -1) { // Check whether the end of the input
+						break;
+					}
+					else { // Still is the content of xml
+						// Append to the end
+						sbXml.append(inputLine);
+						// Append new line character for each line
+						sbXml.append(newLine);
+					}
+				}
+
+				// Convert to string which contains whole content in xml format
+				xml = sbXml.toString();
+				System.out.println("The XML marshaled data:");
+				// Print the xml to the console
+				System.out.println(xml);
+				// Send back the acknowledgment to client
+				out.println(">Server: Acknowledging Back Channel Data Receipt!");
+				out.flush();
+				sock.close();
+
+				XStream xstream = new XStream();
+				// deserialize / unmarshal data from xml
+				MyDataArray da = (MyDataArray) xstream.fromXML(xml);
+				System.out.println("Here is the restored data: ");
+				// Print the content from object one by one
+				for(int i = 0; i < da.num_lines; i++){
+					System.out.println(da.lines[i]);
+				}
+			}
+			catch (IOException ioe){
+				System.out.println(ioe);
+			} // end run
+		}
 }
 
-class BCLooper implements Runnable {
-  public static boolean adminControlSwitch = true;
+/**
+ * A back channel listener monitors a separate port. It can create BC Worker to
+ * handle the request from client.
+ * The AdminListener uses a different port number(2570) to accept only back
+ * channel request and dispatches it to BCworker.
+ */
+class BCListener implements Runnable {
+	// Flag indicates whether the BCListener needs to continue work
+	public static boolean bcListenerRunning = true;
 
-  public void run(){ // RUNning the Admin listen loop
-    System.out.println("In BC Looper thread, waiting for 2570 connections");
+	private Socket bcSock;
 
-    int q_len = 6; /* Number of requests for OpSys to queue */
-    int port = 2570;  // Listen here for Back Channel Connections
-    Socket sock;
+	public void run(){ // Running the BC listener
+		// The maximum queue length for incoming connection
+		int q_len = 6;
+		// Listen here for Back Channel Connections
+		int port = 2570;
 
-    try{
-      ServerSocket servsock = new ServerSocket(port, q_len);
-      while (adminControlSwitch) {
-	// wait for the next ADMIN client connection:
-	sock = servsock.accept();
-	new BCWorker (sock).start();
-      }
-    }catch (IOException ioe) {System.out.println(ioe);}
-  }
+		try{
+			ServerSocket servsock = new ServerSocket(port, q_len);
+			System.out.println("Rong Zhuang's Back Channel Listener is starting up, listening at port " + port + ".");
+			while (bcListenerRunning) {
+				// Wait for the next back channel connection:
+				bcSock = servsock.accept();
+				// Start BC worker in new thread
+				new BCWorker(bcSock).start();
+			}
+		}
+		catch (IOException ioe) {
+			System.out.println(ioe);
+		}
+	}
 }
 
 /**
@@ -678,9 +720,11 @@ public class MyWebServer {
 		Socket socket;
 
 		try{
-			BCLooper AL = new BCLooper(); // create a DIFFERENT thread for Back Door Channel
-			Thread t = new Thread(AL);
-			t.start();  // ...and start it, waiting for Back Channel input
+			// Create a different thread for Back Channel
+			BCListener bc = new BCListener();
+			Thread t = new Thread(bc);
+			// Start it, waiting for Back Channel input
+			t.start();
 
 			// Setup the server socket
 			ServerSocket servsocket = new ServerSocket(port, queue_len);

@@ -31,6 +31,7 @@ back channel maintaining a server socket at port 2570.
 ----------------------------------------------------------------------*/
 import java.io.*;  // Get the Input Output libraries
 import java.net.*; // Get the Java networking libraries
+import java.util.*;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -39,12 +40,13 @@ class MyDataArray {
 	String[] lines = new String[8];
 }
 
-public class BCClient{
+public class BCHandler {
 	private static final int PORT_NUMBER = 2570;
 	private static final String XMLfileName = "C:\\temp\\mimer.output";
 
 	public static void main (String args[]) {
 		String serverName;
+		String argOne = "WillBeFileName";
 		if (args.length < 1) {
 			serverName = "localhost";
 		}
@@ -52,77 +54,43 @@ public class BCClient{
 			serverName = args[0];
 		}
 
-		System.out.println("Rong Zhuang's Back Channel Client.\n");
+		System.out.println("Rong Zhuang's Back Channel Handler.\n");
 		System.out.println("Using server: " + serverName + ", Port: " + PORT_NUMBER);
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
-			String userData;
-			do {
-				System.out.print("Enter a string to send to back channel of webserver, (quit) to end: ");
-				System.out.flush();
+			Properties p = new Properties(System.getProperties());
+			argOne = p.getProperty("firstarg");
+			System.out.println("First var is: " + argOne);
 
-				// Get the user input
-				userData = in.readLine();
-
-				if (userData.indexOf("quit") < 0) { // If is not the quit command
-					// Build lines for data array object
-					MyDataArray da = new MyDataArray();
-					da.lines[0] = "You ";
-					da.lines[1] = "typed ";
-					da.lines[2] = userData;
-					da.num_lines = 3;
-
-					XStream xstream = new XStream();
-					// Serialize object to xml
-					String xml = xstream.toXML(da);
-					// Send to server and wait for acknowledgment
-					sendToBC(xml, serverName);
-
-					System.out.println("\n\nHere is the XML content:");
-					// Print the xml content
-					System.out.print(xml);
-
-					// Deserialize xml to data array object
-					MyDataArray daTest = (MyDataArray)xstream.fromXML(xml);
-					System.out.println("\n\nHere is the deserialized data: ");
-					// Print content with object
-					for(int i=0; i < daTest.num_lines; i++) {
-						System.out.println(daTest.lines[i]);
-					}
-					System.out.println("\n");
-
-					// Try to delete the file if exists
-					File xmlFile = new File(XMLfileName);
-					if (xmlFile.exists() == true && xmlFile.delete() == false) {
-						throw (IOException) new IOException("XML file delete failed.");
-					}
-					// Try to create the file
-					xmlFile = new File(XMLfileName);
-					if (xmlFile.createNewFile() == false) { // Fail to create
-						throw (IOException) new IOException("XML file creation failed.");
-					}
-					else { //Success to create
-						PrintWriter toXmlOutputFile = new PrintWriter(new BufferedWriter(new FileWriter(XMLfileName)));
-						// Write content to file
-						toXmlOutputFile.println("First arg to Handler is: " + XMLfileName + "\n");
-						toXmlOutputFile.println(xml);
-						toXmlOutputFile.close();
-					}
-				}
+			int i = 0;
+			MyDataArray da = new MyDataArray();
+			BufferedReader fromMimeDataFile = new BufferedReader(new FileReader(argOne));
+			// Only allows for five lines of data in input file plus safety:
+			while(((da.lines[i++] = fromMimeDataFile.readLine())!= null) && i < 8){
+				System.out.println("Data is: " + da.lines[i-1]);
 			}
-			while (userData.indexOf("quit") < 0); // quit
+			da.num_lines = i - 1;
+			System.out.println("i is: " + i);
 
-			System.out.println ("Back Channel Client has been shut down!");
-			System.out.println ("Run rxclient.bat to start again.");
+			XStream xstream = new XStream();
+			// Serialize object to xml
+			String xml = xstream.toXML(da);
 
+			System.out.println("\n\nHere is the XML content:");
+			// Print the xml content
+			System.out.print(xml);
+
+			System.out.println("Send to server...");
+			// Send to server and wait for acknowledgment
+			sendToServer(xml, serverName);
 		}
 		catch (IOException x) {
 			x.printStackTrace ();
 		}
 	}
 
-	static void sendToBC (String sendData, String serverName){
+	static void sendToServer (String sendData, String serverName){
 		Socket sock;
 		BufferedReader fromServer;
 		PrintStream toServer;

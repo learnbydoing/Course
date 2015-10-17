@@ -28,7 +28,7 @@ To run:
 import java.io.*;
 import java.util.*;
 
-class myDataArray {
+class MyDataArray {
 	int num_lines = 0;
 	String[] lines = new String[8];
 }
@@ -42,7 +42,7 @@ public class Handler {
 	public static void main(String args[]) {
 		int i = 0;
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		myDataArray da = new myDataArray();
+		MyDataArray da = new MyDataArray();
 
 		try {
 			System.out.println("Executing the java application.");
