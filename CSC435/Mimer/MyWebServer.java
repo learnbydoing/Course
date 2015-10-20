@@ -28,6 +28,28 @@ In separate shell windows:
   2) Display content of a single file;
   3) Handle dynamical script execution, eg. fake-cgi request.
 	4) Logs will be saved each time after a new request is handled.
+
+----------------------------------------------------------*/
+
+/*--------------------------------------------------------
+Enhancement for the Mimer.
+1. Added three classes MyDataArray, BCWorker, BCListener
+
+2. Compile:
+ > jcx.bat
+ Requires the Xstream libraries contained in .jar files to compile, AND to run.
+ http://condor.depaul.edu/elliott/435/hw/programs/mimer/xstream-1.2.1.jar
+ http://condor.depaul.edu/elliott/435/hw/programs/mimer/xpp3_min-1.1.3.4.O.jar
+
+3. Execution:
+ > rx.bat
+
+4. List of files needed for running the program.
+  a. MyWebServer.class
+	b. HttpWorker.class
+	c. MyDataArray.class
+	d. BCWorker.class
+	e. BCListener.class
 ----------------------------------------------------------*/
 import java.io.*;
 import java.net.*;
@@ -36,12 +58,14 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+
 /**
- * A model to persist data.
+ * MyDataArray acts as a data model which is used to store data. Here, it stores
+ * the content of a file.
  */
 class MyDataArray {
 	int num_lines = 0; // line count
-  String[] lines = new String[10]; // 10 lines by default
+  String[] lines = new String[8]; // 8 lines by default
 }
 
 /**
@@ -52,63 +76,130 @@ class MyDataArray {
  * content of the object to screen.
  */
 class BCWorker extends Thread {
-		private Socket sock;
-		final String newLine = System.getProperty("line.separator");
+	private static final String FILE_LOG = "BCLogs.txt";
+	// Use an ArrayList to store the logs from server
+	private static ArrayList<String> alLogs = new ArrayList<String>();
+	private Socket sock;
+	final String newLine = System.getProperty("line.separator");
 
-		/**
-		 * Construct
-		 * @param s, the socket which is to be monitored
-		 */
-		public BCWorker (Socket s) {
-			sock = s;
-		}
+	/**
+	 * Construct
+	 * @param s, the socket which is to be monitored
+	 */
+	public BCWorker (Socket s) {
+		sock = s;
+	}
 
-		public void run(){
+	public void run() {
+
+		writeLog("\nBC worker has been called.");
+		try{
+			BufferedReader in =  new BufferedReader(new InputStreamReader(sock.getInputStream()));
+			PrintStream out = new PrintStream(sock.getOutputStream());
+
 			StringBuilder sbXml = new StringBuilder();
 			String inputLine = "";
-			String xml = "";
-
-			System.out.println("");
-			System.out.println("Called BC worker.");
-			try{
-				BufferedReader in =  new BufferedReader(new InputStreamReader(sock.getInputStream()));
-				PrintStream out = new PrintStream(sock.getOutputStream()); // to send ack back to client
-				while(true){
-					inputLine = in.readLine();
-					if (inputLine.indexOf("end_of_xml") > -1) { // Check whether the end of the input
-						break;
-					}
-					else { // Still is the content of xml
-						// Append to the end
-						sbXml.append(inputLine);
-						// Append new line character for each line
-						sbXml.append(newLine);
-					}
+			while(true){
+				inputLine = in.readLine();
+				if (inputLine.indexOf("end_of_xml") > -1) { // Check whether the end of the input
+					break;
 				}
-
-				// Convert to string which contains whole content in xml format
-				xml = sbXml.toString();
-				System.out.println("The XML marshaled data:");
-				// Print the xml to the console
-				System.out.println(xml);
-				// Send back the acknowledgment to client
-				out.println(">Server: Acknowledging Back Channel Data Receipt!");
-				out.flush();
-				sock.close();
-
-				XStream xstream = new XStream();
-				// deserialize / unmarshal data from xml
-				MyDataArray da = (MyDataArray) xstream.fromXML(xml);
-				System.out.println("Here is the restored data: ");
-				// Print the content from object one by one
-				for(int i = 0; i < da.num_lines; i++){
-					System.out.println(da.lines[i]);
+				else { // Still is the content of xml
+					// Append to the end
+					sbXml.append(inputLine);
+					// Append new line character for each line
+					sbXml.append(newLine);
 				}
 			}
-			catch (IOException ioe){
-				System.out.println(ioe);
-			} // end run
+
+			// Convert to string which contains whole content in xml format
+			String xml = sbXml.toString();
+			writeLog("The XML marshaled data:");
+			// Print the xml to the console
+			writeLog(xml);
+			//System.out.println(xml);
+			// Send back the acknowledgment to client
+			out.println("> Server: Acknowledging Back Channel Data Receipt!");
+			out.flush();
+			sock.close();
+
+			writeLog("Acknowledgment has been sent back to client!");
+
+			XStream xstream = new XStream();
+			// deserialize / unmarshal data from xml
+			MyDataArray da = (MyDataArray) xstream.fromXML(xml);
+			writeLog("\nHere is the restored data: ");
+			// Print the content from object one by one
+			for(int i = 0; i < da.num_lines; i++){
+				writeLog(da.lines[i]);
+			}
+
+			// Save log
+			saveLogs(true);
 		}
+		catch (IOException ioe){
+			System.out.println(ioe);
+		} // end run
+	}
+
+	/**
+	 * Write log to local storage list
+	 * @param log, the content of the log
+	 */
+	private static void writeLog(String log) {
+		writeLog(log, true);
+	}
+
+	/**
+	 * Write log to local storage list
+	 * @param log, the content of the log
+	 * @param print, print to screen
+	 */
+	private static void writeLog(String log, boolean print) {
+		// Store new log
+		alLogs.add(log);
+
+		if(print) {
+			// Print the log
+			System.out.println(log);
+		}
+	}
+	/**
+	 * Save logs to the specified file
+	 * @param append, ture is append, false is override
+	 */
+	private static void saveLogs(boolean append) {
+		try {
+			if (alLogs!=null && alLogs.size()>0) {
+				// Convert the ArrayList to string array
+				String[] arrLogs = new String[alLogs.size()];
+				arrLogs = alLogs.toArray(arrLogs);
+
+				// Open the log
+				FileWriter fileWriterLog = new FileWriter(FILE_LOG, append);
+
+				// User BufferedWriter to add new line
+				BufferedWriter bufferedWriterLog = new BufferedWriter(fileWriterLog);
+
+				// Go through all the content and write them to the file
+				for(int ix=0; ix < arrLogs.length; ix++) {
+					// Write the current log
+					bufferedWriterLog.write(arrLogs[ix]);
+					// One log one line
+					bufferedWriterLog.newLine();
+				}
+
+				// Always close files.
+				bufferedWriterLog.close();
+			}
+		}
+		catch(FileNotFoundException ex) {
+			System.out.println("Unable to open file '" + FILE_LOG + "'");
+		}
+		catch(IOException ex) {
+			ex.printStackTrace();
+		}
+	}
 }
 
 /**

@@ -6,647 +6,11 @@ Rong Zhuang's Web Server is working...
 >>> Directory: images
 >>> Directory: Johnny
 >>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: favicon.ico
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data.xyz
->>> File: MyListener.class
->>> File: MyListener.java
->>> File: MyTelnet.class
->>> File: MyTelnet.java
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: favicon.ico
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /http-streams.txt HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: http-streams.txt
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /shim.bat HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: shim.bat
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: favicon.ico
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /DS435%20MIMER%20CALL%20page.html HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: DS435 MIMER CALL page.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /DS435%20MIMER%20CALL%20page_files/DS435%20MIMER%20CALL%20page.html HTTP/1.1
-> This is a [SINGLE FILE] request..
->> No such resource:/DS435 MIMER CALL page_files/DS435 MIMER CALL page.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data (1).xyz
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data (1).xyz
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data (1).xyz
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data (1).xyz
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Johnny
->>> Directory: New folder
->>> File: sample.wml
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny/New%20folder HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: New folder
->>> Directory: test
->>> File: cat2.html
->>> File: New Text Document.txt
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Johnny
->>> Directory: New folder
->>> File: sample.wml
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data (1).xyz
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data (1).xyz
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Johnny
->>> Directory: New folder
->>> File: sample.wml
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny/New%20folder HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: New folder
->>> Directory: test
->>> File: cat2.html
->>> File: New Text Document.txt
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Johnny
->>> Directory: New folder
->>> File: sample.wml
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny/New%20folder HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: New folder
->>> Directory: test
->>> File: cat2.html
->>> File: New Text Document.txt
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny/New%20folder/test HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: test
->>> Directory: New folder
->>> File: New1.txt
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny/New%20folder/test/New%20folder HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: New folder
->>> File: New Text Document1.txt
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny/New%20folder/test HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: test
->>> Directory: New folder
->>> File: New1.txt
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny/New%20folder HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: New folder
->>> Directory: test
->>> File: cat2.html
->>> File: New Text Document.txt
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Johnny
->>> Directory: New folder
->>> File: sample.wml
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data (1).xyz
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: Handler.java
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data (1).xyz
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Johnny
->>> Directory: New folder
->>> File: sample.wml
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: Handler.java
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data (1).xyz
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: Handler.java
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data (1).xyz
->>> File: mimer-data.xyz
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Johnny
->>> Directory: New folder
->>> File: sample.wml
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny/sample.wml HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: sample.wml
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: Handler.class
->>> File: Handler.java
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data.xyz
->>> File: myDataArray.class
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: Handler.class
->>> File: Handler.java
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data.xyz
->>> File: myDataArray.class
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
 >>> File: BCClient.class
 >>> File: BCClient.java
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: Handler.class
->>> File: Handler.java
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: mimer-data.xyz
->>> File: Mimerjcxclient.bat
->>> File: myDataArray.class
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: rxclient.bat
->>> File: serverlog.txt
->>> File: shim.bat
->>> File: [Rong Zhuang]'s MyWebServer Checklist.html
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: BCClient.class
->>> File: BCClient.java
->>> File: BCLooper.class
->>> File: BCWorker.class
->>> File: cat.html
->>> File: CSC 435 -- Clark Elliott, Personal MIME type with Back Channel.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: Handler.class
->>> File: Handler.java
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: jcx.bat
->>> File: Mimer Checklist.html
->>> File: mimer-data.xyz
->>> File: Mimerjcxclient.bat
->>> File: myDataArray.class
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: rx.bat
->>> File: rxclient.bat
->>> File: serverlog.txt
->>> File: shim.bat
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: BCClient.class
->>> File: BCClient.java
->>> File: BCLooper.class
+>>> File: BCHandler.class
+>>> File: BCHandler.java
+>>> File: BCListener.class
 >>> File: BCWorker.class
 >>> File: cat.html
 >>> File: dog.txt
@@ -656,245 +20,39 @@ Rong Zhuang's Web Server is working...
 >>> File: Handler.java
 >>> File: http-streams.txt
 >>> File: HttpWorker.class
->>> File: jcx.bat
->>> File: Mimer Checklist.html
->>> File: mimer-data.xyz
->>> File: Mimerjcxclient.bat
->>> File: myDataArray.class
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: rx.bat
->>> File: rxclient.bat
->>> File: serverlog.txt
->>> File: shim.bat
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Johnny
->>> Directory: New folder
->>> File: sample.wml
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny/New%20folder HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: New folder
->>> Directory: test
->>> File: cat2.html
->>> File: New Text Document.txt
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /Johnny HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Johnny
->>> Directory: New folder
->>> File: sample.wml
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: BCClient.class
->>> File: BCClient.java
->>> File: BCLooper.class
->>> File: BCWorker.class
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: Handler.class
->>> File: Handler.java
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: jcx.bat
->>> File: Mimer Checklist.html
->>> File: mimer-data.xyz
->>> File: Mimerjcxclient.bat
->>> File: myDataArray.class
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: rx.bat
->>> File: rxclient.bat
->>> File: serverlog.txt
->>> File: shim.bat
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: BCClient.class
->>> File: BCClient.java
->>> File: BCLooper.class
->>> File: BCWorker.class
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: Handler.class
->>> File: Handler.java
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: jcx.bat
->>> File: Mimer Checklist.html
->>> File: mimer-data.xyz
->>> File: Mimerjcxclient.bat
->>> File: myDataArray.class
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: rx.bat
->>> File: rxclient.bat
->>> File: serverlog.txt
->>> File: shim.bat
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: BCClient.class
->>> File: BCClient.java
->>> File: BCLooper.class
->>> File: BCWorker.class
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: Handler.class
->>> File: Handler.java
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: jcx.bat
->>> File: Mimer Checklist.html
->>> File: mimer-data.xyz
->>> File: Mimerjcxclient.bat
->>> File: myDataArray.class
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: rx.bat
->>> File: rxclient.bat
->>> File: serverlog.txt
->>> File: shim.bat
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: BCClient.class
->>> File: BCClient.java
->>> File: BCLooper.class
->>> File: BCWorker.class
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: Handler.class
->>> File: Handler.java
->>> File: http-streams.txt
->>> File: HttpWorker.class
->>> File: jcx.bat
->>> File: Mimer Checklist.html
->>> File: mimer-data.xyz
->>> File: Mimerjcxclient.bat
->>> File: myDataArray.class
->>> File: MyWebServer.class
->>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
->>> File: rx.bat
->>> File: rxclient.bat
->>> File: serverlog.txt
->>> File: shim.bat
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET / HTTP/1.1
-> This is a [DIRECTORY EXPLORE] request..
->> Explore the content under folder: Mimer
->>> Directory: images
->>> Directory: Johnny
->>> File: addnums.html
->>> File: BCClient.class
->>> File: BCClient.java
->>> File: BCLooper.class
->>> File: BCWorker.class
->>> File: cat.html
->>> File: dog.txt
->>> File: DS435 MIMER CALL page.html
->>> File: favicon.ico
->>> File: Handler.class
->>> File: Handler.java
->>> File: http-streams.txt
->>> File: HttpWorker.class
+>>> File: jbch.bat
 >>> File: jcx.bat
 >>> File: jcxclient.bat
 >>> File: Mimer Checklist.html
 >>> File: mimer-data.xyz
->>> File: myDataArray.class
+>>> File: mimer-news.xyz
+>>> File: MyDataArray.class
 >>> File: MyWebServer.class
 >>> File: MyWebServer.java
->>> File: MyWebServerLogs.txt
 >>> File: rx.bat
 >>> File: rxclient.bat
 >>> File: serverlog.txt
 >>> File: shim.bat
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /mimer-data.xyz HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: mimer-data.xyz
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /mimer-news.xyz HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: mimer-news.xyz
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer%20Checklist.html HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: Mimer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer%20Checklist_files/Mimer%20Checklist.html HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> No such resource:/Mimer Checklist_files/Mimer Checklist.html
 
 Rong Zhuang's Web Server is working...
 > New request received: GET / HTTP/1.1
@@ -905,7 +63,10 @@ Rong Zhuang's Web Server is working...
 >>> File: addnums.html
 >>> File: BCClient.class
 >>> File: BCClient.java
->>> File: BCLooper.class
+>>> File: BCHandler.class
+>>> File: BCHandler.java
+>>> File: BCListener.class
+>>> File: BCLogs.txt
 >>> File: BCWorker.class
 >>> File: cat.html
 >>> File: dog.txt
@@ -915,11 +76,83 @@ Rong Zhuang's Web Server is working...
 >>> File: Handler.java
 >>> File: http-streams.txt
 >>> File: HttpWorker.class
+>>> File: jbch.bat
 >>> File: jcx.bat
 >>> File: jcxclient.bat
 >>> File: Mimer Checklist.html
 >>> File: mimer-data.xyz
->>> File: myDataArray.class
+>>> File: mimer-news.xyz
+>>> File: MyDataArray.class
+>>> File: MyWebServer.class
+>>> File: MyWebServer.java
+>>> File: MyWebServerLogs.txt
+>>> File: rx.bat
+>>> File: rxclient.bat
+>>> File: serverlog.txt
+>>> File: shim.bat
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /mimer-news.xyz HTTP/1.1
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /mimer-news.xyz HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: mimer-news.xyz
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /mimer-news.xyz HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: mimer-news.xyz
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /mimer-data.xyz HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: mimer-data.xyz
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /mimer-news.xyz HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: mimer-news.xyz
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /mimer-news.xyz HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: mimer-news.xyz
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /mimer-news.xyz HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: mimer-news.xyz
+
+Rong Zhuang's Web Server is working...
+> New request received: GET / HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: Mimer
+>>> Directory: images
+>>> Directory: Johnny
+>>> File: addnums.html
+>>> File: BCClient.class
+>>> File: BCClient.java
+>>> File: BCHandler.class
+>>> File: BCHandler.java
+>>> File: BCListener.class
+>>> File: BCLogs.txt
+>>> File: BCWorker.class
+>>> File: cat.html
+>>> File: dog.txt
+>>> File: DS435 MIMER CALL page.html
+>>> File: favicon.ico
+>>> File: Handler.class
+>>> File: Handler.java
+>>> File: http-streams.txt
+>>> File: HttpWorker.class
+>>> File: jbch.bat
+>>> File: jcx.bat
+>>> File: jcxclient.bat
+>>> File: Mimer Checklist.html
+>>> File: mimer-data.xyz
+>>> File: mimer-news.xyz
+>>> File: MyDataArray.class
 >>> File: MyWebServer.class
 >>> File: MyWebServer.java
 >>> File: MyWebServerLogs.txt
@@ -945,6 +178,7 @@ Rong Zhuang's Web Server is working...
 >>> File: BCHandler.class
 >>> File: BCHandler.java
 >>> File: BCListener.class
+>>> File: BCLogs.txt
 >>> File: BCWorker.class
 >>> File: cat.html
 >>> File: dog.txt
@@ -959,6 +193,7 @@ Rong Zhuang's Web Server is working...
 >>> File: jcxclient.bat
 >>> File: Mimer Checklist.html
 >>> File: mimer-data.xyz
+>>> File: mimer-news.xyz
 >>> File: MyDataArray.class
 >>> File: MyWebServer.class
 >>> File: MyWebServer.java
@@ -974,24 +209,14 @@ Rong Zhuang's Web Server is working...
 >> Seek the content of file: mimer-data.xyz
 
 Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
+> New request received: GET /Mimer%20Checklist.html HTTP/1.1
 > This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
+>> Seek the content of file: Mimer Checklist.html
 
 Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
+> New request received: GET /Mimer%20Checklist_files/Mimer%20Checklist.html HTTP/1.1
 > This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
-
-Rong Zhuang's Web Server is working...
-> New request received: GET /mimer-data.xyz HTTP/1.1
-> This is a [SINGLE FILE] request..
->> Seek the content of file: mimer-data.xyz
+>> No such resource:/Mimer Checklist_files/Mimer Checklist.html
 
 Rong Zhuang's Web Server is working...
 > New request received: GET /Mimer%20Checklist.html HTTP/1.1
