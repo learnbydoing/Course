@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 public class Activity_dvr extends Activity
         implements CompoundButton.OnCheckedChangeListener{
+    // Define DVR state
     enum DvrState{
         Stopped,
         Playing,
@@ -90,7 +91,7 @@ public class Activity_dvr extends Activity
         };
         btnRecord.setOnClickListener(listenerRecord);
 
-        //Intent
+        //Intent, go back to tv
         Button btnToTv = (Button) findViewById(R.id.totv);
         btnToTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,7 +125,10 @@ public class Activity_dvr extends Activity
                 }
                 break;
             case Paused:
-                if (currentState == DvrState.Playing) {
+                if (currentState == DvrState.Paused) {
+                    return;
+                }
+                else if (currentState == DvrState.Playing) {
                     currentState = DvrState.Paused;
                     txtDvrState.setText(R.string.dvr_state_paused);
                 }
@@ -139,7 +143,10 @@ public class Activity_dvr extends Activity
                 }
                 break;
             case FastForwarding:
-                if (currentState == DvrState.Playing) {
+                if (currentState == DvrState.FastForwarding) {
+                    return;
+                }
+                else if (currentState == DvrState.Playing) {
                     currentState = DvrState.FastForwarding;
                     txtDvrState.setText(R.string.dvr_state_fastforwarding);
                 }
@@ -154,7 +161,10 @@ public class Activity_dvr extends Activity
                 }
                 break;
             case FastRewinding:
-                if (currentState == DvrState.Playing) {
+                if (currentState == DvrState.FastRewinding) {
+                    return;
+                }
+                else if (currentState == DvrState.Playing) {
                     currentState = DvrState.FastRewinding;
                     txtDvrState.setText(R.string.dvr_state_fastrewinding);
                 }
@@ -169,7 +179,10 @@ public class Activity_dvr extends Activity
                 }
                 break;
             case Recording:
-                if (currentState == DvrState.Stopped) {
+                if (currentState == DvrState.Recording) {
+                    return;
+                }
+                else if (currentState == DvrState.Stopped) {
                     currentState = DvrState.Recording;
                     txtDvrState.setText(R.string.dvr_state_recording);
                 }

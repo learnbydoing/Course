@@ -20,19 +20,21 @@ public class Activity_tv extends Activity
         implements CompoundButton.OnCheckedChangeListener {
 
     private static final int ASK_QUESTION = 100; // request code
-    private int favorite1 = 100;
-    private int favorite2 = 333;
-    private int favorite3 = 888;
-    private String txtFovorite1 = "";
-    private String txtFovorite2 = "";
-    private String txtFovorite3 = "";
-    private int currentChannel = 187;
+    List<FavoriteSettings> favorites = new ArrayList<FavoriteSettings>();
+    private int currentChannel = 187; // default channel
     List<Integer> numbers = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tv);
+
+        // Build favorite list
+        favorites.add(new FavoriteSettings(1, "ABC", 100));
+        favorites.add(new FavoriteSettings(2, "NBC", 333));
+        favorites.add(new FavoriteSettings(3, "CBS", 888));
+        // Update favorite button text
+        updateFavorite(favorites.get(0));
 
         //Initial
         final TextView txvPower = (TextView) findViewById(R.id.tvpower);
@@ -114,19 +116,19 @@ public class Activity_tv extends Activity
         // Listener for Favorite button
         View.OnClickListener listeneFavorite1 = new View.OnClickListener () {
             public void onClick (View v) {
-                setCurrentChannel(favorite1);
+                setCurrentChannel(favorites.get(0).channel);
                 numbers.clear();
             }
         };
         View.OnClickListener listeneFavorite2 = new View.OnClickListener () {
             public void onClick (View v) {
-                setCurrentChannel(favorite2);
+                setCurrentChannel(favorites.get(1).channel);
                 numbers.clear();
             }
         };
         View.OnClickListener listeneFavorite3 = new View.OnClickListener () {
             public void onClick (View v) {
-                setCurrentChannel(favorite3);
+                setCurrentChannel(favorites.get(2).channel);
                 numbers.clear();
             }
         };
@@ -146,13 +148,8 @@ public class Activity_tv extends Activity
         btnChannelFavorite1.setOnClickListener(listeneFavorite1);
         btnChannelFavorite2.setOnClickListener(listeneFavorite2);
         btnChannelFavorite3.setOnClickListener(listeneFavorite3);
-        txtFovorite1 = getResources().getString(R.string.control_favorite_1);
-        txtFovorite2 = getResources().getString(R.string.control_favorite_2);
-        txtFovorite3 = getResources().getString(R.string.control_favorite_3);
-        // update text
-        updateFavorite(0, "", 0);
 
-        //Intent
+        //Intent, to dvr
         Button btnToDvr = (Button) findViewById(R.id.todvr);
         btnToDvr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +158,7 @@ public class Activity_tv extends Activity
                 startActivity(intent);
             }
         });
+        //Intent, to config
         Button btnToConfig = (Button) findViewById(R.id.toconfig);
         btnToConfig.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,33 +173,33 @@ public class Activity_tv extends Activity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ASK_QUESTION) {
             if (resultCode == RESULT_OK) {
-                updateFavorite(data.getIntExtra("favorite", 0), String.valueOf(data.getCharSequenceExtra("label")), data.getIntExtra("channel", 1));
+                // Get parcelable object from config activity
+                FavoriteSettings config = data.getExtras().getParcelable("fav");
+                updateFavorite(config);
+                //updateFavorite(data.getIntExtra("favorite", 0), String.valueOf(data.getCharSequenceExtra("label")), data.getIntExtra("channel", 1));
             }
         }
     }
 
-    private void updateFavorite(int favorite, String label, int channel) {
-        if (favorite == 0) {
+    private void updateFavorite(FavoriteSettings config) {
+        FavoriteSettings fav = null;
+        for (FavoriteSettings item: favorites) {
+            if (item.id == config.id) {
+                fav = item;
+                fav.title = config.title;
+                fav.channel = config.channel;
+                break;
+            }
+        }
+        if (fav != null) {
+            Button btnChannelFavorite1 = (Button) findViewById(R.id.channelfavorite1);
+            Button btnChannelFavorite2 = (Button) findViewById(R.id.channelfavorite2);
+            Button btnChannelFavorite3 = (Button) findViewById(R.id.channelfavorite3);
 
+            btnChannelFavorite1.setText(favorites.get(0).title);
+            btnChannelFavorite2.setText(favorites.get(1).title);
+            btnChannelFavorite3.setText(favorites.get(2).title);
         }
-        else if (favorite == 1) {
-            txtFovorite1 = label;
-            favorite1 = channel;
-        }
-        else if (favorite == 2) {
-            txtFovorite2 = label;
-            favorite2 = channel;
-        }
-        else if (favorite == 3) {
-            txtFovorite3 = label;
-            favorite3 = channel;
-        }
-        Button btnChannelFavorite1 = (Button) findViewById(R.id.channelfavorite1);
-        Button btnChannelFavorite2 = (Button) findViewById(R.id.channelfavorite2);
-        Button btnChannelFavorite3 = (Button) findViewById(R.id.channelfavorite3);
-        btnChannelFavorite1.setText(txtFovorite1);
-        btnChannelFavorite2.setText(txtFovorite2);
-        btnChannelFavorite3.setText(txtFovorite3);
     }
 
     public void onCheckedChanged(CompoundButton button, boolean isChecked) {
@@ -242,18 +240,18 @@ public class Activity_tv extends Activity
         btnChannelFavorite1.setEnabled(isChecked);
         btnChannelFavorite2.setEnabled(isChecked);
         btnChannelFavorite3.setEnabled(isChecked);
-        //Set button text color
+        //Set default/highlight color for favorite button
         if (isChecked) {
             btnChannelFavorite1.setTextColor(getResources().getColor(R.color.black));
             btnChannelFavorite2.setTextColor(getResources().getColor(R.color.black));
             btnChannelFavorite3.setTextColor(getResources().getColor(R.color.black));
-            if (currentChannel == favorite1) {
+            if (currentChannel == favorites.get(0).channel) {
                 btnChannelFavorite1.setTextColor(getResources().getColor(R.color.yellow));
             }
-            else if (currentChannel == favorite2) {
+            else if (currentChannel == favorites.get(1).channel) {
                 btnChannelFavorite2.setTextColor(getResources().getColor(R.color.yellow));
             }
-            else if (currentChannel == favorite3) {
+            else if (currentChannel == favorites.get(2).channel) {
                 btnChannelFavorite3.setTextColor(getResources().getColor(R.color.yellow));
             }
         }
@@ -284,17 +282,15 @@ public class Activity_tv extends Activity
         btnChannelFavorite2.setTextColor(getResources().getColor(R.color.black));
         Button btnChannelFavorite3 = (Button) findViewById(R.id.channelfavorite3);
         btnChannelFavorite3.setTextColor(getResources().getColor(R.color.black));
-        if (currentChannel == favorite1) {
+        if (currentChannel == favorites.get(0).channel) {
             btnChannelFavorite1.setTextColor(getResources().getColor(R.color.yellow));
         }
-        else if (currentChannel == favorite2) {
+        else if (currentChannel == favorites.get(1).channel) {
             btnChannelFavorite2.setTextColor(getResources().getColor(R.color.yellow));
         }
-        else if (currentChannel == favorite3) {
+        else if (currentChannel == favorites.get(2).channel) {
             btnChannelFavorite3.setTextColor(getResources().getColor(R.color.yellow));
         }
-
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -126,10 +126,9 @@ public class Activity_config extends Activity
                     return;
                 }
                 Intent data = new Intent();
-                //TvSettings settings = new TvSettings(favorite, lblText, currentChannel);
-                data.putExtra("favorite", favorite);
-                data.putExtra("label", lblText);
-                data.putExtra("channel", currentChannel);
+                FavoriteSettings fav = new FavoriteSettings(favorite, lblText, currentChannel);
+                // Transfer data with parcelable
+                data.putExtra("fav", fav);
                 setResult(RESULT_OK, data);
                 finish();
             }
