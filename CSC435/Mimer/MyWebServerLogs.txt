@@ -227,3 +227,139 @@ Rong Zhuang's Web Server is working...
 > New request received: GET /Mimer%20Checklist_files/Mimer%20Checklist.html HTTP/1.1
 > This is a [SINGLE FILE] request..
 >> No such resource:/Mimer Checklist_files/Mimer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET / HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: Mimer
+>>> Directory: images
+>>> Directory: Johnny
+>>> File: addnums.html
+>>> File: BCClient.class
+>>> File: BCClient.java
+>>> File: BCHandler.class
+>>> File: BCHandler.java
+>>> File: BCListener.class
+>>> File: BCLogs.txt
+>>> File: BCWorker.class
+>>> File: cat.html
+>>> File: dog.txt
+>>> File: DS435 MIMER CALL page.html
+>>> File: favicon.ico
+>>> File: Handler.class
+>>> File: Handler.java
+>>> File: http-streams.txt
+>>> File: HttpWorker.class
+>>> File: jbch.bat
+>>> File: jcx.bat
+>>> File: jcxclient.bat
+>>> File: Mimer Checklist.html
+>>> File: mimer-data.xyz
+>>> File: mimer-news.xyz
+>>> File: MyDataArray.class
+>>> File: MyWebServer.class
+>>> File: MyWebServer.java
+>>> File: MyWebServerLogs.txt
+>>> File: rx.bat
+>>> File: rxclient.bat
+>>> File: serverlog.txt
+>>> File: shim.bat
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /mimer-news.xyz HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: mimer-news.xyz
+
+Rong Zhuang's Web Server is working...
+400(Bad Request): HEAD /mimer-news.xyz HTTP/1.1
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /BCLogs.txt HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: BCLogs.txt
+
+Rong Zhuang's Web Server is working...
+> New request received: GET / HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: Mimer
+>>> Directory: images
+>>> Directory: Johnny
+>>> File: addnums.html
+>>> File: BCClient.class
+>>> File: BCClient.java
+>>> File: BCHandler.class
+>>> File: BCHandler.java
+>>> File: BCListener.class
+>>> File: BCLogs.txt
+>>> File: BCWorker.class
+>>> File: cat.html
+>>> File: dog.txt
+>>> File: DS435 MIMER CALL page.html
+>>> File: favicon.ico
+>>> File: Handler.class
+>>> File: Handler.java
+>>> File: http-streams.txt
+>>> File: HttpWorker.class
+>>> File: jbch.bat
+>>> File: jcx.bat
+>>> File: jcxclient.bat
+>>> File: Mimer Checklist.html
+>>> File: mimer-data.xyz
+>>> File: mimer-news.xyz
+>>> File: MyDataArray.class
+>>> File: MyWebServer.class
+>>> File: MyWebServer.java
+>>> File: MyWebServerLogs.txt
+>>> File: rx.bat
+>>> File: rxclient.bat
+>>> File: serverlog.txt
+>>> File: shim.bat
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Johnny HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: Johnny
+>>> Directory: New folder
+>>> File: sample.wml
+
+Rong Zhuang's Web Server is working...
+> New request received: GET / HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: Mimer
+>>> Directory: images
+>>> Directory: Johnny
+>>> File: addnums.html
+>>> File: BCClient.class
+>>> File: BCClient.java
+>>> File: BCHandler.class
+>>> File: BCHandler.java
+>>> File: BCListener.class
+>>> File: BCLogs.txt
+>>> File: BCWorker.class
+>>> File: cat.html
+>>> File: dog.txt
+>>> File: DS435 MIMER CALL page.html
+>>> File: favicon.ico
+>>> File: Handler.class
+>>> File: Handler.java
+>>> File: http-streams.txt
+>>> File: HttpWorker.class
+>>> File: jbch.bat
+>>> File: jcx.bat
+>>> File: jcxclient.bat
+>>> File: Mimer Checklist.html
+>>> File: mimer-data.xyz
+>>> File: mimer-news.xyz
+>>> File: MyDataArray.class
+>>> File: MyWebServer.class
+>>> File: MyWebServer.java
+>>> File: MyWebServerLogs.txt
+>>> File: rx.bat
+>>> File: rxclient.bat
+>>> File: serverlog.txt
+>>> File: shim.bat
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /cat.html HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: cat.html
