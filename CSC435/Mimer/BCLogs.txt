@@ -1178,3 +1178,78 @@ Two turtle doves
 Three French hens
 Four calling birds
 Five golden rings
+
+BC worker has been called.
+The XML marshaled data:
+<MyDataArray>
+  <num__lines>5</num__lines>
+  <lines>
+    <string>One partridge in a pear tree</string>
+    <string>Two turtle doves</string>
+    <string>Three French hens</string>
+    <string>Four calling birds</string>
+    <string>Five golden rings</string>
+    <null/>
+    <null/>
+    <null/>
+  </lines>
+</MyDataArray>
+
+Acknowledgment has been sent back to client!
+
+Here is the restored data: 
+One partridge in a pear tree
+Two turtle doves
+Three French hens
+Four calling birds
+Five golden rings
+
+BC worker has been called.
+The XML marshaled data:
+<MyDataArray>
+  <num__lines>5</num__lines>
+  <lines>
+    <string>One partridge in a pear tree</string>
+    <string>Two turtle doves</string>
+    <string>Three French hens</string>
+    <string>Four calling birds</string>
+    <string>Five golden rings</string>
+    <null/>
+    <null/>
+    <null/>
+  </lines>
+</MyDataArray>
+
+Acknowledgment has been sent back to client!
+
+Here is the restored data: 
+One partridge in a pear tree
+Two turtle doves
+Three French hens
+Four calling birds
+Five golden rings
+
+BC worker has been called.
+The XML marshaled data:
+<MyDataArray>
+  <num__lines>5</num__lines>
+  <lines>
+    <string>One partridge in a pear tree</string>
+    <string>Two turtle doves</string>
+    <string>Three French hens</string>
+    <string>Four calling birds</string>
+    <string>Five golden rings</string>
+    <null/>
+    <null/>
+    <null/>
+  </lines>
+</MyDataArray>
+
+Acknowledgment has been sent back to client!
+
+Here is the restored data: 
+One partridge in a pear tree
+Two turtle doves
+Three French hens
+Four calling birds
+Five golden rings

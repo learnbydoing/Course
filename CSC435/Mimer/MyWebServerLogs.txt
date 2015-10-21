@@ -363,3 +363,819 @@ Rong Zhuang's Web Server is working...
 > New request received: GET /cat.html HTTP/1.1
 > This is a [SINGLE FILE] request..
 >> Seek the content of file: cat.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /mimer-data.xyz HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: mimer-data.xyz
+
+Rong Zhuang's Web Server is working...
+> New request received: GET / HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: Mimer
+>>> Directory: images
+>>> Directory: Johnny
+>>> File: addnums.html
+>>> File: BCClient.class
+>>> File: BCClient.java
+>>> File: BCHandler.class
+>>> File: BCHandler.java
+>>> File: BCListener.class
+>>> File: BCLogs.txt
+>>> File: BCWorker.class
+>>> File: cat.html
+>>> File: dog.txt
+>>> File: DS435 MIMER CALL page.html
+>>> File: favicon.ico
+>>> File: Handler.class
+>>> File: Handler.java
+>>> File: http-streams.txt
+>>> File: HttpWorker.class
+>>> File: jbch.bat
+>>> File: jcx.bat
+>>> File: jcxclient.bat
+>>> File: Mimer Checklist.html
+>>> File: mimer-data.xyz
+>>> File: mimer-news.xyz
+>>> File: MyDataArray.class
+>>> File: MyWebServer.class
+>>> File: MyWebServer.java
+>>> File: MyWebServerLogs.txt
+>>> File: rx.bat
+>>> File: rxclient.bat
+>>> File: serverlog.txt
+>>> File: shim.bat
+
+Rong Zhuang's Web Server is working...
+> New request received: GET / HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: Mimer
+>>> Directory: images
+>>> Directory: Johnny
+>>> Directory: Mimer_files
+>>> File: addnums.html
+>>> File: BCClient.class
+>>> File: BCClient.java
+>>> File: BCHandler.class
+>>> File: BCHandler.java
+>>> File: BCListener.class
+>>> File: BCLogs.txt
+>>> File: BCWorker.class
+>>> File: cat.html
+>>> File: dog.txt
+>>> File: DS435 MIMER CALL page.html
+>>> File: favicon.ico
+>>> File: Handler.class
+>>> File: Handler.java
+>>> File: http-streams.txt
+>>> File: HttpWorker.class
+>>> File: jbch.bat
+>>> File: jcx.bat
+>>> File: jcxclient.bat
+>>> File: Mimer Checklist.html
+>>> File: mimer-data.xyz
+>>> File: mimer-news.xyz
+>>> File: Mimer.htm
+>>> File: MyDataArray.class
+>>> File: MyWebServer.class
+>>> File: MyWebServer.java
+>>> File: MyWebServerLogs.txt
+>>> File: rx.bat
+>>> File: rxclient.bat
+>>> File: serverlog.txt
+>>> File: shim.bat
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: Mimer_files
+>>> File: colorschememapping.xml
+>>> File: filelist.xml
+>>> File: image001.png
+>>> File: image002.jpg
+>>> File: image002.png
+>>> File: image003.jpg
+>>> File: image003.png
+>>> File: image004.jpg
+>>> File: image004.png
+>>> File: image005.jpg
+>>> File: image005.png
+>>> File: image006.jpg
+>>> File: image006.png
+>>> File: image007.jpg
+>>> File: image007.png
+>>> File: image008.jpg
+>>> File: image008.png
+>>> File: image009.jpg
+>>> File: image009.png
+>>> File: image010.jpg
+>>> File: image010.png
+>>> File: image011.jpg
+>>> File: image011.png
+>>> File: image012.jpg
+>>> File: image012.png
+>>> File: image013.jpg
+>>> File: image013.png
+>>> File: image014.jpg
+>>> File: image014.png
+>>> File: image015.jpg
+>>> File: image015.png
+>>> File: image016.jpg
+>>> File: image016.png
+>>> File: image017.jpg
+>>> File: image017.png
+>>> File: image018.jpg
+>>> File: image018.png
+>>> File: image019.jpg
+>>> File: image019.png
+>>> File: image020.jpg
+>>> File: image020.png
+>>> File: image021.jpg
+>>> File: image021.png
+>>> File: image022.jpg
+>>> File: image022.png
+>>> File: image023.jpg
+>>> File: image023.png
+>>> File: image024.jpg
+>>> File: image024.png
+>>> File: image025.jpg
+>>> File: image025.png
+>>> File: image026.jpg
+>>> File: image026.png
+>>> File: image027.jpg
+>>> File: image027.png
+>>> File: image028.jpg
+>>> File: image028.png
+>>> File: image029.jpg
+>>> File: image029.png
+>>> File: image030.jpg
+>>> File: image030.png
+>>> File: image031.jpg
+>>> File: image031.png
+>>> File: image032.jpg
+>>> File: image032.png
+>>> File: image033.jpg
+>>> File: image033.png
+>>> File: image034.jpg
+>>> File: image034.png
+>>> File: image035.jpg
+>>> File: image035.png
+>>> File: image036.jpg
+>>> File: image036.png
+>>> File: image037.png
+>>> File: image038.png
+>>> File: image039.png
+>>> File: image040.png
+>>> File: image041.png
+>>> File: image042.png
+>>> File: image043.png
+>>> File: image044.png
+>>> File: image045.png
+>>> File: image046.png
+>>> File: image047.png
+>>> File: image048.png
+>>> File: image049.png
+>>> File: image050.png
+>>> File: image051.png
+>>> File: image052.png
+>>> File: image053.png
+>>> File: image054.png
+>>> File: image055.png
+>>> File: image056.png
+>>> File: image057.png
+>>> File: image058.png
+>>> File: image059.png
+>>> File: image060.png
+>>> File: image061.png
+>>> File: image062.png
+>>> File: image063.png
+>>> File: image064.png
+>>> File: image065.png
+>>> File: image066.png
+>>> File: image067.png
+>>> File: image068.png
+>>> File: image069.png
+>>> File: image070.png
+>>> File: image071.png
+>>> File: image072.png
+>>> File: themedata.thmx
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image002.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image002.png
+> New request received: GET /Mimer_files/image006.png HTTP/1.1
+
+> New request received: GET /Mimer_files/image006.png HTTP/1.1
+
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image006.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image008.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image008.png
+> New request received: GET /Mimer_files/image006.png HTTP/1.1
+
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image006.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image008.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image008.png
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image010.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image010.png
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image010.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image010.png
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image012.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image012.png
+
+> This is a [SINGLE FILE] request..
+
+
+
+Rong Zhuang's Web Server is working...
+
+> New request received: GET /Mimer_files/image020.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image022.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image016.png HTTP/1.1
+>> Seek the content of file: image014.png
+> This is a [SINGLE FILE] request..
+> New request received: GET /Mimer_files/image018.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image024.png HTTP/1.1
+>> Seek the content of file: image020.png
+>> Seek the content of file: image022.png
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image016.png
+
+> This is a [SINGLE FILE] request..
+
+
+
+Rong Zhuang's Web Server is working...
+
+> New request received: GET /Mimer_files/image020.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image022.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image016.png HTTP/1.1
+>> Seek the content of file: image014.png
+> This is a [SINGLE FILE] request..
+> New request received: GET /Mimer_files/image018.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image024.png HTTP/1.1
+>> Seek the content of file: image020.png
+>> Seek the content of file: image022.png
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image016.png
+>> Seek the content of file: image018.png
+
+> This is a [SINGLE FILE] request..
+
+
+
+Rong Zhuang's Web Server is working...
+
+> New request received: GET /Mimer_files/image020.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image022.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image016.png HTTP/1.1
+>> Seek the content of file: image014.png
+> This is a [SINGLE FILE] request..
+> New request received: GET /Mimer_files/image018.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image024.png HTTP/1.1
+>> Seek the content of file: image020.png
+>> Seek the content of file: image022.png
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image016.png
+>> Seek the content of file: image018.png
+
+> This is a [SINGLE FILE] request..
+
+
+
+Rong Zhuang's Web Server is working...
+
+> New request received: GET /Mimer_files/image020.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image022.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image016.png HTTP/1.1
+>> Seek the content of file: image014.png
+> This is a [SINGLE FILE] request..
+> New request received: GET /Mimer_files/image018.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image024.png HTTP/1.1
+>> Seek the content of file: image020.png
+>> Seek the content of file: image022.png
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image016.png
+>> Seek the content of file: image018.png
+
+> This is a [SINGLE FILE] request..
+
+
+
+Rong Zhuang's Web Server is working...
+
+> New request received: GET /Mimer_files/image020.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image022.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image016.png HTTP/1.1
+>> Seek the content of file: image014.png
+> This is a [SINGLE FILE] request..
+> New request received: GET /Mimer_files/image018.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image024.png HTTP/1.1
+>> Seek the content of file: image020.png
+>> Seek the content of file: image022.png
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image016.png
+>> Seek the content of file: image018.png
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image024.png
+
+> This is a [SINGLE FILE] request..
+
+
+
+Rong Zhuang's Web Server is working...
+
+> New request received: GET /Mimer_files/image020.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image022.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image016.png HTTP/1.1
+>> Seek the content of file: image014.png
+> This is a [SINGLE FILE] request..
+> New request received: GET /Mimer_files/image018.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image024.png HTTP/1.1
+>> Seek the content of file: image020.png
+>> Seek the content of file: image022.png
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image016.png
+>> Seek the content of file: image018.png
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image024.png
+
+>> Seek the content of file: image026.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image030.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image036.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image028.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image034.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+
+>> Seek the content of file: image026.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image030.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image036.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image028.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image034.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+>> Seek the content of file: image036.png
+>> Seek the content of file: image034.png
+> This is a [SINGLE FILE] request..
+> New request received: GET /Mimer_files/image032.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+
+>> Seek the content of file: image026.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image030.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image036.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image028.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image034.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+>> Seek the content of file: image036.png
+>> Seek the content of file: image034.png
+> This is a [SINGLE FILE] request..
+> New request received: GET /Mimer_files/image032.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image032.png
+>> Seek the content of file: image030.png
+
+>> Seek the content of file: image026.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image030.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image036.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image028.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image034.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+>> Seek the content of file: image036.png
+>> Seek the content of file: image034.png
+> This is a [SINGLE FILE] request..
+> New request received: GET /Mimer_files/image032.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image032.png
+>> Seek the content of file: image030.png
+
+>> Seek the content of file: image026.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image030.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image036.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image028.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image034.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+>> Seek the content of file: image036.png
+>> Seek the content of file: image034.png
+> This is a [SINGLE FILE] request..
+> New request received: GET /Mimer_files/image032.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image032.png
+>> Seek the content of file: image030.png
+
+>> Seek the content of file: image026.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image030.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image036.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image028.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image034.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+>> Seek the content of file: image036.png
+>> Seek the content of file: image034.png
+> This is a [SINGLE FILE] request..
+> New request received: GET /Mimer_files/image032.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image032.png
+>> Seek the content of file: image030.png
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image038.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image038.png
+
+>> Seek the content of file: image044.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image046.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image040.png
+>> Seek the content of file: image046.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image050.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image042.png
+
+>> Seek the content of file: image044.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image046.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image040.png
+>> Seek the content of file: image046.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image050.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image042.png
+>> Seek the content of file: image048.png
+>> Seek the content of file: image050.png
+
+>> Seek the content of file: image044.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image046.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image040.png
+>> Seek the content of file: image046.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image050.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image042.png
+>> Seek the content of file: image048.png
+>> Seek the content of file: image050.png
+
+>> Seek the content of file: image044.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image046.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image040.png
+>> Seek the content of file: image046.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image050.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image042.png
+>> Seek the content of file: image048.png
+>> Seek the content of file: image050.png
+
+>> Seek the content of file: image044.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image046.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image040.png
+>> Seek the content of file: image046.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image050.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image042.png
+>> Seek the content of file: image048.png
+>> Seek the content of file: image050.png
+
+>> Seek the content of file: image044.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image046.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image040.png
+>> Seek the content of file: image046.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image050.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image042.png
+>> Seek the content of file: image048.png
+>> Seek the content of file: image050.png
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image052.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image052.png
+
+> New request received: GET /Mimer_files/image056.png HTTP/1.1
+>> Seek the content of file: image058.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image062.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image060.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image060.png
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image064.png HTTP/1.1
+>> Seek the content of file: image056.png
+>> Seek the content of file: image062.png
+>> Seek the content of file: image054.png
+
+> New request received: GET /Mimer_files/image056.png HTTP/1.1
+>> Seek the content of file: image058.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image062.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image060.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image060.png
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image064.png HTTP/1.1
+>> Seek the content of file: image056.png
+>> Seek the content of file: image062.png
+>> Seek the content of file: image054.png
+> This is a [SINGLE FILE] request..
+
+> New request received: GET /Mimer_files/image056.png HTTP/1.1
+>> Seek the content of file: image058.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image062.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image060.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image060.png
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image064.png HTTP/1.1
+>> Seek the content of file: image056.png
+>> Seek the content of file: image062.png
+>> Seek the content of file: image054.png
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image064.png
+
+> New request received: GET /Mimer_files/image056.png HTTP/1.1
+>> Seek the content of file: image058.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image062.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image060.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image060.png
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image064.png HTTP/1.1
+>> Seek the content of file: image056.png
+>> Seek the content of file: image062.png
+>> Seek the content of file: image054.png
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image064.png
+
+> New request received: GET /Mimer_files/image056.png HTTP/1.1
+>> Seek the content of file: image058.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image062.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image060.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image060.png
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image064.png HTTP/1.1
+>> Seek the content of file: image056.png
+>> Seek the content of file: image062.png
+>> Seek the content of file: image054.png
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image064.png
+
+> New request received: GET /Mimer_files/image056.png HTTP/1.1
+>> Seek the content of file: image058.png
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image062.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image060.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image060.png
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image064.png HTTP/1.1
+>> Seek the content of file: image056.png
+>> Seek the content of file: image062.png
+>> Seek the content of file: image054.png
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image064.png
+
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image068.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image070.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image072.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image070.png
+>> Seek the content of file: image072.png
+>> Seek the content of file: image066.png
+>> Seek the content of file: image068.png
+
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image068.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image070.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image072.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image070.png
+>> Seek the content of file: image072.png
+>> Seek the content of file: image066.png
+>> Seek the content of file: image068.png
+
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image068.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image070.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image072.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image070.png
+>> Seek the content of file: image072.png
+>> Seek the content of file: image066.png
+>> Seek the content of file: image068.png
+
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image068.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image070.png HTTP/1.1
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer_files/image072.png HTTP/1.1
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: image070.png
+>> Seek the content of file: image072.png
+>> Seek the content of file: image066.png
+>> Seek the content of file: image068.png
+
+Rong Zhuang's Web Server is working...
+> New request received: GET / HTTP/1.1
+> This is a [DIRECTORY EXPLORE] request..
+>> Explore the content under folder: Mimer
+>>> Directory: images
+>>> Directory: Johnny
+>>> File: addnums.html
+>>> File: BCClient.class
+>>> File: BCClient.java
+>>> File: BCHandler.class
+>>> File: BCHandler.java
+>>> File: BCListener.class
+>>> File: BCLogs.txt
+>>> File: BCWorker.class
+>>> File: cat.html
+>>> File: dog.txt
+>>> File: DS435 MIMER CALL page.html
+>>> File: favicon.ico
+>>> File: Handler.class
+>>> File: Handler.java
+>>> File: http-streams.txt
+>>> File: HttpWorker.class
+>>> File: jbch.bat
+>>> File: jcx.bat
+>>> File: jcxclient.bat
+>>> File: Mimer Checklist.html
+>>> File: mimer-data.xyz
+>>> File: mimer-news.xyz
+>>> File: MyDataArray.class
+>>> File: MyWebServer.class
+>>> File: MyWebServer.java
+>>> File: MyWebServerLogs.txt
+>>> File: rx.bat
+>>> File: rxclient.bat
+>>> File: serverlog.txt
+>>> File: shim.bat
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer%20Checklist.html HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: Mimer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer%20Checklist_files/Mimer%20Checklist.html HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> No such resource:/Mimer Checklist_files/Mimer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer%20Checklist.html HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> Seek the content of file: Mimer Checklist.html
+
+Rong Zhuang's Web Server is working...
+> New request received: GET /Mimer%20Checklist_files/Mimer%20Checklist.html HTTP/1.1
+> This is a [SINGLE FILE] request..
+>> No such resource:/Mimer Checklist_files/Mimer Checklist.html
