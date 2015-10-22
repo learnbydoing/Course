@@ -1,0 +1,1 @@
+The images in detail view are downloaded from intenet, so, keep network connection open when running.

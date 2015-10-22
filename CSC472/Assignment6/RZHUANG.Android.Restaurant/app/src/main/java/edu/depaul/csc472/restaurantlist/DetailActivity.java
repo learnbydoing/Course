@@ -35,7 +35,7 @@ public class DetailActivity extends Activity {
         Intent intent = getIntent();
         if (intent != null) {
             TextView name = (TextView) findViewById(R.id.text1);
-            TextView location = (TextView) findViewById(R.id.text2);
+            TextView location = (TextView) findViewById(R.id.location);
             ImageView icon = (ImageView) findViewById(R.id.image);
             RatingBar rating = (RatingBar) findViewById(R.id.rating);
             TextView reviews = (TextView) findViewById(R.id.reviews);
