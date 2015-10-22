@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <title> CSC435 Sample Form for AddNum </title>
+  </head>
+  <body>
+    <h1> This is for submission to PORT 3001 on localhost </h1>
+    <h3>You sent: GET / HTTP/1.1</h3>
+    <p>Click 'Refresh' button to get the new state; Or, click the 'Migrate' button to migrate to another port.</p>
+    <p>You are now in Agent Looper starting Agent Listening Loop </p>
+    <p>[Port = 3001]</p>
+    <form method="GET" action="http://localhost:3001/action=refresh">
+      <input type="submit" value="Refresh">
+    </form>
+    <form method="GET" action="http://localhost:3001/action=migrate">
+      <input type="submit" value="Migrate">
+    </form>
+  </body>
+</html>
