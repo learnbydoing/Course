@@ -46,10 +46,10 @@ Enhancement for the Mimer.
 
 4. List of files needed for running the program.
   a. MyWebServer.class
-	b. HttpWorker.class
-	c. MyDataArray.class
-	d. BCWorker.class
-	e. BCListener.class
+  b. HttpWorker.class
+  c. MyDataArray.class
+  d. BCWorker.class
+  e. BCListener.class
 ----------------------------------------------------------*/
 import java.io.*;
 import java.net.*;
@@ -65,7 +65,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  */
 class MyDataArray {
 	int num_lines = 0; // line count
-  String[] lines = new String[8]; // 8 lines by default
+	String[] lines = new String[8]; // 8 lines by default
 }
 
 /**
@@ -205,8 +205,8 @@ class BCWorker extends Thread {
 /**
  * A back channel listener monitors a separate port. It can create BC Worker to
  * handle the request from client.
- * The AdminListener uses a different port number(2570) to accept only back
- * channel request and dispatches it to BCworker.
+ * The BCListener uses a different port number(2570) to accept only back channel
+ * request and dispatches it to BCWorker.
  */
 class BCListener implements Runnable {
 	// Flag indicates whether the BCListener needs to continue work

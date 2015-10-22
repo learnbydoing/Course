@@ -1,0 +1,394 @@
+
+<!-- saved from url=(0066)http://condor.depaul.edu/elliott/435/hw/programs/program-joke.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"> <title> Distributed Systems -- Elliott  Multithreaded Joke Server and Client &lt;/center&gt; </title>
+</head>
+<body>
+3.4 <br> <br> 
+
+<font face="Cambria" size="1">
+Updates: 
+<ol>
+<li> Reworded some of the state-maintenance exposition for clarity.
+</li></ol>
+
+<font face="Cambria" size="5">
+<center> <h1>Program One <br>
+Multithreaded Joke Server and Client </h1> </center>
+
+<font face="Cambria" size="3">
+
+<h2> Overview: </h2>
+
+In this assignment you will build a multi-threaded server that accepts input
+from clients, and returns appropriate output. In addition to the basic
+client-server model, you will also implement a secondary administration
+channel to your server, and manually maintain the state of your distributed
+application.<p>
+
+There is some somewhat arbitrary coding involved, but the purpose of each
+specification is to give you exposure to writing code for a client-server
+environment, and working with threads, neither of which is trivial.</p><p>
+
+
+Your finished server is just for fun, but with minor changes it can serve
+as the basis for a real, viable, client-server application.</p><p>
+
+
+</p><h2> Administration: </h2>
+
+
+<ul>
+
+<li> Copy the <a href="http://condor.depaul.edu/elliott/435/hw/programs/checklist-joke.html"> checklist </a> for this
+programming assignment. Place it with the files you submit to D2L as
+checklist.html. Fill in the blanks. Update it as you make progress.
+
+</li><li> There is a high priority on our being able to download, and run, your
+three java applications (JokeServer, JokeClient, JokeClientAdmin) without
+any complications. So, even though this may not be the most elegant coding
+style, put all your source files in one directory and zip together before
+submitting to D2L. Place all files, including the checklist, the logs, and so on, in this directory as well. Make sure that your programs
+will compile when we issue "javac *.java" at the command line prompt. Do NOT
+use java packages.
+
+</li><li> Submission files for Inet: InetServer.java, InetClient.java [No Inet
+files to TurnItIn.com]. Zip these together and submit the one .zip file to
+the Inet D2L dropbox.
+
+</li><li> Submission files for JokeServer: JokeServer.java, JokeClient.java,
+JokeClientAdmin.java JokeOutput.txt, checklist-joke.html. Zip these together
+and submit the one .zip file to the JokeServer D2L dropbox.
+
+</li><li> Concatenate all your JokeServer files, but NO INET FILES, into one
+plain ascii text file (.txt) for submission to the second JokeServerTII D2L
+dropbox for TurnItIn.com plagiarism checking. 
+
+</li><li> Be sure to include the <a href="http://condor.depaul.edu/elliott/435/RequiredHeaderA.html"> required java
+comments header </a> in each of your java files.
+
+</li><li> Make sure that you are familiar with the assignment submission rules.
+Programs that do not precisely conform to the rules will not be
+graded. Please do not ask for an exception to this policy.
+
+</li><li> Refer to the <a href="http://condor.depaul.edu/elliott/435/hw/programs/inet/InetPDF-D.pdf"> InetServer PDF </a> document, and the
+lecture, for large hints on how to get this program working.
+
+</li><li> <a href="http://condor.depaul.edu/~elliott/shared/java/GetJava.html">
+Install Java 1.8 </a> if you need to. We will be running your
+programs under Java 1.8.
+
+</li><li> You will need several command windows (shells) running separate
+processes to run your client/server programs. Command windows are available
+under Windows by using [Start | run | cmd].
+
+</li><li> Some sample Java 1.5 Inet <a href="http://condor.depaul.edu/elliott/435/hw/programs/inet/"> .class files </a> and source code are available
+to help you get started. (These work fine under Java 1.8). Run the
+client/server program
+as follows: Download ALL the .class files into a directory (but note that
+the InetAddresser program is a standalone version to play with and not
+otherwise needed). In one command
+window issue: [&gt; java InetServer]. In
+<i> another </i> command window issue: [&gt; java InetClient] Then follow the
+prompts on the client to look up the IP addresses of machines. Read the code
+to see how to shut down the server from the client, etc. Optionally, you can
+run the program on two different machines, exactly the same way, but by
+starting the client with the name or IP address of the server machine as the
+first argument.
+
+</li><li> You may have to speak to your firewall about allowing the client/server
+TCP/IP connections, depending on how it is configured.
+
+</li><li> Allow yourself enough time to get a basic version of the JokeServer running. Debugging
+TCP/IP on your machine, getting brutalized by your firewall, spawning
+runaway processes, etc. comes with the territory, and you should not
+underestimate the amount of time this will take you during the initial
+phases of this project.
+
+</li><li> You will have to figure out a way to capture the output from your
+running programs so that they can be placed in an ascii text file, and this
+might take some time.
+
+</li><li> Note that you have to maintain a theoretically unlimited number of
+arrays to keep track of client state, and this may take some thought.
+
+</li><li> Allow yourself enough time to format the presentation of your work <i>
+exactly </i> as specified. This may take some thought and some time the
+first time you do this. That is, you may have to install and learn an
+editor for creating ascii files, etc. You should NOT assume that you can get
+this done at the last minute.
+
+</li></ul>
+
+<h2> Basic Multi-threaded server: </h2>
+
+<ul>
+
+<li> TYPE IN THE INET CLIENT AND SERVER JAVA PROGRAMS if you are not well
+familiar with multi-threaded client/server applications. Get them running. I
+know that you can manage a cut and paste version, but for many this will
+have prove to have been a mistake when later trying to get the JokeServer program written. In my
+experience, the 30-40 minutes to type in the programs yourself, fix the bugs
+you have introduced, and figure out how they run, will be paid back many
+times over.
+
+</li><li> Change the port of the server to something of your own choosing, above
+port 4,000.
+
+</li><li> Add YOUR clear, informative, COMMENTS to the Inet code, explaining what
+it does. Comments are an important part of your grade. Discuss at the
+forums. Have some fun making minor modifications. Submit to D2L for
+credit.
+
+</li><li> Do NOT submit this Inet code to TurnItIn.com.
+
+</li><li> You will need to run the client, and server, in different command
+windows.
+
+</li><li> Once you get your distributed application running on a single machine,
+try running the client and server on different machines, if you have them
+available. (Note that you will have to pass the IP address of the server as
+an argument to the client.) [To find the IP address of your machine under
+Windows, type "ipconfig" at a command prompt; use "ifconfig" under unix.]
+
+</li></ul>
+<h2> Modifications: </h2>
+
+<h3> Basic Overview: </h3>
+
+<ul>
+
+<li> Your JokeClient sends (some version of) the message "Give me something"
+to the JokeServer. [Note: the user just presses enter.]
+</li><li> Your JokeServer sends back a joke or a proverb, depending on what mode
+it is in.
+</li><li> For each conversation with a client, complete sets of five jokes, and independently five
+proverbs, are returned to the client one at a time, before any joke or proverb is repeated.
+</li><li> Your JokeClientAdmin connects to the server and sets it in Joke mode
+[the default], Proverb mode, or Maintenance mode.
+
+</li></ul>
+
+
+<h3> Modify client and server as follows:</h3>
+<ol>
+
+<li> Modify the server so that instead of looking up DNS translations it
+returns (strictly clean!) jokes and proverbs.
+
+</li><li> Build a corpus of at exactly five joke/proverb templates which the server can
+send back, randomly, to the client. (The randomizing is a small part of the
+assignment, but think about this problem: How might you implement randomness
+efficiently? Why might a linked data structure be useful here? Does your
+solution scale up?)
+
+</li><li> Modify the server so that it accepts a name as input from the client
+(one time!), and thereafter inserts the name appropriately into the body of
+the joke or proverb. The user need only press <enter> repreatedly to make
+repeated requests of the server.
+
+That is,  you start with the text:<p>
+
+<i> A. Why did Xname cross the road? To get to the other side!</i> </p><p>
+
+And you get back: </p><p>
+<i> A. Why did Joseph cross the road? To get to the other
+side! </i></p><p>
+
+</p></enter></li><li>  For ease of debugging, and also grading, label your jokes (and also
+proverbs, below) with the letters A - E.
+
+
+<p>
+
+</p></li></ol>
+
+
+<h3> Further modify the server as follows:</h3>
+
+<ol> 
+
+<li> Modify the server to accept a connection, at a different port, from an
+administration client. This will take some thought because you will have to
+make an asynchronous call, using a separate thread, to start a second server
+listener waiting for administration client connections. See the file <a href="http://condor.depaul.edu/elliott/435/hw/programs/joke/joke-threads.html"> joke-threads.html </a> for some hints, and
+the file <a href="http://condor.depaul.edu/elliott/435/hw/programs/joke/joke-pseudo.html"> joke-pseudo.html </a> for some
+rough pseudo code.
+
+
+</li><li> Write a second client that connects at the administration port and
+sends commands to set the server in (a) joke mode (b) proverb mode, and
+(c) maintenance mode. 
+
+</li><li> The JokeServer MUST run, by default, in joke mode, without needing to
+start up the admin client.
+
+</li><li> Build a corpus of exactly five proverb templates, and an additional
+text message that states "The server is temporarily unavailable -- check-back
+shortly." 
+
+</li><li> The administration commands are: "joke-mode", "proverb-mode" and
+"maintenance-mode" 
+
+</li><li> You will have already written joke-mode. In proverb-mode the server
+inserts the name sent into a proverb, which it then returns to the
+client.<p>
+
+That is, in proverb-mode, you start with the text:</p><p>
+
+<i> D. It is important to remember that if Xname is early to bed and early to
+rise, then Xname will be healthy, wealthy, and wise. </i> </p><p>
+
+And you get back: </p><p>
+
+<i> D. It is important to remember that if Joseph is early to
+bed and early to rise, then Joseph will be healthy, wealthy, and wise. </i>
+</p><p>
+
+</p></li><li> In maintenance-mode, simply always send back the warning message.
+
+
+</li></ol>
+
+
+<h3> State Maintenance: </h3>
+
+<ul>
+
+<li> How you maintain the state of client conversations is up to you, as
+long as always break the connection after each joke, or proverb, is returned.
+
+<p></p></li><li> You have many ways that you can implement state maintenance. For
+example:<p>
+
+</p><ol>
+
+<li> MINIMAL COOKIE ON THE CLIENT; FULL STATE ON THE SERVER: You can maintain state by sending a unique "cookie" (e.g., a UUID would
+be one way to implement this) from the client when it first connects, and
+then passing the cookie back to the client from the server. Pass
+the "cookie" from the client each time it connects, and use it on the
+server to look up the state of the conversation which has been stored there. Use this mechanism to
+guarantee that the client never gets a joke, or proverb, repeated until ALL
+of the jokes/proverbs have been sent. Then, cycle through all the jokes/proverbs again. Send
+the jokes, and also proverbs, in random order, but constrained as specified. See the file <a href="http://condor.depaul.edu/elliott/435/hw/programs/joke/joke-state.html"> joke-state.html
+</a> for some pointers on maintaining the state of the client. <p>
+
+
+
+</p></li><li> FULL STATE ON THE CLIENT; NOTHING ON THE SERVER: You can send the entire state back to the client after updating by the server, and maintain nothing at the
+server side. That is, read and update the checklist at the server, and then
+send the whole checklist back to the client. Each time the client connects,
+it sends the entire state again.  <p>
+
+</p></li><li> NOTHING ON THE CLIENT: It is not possible to implement the JokeServer
+this way. Why? <p>
+
+</p></li><li> MAINTAIN STATE ON BOTH ENDS: You can implement anything in between the above two schemes, such as
+keeping the cookie and the joke-state on the client, and the proverb-state
+on the server. <p>
+
+</p></li><li> MUST CONNECT TO SERVER: You can download your five jokes and five proverbs when you first
+connect, then just ask the server what mode state it is in each time you
+re-connect. When the jokes or proverbs are exhausted, you can reconnect to
+get them randomized and downloaded again, or just randomize them on the
+client, depending on your design and how often you envision the jokes and
+proverbs being updated. <p>
+
+</p></li><li> Cookie variation: Optionally you could initially send an empty
+cookie/state structure from the client at startup time, and have the server
+assign a value when it notices that the cookie or state structure has not
+been initialized. This allows the use of a simple counter maintained by the
+server.<p>
+
+</p></li></ol>
+
+</li><li> Maintain state for each client such that if the server is, e.g.,
+switched from joke-mode to proverb-mode, and then back again to joke-mode,
+the constraint that no joke is repeated until all five have been randomly
+returned is maintained across these transitions among server
+states. (Similarly, this constraint also holds for proverbs.)<p>
+
+</p></li><li> You can assume that when your client process is stopped, its entire
+state is permanently discarded (but see bragging rights below).
+You can assume that when your server process is stopped, its current mode 
+state is permanently discarded. You can make a choice about whether client
+conversations are discarded as well, depending on how you've implemented
+state maintenance.<p>
+
+</p></li><li> We should be able to start your clients, and your server, in any order,
+when running your system.<p>
+
+</p></li><li> Implement your client such that after we enter a user name, the client
+just allows us to keep pressing the enter key for more responses. Implement
+your admin client such that we either cycle through the three modes with
+repeated presses of the enter key, or we just have to enter something simple
+like "j" "p" and "m" for each of the modes. Be sure to display this
+information at startup.<p>
+
+
+
+</p></li><li> Questions: for a large-scale production system, when is it appropriate to send just
+a cookie back to the client? When should the whole state be sent to the
+client? Suppose that in place of jokes you were sending 4 GByte database
+entries? Suppose that instead of a static joke, you were computing, in real
+time, some highly cpu-intensive output based on input data assessed at the
+server at the time of the request? Which design would you use for each? How
+would your solution scale?
+
+</li></ul>
+
+
+<h3> Bragging Rights: </h3>
+<ul>
+
+<li> These modifications are not required, but if you complete them, let me
+know about it!
+
+</li><li> It is not required that your admin client have the capability to shut
+down your server, but it would be nice. You can implement this in a simple
+non-elegant way by accepting a "shutdown" string from your admin
+client, and then when seeing this at the server, change both of the loop
+variables to false, then sending two more connections, one to each server
+(joke / admin) to trigger breaking from each loop. More elegantly you can
+look at the "HostServer" code to see how to "reach back" from the worker
+thread and kill off the parent loop.
+
+</li><li> Make your client and server somewhat fault-tolerant by writing the
+state to disk after each request at both the client side and the server
+side, so that if either crashes, on restart they read the state back in from
+disk before resuming operation. You will need to identify your user to the
+client in this case.
+
+</li><li> Hard: Modify your client and server so that they use a secure channel for
+administration via SSL.
+
+</li><li> Hard: See the associated project for creating an asynchronous
+JokeServer Client, possibly that also connects to multiple JokeServers.
+
+</li></ul>
+
+
+<h3> Execution: </h3>
+<ul>
+<li> Run your sever with multiple clients active at the same time. Interleave
+requests from different clients. Capture ten output responses from one
+client in joke mode, ten in proverb mode, showing that the jokes and
+proverbs are returned randomly, but not repeated until all five have been
+sent back.
+
+</li><li> Repeat the process, but this time use your adminstration client to
+interleave joke-mode and proverb-mode, showing that state is correctly
+maintained across changes between modes.
+
+</li><li> Put the output from your running sessions in a text file (as specified)
+and ANNOTATE the output--highlighting the randomness of the jokes, the
+interleaving of modes, etc. Do NOT change any of the output data, but you
+can add some white space to make it easier to read if you like.
+
+</li><li> Format the presentation and submission of your work <i> exactly </i> as specified.
+
+</li></ul>
+
+
+ 
+
+</font></font></font></body></html>

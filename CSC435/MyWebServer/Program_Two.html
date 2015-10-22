@@ -1,0 +1,775 @@
+
+<!-- saved from url=(0071)http://condor.depaul.edu/elliott/435/hw/programs/program-webserver.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"> <title> DS 435 -- Elliott Web Server Implementation &lt;/center&gt; </title>
+</head>
+<body>
+11.0 <p>
+
+<font face="Comic Sans MS" size="1"></font></p><p><font face="Comic Sans MS" size="1">
+updates:
+</font></p><ol><font face="Comic Sans MS" size="1">
+<li> 2015-10-07: Removed most references to students.depaul.edu, clarified
+other sections
+</li><li> 2015-10-07: added a grading notes section at the bottom
+</li></font></ol><font face="Comic Sans MS" size="1"> 
+
+<font face="Cambria" size="5">
+<strong>
+<center> Program Two </center>
+<center> Simple Multi-threaded Web Server </center> </strong>
+<font face="Cambria" size="3">
+
+<h3> Overview: </h3>
+
+All MyWebserver programs MUST communicate with the <strong>  Firefox </strong> browser.<p>
+
+In this program you will follow through the steps of capturing the http
+stream between existing clients and servers, and write a web server that
+supports this same protocol. It builds on the JokeServer, which application
+does much of the same work. While the text of the assignment is quite long,
+the application itself is quite straightforward, and you might be surprised
+at how easily it can be written.</p><p>
+
+There are four+ phases in the development process:
+</p><ol>
+<li> Capture the HTTP protocol first-hand by developing some hacking /
+debugging skills (hacking in the good sense).<p>
+</p></li><li> Return simple, static files on request from a browser client.<p>
+</p></li><li> Return dynamically created HTML (build a directory HTML page
+dynamically)<p>
+</p></li><li> Accept FORM input from the user and do back-end processing on the
+server to return computed values in (simple!) dynamically-created HTML.<p>
+</p></li><li> Add features of your own choosing, if you like.<p>
+</p></li></ol>
+
+
+<p>
+
+See the <a href="http://condor.depaul.edu/elliott/435/hw/programs/mywebserver/tips.html"> MyWebServer Tips </a> file for some
+suggestions once you get coding.</p><p>
+
+</p><h3> Run at port 2540 in the server directory! </h3>
+
+In all cases these following specifications take precedence: The web server
+must run at port http://localhost:2540. It must, by default, serve files
+<strong> from the directory in which the web server is started,</strong> including dog.txt,
+cat.html. The source code should be contained in a single,
+stand-alone file name MyWebServer.java ready to compile and
+run. Subdirectories should be recursed from the default directory in which
+the server is started. <p>
+
+
+</p><h3> Special Security Note! </h3> 
+
+I expect that you will find that this is not a particularly difficult
+assignment. If so, you will soon have a viable, running, webserver of your
+own creation. If you are developing on a machine that is also connected to
+the internet this means that you might well expose all of the files on your
+local machine (or any remote machine where you might be running) to evil
+hackers from around the world who are anxious to steal information from your
+files. In the worst case this information would allow them write access to
+your disk, and/or put financial/personal information in their hands. So --
+be careful. Hard-code into your server that you only return files from your
+root server directory of unimportant files, keep your firewall on,
+etc. Becareful about the "../.." form of URLs, which would allow someone to
+retrieve files from above your server's directory. For particularly
+sensitive machines you can always simply <strong> unplug your internet
+connection </strong>
+while running your server.
+
+<p>
+
+<!--
+<h3> Wireless Markup Language </h3>
+
+All references to WML and lion.wml are strictly optional. Newer markup
+languages for use with WAP (Wireless Application Protocol) are making this
+an outdated technology. See <a
+href=http://en.wikipedia.org/wiki/Wireless_Markup_Language>
+Wikipedia WML </a>
+-->
+
+</p><h3> Server Directories </h3>
+
+For this assignment your server must serve files from the <strong> directory where
+the server is started. </strong><p>
+
+Unix (Apache) servers usually serve files from
+<i> USERACCOUNT/public_html.</i> For example, if I put dog.txt on this unix/Apache machine
+as <i> /condor/cscfclt/elliott/public_html/dog.txt </i> we would find it on
+the web as <i> http://condor.depaul.edu/elliott/dog.txt.</i>
+
+
+
+</p><h3> Administration: </h3>
+
+
+<ul>
+
+<li> Submission files: <strong> MyWebServer.java,
+http-streams.txt, serverlog.txt, checklist-mywebserver.html </strong> <p>
+
+</p></li><li> Copy the <a href="http://condor.depaul.edu/elliott/435/hw/programs/mywebserver/checklist-mywebserver.html"> checklist </a> for this
+programming assignment. Turn it in to D2L along with your assignment. Fill in the blanks. Update it as
+you make progress. NEVER change yes to no, unless you have completed the work.<p>
+
+</p></li><li> Zip your your sfiles into one, flat, directory, and submit to D2L (No
+subdirectories!) Verify that your submission has not been corrupted. <p>
+
+</p></li><li> Concatenate  MyWebServer.java, http-streams.txt, serverlog.txt into a
+single text file and submit to MyWebserverTII at D2L <p>
+
+</p></li><li> <strong>"javac *.java" </strong> must work to compile your source code.<p>
+
+</p></li><li> Make sure that you are familiar with the assignment submission rules
+(see assignment one, which covers this in detail). Programs that do not
+precisely conform to the rules will not be graded. Please do not ask for an
+exception to this policy.<p>
+
+
+</p></li><li> Your websever
+must, by default, serve directories, and files, from the directory in which
+it runs so that I can test it. If you want also to implement something more
+sophisticated, then use a flag in your code, but set the flag to the default
+directory for me before submitting.<p>
+
+</p></li><li> Refer to the <a href="http://condor.depaul.edu/elliott/435/hw/programs/inet/InetClientServer.pdf"> InetServer PDF </a> document, and the
+lecture, for the basic program on which you build. Most of you will have
+completed this assignment, and extended it, well in advance of the
+MyWebServer program.<p>
+
+<!--
+<li> All students have unix accounts on <strong> students.depaul.edu </strong>. You
+can get access to your account from the ID Card Services office, or by
+checking with the helpdesk at (312) 362-8765 (you will need your student ID
+number). Apparently, currently, these are the only two options. It is not
+essential that you activate your student unix account on students.depaul.edu, but it might help
+make the assignment easier. Please post tips to the newsgroup forums -- access procedures change all the time! <p> 
+
+See <a href=cdmlinux.html> CDM Linux Machines </a> for alternative access to
+linux.<p>
+
+See <a href=http://condor.depaul.edu/elliott/shared/students-web.html>
+Creating Unix Web Files </a> for basic web file creation.<p> -->
+
+</p></li></ul>
+
+<h3> Capturing HTTP: </h3>
+
+<ul>
+
+<li> Goal: Be hackers in the good sense... See what a Web browser, and a
+webserver are saying to one another for simple browser requests, so that you
+can later copy that functionality into your own server program.<p>
+
+</p></li><li> Note that you can use WireShark (see the labs) to capture these streams, as an
+alternative to the hacking methods below.<p>
+
+</p></li><li> Copy your InetServer.java source (or your jokeserver) to a file called
+MyListener.java. Modify, and simplify, the code so that it simply displays
+everything sent to it on the server console, and to a log file. Have it send back a valid
+ascii-based response to the client, acknowledging receipt of the "request" (
+but note that this is just some minor elegance, not really needed).<p>
+
+That is, if the client sends the message, "ABC Hello there in Server land! <xyz>"
+then the server will display the message "ABC Hello there in Server land! <xyz> "
+on the server console, and optionally may send some message such as "Got your request"
+back to the client. (If you don't return a message, the browser will just
+hang, but we don't care.) </xyz></xyz></p><p>
+
+You now have a simple "listener" program which echos all input on the server
+console .</p><p>
+
+If you want to be fancy, your MyListener program can, in addition to the
+console display, also send all of the information back to the client as
+HTML-formatted data. This is not required, and note that you will have to
+send back the corrent MIME type for HMTL: "Content-Type: text/html [cr/lf]
+[cr/lf]" (see below). </p><p>
+
+</p></li><li> Start MyListener and connect to it with Firefox as follows:
+Make valid webserver
+requests of MyListener by entering URLS such as
+http://localhost:2540/elliott/dog.txt, and
+http://localhost:2540/elliott/cat.html.
+Notice, and record, what the
+browser sends your MyListener program in each case (it is displayed on the
+server console). This is the HTTP stream that the browser sends when it is
+requesting files from a web server. You have now hacked it.<p>
+
+</p></li><li> Capture the console output from MyListener into some file as well (or cut from
+the console window and paste into a file), for submission as
+part of the assignment.<p>
+
+</p></li><li> Note that the port number is whatever you have chosen for your
+MyListener (where mine happened to be 2540—but note that 2540 is also used
+for the MyWebServer program), and the namestring should be whatever the name
+is for your unix account (where mine happens to be elliott). [This step has
+nothing to do with any unix machines; we are just entering a unix-style URL
+with a user name to see how that gets sent to a server.]<p>
+
+</p></li><li> For example, following the above procedure, while running my listener
+at port 2540, I get the following information for a request of dog.txt in
+the (hypothetical) root web server directory for the user elliott:
+<pre> 
+C:\dp\435\java&gt;java MyListener
+
+Clark Elliott's Port listener running at 2540.
+
+GET /elliott/dog.txt HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Accept-Language: en-us
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)
+Host: localhost:2540
+Connection: Keep-Alive
+
+(Note: you may wish to experiment with "Connection: close" with your
+webserver if you are having buffering problems.)
+
+</pre>
+
+
+</li><li> Put this captured output into http-streams.txt for submission with the
+assignment.<p>
+
+</p></li><li> We are now going to use the HTTP stream we have just captured to
+manually retrieve files from a web server.<p>
+
+</p><ol> 
+
+<li> For those that have accounts on students.depaul.edu, log in to that
+machine and place files in your /public_html subdirectory. Or you can
+retrieve files from my faculty account at:<br> <br>
+
+<a href="http://condor.depaul.edu/elliott/dog.txt">
+condor.depaul.edu/elliott/dog.txt </a> <br><br>
+
+<a href="http://condor.depaul.edu/elliott/lion.html"> condor.depaul.edu/elliott/lion.html </a> <br><br>
+
+Or, if you have a webserver on your PC you can just use that. Or you can
+install the <a href="http://sourceforge.net/projects/miniserver/">
+SourceForge Mini Server </a> and run that.
+
+<p>
+
+</p></li><li> Note: Tech support has been moving my directories around. If elliott
+does not work, try it with a tilde (~elliott).<p>
+
+</p></li><li> Verify that the files are accessible from the web on
+condor.depaul.edu/elliott, or students.depaul.edu/YourUsername (or your other webserver) by
+retrieving dog and cat with a web browser.<p>
+
+</p></li><li> Either use Wireshark, or create a MyTelnet.java program by modifying
+your InetClient, or JokeClient, so that it allows you to type in an
+arbitrary text string, and send this (via port 80) to a web server. Write
+all input and output for your MyTelnet to a log file, for later submission
+to D2L, but I don't need to see your source code for this simple program.<p>
+
+</p></li><li> Use your MyTelnet program to manually enter into a dialog with the
+
+condor.depaul.edu (or some other) web server.
+
+
+We are working with students.depaul.edu for convenience, and just
+happen to be connecting to the web server that is running on the students machine, because
+that is where we put our files. However, we could just as easily
+ manually get files from the web server at www.cnn.com if they were on that machine.<p>
+
+You will connect at port 80 instead of the default telnet port of 23,
+because you want to talk to the web server, instead of the telnet server.</p><p>
+
+Do this by entering the shell command, 
+
+</p><pre>MyTelnet condor.depaul.edu 80   &lt;-- or whichever server you are using
+</pre>
+
+The condor.depaul.edu web server is now waiting for input from you.<p>
+
+You can use the following static files in the step below, or similar files
+that you have created on your own webserver, or in your own account:
+
+</p><pre>http://condor.depaul.edu/elliott/cat.html 
+http://condor.depaul.edu/elliott/dog.txt
+</pre>
+
+<ul>
+<li> Enter the valid HTTP request stream that you captured using your
+listener, for retrieving the file dog.txt from a web server. Note that you
+will have to be careful to include all of the necessary information,
+including carriage return / linefeeds (cr/lfs), and that you will have to
+make changes as needed for different servers. You could probably use cut
+and paste if you were clever, but unless you connect many times it is
+probably not worth it. <p>
+
+Hint: some of the information, such as the "Accept" and "User-Information"
+info is not needed by the web server, and you can find this through
+experimentation. </p><p>
+
+</p></li><li> If you enter the HTTP correctly the web server will now send your
+requested file back to you as a text stream response to your MyTelnet
+client. If you enter it incorrectly you will still usually get some kind of
+valid response, albeit one containing an error message.<p>
+
+</p></li><li> Here is a sample session, yours will be similar, but may differ in some
+of the details, depending which webserver you are using, on which machine:
+
+<pre> 
+
+&gt; MyTelnet condor.depaul.edu 80
+
+GET /elliott/dog.txt HTTP/1.1    [&lt;-- I am typing this into the console window manually]
+Host: condor.depaul.edu:80
+
+[Elliott note: two carriage return / linefeeds (crlfs)  go here.]
+</pre> 
+
+and we get back the response something like the following:
+
+<pre> 
+HTTP/1.1 200 OK
+Date: Fri, 16 Sep 2005 18:09:38 GMT
+Server: Apache/2.0.53  HP-UX_Apache-based_Web_Server (Unix) PHP/4.3.8
+Last-Modified: Fri, 16 Sep 2005 18:08:50 GMT
+ETag: "5e1c1-2f-7c517080"
+Accept-Ranges: bytes
+Content-Length: 47
+Content-Type: text/plain
+
+This is Elliott's dog file on condor and hawk.
+Connection closed by foreign host.
+
+&gt; 
+</pre>  <p>
+</p></li></ul>
+
+</li><li> Put this captured output into http-streams.txt for submission with the
+assignment.<p>
+
+</p></li><li> [Note: Firefox allows you to download and install a plug-in called HTTPFox (tools -&gt; add-ons -&gt; get
+add-ons).  After HTTPFox is installed you'll see a small icon in the
+bottom right corner of your browser window.  With HTTPFox you will be able
+to see all outgoing traffic from your web browser, as well as all of the
+server responses coming back. (Similar to Fiddler for IE) (Thanks Arkadiusz)] <p>
+
+
+</p></li><li> So, in summary: Create the simple files dog.txt, cat.html,
+in your home web directory (or use my files). Verify that they can be reached from the
+web. Retrieve your files manually using MyTelnet to port 80.<p>
+
+
+</p></li><li> You have now captured both the request coming from a web client, and the
+response coming from a web server. Ta-duh.<p>
+
+</p></li></ol></li></ul>
+
+<h3> Modify your MultiThreaded server so that it becomes a simple web
+server.</h3>
+
+Goal: Your web server must correctly return requests for files with
+extensions of .txt, and .html.  This means that it must return the
+correct MIME headers (That is, the Content-type [followed by two cr/lf], and
+Content-length headers), as well as the data. This is a server that operates
+on static data.
+
+<ul> 
+
+<li> Copy your MyListener.java source into a file called MyWebServer.java.<p>
+
+</p></li><li> Copy over your files dog.txt, cat.html to your local
+machine into the directory where you are developing your web server, for later use.<p>
+
+</p></li><li> Using the manual responses you captured from the web server (see above),
+which contains ALL of the information that the web server sends back to a
+client, including, specifically the MIME type information (Content type) and
+content length, modify your listener so that it becomes a valid web server
+by sending back a valid text stream, including headers, to the web client.
+See <a a="" href="http://en.kioskea.net/contents/internet/http.php3"> HTTP
+protocol </a> for some hints.<p>
+
+</p></li><li> In practice you need not send back all of the responses. You WILL want
+to include:
+<pre>HTTP/1.1 200 OK
+Content-Length: 47  [Where 47 is changed to the real length of the data --
+     but note that you might make initial tests by just setting this value high]
+Content-Type: text/plain  [Where text/plain might also be: text/html]
+
+</pre>
+
+[followed by two carriage return / linefeeds (crlf), and then the data.]<p>
+
+Here is a favicon file:</p><p>
+
+ <img src="./Program_Two_files/favicon.ico" alt="v1"> which modern browsers tend
+to look for. If you put this in your server's root directory it may solve
+problems for you. Here is the WikiPedia article on <a href="http://en.wikipedia.org/wiki/Favicon"> 
+favicons </a> </p><p>
+
+
+The following end of line hints might be useful:
+
+</p><pre> static final byte[] EOL = {(byte) '\r', (byte) '\n'};
+
+or:
+
+outstream.writeBytes("Content-Type: " + ConType + "\r\n\r\n");
+
+or:
+
+outstream.print("\r\n\r\n");
+
+</pre>
+
+</li><li> Configure your sever so that it sends back the correct MIME type
+headers for .txt, and .html files [text/plain, and text/html, respectively].<p>
+
+<!--
+<li> OPTIONAL: Download and install the <a href="./mywebserver/upsdkW41e.exe"> phone
+ browser </a> (a simulated cell phone) to see that your .wml files are
+ returned correctly. Note: I *strongly* recommend that you use this older,
+ out-of-date, version for our small project because it is about 1/10th the
+ size of the current version, and yet meets all our needs. Note: this is
+ about a fifteen second installation. Type the URL of your web server .wml
+ file into the phone browser, and see if it works. You may need to clear the
+ cache from time to time, and/or reboot the phone browser if it gets
+ confused. Tip: if you have a real web-enabled cell phone, your server will
+ serve these files to it. Try it!<p>
+-->
+
+</p></li><li> Use your MyListener, and the MyTelnet trick, for debugging as needed.
+</li></ul>
+
+<h3> Extend your server to include directories: </h3>
+
+
+Goal: Extend your server so that it sends back dynamically constructed data:
+in this case the HTML-formatted current contents of a directory.
+This is now a server that operates on <i> dynamic </i> data.
+
+<ul>
+
+<li> Note: The DePaul webservers no longer allow the promiscuous display of
+a directory's contents. But we will still provide it from our server.<p>
+
+</p></li><li> See the <a href="http://condor.depaul.edu/elliott/435/hw/programs/mywebserver/ReadFiles.java"> ReadFiles.java </a>
+program for hints on how to read the contents of a directory in Java.
+[Note: a directory is simply a more-or-less regular file that contains the
+names of other files in it, along with some associated information.]<p>
+
+
+</p></li><li> Modify your webserver so that it correctly returns a promiscuous
+display of the server's directory as requested by the client. Note that
+you may want to include some security here, since you WILL be writing
+a valid, albeit simple, web server. For example, you might want to restrict
+access to a certain subdirectory of where the server is running.<p>
+</p><ol>
+<li> The first step is to simply send back an ascii (txt) listing of the
+files in the directory, along with a text/plain MIME header, and the
+length of your data.<p>
+
+</p></li><li> The second step is to send back some kind of formatted HTML with
+a text/html MIME header.<p>
+
+</p></li><li> The third step (really not that hard) is send back the names of the
+files as hot-link references such that "clicking-on" them in the browser
+will cause your server to send back the contents of that file.<p>
+</p></li></ol><p>
+
+</p></li><li> Using your telnet http hack, see what a regular server sends back as an
+html listing of hot-links for files. For example, for the condor.depaul.edu
+request "GET /elliott/435/.xyz/" condor [used to send back] the following:
+
+<pre>
+[...]
+&lt;h1&gt;Index of /elliott/435/.xyz&lt;/h1&gt;
+&lt;pre&gt;&lt;img src="/icons/blank.gif" alt="Icon "&gt; &lt;a href="?C=N;O=D"&gt;Name&lt;/a&gt;                    &lt;a href="?C=M;O=A"&gt;Last modified&lt;/a&gt;      &lt;a href="?C=S;O=A"&gt;Size&lt;/a&gt;  &lt;a href="?C=D;O=A"&gt;Description&lt;/a&gt;&lt;hr&gt;&lt;img src="/icons/back.gif" alt="[DIR]"&gt; &lt;a href="/elliott/435/"&gt;Parent Directory&lt;/a&gt;                             -   
+&lt;img src="/icons/text.gif" alt="[TXT]"&gt; &lt;a href="first-file.txt"&gt;first-file.txt&lt;/a&gt;          16-Sep-2005 14:09   39   
+&lt;img src="/icons/text.gif" alt="[TXT]"&gt; &lt;a href="second-file.html"&gt;second-file.html&lt;/a&gt;        16-Sep-2005 14:09   67   
+&lt;img src="/icons/text.gif" alt="[TXT]"&gt; &lt;a href="third-file.wml"&gt;third-file.wml&lt;/a&gt;          16-Sep-2005 14:09  222   
+&lt;img src="/icons/folder.gif" alt="[DIR]"&gt; &lt;a href="z-directory/"&gt;z-directory/&lt;/a&gt;            16-Sep-2005 15:08    -   
+&lt;/pre&gt;
+
+</pre>
+
+Which displays as:
+<pre>
+<h3>Index of /elliott/435/.xyz</h3>
+<pre><img src="./Program_Two_files/blank.gif" alt="Icon "> <a href="http://condor.depaul.edu/elliott/435/hw/programs/program-webserver.html?C=N;O=D">Name</a>                    <a href="http://condor.depaul.edu/elliott/435/hw/programs/program-webserver.html?C=M;O=A">Last modified</a>      <a href="http://condor.depaul.edu/elliott/435/hw/programs/program-webserver.html?C=S;O=A">Size</a>  <a href="http://condor.depaul.edu/elliott/435/hw/programs/program-webserver.html?C=D;O=A">Description</a><hr><img src="./Program_Two_files/back.gif" alt="[DIR]"> <a href="http://condor.depaul.edu/elliott/435/">Parent Directory</a>                             -   
+<img src="./Program_Two_files/text.gif" alt="[TXT]"> <a href="http://condor.depaul.edu/elliott/435/hw/programs/first-file.txt">first-file.txt</a>          16-Sep-2005 14:09   39   
+<img src="./Program_Two_files/text.gif" alt="[TXT]"> <a href="http://condor.depaul.edu/elliott/435/hw/programs/second-file.html">second-file.html</a>        16-Sep-2005 14:09   67   
+<img src="./Program_Two_files/text.gif" alt="[TXT]"> <a href="http://condor.depaul.edu/elliott/435/hw/programs/third-file.wml">third-file.wml</a>          16-Sep-2005 14:09  222   
+<img src="./Program_Two_files/folder.gif" alt="[DIR]"> <a href="http://condor.depaul.edu/elliott/435/hw/programs/z-directory/">z-directory/</a>            16-Sep-2005 15:08    -   
+
+<hr></pre>
+
+</pre>
+
+We can simplify this as follows:
+
+<pre>
+&lt;pre&gt; 
+
+&lt;h1&gt;Index of /elliott/435/.xyz&lt;/h1&gt;
+
+&lt;a href="/elliott/435/"&gt;Parent Directory&lt;/a&gt; &lt;br&gt;
+&lt;a href="first-file.txt"&gt;first-file.txt&lt;/a&gt; &lt;br&gt;
+&lt;a href="second-file.html"&gt;second-file.html &lt;/a&gt;&lt;br&gt;
+&lt;a href="third-file.wml"&gt;third-file.wml&lt;/a&gt;&lt;br&gt;
+&lt;a href="z-directory/"&gt;z-directory/&lt;/a&gt;&lt;br&gt;
+
+</pre>
+
+Which displays as:
+
+<pre> 
+
+<h3>Index of /elliott/435/.xyz</h3>
+
+<a href="http://condor.depaul.edu/elliott/435/">Parent Directory</a> <br>
+<a href="http://condor.depaul.edu/elliott/435/hw/programs/first-file.txt">first-file.txt</a> <br>
+<a href="http://condor.depaul.edu/elliott/435/hw/programs/second-file.html">second-file.html </a><br>
+<a href="http://condor.depaul.edu/elliott/435/hw/programs/third-file.wml">third-file.wml</a><br>
+<a href="http://condor.depaul.edu/elliott/435/hw/programs/z-directory/">z-directory</a><br>
+
+</pre>
+
+<hr> 
+
+</li><li> Lastly, modify the return from your server so that it sends back links to
+subdirectories as subdirectory hot links, if you have not already done
+so. The only hard part is identifying a file as a directory, and typically
+you can look for a trailing slash ("/").<p>
+
+</p></li><li> For some browsers, and browser settings, you may have some difficulties
+with the directories -- e.g., you might have to send your request twice.
+Remember that you may be able to capture your request, and use MyListener as
+a debugger. Also, you might want to experiment with:
+Connection: Keep-Alive / Connection: close.<p>
+
+</p></li><li> Also, you may want to experiment with the socket.close() method if your
+browser is not displaying the data but all else is working.<p>
+
+</p></li><li> You should now have a relatively complete, working, web server, that
+can return correct MIME types for different types of files, recurse
+subdirectories, and return dynamically-created html. Because it is
+multi-threaded it should be able to handle many hundreds of requests. Good
+work!<p>
+
+
+</p></li></ul>
+
+<h3> Server-Side scripting and program execution. </h3>
+
+Goal: write simple code to run arbitrary program code on the server processing user
+input from the web, and send the results back to the web client.<p>
+
+In this section we add back-end programming capability to your server, or at
+least simulate it. We create a simple <a href="http://condor.depaul.edu/elliott/435/hw/programs/mywebserver/addnums.html">
+addnums web form </a>, accept input from a user, pass this to our webserver,
+process the information, and return a computed response based on the
+input. </p><p>
+
+For those who are more ambitious, here is a starting link on java's JNI,
+which allows us to call native code, by loading it into the virtual machine,
+and then running it. <a href="http://java.sun.com/developer/onlineTraining/Programming/JDCBook/jniexamp.html">
+Sun JNI example.</a> In this way we might write programs that actually
+run arbitrary scripts/programs under the web server.</p><p>
+
+Alternatively, for those writing in C, the "system()" function will execute
+any executables as subprocesses, making the running of programs and scripts
+trival. Note: be <strong> very </strong> security conscious of running
+user-input shell commands with the "system()" call, because, e.g., they
+might have you execute a command to erase all of your files!
+
+</p><p>
+
+Neither method is required. Instead, to keep the programming scope
+reasonable, we will only <i> simulate </i> the running of back-end scripts.</p><p>
+
+
+CGI (the Common Gateway Interface) has been around since the beginning of
+the web, so there are thousands of references on how to use it.
+
+</p><ul>
+
+<li> Use the given web form that accepts a name and two numbers. On the "action"
+statement, using the GET method, call a program with the extension
+".fake-cgi" with a URL that points to your MyWebServer program. E.g., you
+might have...
+
+<pre>&lt;FORM METHOD="GET" ACTION="http://localhost:2540/cgi/addnums.fake-cgi"&gt;<p>
+</p></pre>
+
+...which would suggest that you have a script in the /cgi subdirectory of your
+server, named addnums.fake-cgi that will handle the input from the current
+HTML form.<p>
+
+</p></li><li> Note: Although method = POST is more common, GET is a little simpler, and will suit
+our needs just fine.<p>
+
+</p></li><li> In your webserver, note that the file extension is .fake-cgi. Instead
+of looking for a file with this extension as you would for .txt and .html
+treat the input to the server as input to a script. In a regular server you
+would follow the rules of the <i> Common Gateway Interface </i> (hence CGI)
+to call a script or executable, and pass it the input, then return the result. In our case we will
+simply handle the input in the server itself.<p>
+
+</p></li><li> Use your MyListener program to see what the browser is sending when the
+form is submitted. Note where attribute-value pairs (for num1, num2, and
+person) are located. Design your method for parsing the input from what the
+browser is sending you.  For exmple, for form-input of "Matilda," and the
+numbers 4 and 5, you would expect the following to show up in your input
+stream:
+<pre> 
+
+GET /cgi/addnums.fake-cgi?person=Matilda&amp;num1=4&amp;num2=5 HTTP/1.1
+</pre>
+
+</li><li> Parse the input according to the rules of CGI for GET.<p>
+
+
+</p></li><li> Call a method addnums() in your server to handle the input and return the
+HTML formatted output to the client, using the correct MIME type,
+content-length, etc. Note that you must be careful that the working memory
+for each invocation of addnums() is distinct from all other
+invocations. Your multi-threaded server may be processing many requests at
+once.<p>
+
+</p></li><li> Send back an HTML page that returns the user's name and also the sum of
+the two numbers. E.g., "Dear Matilda, the sum of 4 and 5 is 9."<p>
+
+</p></li><li> For debugging purposes, always remember that you can send the form to your
+MyListener program to see exactly what the browser is sending you.<p>
+
+</p></li></ul>
+
+Tu-duh! You have now built a multi-threaded web server that can handle files,
+directory traversals, and server-side scripting (of sorts).
+
+<h3> What you turn in </h3>
+
+<ul> 
+<li> Capture the HTTP stream from a client using your MyListener Program.
+Capture the HTTP stream from a server using your MyTelent program.
+Concatenate these streams together, adding header, or in-line comments as
+needed or helpful, about what the file contains, and put it in a file
+called <strong> http-streams.txt. </strong> <p>
+
+</p></li><li> Produce simple "debugging" console output from your webserver showing a
+series of connections that have been made, what the request string is
+(dumping the first, informative, characters of the GET request is fine ---
+no editing needed), and the file names that were returned. Rough output is
+fine, just showing the general working of your server. Then remove the
+debugging output if you like. Or, you can produce a log file if you
+wish. Put the text of this log, along with clearly-delineated explanatory
+comments as needed or helpful, in a file <strong> serverlog.txt. </strong> <p>
+
+</p></li><li> Put all of your source code into a <i> single </i> file named <strong>
+MyWebServer.java </strong>, include the standard header comments, and make
+sure it compiles and runs. Your server <strong> MUST </strong> serve files
+from the subdirectory in which it is started.<p>
+
+</p></li><li> Do NOT submit either MyListener.java or MyTelnet.java. These were for
+your own utility use, and the worker methods might present a conflict with
+MyWebServer.java compilation.<p>
+
+</p></li><li> Fill in your <strong> checklist-mywebserver.html</strong> file
+representing what you have done. NEVER change a "no" to a "yes" without
+having completed that portion of the assignment! (See the academic integrity
+link.)<p>
+
+</p></li><li> Put everything IN ONE DIRECTORY. No subdirectories. Make sure that you
+do not have a conflict with the worker methods of MyListener, and MyWebServer.<p>
+
+</p></li><li> Collect the four files (possibly more if bragging rights) into a .zip file, and submit to D2L before the
+due date.<p>
+
+</p></li><li> Concatenate all your files except the checklist into a single text file and submit to TurnItIn.com<p>
+
+</p></li><li> Good work!
+
+</li></ul>
+
+<hr>
+<h3> Grading note: </h3>
+
+We MUST be able to retrieve files from the directory in which your
+MyWebserver program is running. That is, when the following files are
+together in the indicated subdirectory:
+
+<pre> 
+/users/elliott/students/435/Web/
+    MyWebserver.class
+    dog.txt
+    lion.html
+    /sub-a
+       /sub-b
+          lion.html
+</pre>
+
+We should be able to retrieve your files from:
+
+<pre>http://localhost:2540/dog.txt
+http://localhost:2540/lion.html
+http://localhost:2540/sub-a/sub-b/lion.html
+
+</pre>
+
+and
+
+<pre>http://localhost:2540/ or...
+http://localhost:2450
+</pre>
+
+should show us:
+
+<pre>addnums.html
+checklist-mywebserver.html
+dog.txt
+http-streams.txt
+lion.html
+serverlog.txt
+sub-a/
+MyWebserver.class
+MyWebServer.java
+</pre>
+
+...or at least something similar.<p>
+
+It is very much appreciated if we can
+grade your <i> http-streams.txt</i> and <i>checklist-mywebserver.html</i> files directly in the
+browser using your MyWebserver program to serve the files!
+
+
+</p><h3> Bragging rights (not required): </h3> 
+
+<ul> 
+<li> Store the MIME types in a table of MIME types and file
+extensions. Read the table in when the server starts, and also again, while
+the server is running, if a file extension is not recognized. This way,
+adding a new MIME type is as simple as adding an entry in your table, and
+putting files with that extension in your directory. Be SURE that your
+MimeTypes file is included in your submission and note this in your
+comments.html file and at the top of your MyWebserver.html file. <p>
+
+</p></li><li> Bragging rights: HTTP has components for storing cookies on the client
+through the browser. Implement this, and write a small application that
+shows this interaction with your server such that the cookie is sent back to
+the server by the browser on a later invocation.<p>
+
+</p></li><li> Bragging rights: implement a security policy for your server. This can
+become major bragging rights, depending on how far you go.<p>
+
+</p></li><li> Major bragging rights: Implement all of the above using HTTPS as well
+as HTTP. (Note: this is hard.)<p>
+
+</p></li><li> Major bragging rights (not recommended): Implement true, if limited,
+CGI capability by spawing subprocesses to execute back-end programs in real
+scripting languages. But note: this is actually quite simple if you write
+your webserver in a native language like C, or PERL, which supports the
+direct spawning of shell processes on the local machine.<p>
+
+</p></li></ul>
+
+
+ 
+</font></font></font></body></html>

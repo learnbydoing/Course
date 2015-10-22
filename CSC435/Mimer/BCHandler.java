@@ -27,7 +27,7 @@ the result.
 
 6. Notes:
  a. This BCHandler will open the specified file and convert the content to xml
-    format and send to back channel of server at port: 2540.
+    format and send to back channel of server at port: 2570.
 ----------------------------------------------------------*/
 import java.io.*;
 import java.net.*;
@@ -109,7 +109,7 @@ public class BCHandler {
 			else { //Success to create
 				PrintWriter toXmlOutputFile = new PrintWriter(new BufferedWriter(new FileWriter(XMLfileName)));
 				// Write content to file
-				toXmlOutputFile.println("First arg to Handler is: " + XMLfileName + "\n");
+				toXmlOutputFile.println("First arg to BCHandler is: " + XMLfileName + "\n");
 				toXmlOutputFile.println(xml);
 				toXmlOutputFile.close();
 			}

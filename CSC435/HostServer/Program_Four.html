@@ -1,0 +1,102 @@
+
+<!-- saved from url=(0073)http://condor.depaul.edu/elliott/435/hw/programs/program-agent-part1.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"> <title> DS 420 -- Elliott  Intelligent Distributed Agent Part One &lt;/center&gt; </title>
+</head>
+<body>
+2.0
+<font face="Cambria" size="1">
+Updates: <br>
+<ol>
+<li> Improved code from Reagan and Raitsev
+</li></ol>
+
+<font face="Cambria" size="5">
+<center> Program Four A </center>
+<center> Intelligent Distributed Agent Part One --HostServer </center>
+<font face="Cambria" size="3">
+
+<hr> 
+
+<h3> Instructions: </h3> 
+
+<ol>
+
+<!--<li> Ignore any notes that refer to shrike directories, or the animal
+program. This first part of the assignment is the same, but all submissions
+are to COL, and we will not use the animal data or learning program. -->
+
+<li> All links are in the <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/program-agent.html"> DIAgent Program </a>
+assignment.<p>
+
+</p></li><li> Download the java file for the Host Server and compile it. Run the server. Connect
+to the server from a browser at port 1565. Repeat for two or three clients,
+running concurrently. Follow the instructions posted on the browser, by the
+server, to update the state of the various conversations. Cause some of the
+agents to migrate to different ports. Refer to the execution instructions
+for the Hostserver if needed.<p>
+
+
+<!-- Here are the <a href=agent/dia/> HostServer class </a> files giving the
+example framework we ran in class.<p> -->
+
+John Reagan has provided updated code at <a href="http://condor.depaul.edu/elliott/435/hw/programs/hostserver/HostServer-Reagan.java.txt"> HostServer.java Reagan </a>. Thanks
+also to James Raitsev that has a version with very excellent comments at <a href="http://condor.depaul.edu/elliott/435/hw/programs/hostserver/HostServer-Raitsev.java.txt"> HostServer.java Raitsev
+</a> though this code may not work with all browsers. Get the HostServer
+running on your local machine. Add your own comments to show that you know
+how this works. To run, just issue "java HostServer" then start your
+browser. Additionally here is the text version of the <a href="http://condor.depaul.edu/elliott/435/hw/programs/agent/HostServer.text"> Execution Instructions </a> for the
+HostServer. The client is simply a web browser pointed to localhost:1565 to
+start. (Yes, the DIA port may be different.) Here is code to <a href="http://condor.depaul.edu/elliott/435/hw/programs/agent/getnext.html"> get next available port
+</a></p><p>
+
+<!--
+<li> Print the PDF file containing the source for the HostServer. Type in
+the program code. Compile your own HostServer. Change the master server port
+to 2525, and put in a server console statement about where it is
+running. Run your own server. [Note: it is <i> intended </i> that you have
+to type in the code from the PDF print file. Typing it in will help you to
+learn what the program is doing and prepare you for the more challenging
+full assignment. But, it is painless. Yes, it is possible to get around the
+typing, but I <i> very much </i> do not recommend it, unless you are already
+very strong in network, and thread, programming.]<p> -->
+
+</p></li><li> Add your own comments to this pedagogical code (required!), to show
+that you understand how it works.<p>
+
+</p></li><li> The HostServer just uses a simple counter to get new ports for
+agents. But code is provided to have the system find the next available
+port. <i> Consider </i> rewriting your HostServer code to integrate the more
+graceful code for getting new agent ports. But, this is not required.<p>
+
+<!-- <li> The HostServer code does not calculate Content-Length. Depending on
+your browser, you <i> might </i> actually have to calculate this to get the
+data to appear.<p> -->
+
+</p></li><li> Submit HostServer.java <strong> WITH YOUR COMMENTS </strong> to COL.<p>
+
+</p></li><li> There is no checklist for this preliminary assignment.<p>
+
+</p></li><li> Note: In this HostServer preliminary assignment, because we initiate
+migration from the web client, we can migrate the agent, capture the new
+address of the agent, install this in our dynamic HTML and
+send it back to the client all as part of the one request-response step.
+In this way the client always knows how to reach the migrated agent. <p>
+
+In the larger assignment, the agent will migrate autonomously, and the
+client will not know where it has gone. Thus we must leave behind a zombie,
+to point to the new location when the client connects, or must maintain a
+name-server that clients connect to, which then contacts the agent at its
+currently location, or ...[fill in your own solution].</p><p>
+
+</p></li><li> Note: In this HostServer preliminary assignment, to keep things simple,
+the agents all run under the single HostServer. In the larger assignment we
+will use multiple HostServer hosts (possibly running on different machines
+at different IP addresses). However the code is virtually all the same. One
+will simply have to replace the hard-coded address and port of the current
+HostServer with some other HostServer IP address and port, and everything
+else is handled by the current code.<p>
+
+</p></li></ol> 
+
+ 
+</font></font></font></body></html>
