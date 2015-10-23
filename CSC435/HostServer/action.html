@@ -8,11 +8,19 @@
     <p>Click 'Refresh' button to get the new state; Or, click the 'Migrate' button to migrate to another port.</p>
     <p>You are now in Agent Looper starting Agent Listening Loop </p>
     <p>[Port = 3001]</p>
-    <form method="GET" action="http://localhost:3001/action=refresh">
-      <input type="submit" value="Refresh">
-    </form>
-    <form method="GET" action="http://localhost:3001/action=migrate">
-      <input type="submit" value="Migrate">
-    </form>
+    <table>
+      <tr>
+        <td>
+          <form method="GET" action="http://localhost:3001/action/refresh">
+            <input type="submit" value="Refresh">
+          </form>
+        </td>
+        <td>
+          <form method="GET" action="http://localhost:3001/action/migrate">
+            <input type="submit" value="Migrate">
+          </form>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
