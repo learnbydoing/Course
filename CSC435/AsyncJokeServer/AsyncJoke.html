@@ -1,0 +1,120 @@
+
+<!-- saved from url=(0060)http://condor.depaul.edu/elliott/435/projects/AsyncJoke.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"> <title> CSC435 Elliott</title> 
+</head><body>
+<font face="Comic Sans MS" size="1">
+1.1 <p>
+Updates:
+</p><ol> 
+<li> Various client UDP ports to handle multiple clients
+</li><li> 2014-05-17: This is version 1.0, watch for updates
+</li></ol>
+
+<font face="Cambria" size="3">
+
+<h1>
+<center> CSC435 Asynchronous JokeServer Project <br>
+Elliott</center> <br>
+</h1> 
+<hr> 
+<a href="http://condor.depaul.edu/elliott/435/projects/ChecklistAsyncJoke.html"> AsyncJoke Checklist </a>
+<hr> 
+
+<ul> 
+<li> Files: AsyncJokeServer.java, AsyncJokeClient.java,
+AsyncJokeAdminClient.java, AsyncJokeLog.txt, Checklist-AsyncJoke.html
+</li><li> Concatenate together representative console output in AsyncJokeLog.txt
+</li><li> Complete your regular JokeServer assignment.
+</li><li> Request jokes/proverbs as usual.
+</li></ul>
+
+<h3> Server </h3>
+
+<ul>
+<li> In the worker thread, once a request has been received, break the
+TCP/IP connection.
+</li><li> Sleep for 40 seconds.
+
+</li><li> Using UDP, connect to back to (call back to) your client to send back the results.
+
+</li></ul>
+<h3> Client </h3>
+
+<ul>
+<li> Because this is an async design, the client must maintain a (UDP)
+server. Listen for a callback from the server at an available UDP port,
+which must be sent to any server communicating with this client.
+
+</li><li> After you send the request for Joke/Proverb have your client display a
+prompt for adding strings of numbers together and displaying the results on
+the console. Keep displaying the prompt to get more numbers in a loop, until
+the joke/proverb is ready to display. Wait until after the latest cycle of
+getting numbers from the console, an displaying the results, before
+displaying a joke/proverb:
+
+<pre>Press Return for joke or proverb:
+Enter numbers to sum: 3 66 8 12
+Your sum is: 89
+Enter numbers to sum: 9 50
+Your sum is: 59
+A stich in time saves nine
+Press Return for joke or proverb:
+</pre>
+</li></ul>
+Note: It is possible that you will not have to modify your JokeServer Admin client.
+<p>
+</p><hr>
+
+<h3> For more credit: </h3>
+
+<ul>
+<li> Implement the ability to connect to multiple joke servers (a la
+Xwndows). You must still use just ONE AsyncJokeServer.java source code file.
+</li><li> Allow the passing of an argument to your SINGLE server source code
+.class file that determines the server port. 
+
+</li><li> When the server detects the argument, change sleep value to 70
+seconds; use the argument as the listening port number
+</li><li> Pass arguments to your joke client, one port number for each
+AsyncJokeServer started. These will be associated with server A, B, C...
+
+</li><li> In your client, accept letters (case insensitive) on the client console
+to get a joke or a client from the associated 
+
+<pre>[Server command shells...]
+
+&gt; start java AsyncJokeServer 3245
+Asynchronous JokeServer listening at port 3245
+&gt; start java AsyncJokeServer 3246
+Asynchronous JokeServer listening at port 3246
+
+-----------
+[Client command shell...]
+
+&gt; java AsyncJokeClient 3245 3246
+Asynchronous JokeClient started with bindings:
+Server A at 3245
+Server B at 3246
+
+Enter A or B to get a joke or proverb, or numbers for sum: A
+Enter A or B to get a joke or proverb, or numbers for sum: B
+Server A responds: "[Joke A]"
+Enter A or B to get a joke or proverb, or numbers for sum: 2 3 4
+Your sum is: 9
+Server B reponds: "[Joke C]"
+Enter A or B to get a joke or proverb, or numbers for sum: [etc]
+
+</pre> 
+
+</li></ul>
+
+<h3> Submission: </h3>
+
+Submit your zipped COMMENTED java source files and concatenated-together log
+file to COL and to TurnItIn.com before the deadline. All files correctly
+named! 
+
+<hr>
+
+ 
+</font></font></body></html>
