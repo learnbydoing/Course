@@ -26,6 +26,7 @@ Mimer callback infrastructure </h3>
 <li> jbch.bat (compile BCHandler.java)</li>
 <li> jcx.bat (compile MyWebServer.java)</li>
 <li> rx.bat (run MyWebServer.class)</li>
+<li> shim.bat (bound with .xyz files)</li>
 </ul>
 
 <strong>Change "No" to "Yes" as you complete the tasks: </strong><p>
@@ -240,6 +241,8 @@ No                    </b></td></tr>
 Prerequisite:
 1. Two Xstream libraries should be put into JDK root folder, eg. C:\Program Files\Java\jdk1.8.0_60
 2. Configure JAVA_HOME environment variable, which should navigate to above JDK root folder. The BATs files are using this variable.
+3. Edit shim.bat, change the development directory, Handler directory and classpath, point to the root folder where the mimer locates.
+4. Edit rx.bat, change the classpath, points to the root folder where the mimer locates.
 
 Compile:
 1. jbch.bat for BCHandler.java
