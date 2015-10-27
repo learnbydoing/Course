@@ -1,21 +1,21 @@
 /*--------------------------------------------------------
 1. Name / Date:
 Rong Zhuang
-17 Sep, 2015
+26 Oct, 2015
 
 2. Java version used:
 build 1.8.0_60
 
 3. Precise command-line compilation examples / instructions:
-> javac JokeServer.java
-> javac JokeClient.java
-> javac JokeClientAdmin.java
+> javac AsyncJokeServer.java
+> javac AsyncJokeClient.java
+> javac AsyncJokeClientAdmin.java
 
 4. Precise examples / instructions to run this program:
 In separate shell windows:
-> java JokeServer
-> java JokeClient
-> java JokeClientAdmin
+> java AsyncJokeServer
+> java AsyncJokeClient
+> java AsyncJokeClientAdmin
 
 All acceptable commands are displayed on the various consoles.
 
@@ -23,8 +23,8 @@ If the server is running on the different machine with the client, you
 need to pass the IP address of the server to the clients. For exmaple,
 if the server is running at 140.192.34.32 then you would type:
 
-> java JokeClient 140.192.34.32
-> java JokeClientAdmin 140.192.34.32
+> java AsyncJokeClient 140.192.34.32
+> java AsyncJokeClientAdmin 140.192.34.32
 
 5. List of files needed for running the program.
  a. Worker.class
@@ -67,7 +67,7 @@ interface ServerModeListener {
  */
 class Worker extends Thread {
 	String FILE_USERSTATES = "AsyncServerUserStates.txt";
-	int SLEEP_IN_SECONDS = 5;
+	int SLEEP_IN_SECONDS = 40;
 	Socket socket;
 	// Server Mode
 	AsyncJokeServer.ServerMode serverMode = AsyncJokeServer.ServerMode.JOKE;
@@ -244,20 +244,35 @@ class Worker extends Thread {
 		}
 	}
 
+	/**
+	 * Send joke or proverb to client with UDP
+	 * @param newJokeProverb, joke or proverb
+	 * @param port, port for client
+	 */
 	private void sendJokeProverbByUDP(String newJokeProverb, int port) throws IOException {
+		// Define UDP socket
 		DatagramSocket clientSocket = new DatagramSocket();
+		// Get ip address for localhost
 		InetAddress IPAddress = InetAddress.getByName("localhost");
+		// Define default package length
 		int len = 1024;
+		// Check the actual length
 		if (newJokeProverb.getBytes().length > len) {
+			// Update with the actual lenght of content
 			len = newJokeProverb.getBytes().length;
 		}
+		// Define byte array for sending data
 		byte[] sendData = new byte[len];
 		sendData = newJokeProverb.getBytes();
 		System.out.println("Send joke or proverb to " + IPAddress + " at port:" + port);
+		// Define upd package
 		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+		// Send to client
 		clientSocket.send(sendPacket);
+		// Close connection after sending
 		clientSocket.close();
 	}
+	
 	/**
 	 * Get the joke or proverb states from the whole list
 	 * @param mode, Server mode

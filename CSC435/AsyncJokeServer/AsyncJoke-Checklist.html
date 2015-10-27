@@ -45,11 +45,11 @@ Rong Zhuang         </b></td></tr>
 
 <tr> <td align="left"><b>
 Basic JokeServer Works fully </b></td><td align="left"><b>
-No          </b></td></tr>
+Yes          </b></td></tr>
 
 <tr> <td align="left"><b>
 Extensive Comments in Source    </b></td><td align="left"><b>
-No                    </b></td></tr>
+Yes                    </b></td></tr>
 
 <tr> <td align="left"><b>
 Implemented the client for MULTIPLE servers (optiom)
@@ -59,27 +59,27 @@ No                    </b></td></tr>
 <tr> <td align="left"><b>
 Sleep for 40 seconds in worker thread after breaking TCP connection
 </b></td><td align="left"><b>
-No                    </b></td></tr>
+Yes                    </b></td></tr>
 
 <tr> <td align="left"><b>
 Used UDP for callback to client
 </b></td><td align="left"><b>
-No                    </b></td></tr>
+Yes                    </b></td></tr>
 
 <tr> <td align="left"><b>
 Add Sums on Client
 </b></td><td align="left"><b>
-No                    </b></td></tr>
+Yes                    </b></td></tr>
 
 <tr> <td align="left"><b>
 Wait for Sum loop to end before displaying results from server
 </b></td><td align="left"><b>
-No                    </b></td></tr>
+Yes                    </b></td></tr>
 
 <tr> <td align="left"><b>
 All files named correctly
 </b></td><td align="left"><b>
-No                    </b></td></tr>
+Yes                    </b></td></tr>
 
 <tr> <td align="left"><b>
 <center> Administration </center>
@@ -90,17 +90,17 @@ No                    </b></td></tr>
 <tr> <td align="left"><b>
 Compiles with javac *.java
 </b></td><td align="left"><b>
-No                    </b></td></tr>
+Yes                    </b></td></tr>
 
 <tr> <td align="left"><b>
 Submit to D2L as zip file
 </b></td><td align="left"><b>
-No                    </b></td></tr>
+Yes                    </b></td></tr>
 
 <tr> <td align="left"><b>
 Included all necessary files
 </b></td><td align="left"><b>
-No                    </b></td></tr>
+Yes                    </b></td></tr>
 
 <tr> <td align="left"><b>
 <center> Bragging Rights Below </center>
@@ -109,14 +109,22 @@ No                    </b></td></tr>
 
 <tr> <td align="left"><b>
 [Fill in custom extra features, one line per feature]    </b></td><td align="left"><b>
-Yes                    </b></td></tr>
+No                    </b></td></tr>
 
 </tbody></table>
 
 </p><h2> Optional Comments: </h2>
-one
+1. Based on JokeServer.
+2. Several enhancement to make it 'Async'
+  a. Add a new method 'sendJokeProverbByUDP' to Worker class in AsyncJokeServer.java.
+  b. Add a class 'UdpWorker' to AsyncJokeClient.java 
+  c. Update method 'getJokeOrProverb' to call UdpWorker, and add calculate sum function.
+  
+  
 <p>
-Two, etc.
+tests: 1, 40 seconds
+2. print log in console and log file
+3. check comment, add new comments for enhancement
 </p><p>
 
 

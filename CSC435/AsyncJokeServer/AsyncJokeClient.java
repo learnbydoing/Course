@@ -1,21 +1,21 @@
 /*--------------------------------------------------------
 1. Name / Date:
 Rong Zhuang
-17 Sep, 2015
+26 Oct, 2015
 
 2. Java version used:
 build 1.8.0_60
 
 3. Precise command-line compilation examples / instructions:
-> javac JokeServer.java
-> javac JokeClient.java
-> javac JokeClientAdmin.java
+> javac AsyncJokeServer.java
+> javac AsyncJokeClient.java
+> javac AsyncJokeClientAdmin.java
 
 4. Precise examples / instructions to run this program:
 In separate shell windows:
-> java JokeServer
-> java JokeClient
-> java JokeClientAdmin
+> java AsyncJokeServer
+> java AsyncJokeClient
+> java AsyncJokeClientAdmin
 
 All acceptable commands are displayed on the various consoles.
 
@@ -62,22 +62,16 @@ import java.net.*;
 import java.util.*;
 
 /**
- * An interface for UDP message listener
- */
-interface UdpMessageListener {
-	// Data received method
-	void dataReceived(String message);
-}
-
-/**
- * An AdminListener can create Admin Worker to handle the command from the client.
- * The AdminListener uses a different port number to accept only admin commands.
- * It dispatches the task to Admin worker and update the mode.
+ * A UDP worker can setup UDP connection to monitor specified port. It can get
+ * the returned message(joke/proverb) from server and forward to main process
+ * of client.
  */
 class UdpWorker extends Thread {
-	//private List<UdpMessageListener> listeners = new ArrayList<UdpMessageListener>();
+	// Message(joke/proverb), fetched from server through UDP connection
 	public String updMessage = "";
+	// Port for UDP
 	int udpPort;
+
 	/**
 	 * Construct
 	 * @param port, port for UDP
@@ -87,36 +81,32 @@ class UdpWorker extends Thread {
 		udpPort = prt;
 	}
 
-
 	/**
-	 * Allow external objects to subscribe the mode change event
-	 * @param lsn, object which has implements ServerModeListener interface
+	 * Setup UDP connection, wait for receiving data from server
 	 */
-	 /*
-	public void addListener(UdpMessageListener lsn) {
-		// Add the object to current listener list
-		listeners.add(lsn);
-	}
-	*/
-
-	public void run(){ // Running the Admin listener
+	public void run(){
 		try{
+			// Define package length
 			int len = 1024;
+			// Define byte array to store original data
 			byte[] receiveData = new byte[len];
+			// Data from UDP message with actual length
 			byte[] data;
 
-			//System.out.println("Setup UDP server at port: " + udpPort);
+			// Define UDP socket with specific port
 			DatagramSocket serverSocket = new DatagramSocket(udpPort);
+			// Define UDP package
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, len);
+			// Wait for receiving data from server
 			serverSocket.receive(receivePacket);
+			// Create array with actual length
 			data = new byte[receivePacket.getLength()];
+			// Convert original package data with actual length, the blankspace are removed in the tail
 			System.arraycopy(receivePacket.getData(), receivePacket.getOffset(), data, 0, receivePacket.getLength());
+			// Update the public attribute, so the main process can get the value.
 			updMessage = new String(data);
-			//System.out.println("Received UDP data: " + message);
+			// Close connetion
 			serverSocket.close();
-
-			//for (UdpMessageListener uml : listeners)
-			//	uml.dataReceived(message);
 		}
 		catch (IOException ioe) {
 			System.out.println(ioe);
@@ -126,47 +116,6 @@ class UdpWorker extends Thread {
 		}
 	}
 }
-
-/**
- * An AdminListener can create Admin Worker to handle the command from the client.
- * The AdminListener uses a different port number to accept only admin commands.
- * It dispatches the task to Admin worker and update the mode.
- */
-/*class AsyncUdpListener implements Runnable, UdpMessageListener {
-	public String updMessage = "";
-	int udpPort;
-
-	public AsyncUdpListener(int prt)
-	{
-		udpPort = prt;
-	}
-
-	public void run(){
-		try{
-			// Create a new udp worker
-			UdpWorker udpWorker = new UdpWorker(udpPort);
-			// Add listen to udp worker to monitor any received data
-			udpWorker.addListener(this);
-			// Start admin worker in new thread
-			udpWorker.start();
-		}
-		catch (IOException ioe) {
-			System.out.println(ioe);
-		}
-		finally {
-			System.out.println("UDP Service is stopped!");
-		}
-	}
-
-	/**
-	 * Call back method from admin worker to update the mode status
-	 * @param mode, server mode
-	 */
-	/*public void dataReceived(String message) {
-		// Update message
-		udpMessage = message;
-	}
-}*/
 
 /**
  * A client can be setup in the same machine or different machine with the
@@ -280,8 +229,6 @@ public class AsyncJokeClient {
 		}
 	}
 
-
-
 	/**
 	 * Connect to the server, send user name and unique key(UUID) and get a random
 	 * joke or proverb.
@@ -297,18 +244,10 @@ public class AsyncJokeClient {
 
 		try{
 
-			// Create a new udp worker
+			// Create a new UDP worker
 			UdpWorker udpWorker = new UdpWorker(port);
-			// Add listen to udp worker to monitor any received data
-			//udpWorker.addListener(this);
-			// Start admin worker in new thread
+			// Start UDP worker in new thread
 			udpWorker.start();
-
-			// create a new AdminListener instance for admin purpose
-			//AsyncUdpListener updLnr = new AsyncUdpListener();
-			//Thread t = new Thread(updLnr);
-			// Start it for waiting admin command
-			//t.start();
 
 			// Open a new socket connection to the server with the specified port number
 			socket = new Socket(servername, port);
@@ -318,6 +257,7 @@ public class AsyncJokeClient {
 			toServer.println(username + " " + userkey);
 			toServer.flush();
 
+			// Provide add num service during waiting for joke/proverb.
 			String addnum = "";
 			String[] strNums;
 			while(udpWorker.updMessage == null || udpWorker.updMessage.isEmpty()) {
@@ -325,57 +265,47 @@ public class AsyncJokeClient {
 				System.out.flush();
 				// Receive number list
 				addnum = reader.readLine();
+				// Validate input
 				if (addnum == null || addnum.isEmpty()) {
+					// No input
 					writeLog("Please input something!");
 				}
-				else {
+				else { // Input provided
+					// Split numbers by blankspace
 					strNums = addnum.split(" ");
 					if (strNums == null || addnum.length() < 1) {
+						// Without any number found
 						writeLog("Your input is invalid, please try again!");
 					}
-					else {
+					else { // At least one number found
 						int sum = 0;
 						Integer num = null;
+						// Iterate numbers
 						for(String item: strNums) {
 							try {
+								// Convert string to integer
 								if (!item.isEmpty())
 									num = Integer.parseInt(item);
 							} catch(NumberFormatException nfe) {
+								// Abandon current calculation if invalid input found
 								writeLog("Your input is invalid, please try again!");
 								num = null;
 								break;
 							}
+							// Sum
 							if (num != null)
 								sum = sum + num;
 						}
-						if (num != null)
+						if (num != null) {
+							// Print result
 							writeLog("Your sum is: " + sum);
+						}
 					}
 				}
 			}
 
+			// Jump out loop if worker update message, print the result
 			writeLog("Your joke/proverb: " + udpWorker.updMessage);
-
-
-
-			//setupUDPServer(port);
-
-
-
-
-
-			// There is nothing special for the number(50) of iteration times
-			/*String strOutput;
-			for (int ix = 1; ix <= 50; ix++){
-				strOutput = fromServer.readLine();
-				if (strOutput == null){  // There is no more messages
-					break;
-				}
-				else {
-					// Write log and print
-					writeLog(strOutput);
-				}
-			}*/
 
 			// Close the socket
 			socket.close();
@@ -385,23 +315,6 @@ public class AsyncJokeClient {
 			ex.printStackTrace ();
 		}
 	}
-
-/*
-	private static void setupUDPServer(int udpPort) throws IOException {
-		int len = 1024;
-		byte[] receiveData = new byte[len];
-		byte[] data;
-
-		System.out.println("Setup UDP server at port: " + udpPort);
-		DatagramSocket serverSocket = new DatagramSocket(udpPort);
-		DatagramPacket receivePacket = new DatagramPacket(receiveData, len);
-		serverSocket.receive(receivePacket);
-		data = new byte[receivePacket.getLength()];
-		System.arraycopy(receivePacket.getData(), receivePacket.getOffset(), data, 0, receivePacket.getLength());
-		String sentence = new String(data);
-		System.out.println("Received UDP data: " + sentence);
-		serverSocket.close();
-	}*/
 
 	/**
 	 * Get the user list from the specified file
