@@ -7,15 +7,11 @@ Rong Zhuang
 build 1.8.0_60
 
 3. Precise command-line compilation examples / instructions:
-> javac AsyncJokeServer.java
 > javac AsyncJokeClient.java
-> javac AsyncJokeClientAdmin.java
 
 4. Precise examples / instructions to run this program:
 In separate shell windows:
-> java AsyncJokeServer
 > java AsyncJokeClient
-> java AsyncJokeClientAdmin
 
 All acceptable commands are displayed on the various consoles.
 
@@ -23,16 +19,11 @@ If the server is running on the different machine with the client, you
 need to pass the IP address of the server to the clients. For exmaple,
 if the server is running at 140.192.34.32 then you would type:
 
-> java JokeClient 140.192.34.32
-> java JokeClientAdmin 140.192.34.32
+> java AsyncJokeClient 140.192.34.32
 
 5. List of files needed for running the program.
- a. Worker.class
- b. JokeServer.class
- c. JokeClient.class
- d. JokeClientAdmin.class
- e. AdminLooper.class
- f. AdminWorker.class
+ a. AsyncJokeClient.class
+ d. UdpWorker.class
 
 6. Notes:
  a. The joke client uses 4653 as the port number for general joke and proverb
@@ -56,6 +47,14 @@ if the server is running at 140.192.34.32 then you would type:
  f. The running logs are stored to file ClientLogs.txt
  g. Type 'quit' to stop the admin client.
 
+----------------------------------------------------------*/
+/*--------------------------------------------------------
+Enhancement for AsyncJokeClient
+1. Added a new class 'UdpWorker' in AsyncJokeClient.java. This class is used to
+   connect server via UDP and receive data from it.
+2. Updated method 'getJokeOrProverb' to create UdpWorker instance to monitor
+   UDP messages from server.
+3. Updated method 'getJokeOrProverb', add 'calculate sum' function.
 ----------------------------------------------------------*/
 import java.io.*;
 import java.net.*;
@@ -190,24 +189,30 @@ public class AsyncJokeClient {
 						break;
 					}
 					else {
-						// Try to find the user in the current user list
-						userKey = users.get(userName);
-						//System.out.print("userKey: " +  userKey);
-						// If no key found, means this is a new user
-						if(userKey == null || userKey.isEmpty()){
-							// Generate a random UUID
-							UUID uuid = UUID.randomUUID();
-							// Convert the UUID to string and use it as user key
-							userKey = uuid.toString();
-							// Store the new user to list
-							users.put(userName, userKey);
-							// Meanwhile, save the new user to file
-							addUser(FILE_USERS, userName, userKey);
+						if (userName.contains(" ")) {
+							// Warn the end user to provide a name to continue
+							writeLog("Name cannot contain space!");
 						}
-						// Remember the user for the next request
-						currentUserName = userName;
-						// Get new joke/proverb for the new user
-						getJokeOrProverb(currentUserName, userKey, serverName, PORT_NUMBER, reader);
+						else {
+							// Try to find the user in the current user list
+							userKey = users.get(userName);
+							//System.out.print("userKey: " +  userKey);
+							// If no key found, means this is a new user
+							if(userKey == null || userKey.isEmpty()){
+								// Generate a random UUID
+								UUID uuid = UUID.randomUUID();
+								// Convert the UUID to string and use it as user key
+								userKey = uuid.toString();
+								// Store the new user to list
+								users.put(userName, userKey);
+								// Meanwhile, save the new user to file
+								addUser(FILE_USERS, userName, userKey);
+							}
+							// Remember the user for the next request
+							currentUserName = userName;
+							// Get new joke/proverb for the new user
+							getJokeOrProverb(currentUserName, userKey, serverName, PORT_NUMBER, reader);
+						}
 					}
 				}
 
@@ -256,15 +261,18 @@ public class AsyncJokeClient {
 			// Send user name and user key to server
 			toServer.println(username + " " + userkey);
 			toServer.flush();
+			writeLog("Request has been sent to server, waiting for response...");
 
 			// Provide add num service during waiting for joke/proverb.
 			String addnum = "";
 			String[] strNums;
 			while(udpWorker.updMessage == null || udpWorker.updMessage.isEmpty()) {
-				writeLog("Enter numbers to sum:");
+				//writeLog("Enter numbers to sum:");
+				System.out.print("Enter numbers to sum: ");
 				System.out.flush();
 				// Receive number list
 				addnum = reader.readLine();
+				writeLog("Enter numbers to sum: " + addnum, false);
 				// Validate input
 				if (addnum == null || addnum.isEmpty()) {
 					// No input

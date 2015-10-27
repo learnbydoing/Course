@@ -7,15 +7,11 @@ Rong Zhuang
 build 1.8.0_60
 
 3. Precise command-line compilation examples / instructions:
-> javac JokeServer.java
-> javac JokeClient.java
-> javac JokeClientAdmin.java
+> javac AsyncJokeClientAdmin.java
 
 4. Precise examples / instructions to run this program:
 In separate shell windows:
-> java JokeServer
-> java JokeClient
-> java JokeClientAdmin
+> java AsyncJokeClientAdmin
 
 All acceptable commands are displayed on the various consoles.
 
@@ -23,16 +19,10 @@ If the server is running on the different machine with the client, you
 need to pass the IP address of the server to the clients. For exmaple,
 if the server is running at 140.192.34.32 then you would type:
 
-> java JokeClient 140.192.34.32
-> java JokeClientAdmin 140.192.34.32
+> java AsyncJokeClientAdmin 140.192.34.32
 
 5. List of files needed for running the program.
- a. Worker.class
- b. JokeServer.class
- c. JokeClient.class
- d. JokeClientAdmin.class
- e. AdminLooper.class
- f. AdminWorker.class
+ a. AsyncJokeClientAdmin.class
 
 6. Notes:
  a. The admin client uses 8722 as the port number for admin service.
@@ -42,7 +32,10 @@ if the server is running at 140.192.34.32 then you would type:
     M - for Maintenance Mode
     SD - to shutdown the server
  c. Type 'quit' to stop the admin client.
-
+----------------------------------------------------------*/
+/*--------------------------------------------------------
+Enhancement for AsyncJokeClientAdmin
+No enhancement is made for this file. Just rename the class name.
 ----------------------------------------------------------*/
 import java.io.*;
 import java.net.*;

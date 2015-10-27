@@ -8,31 +8,16 @@ build 1.8.0_60
 
 3. Precise command-line compilation examples / instructions:
 > javac AsyncJokeServer.java
-> javac AsyncJokeClient.java
-> javac AsyncJokeClientAdmin.java
 
 4. Precise examples / instructions to run this program:
 In separate shell windows:
 > java AsyncJokeServer
-> java AsyncJokeClient
-> java AsyncJokeClientAdmin
-
-All acceptable commands are displayed on the various consoles.
-
-If the server is running on the different machine with the client, you
-need to pass the IP address of the server to the clients. For exmaple,
-if the server is running at 140.192.34.32 then you would type:
-
-> java AsyncJokeClient 140.192.34.32
-> java AsyncJokeClientAdmin 140.192.34.32
 
 5. List of files needed for running the program.
- a. Worker.class
- b. JokeServer.class
- c. JokeClient.class
- d. JokeClientAdmin.class
- e. AdminLooper.class
- f. AdminWorker.class
+ a. AsyncJokeServer.class
+ b. Worker.class
+ c. AdminWorker.class
+ d. AdminListener.class
 
 6. Notes:
  a. Server will monitor two ports: 4653 for general joke and proverb service,
@@ -47,7 +32,21 @@ if the server is running at 140.192.34.32 then you would type:
     One user one line, Exmaple:
     2b703f01-e9a4-4b20-a7a7-402009f1ded9 1,1,1,0,1,0,1,1,0,1
  e. To stop the server, type 'SD' in admin client.
-
+----------------------------------------------------------*/
+/*--------------------------------------------------------
+Enhancement for AsyncJokeServer
+1. Added a new method 'sendJokeProverbByUDP' to Worker class. This method is used
+   to send back UPD message to client.
+2. Enhanced the method 'seekJokeProverb', make thread sleep 40 seconds before
+   sending back joke/proverb via calling method 'sendJokeProverbByUDP'.
+----------------------------------------------------------*/
+/*--------------------------------------------------------
+Enhancement for AsyncJokeServer
+1. Added a new class 'UdpWorker' in AsyncJokeClient.java. This class is used to
+   connect server via UDP and receive data from it.
+2. Updated method 'getJokeOrProverb' to create UdpWorker instance to monitor
+   UDP messages from server.
+3. Updated method 'getJokeOrProverb', add 'calculate sum' function.
 ----------------------------------------------------------*/
 import java.io.*;
 import java.net.*;
@@ -125,6 +124,8 @@ class Worker extends Thread {
 						socket.close();
 						return;
 				}
+				socket.close();
+				System.out.println("TCP connection has been broken.");
 				// Seek joke/proverb
 				seekJokeProverb(userName, userKey, serverMode, mapJokesProverbs, mapStates, port, SLEEP_IN_SECONDS);
 				// Save states to file
@@ -135,7 +136,6 @@ class Worker extends Thread {
 				System.out.println ("Exception occurs, see the below details:");
   			ex.printStackTrace ();
 			}
-			socket.close();
 		}
 		catch(IOException ex){
 			// Handle the exception
@@ -210,6 +210,7 @@ class Worker extends Thread {
 			}
 			// Output the result to client
 			//printer.println(newJokeProverb);
+			System.out.println(newJokeProverb);
 			System.out.println("Sleep for " + sleep + " seconds, zzzzzz...");
 			Thread.sleep(sleep * 1000);
 			switch (mode) {
@@ -264,15 +265,16 @@ class Worker extends Thread {
 		// Define byte array for sending data
 		byte[] sendData = new byte[len];
 		sendData = newJokeProverb.getBytes();
-		System.out.println("Send joke or proverb to " + IPAddress + " at port:" + port);
 		// Define upd package
 		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
 		// Send to client
 		clientSocket.send(sendPacket);
+		System.out.println("Joke/proverb has been sent to " + IPAddress + " at port:" + port);
+		System.out.println("\n");
 		// Close connection after sending
 		clientSocket.close();
 	}
-	
+
 	/**
 	 * Get the joke or proverb states from the whole list
 	 * @param mode, Server mode
@@ -490,7 +492,7 @@ class AdminWorker extends Thread {
  * The AdminListener uses a different port number to accept only admin commands.
  * It dispatches the task to Admin worker and update the mode.
  */
-class AsyncAdminListener implements Runnable, ServerModeListener {
+class AdminListener implements Runnable, ServerModeListener {
 	// Flag indicates whether the Admin listener needs to continue work
 	public volatile boolean adminListenerRunning = true;
 	// Public server mode which can be changed by the call back method from
@@ -584,7 +586,7 @@ public class AsyncJokeServer {
 
 		try{
 			// create a new AdminListener instance for admin purpose
-			AsyncAdminListener adminLnr = new AsyncAdminListener();
+			AdminListener adminLnr = new AdminListener();
 			Thread t = new Thread(adminLnr);
 			// Start it for waiting admin command
 			t.start();

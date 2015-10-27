@@ -1,0 +1,34 @@
+Rong Zhuang's Async Joke Client is starting...
+Using server: localhost, Port: 4653
+Enter your name to get a new joke/proverb, or 'quit' to exit this client...
+> johnny
+Request has been sent to server, waiting for response...
+Enter numbers to sum: 1 2 3 4
+Your sum is: 10
+Enter numbers to sum: 11 22 33 44
+Your sum is: 110
+Enter numbers to sum: 9852
+Your sum is: 9852
+Enter numbers to sum: 95 2
+Your sum is: 97
+Enter numbers to sum: 100 34
+Your sum is: 134
+Your joke/proverb: A. johnny's new joke: Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water.
+Enter your name to get a new joke/proverb, or 'quit' to exit this client...
+> johnny
+Request has been sent to server, waiting for response...
+Enter numbers to sum: 12 3 45 6
+Your sum is: 66
+Enter numbers to sum: 75 3 2
+Your sum is: 80
+Enter numbers to sum: qq
+Your input is invalid, please try again!
+Enter numbers to sum: 22 13 45
+Your sum is: 80
+Enter numbers to sum: 90 23
+Your sum is: 113
+Enter numbers to sum: 8 1 2 3 5 6 7 8 9 0 23 23 4 5
+Your sum is: 104
+Enter numbers to sum:  3 34 5 6 7 8 8 9 
+Your sum is: 80
+Your joke/proverb: A. johnny's new joke: Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water.
