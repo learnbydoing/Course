@@ -5,4 +5,5 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_list">Restaurant List</string>
     <string name="title_activity_details">Restaurant Details</string>
+    <string name="downloading_warning">Image loading...</string>
 </resources>

@@ -67,6 +67,10 @@ public class Restaurant implements Parcelable {
         return reviews + " Reviews";
     }
 
+    public String getLongReviewText() {
+        return "Total " + reviews + " reviews from customers.";
+    }
+
     public float getRating() {
         return rating;
     }

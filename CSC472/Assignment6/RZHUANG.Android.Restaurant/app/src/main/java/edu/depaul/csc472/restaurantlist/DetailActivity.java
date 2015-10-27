@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -45,21 +46,21 @@ public class DetailActivity extends Activity {
             location.setText(restaurant.getLocation());
             icon.setImageResource(Restaurant.getIconResource(restaurant.getType()));
             rating.setRating(restaurant.getRating());
-            reviews.setText(restaurant.getReviewText());
+            reviews.setText(restaurant.getLongReviewText());
 
             // show The Image
             if (restaurant.getImage1().length() != 0) {
-                new DownloadImageTask((ImageView) findViewById(R.id.image1))
+                new DownloadImageTask((ImageView) findViewById(R.id.image1), (TextView) findViewById(R.id.download1))
                         .execute(restaurant.getImage1());
             }
             // show The Image
             if (restaurant.getImage2().length() != 0) {
-                new DownloadImageTask((ImageView) findViewById(R.id.image2))
+                new DownloadImageTask((ImageView) findViewById(R.id.image2), (TextView) findViewById(R.id.download2))
                         .execute(restaurant.getImage2());
             }
             // show The Image
             if (restaurant.getImage3().length() != 0) {
-                new DownloadImageTask((ImageView) findViewById(R.id.image3))
+                new DownloadImageTask((ImageView) findViewById(R.id.image3), (TextView) findViewById(R.id.download3))
                         .execute(restaurant.getImage3());
             }
         }
@@ -99,9 +100,11 @@ public class DetailActivity extends Activity {
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
+        TextView txtDownload;
 
-        public DownloadImageTask(ImageView bmImage) {
+        public DownloadImageTask(ImageView bmImage, TextView txtDown) {
             this.bmImage = bmImage;
+            this.txtDownload = txtDown;
         }
 
         protected Bitmap doInBackground(String... urls) {
@@ -121,6 +124,8 @@ public class DetailActivity extends Activity {
         }
 
         protected void onPostExecute(Bitmap result) {
+            txtDownload.setVisibility(View.GONE);
+            bmImage.setVisibility(View.VISIBLE);
             bmImage.setImageBitmap(result);
         }
     }
