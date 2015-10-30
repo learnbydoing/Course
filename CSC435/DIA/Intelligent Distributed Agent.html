@@ -1,0 +1,671 @@
+
+<!-- saved from url=(0070)http://condor.depaul.edu/elliott/435/hw/programs/a2/program-agent.html -->
+<html debug="true"><div id="FirebugChannel" style="display: none;"></div><script src="chrome-extension://bmagokdooijbeehmkpknfglimnifench/firebug-lite.js" id="FirebugLite" firebugignore="true" extension="Chrome"></script><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"> <title> CSC435 --- Elliott  Intelligent Distributed Agent
+</title> </head> <body>
+Version 1.9
+(watch for updates!)<p>
+
+<!--
+<li> 2010-03-13, added link to get next available port
+<li> 2010-03-12, added example of capturing arguments for port assignments;
+added discussion to migration discussion; added a trick to the redirect pages
+<li> 2010-03-02, various small edits for clarity
+<li> Added the lunch problem discussion
+<li> Added GradeAgent batch file
+<li> Added zombie example code
+<li> Complete Revision 2010-02-28
+<li> 2012-11-27, added TIMEOUT comment to gradeagent.bat file, thanks Ron, others
+<li> Added the hostserver link back in. Thanks Naveed!
+-->
+
+
+<font face="Cambria" size="1">
+Updates:
+</font></p><ol><font face="Cambria" size="1">
+<li> none
+</li></font></ol><font face="Cambria" size="1">
+
+<font face="Cambria" size="5">
+<center> Program Four </center>
+<center> Distributed Intelligent Agent </center>
+<font face="Cambria" size="3">
+
+<hr>
+
+<h2> Overview </h2>
+
+<a href="http://condor.depaul.edu/elliott/435/hw/programs/agent/dia/">
+Hostserver </a> Link.<p>
+
+Your job is to build a system architecture in which agents can migrate from
+one host process to another, while maintaining their internal state. Users
+interact via the web with the agents, one user to one agent. Users get data
+in the form of labels and matching data (think, e.g., quiz questions and
+answers), and can also submit labels and matching data. Agents belong to
+a group. Agents share data with members of their group. Maintain a
+NameServer that knows the location of all agents and HostServers, and
+provides utility services. </p><p>
+
+Note: Substantial extra credit for DIA systems that share data with the systems of
+other students! Make sure I know. Define your interface and protocol! (Hosting of the agents
+of other students should <i> not </i> be attempted.) </p><p>
+
+(Note: <a href="http://condor.depaul.edu/elliott/435/hw/programs/old-program-agent.html"> Old agent program page </a> This has much
+useful information. In particular you might wish to run the Web animal game,
+and look over the code, to get a feel for dynamically generated Web
+pages. The LUNCH PROBLEM discussion is also relevant.)
+
+
+</p><h2> Submission Files </h2>
+
+Submit all files to COL <i> BEFORE </i> the due date. Submit early, submit
+often. Names for the java programs are PRECISE, and MUST be used. We
+will be using batch compile scripts.
+
+<ul> 
+<li> <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/checklist-agent.html"> Agent Checklist </a>
+</li><li> NameServer.java
+</li><li> HostServer.java
+</li><li> Optional: DIAdb.java &lt;-- possibly needed for single repository of data
+</li><li> ServerLogs.txt
+</li><li> DIADiscussion.doc or (DIADiscussion.txt or DIADiscussion.html) No other formats!
+</li><li> (optional) Readme.txt  &lt;-- Special instructions
+</li></ul>
+
+<h2> Basic Grading Procedure </h2> 
+
+<ol> 
+<li> Read your checklist to see which features have been implemented
+</li><li> We will run the <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/gradeagent.bat.txt"> GradeAgent Batch File </a>,
+under windows, to see your program work  and to...
+<ul>
+<li> Start your NameServer
+</li><li> Start your DIAdb if provided
+</li><li> Start your first HostServer
+</li><li> Start a second HostServer by passing a different port number than the default
+</li><li> Connect to the first HostServer three times to create agents one to three
+</li><li> Connect to the second HostServer three times to create agents four to six
+</li><li> Check the NameServer to see if both HostServers and six agents are
+registered. See if agents belong to groups.
+</li><li> Enter, and retrieve, data for various agents in one group.
+</li><li> Check to see if the data is shared for agents in that group.
+</li><li> See if agents migrate
+</li><li> Make a top-level query of yor agent to dump its state, and verify that
+the state is consistent with its known history.
+</li></ul>
+
+</li><li> If you have a more complicated procedure to compile and run your code,
+then provide a file name, explicitly, <strong> rundia.bat </strong> that
+will compile, run, start browsers, for us to see your code work.
+</li><li> [Compile your NameServer.java, and HostServer.java code (and DIAdb.java
+if used).]
+</li><li> Read your ServerLogs.txt file (Composite of NameServer and HostServer
+sample server logs).
+</li><li> Read your program code. Read the COMMENTS in your program code.
+</li><li> Read your DIADiscussion file. How did you solve the lunch problem?
+...share data? ...migrate agents?
+</li><li> Follow the checklist to verify all features in the code.
+</li><li> Follow your instructions to run the special features of your assignment
+</li></ol>
+
+<h2> What to do first -- recommendations </h2>
+
+Note: Not all students will finish all aspects of this assignment. Get the
+basics done first. Add features as you have time. WRITE UP the valid design
+of those features that you have not completed in your DIADiscussion file.
+
+<ol>
+
+<li> Start your DIADiscussion file early, and keep notes as you develop. Use
+this file to
+<i> make your case </i> that you understand the issues. Remember this
+programming assignment is supplementary to the lectures.
+
+</li><li> Write comments in your code as you go. This is pedagogical code;
+comments count.
+
+</li><li> Get the basic HostServers running to support agents. Hard-code in the
+NameServer functions to start
+</li><li> Establish simple user communication with your agents - no data posting
+at first.
+</li><li> Hard-code in your agent migration from one HostServer to another with
+no zombies.
+</li><li> If you are going to use zombies, then build them now.
+</li><li> Build your NameServer to display dynamic HTML.
+</li><li> Integrate your NameServer with your HostServer so that when agents are
+created, they get humand names from, and are registered by, the NameServer
+</li><li> Integrate migration so that the NameServer is updated.
+</li><li> On paper, develop your model of group membership. Then implement it
+with the NameServer and the HostServers.
+</li><li> Build the user interface dynamic HTML so that your users can review,
+and add, data.
+</li><li> On paper, develop your model of sharing data. DO THIS FIRST
+</li><li> Implement your model of sharing data.
+</li></ol>
+
+Note that the sharing of data is done last, because it is hard and may be
+time-consuming. You can get most of the credit even if you only discuss your
+design (without implementation) for data-sharing in your DIADiscussion notes.
+
+<h2> Nameserver </h2>
+
+Maintain a <i> <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/nameserver.html"> nameserver </a> </i> that keeps
+track of the current location, and group, of each agent. The nameserver has
+the following specifications:
+
+<ol> 
+
+<li> Displays all agents and HostServers in the system, retrievable via the web, in a table.
+
+</li><li> When a HostServer is created, notification is sent to the NameServer
+with the HostServer's ip address and port.
+
+
+</li><li> When an agent migrates, a notification is sent to the nameserver with
+the agent's ID number, and new endpoint.
+
+</li><li> When an agent changes groups, a notification is sent to the nameserver
+with the agent's ID number, and new group.
+
+</li><li> "Clicking on" the agent's displayed link from the nameserver places a
+web client in direct communication with the agent.
+
+</li><li> (Optional) "Clicking on" the agent's <i> kill link </i> sends a message to the
+agent to kill itself.
+
+</li><li> In a separate section of the nameserver page, provide hotlinks to all
+of the active HostServers in your system.
+
+</li><li> "Clicking on" the hotlink for a HostServer puts you in direct
+communication with that HostServer.
+
+</li><li> (Optional) you might wish to display other information about your
+HostServers, such as how many agents they are hosting. (But keep it to one
+line!)
+
+</li><li> Keep a list of at least twenty one-time-use human names, such as Alice,
+Bob, Carold, Dave, Frank, and so on. When a HostServer connects to register
+a new agent, provide a unique human name for that agent. (Once used, remove
+the name from the available list!)
+
+</li><li> Server Loop. Your NameServer must provide some utility functions
+through a server loop as follows:
+
+<ol> 
+
+<li> When an agent wants to migrate, it can connect to the NameServer and
+find an available HostServer from the list registered. Assign a HostServer
+randomly, including, possibly, the same HostServer.
+
+</li><li> When a HostServer is creating an agent, it must assign the agent to a
+group. Provide a service so that a HostService can request a human name, the
+name and ID# of a group, and all the other current members. When this
+information is requested you must pass back the current IP address and agent
+communication port of all agents in the group so that the new agent will be
+able to communicate with them. 
+
+</li><li> When a HostServer is creating an agent, notification is sent to the
+NameServer with the agent's name, ID number, current user endpoint (ip
+address and port number), current agent-communication port, and optionally
+current agent administration port, and they are added to the nameserver
+table.  The NameServer provides a unique human name for the agent (see
+above), determines a group affiliation (color / group number) and returns
+this to the HostServer along with the agent-communication endpoints of all
+other agents in the group so that the new agent will be able to communicate
+autonomously with its group. It is fine to hard-code three different group
+ID#s (use ascii string for ease of HTML?), into your NameServer.
+
+</li></ol>
+</li></ol>
+
+
+<h2> Interface </h2> 
+
+We should be able to run your agent by using the following web interfaces:
+
+<ol>
+
+<li> All programs use the ports specified.
+
+</li><li> For our testing purposes your agent system should run on localhost. However, you
+are strongly encouraged to run your agents on multiple machines at home. A
+simple way to effect this is to pass the IP address of your NameServer as 
+a (second) argument that otherwise defaults to localhost.
+
+</li><li> When starting a HostServer it must use the default HostServer port, but
+must also accept as the <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/Args.java.txt"> first argument </a> an
+alternate port.
+
+</li><li> Starting the NameServer means that is that it is ready to register
+agents and HostServers, to update agent location and group information, to
+provide human names for new agents, and to provide a random valid HostServer
+IP address when an agent wants to migrate.
+
+</li><li> Running your HostServer program automatically registers it with the
+NameServer.
+
+</li><li> When a user makes the default connection to some HostServer, this starts up an agent,
+and, in turn the HostServer registers that agent with the NameServer. The
+user is now in direct communication with the <i> agent </i> and is no longer
+communicating with the HostServer.
+
+</li><li> Clicking on the associated link from the NameServer puts a user in direct contact with
+the listed HostServer or Agent, thereby re-establishing contact with the agent.
+
+</li><li> If you do not implement zombies, then when an agent migrates, the user
+will submit to a dead link, and will have to re-establish contact with an
+agent through the NameServer.
+
+</li><li> If you DO use zombies, (see <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/ZombieExample.java.txt"> Zombie
+Example </a>) then when an agent migrates, on reconnection,
+the user will get an intermediate page, possibly with all of their data
+intact, which will now point to the new location of the agent.
+
+</li></ol>
+
+<h2> Ports </h2>
+
+NameServer: 
+<ul>
+
+<li> IP address: localhost (127.0.0.1) for grading, by default. Optional:
+other at home. Pass as second argument to new HostServers
+</li><li> User communication Port: 48050
+</li><li> Service Port: 48060
+</li></ul>
+
+HostServer:
+<ul>
+<li> Default Port: 45050 or by <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/MultiHosts.java.txt"> passing as first argment </a>(will use 45050-45060)
+</li><li> IP address: localhost (127.0.0.1) for grading -- but modify at home as needed
+</li><li> 
+</li></ul>
+
+Agent:
+<ul>
+<li> User communication port: determined by current HostServer at hosting
+time, but see <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/getnext.html"> Get next available port </a>
+</li><li> Agent communication port: determined by current HostServer at hosting
+time
+</li><li> Optional administration port: determined by current HostServer at
+hosting time
+</li></ul>
+
+<h2> Sharing data </h2>
+
+You must provide the design scheme, and code, for your agents to share
+data. This will likely be the most complex part of your program.
+
+Some questions to ask might be:
+
+<ul>
+<li> Is the data stored on each agent, with updates broadcast to all?
+</li><li> Is the data stored in one location with agents making retrievals over
+the network for each display request? If so, how is this managed? (If you need a separate
+server to manage shared data, call it DIAdb.java.)
+</li><li> Do you broadcast new data to all the agents every time there is an update
+at one of the agents?
+</li><li> If you implement a model of agent-death, what happens to the group's
+data when the last agent in a group goes away?
+
+</li></ul>
+
+<h2> The lunch problem  </h2>
+
+<ol>
+
+<li>  A user should submit the label for the data before
+entering the matching data itself. This will help avoid the problem that the
+user enters a label AND the data, submits the update, and then we discover
+that there is already a description for that label.<p>
+
+</p></li><li> However, because data is shared between agents in a group, we can have
+the following problem: User Alice submits the label "UDP" and, after a check
+is made to verify that the label "UDP" does not already exist in the
+database (DB), she is prompted to enter the matching data (description) for
+that concept. Meanwhile User Bob submits a request to update the DB for
+"UDP" and is given his own update screen for that concept. User Alice
+submits her matching data, which is indexed under "UDP". User Bob submits
+his matching data for "UDP" which then writes on top of Alice's
+submission. Alice goes back to read her data, sees Bob's matching data, and
+gets upset. Where is her data that she just typed in?<p>
+
+
+</p></li><li> So we decide to use record locking. User Alice submits the label "UDP" and
+she is prompted to enter the matching data (description) for that
+concept. Meanwhile User Bob submits a request to update the DB for "UDP" and
+is told that the database entry for "UDP" has been locked. Meanwhile Alice
+decides to go out to lunch. Then, when she comes back she gets involved in
+something else, then goes home, and leaves on vacation the next day. Bob
+repeatedly tries to either retrieve the data for "UDP" or enter his own, but
+is locked out for two weeks while Alice is on vacation. During this time,
+Carol and Dave discover that they are locked out as well. This is the
+classic <i> lunch problem </i>.<p>
+
+</p></li><li> In the case of this particular application, having a single record locked, or
+losing a small amount of data, is not fatal to the application. But the
+problem occurs in many kinds of update environments, and should be handled
+both intentionally, and with grace, on your part in this pedagogical exercise.<p>
+
+</p></li><li> A number of devices might be used in your solution. (a) Is there a time-out
+on the lock? Might you wish to lock the whole database? Are you willing to
+take on the burden of integrating disparate data when two users submit in an
+overlapping way?<p>
+
+</p></li><li> Where are the bottlenecks? How will your solution scale to, say,
+100,000 agents, and 50,000 concepts? Where are the weakpoints of your
+system? Can the failure of one node cause the whole system to go down?
+
+</li></ol>
+
+
+<h2> HostServers </h2> 
+
+You are to maintain multiple hostservers. When a new hostserver is started
+up, it registers itself with the nameserver. When agents want to migrate,
+they connect to the NameServer to find an available HostServer. If you
+implement the optional killing of HostServers, then you have to figure out
+how to force agents to first migrate elsewhere, and how to deal with the
+zombie problem if the HostServer has to go down immediately.
+
+
+
+
+<h2> Migration </h2>
+
+Agents must migrate autonomously. This means that you must handle the
+problem of notifying the web client, at some later time when the client
+reconnects, where the agent has gone. (And keep in mind that the agent may
+migrate more than once before the user client or admin client reconnects.)
+<p>
+
+Keep in mind that when an agent migrates from one location to another (e.g.,
+to a different HostServer) the <i> code </i> that implements the agent is
+already there. Migration, in our case here, means shipping the <i> state
+</i> of the agent (ID number, group, relationships, data, history, etc.) to be
+instantiated into the agent code that is started up at the new location.</p><p>
+
+</p><ol> 
+
+<li> The easiest way to do this, although not elegant, is to simply leave a
+dead link. The user must then be educated enough to know that they have to
+connect to the NameServer to find the current location of their agent. Using
+this scheme, no notification that the agent has migrated is possible.
+
+</li><li> A somewhat more elegant method is to use an <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/redirectA.html">
+automatic redirection </a> scheme that sends back dynamically-generated html
+that points to the new (basic) endpoint of the agent. However, if we want to
+keep things simple, this will only be a top-level communication with the
+agent (that is, no action statement, no form data), and the user's currently
+submitted data may be lost.
+
+
+
+
+</li><li> A more elegant method is to leave behind a zombie thread, listening at
+the old port, which redirects the browser to the new endpoint of the
+agent. (see <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/ZombieExample.java.txt"> Zombie
+Example. </a>) 
+
+<ul> 
+
+<li> A simple scheme, and very acceptable for our purposes here, is to send
+back, from the zombie, dynamically reconstructed html that includes all of
+the user's just-submitted attribute/value pairs (data), but replaces the
+action-statement URL with that of the new location of the agent, and ask the
+user to resubmit it. A simple banner saying something like "Your agent has
+migrated, press the submit button to reconnect" with a collection of data
+using hidden or displayed values would be fine. This way your user will not
+lose data, or the state of their conversation with the agent.
+
+</li><li> If you maintain an admin connection to your agent, the zombie will need
+to wait for this connection too.
+
+</li><li> The zombie does not need to wait for agent communications because
+agents can be notified of the new location before the migration.
+
+</li><li> Lastly, if you really wanted to make this elegant, you could combine
+techniques: have the zombie parse the type of request from the browser and
+forward all of the data submitted to the newly-migrated agent; send a
+redirect screen to the browser to connect to the agent's new location;
+return an acknowledgment of the data submission from the agent to the
+browser.
+
+</li></ul>
+
+</li><li> You will have to think through the sequence of events that have to take
+place for migration to occur. Consider that some sequences will be more
+problematic if there are lost communications, or a process fails in the
+middle of the migration. In your comments, discuss your system's robustness,
+or lack thereof, in the presence of different types of failures during
+migration. (For example, the NameServer provides a new destination host
+location, and also updates its tables. Does this all take place in one
+request, or is the old table information maintained until after the migration is
+complete, requiring at least two connections to the NameServer?)
+
+
+</li><li> Implement automous migration by using a <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/SleepLoop.java.txt">
+Sleep Looper </a>. The agent wakes up, and may or may not decide to migrate.
+
+</li></ol>
+
+<h2> Server Logs </h2> 
+
+Your HostServers and NameServer must print out out console logs whenever
+something interesting happens. Concatenate some representative logs together
+and submit to COL as part of your assignment. Log statements might be, e.g.,
+"NS: HostServer has just requested creation of agent Frank." or "HS: Agent
+Frank has just migrated to port 3289 on host localhost."
+
+<h2> User Communication </h2>
+
+Here are the required user interactions with your agent:
+
+<ol> 
+
+<li> Cold connection to the agent: dump the agent's state (except for data):
+group affiliation, other agents in the group, number of user requests for
+getting data, and also for posting data, history of migrations, number (or
+log) of autonomous communications from other agents. Provide links to move into
+to get-data mode, or send-data mode.
+
+</li><li> Get label for data (e.g. pose a quiz question). Labels should repeat
+until all have been seen by the user.
+</li><li> Get matching data (e.g., present the associated answser - include the label as well).
+</li><li> Check a label for redundancy
+</li><li> Submit matching data (after checking the label - include the label at
+the top, and a data-input box below it).
+
+</li></ol>
+
+Here are some sample user screens:
+
+<ul> 
+
+<li> <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/ScreenA.html"> Top-level Connection </a>
+</li><li> <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/ScreenB.html"> Display Label </a>
+</li><li> <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/ScreenC.html"> Display Matching Data </a>
+</li><li> <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/ScreenD.html"> Check Label for redundancy </a>
+</li><li> <a href="http://condor.depaul.edu/elliott/435/hw/programs/a2/ScreenE.html"> Enter Data </a>
+</li></ul>
+Here are some points to consider for user communication:
+
+<ol>
+
+<li> Your agent will be getting different types of requests through the same
+port, at least: (a) requests for a new label to be displayed (b) requests
+for matching data to be displayed (c) requests for a label to be checked for
+redundancy before entering matching data (d) requests to post a
+label/content pair (send data), and (e) requests to reconnect to an agent
+(i.e., from NameServer link referral ).
+
+</li><li> Imagine that a client connects to request a label, and your agent sends
+back a page saying "UDP". The user thinks about this label, forms her
+opinion and then presses submit to get the "answer" to see if she was
+right. How do you know to send back the matching data that says, e.g.,
+"Cheap sending of datagrams without guarantee of arrival or ordering." ?
+
+There are many ways of handling this problem. For example you might...
+
+<ol>
+
+<li> Send the matching data along with the original label, but put it in a hidden
+value. Then when the user submits the page asking for the matching data to
+be displayed, they are actually sending the data they want <i> in the
+request </i> This way, even if you have migrated, or the agent was
+restarted, you always have the data at hand to be simply returned to them.
+
+</li><li> Do an expensive string match on the original label (which is resent by
+the user), and send back the matching data when you locate it. This way even
+if you have migrated, or the agent has been restarted, you still know
+exactly what to send back.
+
+</li><li> Generate a random number and store a permanent copy of it as an ID in
+the structure where you store your copy of label and the data. When the user
+gets the label, they also get the ID number. Then, when the user presses
+submit they send not the label, but the ID number. You then make this cheap
+(possibly indexed) match against the ID number, retrieve the associated
+matching data and send it back to the user.
+
+</li><li> Simply wait for the user to send another request and when they do, as
+long as it is for matching data, just send back the matching data that you
+have already queued. This simple mechanism will work, as long as the client
+browser and your agent stay in sync.
+
+</li></ol>
+
+</li><li> (Note: Some of you may optionally implement an administration client for
+agents. All of the migration issues for the user client also apply to the
+aministration client.)
+
+
+</li><li> This design requires the sending of a great deal dynamically-generated
+HTML from the agents back to the users. Are you clear on how this is done?
+(The essence of it: use print-stream functions to send primarily static HTML
+strings from your program. Fill in a few slots with dynamically-generated strings.)
+
+</li></ol> 
+
+<h2>  Communication Data: </h2>
+
+These are recommended data formats that will allow you to share data with
+the agent systems of other students. You are not bound to use them.
+
+
+
+<li> Agent Communication Header:
+
+<ol> 
+
+<li> Agent Identifier of agent that initiated the conversation
+</li><li> Agent Identifier of second agent in the conversation
+</li><li> string-integer Conversation Number
+</li><li> string-integer Message number
+</li><li> string-integer Formal Command Number
+</li><li> String data
+
+</li></ol>
+
+</li><li> Agent identifier:
+
+<ol> 
+<li> 12 character ascii string representation of integer: <br>
+
+  Agent ID (integer between one and 2 billion) (e.g., "134000206000")
+
+</li><li> 1 character ascii space " " <br>
+
+  Delimiter
+
+</li><li> 20 character ascii string: <br>
+
+   Name
+
+</li><li> 1 character ascii space " " <br>
+
+  Delimiter
+
+</li><li> 7 character ascii string starting with "#" then using only 0123456789ABCDEF, 
+  (e.g., "#12FBC7"):<br>
+
+  Current Group ID / Group Color
+
+</li></ol>
+
+
+</li><li> Commands:
+<ol> 
+
+<li> Hello
+</li><li> Ack
+</li><li> Request-to-share-data
+</li><li> Sending-data
+</li><li> etc.
+
+</li></ol>
+
+
+</li><li>Data Format:
+
+<ol>
+<li> String Label
+</li><li> String Interior Delimiter "FXGZ"
+</li><li> String Matching-data
+</li><li> String End Delimiter "ZGXF"
+</li><li> Note: this allows you to send as many label/data pairs as you like,
+of variable length, in a single message: "UDP FXGZ Cheaper than TCP ZGXF
+Execution Environment FXGZ Memory, open files, semaphores, etc. bound to
+process ZGXF..." 
+</li></ol> 
+
+</li><li> Migration commands: up to you to define.
+
+
+<h2> Bragging Rights </h2>
+
+<ul> 
+
+<li> Share data with other students!
+</li><li> Allow the nameserver to send a "die" message to a hostserver. The HostServer
+then sends messages to each of the agents to migrate to a different
+HostServer, and when this is done, then it dies. (Note that if you are using
+zombies, then the HostServer will have to wait until the last client and
+admin client have connected, and the last zombie has died before going
+away.)
+
+</li><li> Agents can wake up and send a message to all other members of their
+group (and the NameServer) to change the color of the group.
+
+</li><li> Develop a model of negotiation. Allow agents to autonomously communicate with agents
+outside of their group to trade data.
+
+
+</li><li> Allow Agents to switch groups. Are agents allowed to take data with them?
+
+</li><li> Might you have spy agents that return with data from the other group?
+
+</li><li> Allow the NameServer to kill off agents. If the last agent in a group is
+killed off, where is the data saved?
+
+</li><li> What sort of model might you build where agents can belong to more than
+one group?
+
+</li></ul>
+
+<h2> Issues</h2>
+
+<ul>
+
+<li> When an agent migrates, if you are not using zombies, do you reuse the port,
+or place it in a permanently unavailable pool? If you decide to re-use
+ports, which would scale, how do you keep a web client from mistakenly
+reconnecting to a port that has now been reused, unbeknownst to the old client?
+
+</li><li> How are you going to implement the "labels should not repeat until the
+user has seen all the data" specification? Keep in mind that new data may be
+appearing all the time - both from the user themselves, or from data
+gathered by other agents.
+
+</li><li> Watch for updates to this section!
+</li></ul>
+</li></font></font></font><iframe src="./CSC435 --- Elliott Intelligent Distributed Agent_files/CSC435 --- Elliott Intelligent Distributed Agent.html" frameborder="0" id="FirebugUI" style="border: 0px; visibility: hidden; z-index: 2147483647; position: fixed; width: 100%; left: 0px; bottom: 0px; height: 300px;"></iframe></body><script src="chrome-extension://bmagokdooijbeehmkpknfglimnifench/googleChrome.js"></script></html>
