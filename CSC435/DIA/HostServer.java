@@ -53,6 +53,7 @@ class AgentWorker extends Thread {
 	// Maintains socket and state counter
 	AgentHolder parentAgentHolder;
 	// Port being used by current request
+	int hostPort;
 	int port;
 
 	/**
@@ -61,8 +62,9 @@ class AgentWorker extends Thread {
 	 * @param port, port for current request
 	 * @param ah, agentholder which holds to state counter
 	 */
-	AgentWorker (Socket s, int port, AgentHolder ah) {
+	AgentWorker (Socket s, int hostport, int port, AgentHolder ah) {
 		this.sock = s;
+		this.hostPort = hostport;
 		this.port = port;
 		this.parentAgentHolder = ah;
 	}
@@ -114,7 +116,7 @@ class AgentWorker extends Thread {
 				String content = "<h4>We are migrating to " + LocalHost + " at port: " + newPort + "</h4> \n";
 				content = content + "<h4>The state before migration is " + parentAgentHolder.agentState +"</h4> \n";
 				// Send migration response to client
-				AgentListener.sendResponseToClient(LocalHost, newPort, req, content, out);
+				AgentListener.sendResponseToClient(hostPort, LocalHost, newPort, req, content, out);
 				// Print that the current socket will be killed
 				System.out.println("AgentWorker> Killing parent agent listener.");
 				// Grab the socket at the old port(stored in the parentAgentHolder)
@@ -131,12 +133,12 @@ class AgentWorker extends Thread {
 				// Prepare the specific content
 				String content = "<h4>We are having a conversation with state " + parentAgentHolder.agentState + "</h4>\n";
 				// Send refresh response to client
-				AgentListener.sendResponseToClient(LocalHost, port, req, content, out);
+				AgentListener.sendResponseToClient(hostPort, LocalHost, port, req, content, out);
 			} else {
 				// Unknown request
 				System.out.println("AgentWorker> Unknown request, please try again!");
 				String content = "<h4>You have not entered a valid request! Please try again!</h4>\n";
-				AgentListener.sendResponseToClient(LocalHost, port, req, content, out);
+				AgentListener.sendResponseToClient(hostPort, LocalHost, port, req, content, out);
 			}
 			//close the socket anyway
 			sock.close();
@@ -171,7 +173,7 @@ class AgentHolder {
 class AgentListener extends Thread {
 	String LocalHost = "localhost";
 	Socket sock;
-	int port;
+	int hostPort;
 
 	/**
 	 * Constructor
@@ -180,17 +182,13 @@ class AgentListener extends Thread {
 	 */
 	AgentListener(Socket s, int port) {
 		this.sock = s;
-		this.port = port;
+		this.hostPort = port;
 	}
 
 	/**
 	 * Start to work, after being assigned tasks by the Host Server
 	 */
 	public void run() {
-
-		// Inform we are in AgentListener now
-		System.out.println("AgentListener> In AgentListener Thread");
-
 		try {
 			PrintStream out = new PrintStream(sock.getOutputStream());
 			BufferedReader in =  new BufferedReader(new InputStreamReader(sock.getInputStream()));
@@ -198,7 +196,7 @@ class AgentListener extends Thread {
 			// Read a line, normally, it's a HTTP GET request
 			String req = in.readLine();
 			// Print out to console
-			System.out.println("AgentListener> req: " + req);
+			System.out.println("\nAgentListener> req: " + req);
 
 			// Check whether there is any invalid input
 			if (req == null || req.isEmpty() || req.indexOf("favicon.ico") > -1) {
@@ -218,13 +216,18 @@ class AgentListener extends Thread {
 				System.out.println("AgentListener> agentState is: " + agentState);
 			}
 
+			// Setup a new server but at different port
+			ServerSocket servsock = new ServerSocket(0, 6);
+			int port = servsock.getLocalPort();
+
 			// Send response page to client browser
-			sendResponseToClient(LocalHost, port, req, "", out);
+			sendResponseToClient(hostPort, LocalHost, port, req, "", out);
 			// Close to avoid hangon
 			sock.close();
 
-			// Setup a new server but at different port
-			ServerSocket servsock = new ServerSocket(port, 2);
+			String agentData = "[NewAgent]" + port + "#" + port + "#localhost#" + port + "#" + port;
+			sendAgentInfoToNameServer(agentData, "localhost", 48050);
+
 			// Use a agentholder to store the socket and state, so server can 'remember'
 			// the current state, even after migration.
 			AgentHolder agenthold = new AgentHolder(servsock);
@@ -237,7 +240,7 @@ class AgentListener extends Thread {
 				sock = servsock.accept();
 				System.out.println("AgentListener> Got a new connection to agent at port " + port);
 				// Create new agentworker object and start it up.
-				new AgentWorker(sock, port, agenthold).start();
+				new AgentWorker(sock, hostPort, port, agenthold).start();
 			}
 
 		}
@@ -248,6 +251,30 @@ class AgentListener extends Thread {
 	}
 
 	/**
+	 * Send joke or proverb to client with UDP
+	 * @param newJokeProverb, joke or proverb
+	 * @param port, port for client
+	 */
+	static void sendAgentInfoToNameServer(String agentinfo, String server, int port) throws IOException {
+		// Define UDP socket
+		DatagramSocket clientSocket = new DatagramSocket();
+		// Get ip address for localhost
+		InetAddress ipAddress = InetAddress.getByName(server);
+		// Define default package length
+		int len = agentinfo.getBytes().length;
+		// Define byte array for sending data
+		byte[] sendData = new byte[len];
+		sendData = agentinfo.getBytes();
+		// Define upd package
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+		// Send to client
+		clientSocket.send(sendPacket);
+		System.out.println("Agent info has been sent to NameServer.");
+		// Close connection after sending
+		clientSocket.close();
+	}
+
+	/**
 	 * Build content in html format, and send back to client
 	 * @param host, host server, eg. localhost
 	 * @param port, port number for the current connection
@@ -255,8 +282,8 @@ class AgentListener extends Thread {
 	 * @param content, response content to the request
  	 * @param printer, output printer
 	 */
-	static void sendResponseToClient(String host, int port, String req, String content, PrintStream printer) {
-		String htmlPage = buildHtmlPage(host, port, req, content);
+	static void sendResponseToClient(int hostport, String host, int port, String req, String content, PrintStream printer) {
+		String htmlPage = buildHtmlPage(hostport, host, port, req, content);
 		String htmlHeader = buildHttpHeader(htmlPage.length());
 		printer.println(htmlHeader);
 		printer.println(htmlPage);
@@ -270,7 +297,7 @@ class AgentListener extends Thread {
 	 * @param content, content of the page
 	 * @return, page text
 	 */
-	static String buildHtmlPage(String host, int port, String req, String content) {
+	static String buildHtmlPage(int hostport, String host, int port, String req, String content) {
 		StringBuilder sbHtml = new StringBuilder();
 		sbHtml.append("<!DOCTYPE html>\n");
 		sbHtml.append("<html>\n");
@@ -299,7 +326,7 @@ class AgentListener extends Thread {
 		sbHtml.append("          </form>\n");
 		sbHtml.append("        </td>\n");
 		sbHtml.append("        <td>\n");
-		sbHtml.append("          <a href=\"http://" + host + ":1565\" target=\"_blank\">New Request</a>\n");
+		sbHtml.append("          <a href=\"http://" + host + ":" + hostport + "\" target=\"_blank\">New Request</a>\n");
 		sbHtml.append("        </td>\n");
 		sbHtml.append("      </tr>\n");
 		sbHtml.append("    </table>\n");
@@ -332,31 +359,61 @@ class AgentListener extends Thread {
  * a independent port for continous access.
  */
 public class HostServer {
-	// Define a initial value for port number
-	public static int NextPort = 3000;
-
 	/**
 	 * Start a Server Socket to monitor client requests and dispatches the request
 	 * to AgentListener.
 	 */
 	public static void main(String[] a) throws IOException {
 		int q_len = 6;
-		int port = 1565; // Port for first request
+		int port = 45050; // Port for first request
 		Socket sock;
+
+		if (a.length == 1) {
+			try { // Have an argument, so use it
+				port = Integer.parseInt(a[0]);
+			}
+			catch(NumberFormatException Ex) {
+				/* Have checked that a[0] is actually a number */
+				System.out.println(a[0] + " is not an Integer");
+				System.exit(5);
+			}
+		}
 
 		ServerSocket servsock = new ServerSocket(port, q_len);
 		System.out.println("HostServer> Rong Zhuang's Host Server has started at port " + port + ".");
-		System.out.println("HostServer> Connect from 1 to 3 browsers using \"http:\\\\localhost:" + port + "\"\n");
+
+		String serverData = "[NewHostServer]localhost#" + port;
+		sendServerInfoToNameServer(serverData, "localhost", 48050);
 
 		while(true) {
-			// Increment nextport for each request
-			NextPort = NextPort + 1;
 			// Open socket for requests
 			sock = servsock.accept();
-
-			System.out.println("HostServer> Starting AgentListener at port " + NextPort);
 			//create new agent listener at this port to wait for requests
-			new AgentListener(sock, NextPort).start();
+			new AgentListener(sock, port).start();
 		}
+	}
+
+	/**
+	 * Send joke or proverb to client with UDP
+	 * @param newJokeProverb, joke or proverb
+	 * @param port, port for client
+	 */
+	static void sendServerInfoToNameServer(String hostinfo, String server, int port) throws IOException {
+		// Define UDP socket
+		DatagramSocket clientSocket = new DatagramSocket();
+		// Get ip address for localhost
+		InetAddress ipAddress = InetAddress.getByName(server);
+		// Define default package length
+		int len = hostinfo.getBytes().length;
+		// Define byte array for sending data
+		byte[] sendData = new byte[len];
+		sendData = hostinfo.getBytes();
+		// Define upd package
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+		// Send to client
+		clientSocket.send(sendPacket);
+		System.out.println("Host Server info has been sent to NameServer.");
+		// Close connection after sending
+		clientSocket.close();
 	}
 }
