@@ -12,17 +12,24 @@ rem % HostServer.java,  NameServer.java, DIAdb.java
 % Run the programs:
 
 start java NameServer
+rem pause
 rem % start java DIAdb
 start java HostServer
+rem pause
 start java HostServer 45051
-
+rem pause
 % Create five agents on two hostservers:
 start iexplore http://localhost:45050
+rem pause
 start iexplore http://localhost:45050
+rem pause
 start iexplore http://localhost:45050
+rem pause
 
 start iexplore http://localhost:45051
+rem pause
 start iexplore http://localhost:45051
+rem pause
 
 % Connect to the nameserver:
 

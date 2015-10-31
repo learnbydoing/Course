@@ -55,6 +55,10 @@ class Server implements Serializable {
 		return this.port;
 	}
 
+	public void setPort(int port) {
+		this.port = port;
+	}
+
 	public int getCounter() {
 		return this.agents.size();
 	}
@@ -73,48 +77,77 @@ class Server implements Serializable {
 }
 
 class Agent implements Serializable {
-	private String name;
 	private int id;
+	private String name;
 	private String ip;
 	private int port;
+	private Server server;
 	private Group group;
 
-	public Agent(String name, int id, String ip, int port, Group group) {
-		this.name = name;
+	public Agent(int id, String name, String ip, int port, Server server, Group group) {
 		this.id = id;
+		this.name = name;
 		this.ip = ip;
 		this.port = port;
+		this.server = server;
 		this.group = group;
-	}
-
-	public String getName() {
-		return this.name;
 	}
 
 	public int getId() {
 		return this.id;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
 	public String getIp() {
 		return this.ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 
 	public int getPort() {
 		return this.port;
 	}
 
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public Server getServer() {
+		return this.server;
+	}
+
 	public Group getGroup() {
 		return this.group;
+	}
+
+	public String toString() {
+		return this.name + ":" + this.ip + ":" + this.port;
 	}
 }
 
 class Group implements Serializable {
+	private int id;
 	private String name;
 	private String color;
+	private List<Agent> agents = new ArrayList<Agent>();
 
-	public Group(String name, String color) {
+	public Group(int id, String name, String color) {
+		this.id = id;
 		this.name = name;
 		this.color = color;
+	}
+
+	public int getId() {
+		return this.id;
 	}
 
 	public String getName() {
@@ -123,6 +156,23 @@ class Group implements Serializable {
 
 	public String getColor() {
 		return this.color;
+	}
+
+	public int getCounter() {
+		return this.agents.size();
+	}
+
+	public void addAgent(Agent ag) {
+		this.agents.add(ag);
+	}
+
+	public void removeAgent(int id) {
+		for(Agent ag : this.agents) {
+			if (ag.getId() == id) {
+				this.agents.remove(ag);
+				break;
+			}
+		}
 	}
 }
 
@@ -216,15 +266,16 @@ class LogHelper {
  */
 class ServerConsumer extends Thread {
 	private BlockingQueue<Server> qServer;
-	public List<Server> servers = new ArrayList<Server>();
+	private List<Server> lServer;
 
 	/**
 	 * Construct
 	 * @param s, the socket which is to be monitored
 	 */
-	public ServerConsumer (BlockingQueue<Server> qs)
+	public ServerConsumer (BlockingQueue<Server> qs, List<Server> ls)
 	{
 		this.qServer = qs;
+		this.lServer = ls;
 	}
 
 	/**
@@ -236,8 +287,8 @@ class ServerConsumer extends Thread {
 			//consuming messages until exit message is received
 			while ((srv = qServer.take()) != null)
 			{
-				servers.add(srv);
-				System.out.println("ServerConsumer> New Host Server is consumed, IP: " + srv.getIp() + ", Port: " + srv.getPort());
+				lServer.add(srv);
+				System.out.println("New Host Server(" + srv.getIp() + ":" + srv.getPort() + ") has been registered.");
 			}
 		}
 		catch(Exception ex){
@@ -254,15 +305,20 @@ class ServerConsumer extends Thread {
  */
 class AgentConsumer extends Thread {
 	private BlockingQueue<Agent> qAgent;
-	public List<Agent> agents = new ArrayList<Agent>();
+	private List<Agent> lAgent;
+	private List<Server> lServer;
+	private List<Group> lGroup;
 
 	/**
 	 * Construct
 	 * @param s, the socket which is to be monitored
 	 */
-	public AgentConsumer (BlockingQueue<Agent> qa)
+	public AgentConsumer (BlockingQueue<Agent> qa, List<Agent> la, List<Server> ls, List<Group> lg)
 	{
 		this.qAgent = qa;
+		this.lAgent = la;
+		this.lServer = ls;
+		this.lGroup = lg;
 	}
 
 	/**
@@ -274,8 +330,28 @@ class AgentConsumer extends Thread {
 			//consuming messages until exit message is received
 			while ((agt = qAgent.take()) != null)
 			{
-				agents.add(agt);
-				System.out.println("Agent Consumed: " + agt.getName() + ", " + agt.getIp());
+				agt.setId(lAgent.size() + 1);
+				lAgent.add(agt);
+				// Add agent to server
+				for(Server srv: lServer) {
+					if (srv.getIp().equals(agt.getServer().getIp())
+							&& srv.getPort() == agt.getServer().getPort()) {
+						srv.addAgent(agt);
+						System.out.println("Agent "+agt.getName()+" has been added to server "+srv.getPort());
+						//System.out.println("Server "+srv.getPort()+" has " + srv.getCounter() + " agents. ");
+						break;
+					}
+				}
+				// Add agent to group
+				for(Group grp: lGroup) {
+					if (grp.getId() == agt.getGroup().getId()) {
+						grp.addAgent(agt);
+						System.out.println("Agent "+agt.getName()+" has been added to group "+grp.getName());
+						//System.out.println("Group "+grp.getName()+" has " + grp.getCounter() + " agents. ");
+						break;
+					}
+				}
+				System.out.println("New Agent(" + agt.toString() + ") has been registered.");
 			}
 		}
 		catch(Exception ex){
@@ -285,23 +361,29 @@ class AgentConsumer extends Thread {
 	}
 }
 
-class HostListener extends Thread {
+class CommunicationListener extends Thread {
 	public String updMessage = "";
 	String LocalHost = "localhost";
 	int port = 48050;
 	private BlockingQueue<Server> qServer;
 	private BlockingQueue<Agent> qAgent;
 	boolean hostRunning = true;
-	List<Group> groups = new ArrayList<Group>();
+	private List<Server> lServer;
+	private List<Agent> lAgent;
+	private List<Group> lGroup;
+	Queue<String> nameQueue = new LinkedList<String>();
 
 	/**
 	 * Constructor
 	 * @param s, the socket which is to be monitored
 	 * @param port, the port used to start a new server socket
 	 */
-	HostListener(BlockingQueue<Server> qs, BlockingQueue<Agent> qa) {
+	CommunicationListener(BlockingQueue<Server> qs, BlockingQueue<Agent> qa, List<Server> ls, List<Agent> la, List<Group> lg) {
 		this.qServer = qs;
 		this.qAgent = qa;
+		this.lServer = ls;
+		this.lAgent = la;
+		this.lGroup = lg;
 	}
 
 	/**
@@ -321,7 +403,7 @@ class HostListener extends Thread {
 			// Define UDP package
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, len);
 
-			buildGroups();
+			buildAgentNames();
 
 			while(hostRunning) {
 				// Wait for receiving data from server
@@ -337,18 +419,50 @@ class HostListener extends Thread {
 					String hostserver = updMessage.substring(15, updMessage.length()).trim();
 					//System.out.println(hostserver);
 					String[] info = hostserver.split("#");
-					if (info.length == 2) {
+					if (info.length == 2) { // ip + port
 						qServer.put(new Server(info[0], Integer.parseInt(info[1])));
-						System.out.println("\nProducer> New Host Server is registered, IP: " + info[0] + ", Port:" + info[1]);
+						System.out.println("\nNew Host Server is found, IP: " + info[0] + ", Port:" + info[1]);
 					}
 				}
 				else if (updMessage.startsWith("[NewAgent]")) {
 					String agent = updMessage.substring(10, updMessage.length()).trim();
-					System.out.println(agent);
+					//System.out.println(agent);
 					String[] info = agent.split("#");
-					if (info.length == 5) {
-						qAgent.put(new Agent(info[0], 1, info[2], Integer.parseInt(info[3]), getGroup()));
-						System.out.println("Producer> New Agent registered, IP: " + info[2] + " Port:" + info[3]);
+					if (info.length == 4) { // host ip + host port + agent ip + agent port
+						Server server = new Server(info[0], Integer.parseInt(info[1]));
+						String agentName = getNewAgentName();
+						System.out.println("\nNew Agent is found, IP: " + info[2] + " Port:" + info[3]);
+						System.out.println("Assigned with name: " + agentName);
+						qAgent.put(new Agent(0, agentName, info[2], Integer.parseInt(info[3]), server, getRandomGroup()));
+						// send name back to agent
+						sendDataViaUpd(agentName, receivePacket.getAddress(), receivePacket.getPort());
+					}
+				}
+				else if (updMessage.startsWith("[RequireHostServer]")) {
+					String requirehost = updMessage.substring(19, updMessage.length()).trim();
+					//System.out.println(requirehost);
+					String[] info = requirehost.split("#");
+					if (info.length == 3) { // agent ip + agent port
+						System.out.println("\nAgent " + info[0] + "( " + info[1] + ":" + info[2]+") is requesting for new HostServer to migrate.");
+						Server server = getRandomServer();
+						String udpData = server.getIp() + "#" + server.getPort();
+						sendDataViaUpd(udpData, receivePacket.getAddress(), receivePacket.getPort());
+					}
+				}
+				else if (updMessage.startsWith("[AgentMigration]")) {
+					String migration = updMessage.substring(16, updMessage.length()).trim();
+					//System.out.println(migration);
+					String[] info = migration.split("#");
+					if (info.length == 4) { // agent name + new ip + new port
+						for(Agent agt: lAgent) {
+							if (agt.getName().equals(info[0])) {
+								agt.setIp(info[2]);
+								agt.setPort(Integer.parseInt(info[3]));
+								agt.getServer().setPort(Integer.parseInt(info[1]));
+								break;
+							}
+						}
+						System.out.println("Agent(" + info[0] + ") has migrated to " + info[1]+": "+info[2]);
 					}
 				}
 			}
@@ -366,16 +480,63 @@ class HostListener extends Thread {
 		}
 	}
 
-	private void buildGroups() {
-		groups.add(new Group("A", "#842DCE"));
-		groups.add(new Group("B", "#00FF00"));
-		groups.add(new Group("C", "#FF0000"));
-		groups.add(new Group("D", "#00FFFF"));
+	/**
+	 * Send joke or proverb to client with UDP
+	 * @param newJokeProverb, joke or proverb
+	 * @param port, port for client
+	 */
+	static void sendDataViaUpd(String udpdata, InetAddress ipAddress, int port) throws IOException {
+		// Define UDP socket
+		DatagramSocket clientSocket = new DatagramSocket();
+		// Define default package length
+		int len = udpdata.getBytes().length;
+		// Define byte array for sending data
+		byte[] sendData = new byte[len];
+		sendData = udpdata.getBytes();
+		// Define upd package
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+		// Send to client
+		clientSocket.send(sendPacket);
+		//System.out.println("Send data:" + udpdata + " to hostserver.");
+		// Close connection after sending
+		clientSocket.close();
 	}
 
-	private Group getGroup() {
-		int random = (int)(Math.random() * 4 + 1);
-		return groups.get(random - 1);
+	private String getNewAgentName() {
+		return nameQueue.poll();
+	}
+
+	private void buildAgentNames() {
+		nameQueue.offer("Alice");
+		nameQueue.offer("Bob");
+		nameQueue.offer("Carold");
+		nameQueue.offer("Dave");
+		nameQueue.offer("Frank");
+		nameQueue.offer("Johnny");
+		nameQueue.offer("Ted");
+		nameQueue.offer("Amei");
+		nameQueue.offer("Clark");
+		nameQueue.offer("Adam");
+		nameQueue.offer("Wade");
+		nameQueue.offer("Calvin");
+		nameQueue.offer("Eric");
+		nameQueue.offer("Galvin");
+		nameQueue.offer("Henry");
+		nameQueue.offer("Jack");
+		nameQueue.offer("Morgan");
+		nameQueue.offer("Paul");
+		nameQueue.offer("Ross");
+		nameQueue.offer("Riley");
+	}
+
+	private Group getRandomGroup() {
+		int random = (int)(Math.random() * lGroup.size() + 1);
+		return lGroup.get(random - 1);
+	}
+
+	private Server getRandomServer() {
+		int random = (int)(Math.random() * lServer.size() + 1);
+		return lServer.get(random - 1);
 	}
 }
 /**
@@ -388,7 +549,10 @@ class HostListener extends Thread {
  * handle fake-cgi request, eg. add number.
  */
 public class NameServer {
-	static List<Group> groups = new ArrayList<Group>();
+	// Define thread-safe list to share data between multiple threads
+	static List<Server> servers = Collections.synchronizedList(new ArrayList<Server>());
+	static List<Agent> agents = Collections.synchronizedList(new ArrayList<Agent>());
+	static List<Group> groups = Collections.synchronizedList(new ArrayList<Group>());
 	/**
 	 * Start a Server Socket to monitor client requests and dispatches the http
 	 * request to HttpWorkers.
@@ -406,12 +570,14 @@ public class NameServer {
 			ServerSocket servsocket = new ServerSocket(port, queue_len);
 			System.out.println("Rong Zhuang's Name Server is starting up, listening at port " + port + ".");
 
+			// Build initial group list
+			buildGroups();
 			//Creating BlockingQueue of size 10
 			BlockingQueue<Server> queueServer = new ArrayBlockingQueue<>(10);
 			BlockingQueue<Agent> queueAgent = new ArrayBlockingQueue<>(10);
-			HostListener producer = new HostListener(queueServer, queueAgent);
-			ServerConsumer srvConsumer = new ServerConsumer(queueServer);
-			AgentConsumer agtConsumer = new AgentConsumer(queueAgent);
+			CommunicationListener producer = new CommunicationListener(queueServer, queueAgent, servers, agents, groups);
+			ServerConsumer srvConsumer = new ServerConsumer(queueServer, servers);
+			AgentConsumer agtConsumer = new AgentConsumer(queueAgent, agents, servers, groups);
 			//starting producer to produce messages in queue
 			producer.start();
 			//starting consumer to consume messages from queue
@@ -426,7 +592,7 @@ public class NameServer {
 				PrintStream printer = new PrintStream(socket.getOutputStream());
 				String LocalHost = "localhost";
 				int Port = 48060;
-				sendResponseToClient(LocalHost, Port, agtConsumer.agents, srvConsumer.servers, printer);
+				sendResponseToClient(LocalHost, Port, agents, servers, printer);
 			}
 		}
 		catch(IOException ex){
@@ -436,6 +602,13 @@ public class NameServer {
 		finally {
 			System.out.println("Name Server has been shutdown!");
 		}
+	}
+
+	static void buildGroups() {
+		groups.add(new Group(1, "A", "#842DCE"));
+		groups.add(new Group(2, "B", "#00FF00"));
+		groups.add(new Group(3, "C", "#FF0000"));
+		groups.add(new Group(4, "D", "#00FFFF"));
 	}
 
 	/**
@@ -476,14 +649,16 @@ public class NameServer {
 		sbHtml.append("      <tr>\n");
 		sbHtml.append("          <th width=\"15%\"> Agent Name and Hot Link </th>\n");
 		sbHtml.append("          <th width=\"15%\"> Current Location </th>\n");
-		sbHtml.append("          <th width=\"15%\"> Group </th>\n");
-		sbHtml.append("          <th width=\"15%\"> Group ID </th>\n");
+		sbHtml.append("          <th width=\"15%\"> Host Server </th>\n");
+		sbHtml.append("          <th width=\"10%\"> Group </th>\n");
+		sbHtml.append("          <th width=\"10%\"> Group ID </th>\n");
 		sbHtml.append("          <th width=\"10%\"> Kill the Agent </th>\n");
 		sbHtml.append("      </tr>\n");
 		for (Agent agt: agents) {
 			sbHtml.append("      <tr>\n");
 			sbHtml.append("        <td> <a href=\"http://" + agt.getIp() + ":" + agt.getPort() + "\">" + agt.getName() + "</a> </td>\n");
 			sbHtml.append("        <td> IP: " + agt.getIp() + " Port: " + agt.getPort() + "</td>\n");
+			sbHtml.append("        <td> IP: " + agt.getServer().getIp() + " Port: " + agt.getServer().getPort() + "</td>\n");
 			sbHtml.append("        <td bgcolor=\"" + agt.getGroup().getColor() + "\"></td>\n");
 			sbHtml.append("        <td>" + agt.getGroup().getName() + "</td>\n");
 			sbHtml.append("        <td> <a href=\"http://127.0.0.1:4560/dienow\"> Kill! </a> </td>\n");

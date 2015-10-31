@@ -46,8 +46,6 @@ import java.net.*;
 class AgentWorker extends Thread {
 	// Use localhost as default server
 	String LocalHost = "localhost";
-	// Default port for Host Server
-	int HostMainPort = 1565;
 	// Connection to client
 	Socket sock;
 	// Maintains socket and state counter
@@ -55,6 +53,8 @@ class AgentWorker extends Thread {
 	// Port being used by current request
 	int hostPort;
 	int port;
+	String name = "";
+	String printName = "";
 
 	/**
 	 * Constructor
@@ -62,8 +62,10 @@ class AgentWorker extends Thread {
 	 * @param port, port for current request
 	 * @param ah, agentholder which holds to state counter
 	 */
-	AgentWorker (Socket s, int hostport, int port, AgentHolder ah) {
+	AgentWorker (Socket s, String name, int hostport, int port, AgentHolder ah) {
 		this.sock = s;
+		this.name = name;
+		this.printName = "[" + name + "]";
 		this.hostPort = hostport;
 		this.port = port;
 		this.parentAgentHolder = ah;
@@ -83,60 +85,82 @@ class AgentWorker extends Thread {
 
 			// Read a line, normally, it's a HTTP GET request
 			String req = in.readLine();
+			// Check whether there is any invalid input
+			if (req == null || req.isEmpty() || req.indexOf("favicon.ico") > -1) {
+				//System.out.println("AgentListener> Invalid request.");
+				//sock.close();
+				return;
+			}
 			// Print out to console
-			System.out.println("AgentWorker> req: " + req);
-
+			//System.out.println(name + "> req: " + req);
+			System.out.println("");
 			if(req != null && req.toLowerCase().indexOf("migrate") > -1) { // Migrate request
 				// Print that we are handling migrationg request
-				System.out.println("AgentWorker> Client asked for [migration], working on it...");
-				// Create a new socket connected to Host Server at port 1565
-				clientSock = new Socket(LocalHost, HostMainPort);
-				fromHostServer = new BufferedReader(new InputStreamReader(clientSock.getInputStream()));
-				// Send a request to port 1565 to receive the next available port
-				toHostServer = new PrintStream(clientSock.getOutputStream());
-				toHostServer.println("Please send me a new available port for migration! [State=" + parentAgentHolder.agentState + "]");
-				toHostServer.flush();
+				System.out.println(printName + " Received request for [migration].");
+				System.out.println(printName + " Ask Name Server for available host server.");
+				// Agent data: host ip + host port + agent ip + agent port
+				String udpData = "[RequireHostServer]"+name+"#localhost#" + port;
+				String newhost = askForNewHostServer(udpData, "localhost", 48050);
+				String[] info;
+				if (newhost == null || newhost.length() == 0)  {
+					System.out.println(printName + " Fail to get new host server, fail to migrate.");
+				}
+				else {
+					info = newhost.split("#");
+					if (info.length != 2) {
+						System.out.println(printName + " The feedback returned from Name Server is invalid, fail to migrate.");
+					}	else {
+						// Create a new socket connected to Host Server at port 1565
+						clientSock = new Socket(info[0], Integer.parseInt(info[1]));
+						System.out.println(printName + " New Host Server found, IP:" + info[0] + " Port:" + info[1]);
+						fromHostServer = new BufferedReader(new InputStreamReader(clientSock.getInputStream()));
+						// Send a request to port 1565 to receive the next available port
+						toHostServer = new PrintStream(clientSock.getOutputStream());
+						toHostServer.println("Please send me a new available port for migration! [State=" + parentAgentHolder.agentState + "] [AgentName="+name+"]" + "] [ServerPort="+info[1]+"]");
+						toHostServer.flush();
 
-				// Get the new port number
-				String buf = "";
-				while ((buf = fromHostServer.readLine()) != null) {
-					if (buf.indexOf("[Port=") > -1) { // New port found
-						break;
+						// Get the new port number
+						String buf = "";
+						while ((buf = fromHostServer.readLine()) != null) {
+							if (buf.indexOf("[Port=") > -1) { // New port found
+								break;
+							}
+						}
+
+						// Extract the port number
+						String strPort = buf.substring(buf.indexOf("[Port=") + 6, buf.indexOf("]", buf.indexOf("[Port=")));
+						// Convert to int
+						int newPort= Integer.parseInt(strPort);
+						//log it to the server console
+						System.out.println(printName + " Got a new port: " + newPort + " from HostServer: " + info[0] +".");
+
+						// Prepare the specific content
+						String content = "<h4>We are migrating to " + LocalHost + " at port: " + newPort + "</h4> \n";
+						content = content + "<h4>The state before migration is " + parentAgentHolder.agentState +"</h4> \n";
+						// Send migration response to client
+						AgentListener.sendResponseToClient(hostPort, LocalHost, newPort, req, content, out);
+						// Print that the current socket will be killed
+						System.out.println(printName + " Killing parent agent listener.");
+						// Grab the socket at the old port(stored in the parentAgentHolder)
+						//ServerSocket ss = parentAgentHolder.sock;
+						// Close the current socket which is abandoned.
+						//ss.close();
 					}
 				}
-
-				// Extract the port number
-				String strPort = buf.substring(buf.indexOf("[Port=") + 6, buf.indexOf("]", buf.indexOf("[Port=")));
-				// Convert to int
-				int newPort= Integer.parseInt(strPort);
-				//log it to the server console
-				System.out.println("AgentWorker> Got a new port: " + newPort + " from HostServer.");
-
-				// Prepare the specific content
-				String content = "<h4>We are migrating to " + LocalHost + " at port: " + newPort + "</h4> \n";
-				content = content + "<h4>The state before migration is " + parentAgentHolder.agentState +"</h4> \n";
-				// Send migration response to client
-				AgentListener.sendResponseToClient(hostPort, LocalHost, newPort, req, content, out);
-				// Print that the current socket will be killed
-				System.out.println("AgentWorker> Killing parent agent listener.");
-				// Grab the socket at the old port(stored in the parentAgentHolder)
-				ServerSocket ss = parentAgentHolder.sock;
-				// Close the current socket which is abandoned.
-				ss.close();
 			}	else if(req.toLowerCase().indexOf("refresh") > -1) {
 				// Print that we are handling refresh request
-				System.out.println("AgentWorker> Client asked for [refresh], working on it...");
+				System.out.println(name + " Received request for [refresh].");
 				// Increment the state counter
 				parentAgentHolder.agentState++;
 				// Print that we are handling refresh request
-				System.out.println("AgentWorker> You have state: " + parentAgentHolder.agentState + " at port: " + port);
+				System.out.println(printName + " You have state: " + parentAgentHolder.agentState + " at port: " + port);
 				// Prepare the specific content
 				String content = "<h4>We are having a conversation with state " + parentAgentHolder.agentState + "</h4>\n";
 				// Send refresh response to client
 				AgentListener.sendResponseToClient(hostPort, LocalHost, port, req, content, out);
 			} else {
 				// Unknown request
-				System.out.println("AgentWorker> Unknown request, please try again!");
+				System.out.println(printName + " Unknown request, please try again!");
 				String content = "<h4>You have not entered a valid request! Please try again!</h4>\n";
 				AgentListener.sendResponseToClient(hostPort, LocalHost, port, req, content, out);
 			}
@@ -145,6 +169,49 @@ class AgentWorker extends Thread {
 		} catch (IOException ioe) {
 			System.out.println(ioe);
 		}
+	}
+
+	/**
+	 * Send joke or proverb to client with UDP
+	 * @param newJokeProverb, joke or proverb
+	 * @param port, port for client
+	 */
+	static String askForNewHostServer(String udpdata, String server, int port) throws IOException {
+		// Define package length
+		int len = 1024;
+		// Define byte array to store original data
+		byte[] receiveData = new byte[len];
+		// Data from UDP message with actual length
+		byte[] data;
+		// Define UDP socket
+		DatagramSocket clientSocket = new DatagramSocket();
+		// Get ip address for localhost
+		InetAddress ipAddress = InetAddress.getByName(server);
+		// Define default package length
+		len = udpdata.getBytes().length;
+		// Define byte array for sending data
+		byte[] sendData = new byte[len];
+		sendData = udpdata.getBytes();
+		// Define upd package
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+		// Send to client
+		clientSocket.send(sendPacket);
+		//System.out.println("Request has been sent to NameServer.");
+		// Define receive package
+		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+		// Wait for receiving data from server
+		clientSocket.receive(receivePacket);
+		// Create array with actual length
+		data = new byte[receivePacket.getLength()];
+		// Convert original package data with actual length, the blankspace are removed in the tail
+		System.arraycopy(receivePacket.getData(), receivePacket.getOffset(), data, 0, receivePacket.getLength());
+		// Update the public attribute, so the main process can get the value.
+		String feedback = new String(data);
+		//System.out.println("Feedback: " + feedback + " returned from NameServer.");
+		// Close connection after sending
+		clientSocket.close();
+
+		return feedback;
 	}
 }
 
@@ -206,8 +273,13 @@ class AgentListener extends Thread {
 			}
 
 			// If [State=?] is found, it comes from migration, parse the request and store it
+			boolean isMigration = false;
+			if(req != null && req.indexOf("[State=") > -1 && req.indexOf("[AgentName=") > -1) {
+				isMigration = true;
+			}
+
 			int agentState = 0;
-			if(req != null && req.indexOf("[State=") > -1) {
+			if (isMigration) {
 				// Extract the state from the read line
 				String strState = req.substring(req.indexOf("[State=")+7, req.indexOf("]", req.indexOf("[State=")));
 				// Parse to int
@@ -225,8 +297,22 @@ class AgentListener extends Thread {
 			// Close to avoid hangon
 			sock.close();
 
-			String agentData = "[NewAgent]" + port + "#" + port + "#localhost#" + port + "#" + port;
-			sendAgentInfoToNameServer(agentData, "localhost", 48050);
+			String agentName = "";
+			String serverPort = "";
+			if (!isMigration) {
+				// Agent data: host ip + host port + agent ip + agent port
+				String agentData = "[NewAgent]" + LocalHost + "#" + hostPort + "#localhost#" + port;
+				System.out.println("AgentListener> Register new Agent(localhost:" + port +") to NameServer.");
+				agentName = registerAgentToNameServer(agentData, "localhost", 48050);
+				System.out.println("AgentListener> Registration succeed! Agent name: " + agentName);
+			}
+			else {
+				// Extract the state from the read line
+				agentName = req.substring(req.indexOf("[AgentName=")+11, req.indexOf("]", req.indexOf("[AgentName=")));
+				serverPort = req.substring(req.indexOf("[ServerPort=")+12, req.indexOf("]", req.indexOf("[ServerPort=")));
+				String agentData = "[AgentMigration]" + agentName + "#"+serverPort+"#localhost#" + port;
+				notifyMigrationToNameServer(agentData, "localhost", 48050);
+			}
 
 			// Use a agentholder to store the socket and state, so server can 'remember'
 			// the current state, even after migration.
@@ -236,11 +322,10 @@ class AgentListener extends Thread {
 
 			// Prepare for the upcoming requests
 			while(true) {
-				System.out.println("AgentListener> AgentListener is wating for request at port " + port + " ...");
+				//System.out.println("["+agentName+"] is wating for request at port " + port + " ...");
 				sock = servsock.accept();
-				System.out.println("AgentListener> Got a new connection to agent at port " + port);
 				// Create new agentworker object and start it up.
-				new AgentWorker(sock, hostPort, port, agenthold).start();
+				new AgentWorker(sock, agentName, hostPort, port, agenthold).start();
 			}
 
 		}
@@ -255,21 +340,59 @@ class AgentListener extends Thread {
 	 * @param newJokeProverb, joke or proverb
 	 * @param port, port for client
 	 */
-	static void sendAgentInfoToNameServer(String agentinfo, String server, int port) throws IOException {
+	static String registerAgentToNameServer(String udpdata, String server, int port) throws IOException {
+		// Define package length
+		int len = 1024;
+		// Define byte array to store original data
+		byte[] receiveData = new byte[len];
+		// Data from UDP message with actual length
+		byte[] data;
 		// Define UDP socket
 		DatagramSocket clientSocket = new DatagramSocket();
 		// Get ip address for localhost
 		InetAddress ipAddress = InetAddress.getByName(server);
 		// Define default package length
-		int len = agentinfo.getBytes().length;
+		len = udpdata.getBytes().length;
 		// Define byte array for sending data
 		byte[] sendData = new byte[len];
-		sendData = agentinfo.getBytes();
+		sendData = udpdata.getBytes();
 		// Define upd package
 		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
 		// Send to client
 		clientSocket.send(sendPacket);
-		System.out.println("Agent info has been sent to NameServer.");
+		//System.out.println("Registration request has been sent to NameServer.");
+		// Define receive package
+		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+		// Wait for receiving data from server
+		clientSocket.receive(receivePacket);
+		// Create array with actual length
+		data = new byte[receivePacket.getLength()];
+		// Convert original package data with actual length, the blankspace are removed in the tail
+		System.arraycopy(receivePacket.getData(), receivePacket.getOffset(), data, 0, receivePacket.getLength());
+		// Update the public attribute, so the main process can get the value.
+		String feedback = new String(data);
+		//System.out.println("New Agent Name: " + feedback + " returned from NameServer.");
+		// Close connection after sending
+		clientSocket.close();
+
+		return feedback;
+	}
+
+	static void notifyMigrationToNameServer(String udpdata, String server, int port) throws IOException {
+		// Define UDP socket
+		DatagramSocket clientSocket = new DatagramSocket();
+		// Get ip address for localhost
+		InetAddress ipAddress = InetAddress.getByName(server);
+		// Define default package length
+		int len = udpdata.getBytes().length;
+		// Define byte array for sending data
+		byte[] sendData = new byte[len];
+		sendData = udpdata.getBytes();
+		// Define upd package
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+		// Send to client
+		clientSocket.send(sendPacket);
+		//System.out.println("Migration notification: " + udpdata + " has been sent to NameServer.");
 		// Close connection after sending
 		clientSocket.close();
 	}
