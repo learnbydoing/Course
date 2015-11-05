@@ -15,13 +15,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/restaurant_detail_container"
-        android:layout_width="match_parent" android:layout_height="match_parent"
-        tools:context=".RestaurantDetailActivity" tools:ignore="MergeRootFrame" />
+    <include layout="@layout/fragment_register" />
 
     <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
         android:layout_width="wrap_content" android:layout_height="wrap_content"

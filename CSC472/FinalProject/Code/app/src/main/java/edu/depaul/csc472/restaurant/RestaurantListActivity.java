@@ -1,18 +1,26 @@
 package edu.depaul.csc472.restaurant;
 
-import android.app.Fragment;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import edu.depaul.csc472.restaurant.Model.Restaurant;
+import edu.depaul.csc472.restaurant.Model.RestaurantList;
 
 
 /**
@@ -50,6 +58,7 @@ public class RestaurantListActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         if (findViewById(R.id.restaurant_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and
@@ -63,6 +72,14 @@ public class RestaurantListActivity extends AppCompatActivity
                     .findFragmentById(R.id.restaurant_list))
                     .setActivateOnItemClick(true);
         }
+
+        try {
+            new AsyncList().execute("http://140.192.34.69/restaurant/api/Restaurant/GetAll");
+        } catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
 
         // TODO: If exposing deep links into your app, handle intents here.
     }
@@ -94,62 +111,13 @@ public class RestaurantListActivity extends AppCompatActivity
         }
     }
 
-
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.action_settings:
-                // User chose the "Settings" item, show the app settings UI...
-
-                Log.d("Activity", "settings");
-                //return true;
-
-            case R.id.action_user:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
-                Log.d("Activity", "user");
-                //Intent loginIntent = new Intent(this, Login.class);
-                //detailIntent.putExtra(RestaurantDetailFragment.ARG_ITEM_ID, id);
-                //startActivity(loginIntent);
-                //return true;
-            case R.id.action_search:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
-                Log.d("Activity", "search");
-                //return true;
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                break;
-                //return super.onOptionsItemSelected(item);
-
-        }
-
-        return false;
-    }*/
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView =
+        final SearchView searchView =
                 (SearchView) MenuItemCompat.getActionView(searchItem);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -161,15 +129,29 @@ public class RestaurantListActivity extends AppCompatActivity
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//              if (searchView.isExpanded() && TextUtils.isEmpty(newText)) {
-                callSearch(newText);
-//              }
+                if (!searchView.isIconified() && TextUtils.isEmpty(newText)) {
+                    callSearch(newText);
+                }
                 return true;
             }
 
             public void callSearch(String query) {
-                //Do searching
-                Log.d("sear", query);
+                try {
+                    Log.d("callSearch", "query=" + query);
+                    if (query==null||query.equals("")) {
+                        new AsyncList().execute("http://140.192.34.69/restaurant/api/Restaurant/GetAll");
+                    }
+                    else {
+                        new AsyncList().execute("http://140.192.34.69/restaurant/api/Restaurant/GetAll?keyword="+query);
+                    }
+                } catch (Exception e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                    Log.d("Exception in callSearch", "message=" + e1.getMessage());
+                }
+                //RestaurantList.Search(query);
+                //RestaurantListFragment fragment = (RestaurantListFragment) getFragmentManager().findFragmentById(R.id.restaurant_list);
+                //fragment.Refresh();
             }
 
         });
@@ -190,7 +172,10 @@ public class RestaurantListActivity extends AppCompatActivity
 
             case R.id.action_user:
                 // User chose the "Favorite" action, mark the current item
-                // as a favorite...
+                // as a favorite....
+                Intent loginIntent = new Intent(this, SignInActivity.class);
+                //loginIntent.putExtra(RestaurantDetailFragment.ARG_ITEM_ID, id);
+                startActivity(loginIntent);
                 return true;
 
             default:
@@ -199,5 +184,66 @@ public class RestaurantListActivity extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    private class AsyncList extends AsyncTask<String, Void, JSONArray> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //your code
+        }
+        @Override
+        protected JSONArray doInBackground(String... params) {
+            JSONArray object = HttpHelper.GetList(params[0]);
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray result) {
+
+            Log.d("onPostExecute", "onPostExecute");
+            try {
+                super.onPostExecute(result);
+                if (result!=null) {
+                    ArrayList<Restaurant> list = new ArrayList<Restaurant>();
+                    JSONArray jsonArray = result;
+                    if (jsonArray != null) {
+                        int len = jsonArray.length();
+                        JSONObject jsonObj = null;
+                        for (int i=0;i<len;i++){
+                            jsonObj = (JSONObject)jsonArray.get(i);
+                            if (jsonObj != null) {
+                                list.add(
+                                    new Restaurant(jsonObj.getString("Name"),
+                                            Restaurant.getCategoryByNumber(jsonObj.getInt("Category")),
+                                            jsonObj.getString("Location"),
+                                            Float.parseFloat(jsonObj.getString("Rating")),
+                                            jsonObj.getInt("Reviews"),
+                                            "",
+                                            jsonObj.getString("Image1"),
+                                            jsonObj.getString("Image2"),
+                                            jsonObj.getString("Image3")));
+                            }
+
+                        }
+                    }
+                    Log.d("onPostExecute activity", "list=" + list.size());
+                    RestaurantList.updateList(list);
+                    RestaurantListFragment fragment = (RestaurantListFragment) getFragmentManager().findFragmentById(R.id.restaurant_list);
+                    fragment.Refresh();
+                }
+            }
+            catch (JSONException e) {
+                int i = 1;
+                i = 2;
+                Log.d("JSONException", "message=" + e.getMessage());
+            }
+            catch (Exception e) {
+                int i = 1;
+                i = 2;
+                Log.d("oException", "message=" + e.getMessage());
+            }
+        }
+
     }
 }

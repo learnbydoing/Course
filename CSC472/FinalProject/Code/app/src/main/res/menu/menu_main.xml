@@ -3,18 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.depaul.csc472.restaurant.RestaurantListActivity">
 
-    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item android:id="@+id/action_search"
+        android:title="@string/action_search"
+        android:icon="@mipmap/ic_search_white_48dp"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
+
     <item
         android:id="@+id/action_user"
         android:icon="@mipmap/ic_account_box_black_48dp"
-        android:title="@string/action_user"
-        app:showAsAction="ifRoom"/>
-
-    <item android:id="@+id/action_search"
-        android:title="@string/action_search"
-        android:icon="@mipmap/ic_account_box_black_48dp"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.SearchView" />
+        android:title="@string/action_signin"
+        app:showAsAction="never"/>
 
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />

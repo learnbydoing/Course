@@ -9,10 +9,10 @@ import android.os.Parcelable;
  * Created by RZHUANG on 10/28/2015.
  */
 public class Restaurant implements Parcelable {
-    public enum Type {Restaurant, Dessert, CoffeeTea, Bakeries, IceCream}
+    public enum Category {Restaurant, Dessert, CoffeeTea, Bakeries, IceCream}
 
     String name;
-    Type type;
+    Category category;
     String location;
     String image;
     float rating = 4.0f;
@@ -21,9 +21,9 @@ public class Restaurant implements Parcelable {
     String image2;
     String image3;
 
-    public Restaurant(String name, Type type, String location, float rating, int reviews, String image, String image1, String image2, String image3) {
+    public Restaurant(String name, Category category, String location, float rating, int reviews, String image, String image1, String image2, String image3) {
         this.name = name;
-        this.type = type;
+        this.category = category;
         this.location = location;
         this.rating = rating;
         this.reviews = reviews;
@@ -41,12 +41,12 @@ public class Restaurant implements Parcelable {
         this.name = name;
     }
 
-    public Type getType() {
-        return type;
+    public Category getType() {
+        return category;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setType(Category category) {
+        this.category = category;
     }
 
     public String getLocation() {
@@ -119,8 +119,8 @@ public class Restaurant implements Parcelable {
     }
 
 
-    public static int getIconResource(Type type) {
-        switch (type) {
+    public static int getIconResource(Category category) {
+        switch (category) {
             case Restaurant:
                 return R.drawable.restaurant;
             case Dessert:
@@ -134,11 +134,26 @@ public class Restaurant implements Parcelable {
         }
         return -1;
     }
+    public static Category getCategoryByNumber(int category) {
+        switch (category) {
+            case 0:
+                return Category.Restaurant;
+            case 1:
+                return Category.Dessert;
+            case 2:
+                return Category.CoffeeTea;
+            case 3:
+                return Category.Bakeries;
+            case 4:
+                return Category.IceCream;
+        }
+        return Category.Restaurant;
+    }
 
     // implement Parcelable
     private Restaurant(Parcel in) {
         name = in.readString();
-        type = Type.values()[in.readInt()];
+        category = Category.values()[in.readInt()];
         location = in.readString();
         rating = in.readFloat();
         reviews = in.readInt();
@@ -156,7 +171,7 @@ public class Restaurant implements Parcelable {
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(name);
-        out.writeInt(type.ordinal());
+        out.writeInt(category.ordinal());
         out.writeString(location);
         out.writeFloat(rating);
         out.writeInt(reviews);

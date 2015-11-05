@@ -31,8 +31,15 @@
                 android:value=".RestaurantListActivity" />
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".SignInActivity"
             android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".RestaurantListActivity" >
+        </activity>
+        <activity
+            android:name=".SignUpActivity"
+            android:label="@string/title_activity_register"
+            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".RestaurantListActivity" >
         </activity>
     </application>
