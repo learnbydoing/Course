@@ -2,11 +2,18 @@ package edu.depaul.csc472.restaurant;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.app.ListFragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -85,7 +92,8 @@ public class RestaurantListFragment extends ListFragment
 
         // TODO: replace with a real list adapter.
         setListAdapter(new RestaurantAdapter(getActivity()));
-    }
+        //setHasOptionsMenu(true);
+     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -247,4 +255,79 @@ public class RestaurantListFragment extends ListFragment
         }
 
     }
+
+    /*
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        //return true;
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        //SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    callSearch(query);
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+//              if (searchView.isExpanded() && TextUtils.isEmpty(newText)) {
+                    callSearch(newText);
+//              }
+                    return true;
+                }
+
+                public void callSearch(String query) {
+                    //Do searching
+                    Log.d("sear", query);
+                }
+
+            });
+        }
+        //return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+
+                Log.d("Fragment", "settings");
+                //return true;
+
+            case R.id.action_user:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                Log.d("Fragment", "user");
+                //Intent loginIntent = new Intent(this, Login.class);
+                //detailIntent.putExtra(RestaurantDetailFragment.ARG_ITEM_ID, id);
+                //startActivity(loginIntent);
+                //return true;
+            case R.id.action_search:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                Log.d("Fragment", "search");
+                //return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                //return super.onOptionsItemSelected(item);
+
+        }
+
+        return false;
+    }*/
+
 }

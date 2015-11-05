@@ -1,8 +1,18 @@
 package edu.depaul.csc472.restaurant;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 
 /**
@@ -21,7 +31,7 @@ import android.app.Activity;
  * {@link RestaurantListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class RestaurantListActivity extends Activity
+public class RestaurantListActivity extends AppCompatActivity
         implements RestaurantListFragment.Callbacks {
 
     /**
@@ -32,8 +42,13 @@ public class RestaurantListActivity extends Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_restaurant_list);
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurant_list);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         if (findViewById(R.id.restaurant_detail_container) != null) {
             // The detail container view will be present only in the
@@ -76,6 +91,113 @@ public class RestaurantListActivity extends Activity
             Intent detailIntent = new Intent(this, RestaurantDetailActivity.class);
             detailIntent.putExtra(RestaurantDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
+        }
+    }
+
+
+    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+
+                Log.d("Activity", "settings");
+                //return true;
+
+            case R.id.action_user:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                Log.d("Activity", "user");
+                //Intent loginIntent = new Intent(this, Login.class);
+                //detailIntent.putExtra(RestaurantDetailFragment.ARG_ITEM_ID, id);
+                //startActivity(loginIntent);
+                //return true;
+            case R.id.action_search:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                Log.d("Activity", "search");
+                //return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                break;
+                //return super.onOptionsItemSelected(item);
+
+        }
+
+        return false;
+    }*/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView =
+                (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                callSearch(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+//              if (searchView.isExpanded() && TextUtils.isEmpty(newText)) {
+                callSearch(newText);
+//              }
+                return true;
+            }
+
+            public void callSearch(String query) {
+                //Do searching
+                Log.d("sear", query);
+            }
+
+        });
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+            case R.id.action_user:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
         }
     }
 }
