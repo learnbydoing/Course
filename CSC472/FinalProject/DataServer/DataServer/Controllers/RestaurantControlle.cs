@@ -13,9 +13,14 @@ namespace DataServer.Controllers
             return repo.GetList();
         }
 
-        public Restaurant Get(int id)
+        public IEnumerable<Restaurant> GetAll(string keyword)
         {
-            return repo.Get(id);
+            return repo.GetList(keyword);
+        }
+
+        public Restaurant Get(string name)
+        {
+            return repo.Get(name);
         }
 
         [HttpPost]
@@ -30,9 +35,9 @@ namespace DataServer.Controllers
             return repo.Update(item);
         }
 
-        public void Delete(int id)
+        public void Delete(string name)
         {
-            repo.Remove(id);
+            repo.Remove(name);
         }
 	}
 }
