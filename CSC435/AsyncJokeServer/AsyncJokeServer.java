@@ -34,19 +34,11 @@ In separate shell windows:
  e. To stop the server, type 'SD' in admin client.
 ----------------------------------------------------------*/
 /*--------------------------------------------------------
-Enhancement for AsyncJokeServer
+Enhancements for AsyncJokeServer
 1. Added a new method 'sendJokeProverbByUDP' to Worker class. This method is used
-   to send back UPD message to client.
+   to send UPD message back to client.
 2. Enhanced the method 'seekJokeProverb', make thread sleep 40 seconds before
-   sending back joke/proverb via calling method 'sendJokeProverbByUDP'.
-----------------------------------------------------------*/
-/*--------------------------------------------------------
-Enhancement for AsyncJokeServer
-1. Added a new class 'UdpWorker' in AsyncJokeClient.java. This class is used to
-   connect server via UDP and receive data from it.
-2. Updated method 'getJokeOrProverb' to create UdpWorker instance to monitor
-   UDP messages from server.
-3. Updated method 'getJokeOrProverb', add 'calculate sum' function.
+   calling method 'sendJokeProverbByUDP'.
 ----------------------------------------------------------*/
 import java.io.*;
 import java.net.*;
@@ -65,8 +57,11 @@ interface ServerModeListener {
  * accept requests for the client and send results back.
  */
 class Worker extends Thread {
+	// File stores the user state, including the uer id and joke/proverb status
 	String FILE_USERSTATES = "AsyncServerUserStates.txt";
+	// Define the duration before sending joke/proverb back to client
 	int SLEEP_IN_SECONDS = 40;
+	// Socket
 	Socket socket;
 	// Server Mode
 	AsyncJokeServer.ServerMode serverMode = AsyncJokeServer.ServerMode.JOKE;
@@ -74,14 +69,16 @@ class Worker extends Thread {
 	HashMap<Integer, String> mapJokesProverbs = new HashMap<Integer, String>();
 	// User state, key is UUID, value is states list
 	HashMap<String, int[]> mapStates = new HashMap<String, int[]>();
+	// Port for client monitoring udp connection
 	int port;
 
 	/**
-	 * Construct
+	 * Constructor
 	 * @param s, the socket which is to be monitored
 	 * @param mode, server mode
 	 * @param list, joke/proverb list
 	 * @param ss, user states
+	 * @param prt, udp port
 	 */
 	public Worker (Socket s, AsyncJokeServer.ServerMode mode, HashMap<Integer, String> list, HashMap<String, int[]> ss, int prt)
 	{
@@ -148,15 +145,15 @@ class Worker extends Thread {
 	 * @param username, the user name
 	 * @param userkey, the user key(UUID)
 	 * @param mode, Server mode
-	 * @param maplist, joke or proverb list
-	 * @param statelist, user states
-	 * @param printer, the output stream object of the client
+	 * @param mapjokesproverbs, joke or proverb list
+	 * @param mapstates, user states
+	 * @param port, udp port
+	 * @param sleep, set sleep time before sending udp message
 	 */
 	private void seekJokeProverb(String username, String userkey,
 		AsyncJokeServer.ServerMode mode, HashMap<Integer, String> mapjokesproverbs,
 		HashMap<String, int[]> mapstates, int port, int sleep){
 		try{
-			//printer.println("Server is working for [" + username + "] in {" + mode + "} mode ...");
 			System.out.println("Server is working for [" + username + "] in {" + mode + "} mode ...");
 
 			// The remaining joke/proverb list
@@ -208,8 +205,7 @@ class Worker extends Thread {
 				default:
 					System.out.println("Wrong parameter, either joke or proverb mode, please.");
 			}
-			// Output the result to client
-			//printer.println(newJokeProverb);
+
 			System.out.println(newJokeProverb);
 			System.out.println("Sleep for " + sleep + " seconds, zzzzzz...");
 			Thread.sleep(sleep * 1000);
@@ -222,6 +218,7 @@ class Worker extends Thread {
 					break;
 			}
 
+			// Send joke/proverb back to client via UDP
 			sendJokeProverbByUDP(newJokeProverb, port);
 
 			// The current worker is working on the last valid joke/perverb
@@ -253,7 +250,7 @@ class Worker extends Thread {
 	private void sendJokeProverbByUDP(String newJokeProverb, int port) throws IOException {
 		// Define UDP socket
 		DatagramSocket clientSocket = new DatagramSocket();
-		// Get ip address for localhost
+		// Get ip address for localhost, same machine
 		InetAddress IPAddress = InetAddress.getByName("localhost");
 		// Define default package length
 		int len = 1024;
@@ -312,7 +309,7 @@ class Worker extends Thread {
 	/**
 	 * Update original whole state list
 	 * @param mode, Server mode
-	 * @param wholestates, user states(whole)
+	 * @param mapstates, user states(whole)
 	 * @param partialstates, user states(partial, joke or proverb)
 	 */
 	private static void updateStates(AsyncJokeServer.ServerMode mode,
@@ -405,7 +402,7 @@ class AdminWorker extends Thread {
 	Socket socket;
 
 	/**
-	 * Construct
+	 * Constructor
 	 * @param s, the socket which is to be monitored
 	 */
 	public AdminWorker (Socket s)
@@ -562,6 +559,7 @@ class AdminListener implements Runnable, ServerModeListener {
  * or Admin Workers.
  */
 public class AsyncJokeServer {
+	// File stores the user state, including the uer id and joke/proverb status
 	private static final String FILE_USERSTATES = "AsyncServerUserStates.txt";
 	// Define an enum with four server mode
 	public enum ServerMode { JOKE, PROVERB, MAINTENANCE, SHUTDOWN };

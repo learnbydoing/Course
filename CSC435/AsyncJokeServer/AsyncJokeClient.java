@@ -49,7 +49,7 @@ if the server is running at 140.192.34.32 then you would type:
 
 ----------------------------------------------------------*/
 /*--------------------------------------------------------
-Enhancement for AsyncJokeClient
+Enhancements for AsyncJokeClient
 1. Added a new class 'UdpWorker' in AsyncJokeClient.java. This class is used to
    connect server via UDP and receive data from it.
 2. Updated method 'getJokeOrProverb' to create UdpWorker instance to monitor
@@ -72,7 +72,7 @@ class UdpWorker extends Thread {
 	int udpPort;
 
 	/**
-	 * Construct
+	 * Constructor
 	 * @param port, port for UDP
 	 */
 	public UdpWorker(int prt)
@@ -122,8 +122,11 @@ class UdpWorker extends Thread {
  * joke/proverb from it.
  */
 public class AsyncJokeClient {
+	// Port for the general service from server
 	private static final int PORT_NUMBER = 4653;
+	// File stores the user information at client side
 	private static final String FILE_USERS = "AsyncClientUsers.txt";
+	// Log file at client side
 	private static final String FILE_LOG = "AsyncClientLogs.txt";
 	// Use an ArrayList to store the logs from server
 	private static ArrayList<String> alLogs = new ArrayList<String>();
@@ -241,6 +244,7 @@ public class AsyncJokeClient {
 	 * @param userkey, the user key which is used to identify the unique user
 	 * @param servername, the server name to be connected to
 	 * @param port, the port for the socket
+	 * @param reader, client input reader
 	 */
 	private static void getJokeOrProverb(String username, String userkey, String servername, int port, BufferedReader reader){
 		Socket socket;

@@ -1,34 +1,89 @@
+/*******************************************************************************/
+/* Client Log
+/*******************************************************************************/
+D:\WorkSpace\GitHub\Course\CSC435\AsyncJokeServer>java AsyncJokeClient
 Rong Zhuang's Async Joke Client is starting...
 Using server: localhost, Port: 4653
 Enter your name to get a new joke/proverb, or 'quit' to exit this client...
-> johnny
+johnny
 Request has been sent to server, waiting for response...
-Enter numbers to sum: 1 2 3 4
-Your sum is: 10
-Enter numbers to sum: 11 22 33 44
-Your sum is: 110
-Enter numbers to sum: 9852
-Your sum is: 9852
-Enter numbers to sum: 95 2
-Your sum is: 97
-Enter numbers to sum: 100 34
-Your sum is: 134
-Your joke/proverb: A. johnny's new joke: Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water.
-Enter your name to get a new joke/proverb, or 'quit' to exit this client...
-> johnny
-Request has been sent to server, waiting for response...
-Enter numbers to sum: 12 3 45 6
+Enter numbers to sum: 11 22 33
 Your sum is: 66
-Enter numbers to sum: 75 3 2
-Your sum is: 80
-Enter numbers to sum: qq
-Your input is invalid, please try again!
-Enter numbers to sum: 22 13 45
-Your sum is: 80
-Enter numbers to sum: 90 23
-Your sum is: 113
-Enter numbers to sum: 8 1 2 3 5 6 7 8 9 0 23 23 4 5
-Your sum is: 104
-Enter numbers to sum:  3 34 5 6 7 8 8 9 
-Your sum is: 80
-Your joke/proverb: A. johnny's new joke: Today a man knocked on my door and asked for a small donation towards the local swimming pool. I gave him a glass of water.
+Enter numbers to sum: 44 66 77
+Your sum is: 187
+Enter numbers to sum: 1 23 4 5
+Your sum is: 33
+Enter numbers to sum: 2 5 6 8 9
+Your sum is: 30
+Enter numbers to sum: 1 2 3
+Your sum is: 6
+Your joke/proverb: D. johnny's new joke: Wife: You hate my relatives! Husband: N
+o, I don't! In fact, I like your mother-in-law more than I like mine.
+Enter your name to get a new joke/proverb, or 'quit' to exit this client...
+
+Request has been sent to server, waiting for response...
+Enter numbers to sum: 12  34
+Your sum is: 58
+Your joke/proverb: B. johnny's new joke: When my grandson asked me how old I was
+, I teasingly replied, 'I'm not sure'. 'Look in your underwear, Grandma,' he adv
+ised, 'mine says I'm 4 to 6.'
+Enter your name to get a new joke/proverb, or 'quit' to exit this client...
+
+Request has been sent to server, waiting for response...
+Enter numbers to sum: 1 2 2
+Your sum is: 5
+Enter numbers to sum:  33 4  5
+Your sum is: 46
+Enter numbers to sum: 6790 1
+Your sum is: 6791
+Enter numbers to sum: 23 5 6
+Your sum is: 34
+Your joke/proverb: A. johnny's new joke: Today a man knocked on my door and aske
+d for a small donation towards the local swimming pool. I gave him a glass of wa
+ter.
+Enter your name to get a new joke/proverb, or 'quit' to exit this client...
+
+/*******************************************************************************/
+/* Server Log
+/*******************************************************************************/
+D:\WorkSpace\GitHub\Course\CSC435\AsyncJokeServer>java AsyncJokeServer
+Rong Zhuang's Async Joke Admin Server is starting up, listening at port 8722.
+Rong Zhuang's Async Joke Server is starting up, listening at port 4653.
+johnny is seeking for a new joke...
+TCP connection has been broken.
+Server is working for [johnny] in {JOKE} mode ...
+Here is the new joke:
+D. johnny's new joke: Wife: You hate my relatives! Husband: No, I don't! In fact
+, I like your mother-in-law more than I like mine.
+Sleep for 40 seconds, zzzzzz...
+I'm waking up! Sending joke back to client with UDP.
+Joke/proverb has been sent to localhost/127.0.0.1 at port:4653
+
+
+I'm waiting for new request...
+johnny is seeking for a new joke...
+TCP connection has been broken.
+Server is working for [johnny] in {JOKE} mode ...
+Here is the new joke:
+B. johnny's new joke: When my grandson asked me how old I was, I teasingly repli
+ed, 'I'm not sure'. 'Look in your underwear, Grandma,' he advised, 'mine says I'
+m 4 to 6.'
+Sleep for 40 seconds, zzzzzz...
+I'm waking up! Sending joke back to client with UDP.
+Joke/proverb has been sent to localhost/127.0.0.1 at port:4653
+
+
+I'm waiting for new request...
+johnny is seeking for a new joke...
+TCP connection has been broken.
+Server is working for [johnny] in {JOKE} mode ...
+Here is the new joke:
+A. johnny's new joke: Today a man knocked on my door and asked for a small donat
+ion towards the local swimming pool. I gave him a glass of water.
+Sleep for 40 seconds, zzzzzz...
+I'm waking up! Sending joke back to client with UDP.
+Joke/proverb has been sent to localhost/127.0.0.1 at port:4653
+
+
+I'm waiting for new request...
+
