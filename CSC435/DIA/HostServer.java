@@ -486,33 +486,47 @@ public class HostServer {
 	 * Start a Server Socket to monitor client requests and dispatches the request
 	 * to AgentListener.
 	 */
-	public static void main(String[] a) throws IOException {
+	public static void main(String[] args) {
 		int q_len = 6;
 		int port = 45050; // Port for first request
 		Socket sock;
 
-		if (a.length == 1) {
-			try { // Have an argument, so use it
-				port = Integer.parseInt(a[0]);
+		try{
+			if (args.length == 1) {
+				try { // Have an argument, so use it
+					port = Integer.parseInt(args[0]);
+				}
+				catch(NumberFormatException Ex) {
+					/* Have checked that a[0] is actually a number */
+					System.out.println(args[0] + " is not an Integer");
+					System.exit(5);
+				}
 			}
-			catch(NumberFormatException Ex) {
-				/* Have checked that a[0] is actually a number */
-				System.out.println(a[0] + " is not an Integer");
-				System.exit(5);
+
+			ServerSocket servsock = new ServerSocket(port, q_len);
+			System.out.println("HostServer> Rong Zhuang's Host Server has started at port " + port + ".");
+
+			String serverData = "[NewHostServer]localhost#" + port;
+			Thread.sleep(3000);
+			sendServerInfoToNameServer(serverData, "localhost", 48050);
+
+			while(true) {
+				// Open socket for requests
+				sock = servsock.accept();
+				//create new agent listener at this port to wait for requests
+				new AgentListener(sock, port).start();
 			}
 		}
-
-		ServerSocket servsock = new ServerSocket(port, q_len);
-		System.out.println("HostServer> Rong Zhuang's Host Server has started at port " + port + ".");
-
-		String serverData = "[NewHostServer]localhost#" + port;
-		sendServerInfoToNameServer(serverData, "localhost", 48050);
-
-		while(true) {
-			// Open socket for requests
-			sock = servsock.accept();
-			//create new agent listener at this port to wait for requests
-			new AgentListener(sock, port).start();
+		catch(IOException ex){
+			//Handle the exception
+			System.out.println(ex);
+		}
+		catch(InterruptedException ex){
+			//Handle the exception
+			System.out.println(ex);
+		}
+		finally {
+			System.out.println("Name Server has been shutdown!");
 		}
 	}
 
