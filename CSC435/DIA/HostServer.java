@@ -155,7 +155,7 @@ class AgentWorker extends Thread {
 				// Print that we are handling kill request
 				logger.write(printName + " Received request for [KILL].");
 				// Send response to client
-				AgentListener.sendErrorPageToClient(hostIP, hostPort, name, printer);				
+				AgentListener.sendErrorPageToClient(hostIP, hostPort, name, printer);
 				// Print that the current agent will be killed
 				logger.write(printName + " has been killed.");
 				// Udp data: host ip + host port + agent name
@@ -237,13 +237,13 @@ class AgentListener extends Thread {
 
 			// Read a line, normally, it's a HTTP GET request
 			String req = reader.readLine();
-			// Print out to console
-			logger.write("\nAgentListener> req: " + req);
-
+			
 			// Check whether there is any invalid input
 			if (req == null || req.isEmpty() || req.indexOf("favicon.ico") > -1) {
 				return;
 			}
+			// Print out to console
+			logger.write("\nAgentListener> req: " + req);
 
 			boolean isMigration = false;
 			// If [State=?] is found, it comes from migration, parse the request and store it
@@ -471,7 +471,7 @@ public class HostServer {
 			LogHelper logger = new LogHelper(FILE_LOG_Host_SERVER.replace("{0}", String.valueOf(port)));
 			logger.clear();
 
-			LocalHost = InetAddress.getLocalHost().getHostAddress();
+			//LocalHost = InetAddress.getLocalHost().getHostAddress();
 
 			// Setup the server socket
 			ServerSocket servsock = new ServerSocket(port, queue_len);
