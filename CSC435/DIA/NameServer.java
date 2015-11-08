@@ -13,11 +13,7 @@ build 1.8.0_60
 In separate shell windows:
 > Run DIA.bat
 
-5. List of files needed for running the program.
- a. HttpWorker.class
- b. MyWebServer.class
-
-6. Notes:
+5. Notes:
  a. Web Server monitors the http request at port: 2540.
  b. Web Server is capable of handling requests simultaneously.
  c. The logs in console will be saved to file MyWebServerLogs.txt. The requests
@@ -34,8 +30,7 @@ import java.net.*;
 import java.util.*;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Model class for server
@@ -43,7 +38,7 @@ import java.util.concurrent.BlockingQueue;
 class Server implements Serializable {
 	private String ip = "";
 	private int port = 0;
-	private List<Agent> agents = new ArrayList<Agent>();
+	private List<Agent> agents = new CopyOnWriteArrayList<Agent>();
 
 	public Server(String ip, int port) {
 		this.ip = ip;
@@ -147,7 +142,7 @@ class Group implements Serializable {
 	private int id;
 	private String name;
 	private String color;
-	private List<Agent> agents = new ArrayList<Agent>();
+	private List<Agent> agents = new CopyOnWriteArrayList<Agent>();
 
 	public Group(int id, String name, String color) {
 		this.id = id;
@@ -186,34 +181,29 @@ class Group implements Serializable {
 }
 
 class LogHelper {
-	private static final String FILE_LOG = "NameServerLogs.txt";
+	// Path for the log file
+	private String filePath = "";
 	// Use an ArrayList to store the logs from server
-	private static ArrayList<String> alLogs = new ArrayList<String>();
-	/*
-				// Clear list each time for handling new reqeust
-				alLogs.clear();
-				writeLog("Rong Zhuang's Name Worker is working...");
-				// Local reader from the client
-				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			  // Output stream to the client
-				PrintStream printer = new PrintStream(socket.getOutputStream());
+	private ArrayList<String> alLogs = new ArrayList<String>();
 
-				writeLog("There are " + agents.size() + " agents and " + servers.size() + " servers.");
+	public LogHelper(String file) {
+		this.filePath = file;
+	}
 
-				sendResponseToClient(LocalHost, Port, agents, servers, printer);
-
-				writeLog("The current status has been sent back to client.");
-				// Save logs to file
-				saveLogs(true);
-				socket.close();*/
+	/**
+	 * Clear all log
+	 */
+	public void clear() {
+			alLogs.clear();
+	}
 
 
 	/**
 	 * Write log to local storage list
 	 * @param log, the content of the log
 	 */
-	private static void writeLog(String log) {
-		writeLog(log, true);
+	public void write(String log) {
+		write(log, true);
 	}
 
 	/**
@@ -221,7 +211,7 @@ class LogHelper {
 	 * @param log, the content of the log
 	 * @param print, print to screen
 	 */
-	private static void writeLog(String log, boolean print) {
+	public void write(String log, boolean print) {
 		// Store new log
 		alLogs.add(log);
 
@@ -231,10 +221,16 @@ class LogHelper {
 		}
 	}
 	/**
+	 * Save log to file
+	 */
+	public void save() {
+		save(true);
+	}
+	/**
 	 * Save logs to the specified file
 	 * @param append, ture is append, false is override
 	 */
-	private static void saveLogs(boolean append) {
+	public void save(boolean append) {
 		try {
 			if (alLogs!=null && alLogs.size()>0) {
 				// Convert the ArrayList to string array
@@ -242,7 +238,7 @@ class LogHelper {
 				arrLogs = alLogs.toArray(arrLogs);
 
 				// Open the log
-				FileWriter fileWriterLog = new FileWriter(FILE_LOG, append);
+				FileWriter fileWriterLog = new FileWriter(filePath, append);
 
 				// User BufferedWriter to add new line
 				BufferedWriter bufferedWriterLog = new BufferedWriter(fileWriterLog);
@@ -257,14 +253,108 @@ class LogHelper {
 
 				// Always close files.
 				bufferedWriterLog.close();
+				// Clear after saving
+				alLogs.clear();
 			}
 		}
 		catch(FileNotFoundException ex) {
-			System.out.println("Unable to open file '" + FILE_LOG + "'");
+			System.out.println("Unable to open file '" + filePath + "'");
 		}
 		catch(IOException ex) {
 			ex.printStackTrace();
 		}
+	}
+}
+
+class UdpHelper {
+	/**
+	 * Send data to specified address and port via UDP, and receive the feedback
+	 * @param udpdata, data
+	 * @param server, server name
+	 * @param port, port number
+	 */
+	public static String sendAndReceiveUDP(String udpdata, String server, int port) throws IOException {
+		// Define package length
+		int len = 1024;
+		// Define byte array to store original data
+		byte[] receiveData = new byte[len];
+		// Data from UDP message with actual length
+		byte[] data;
+		// Define UDP socket
+		DatagramSocket clientSocket = new DatagramSocket();
+		// Get ip address for destination
+		InetAddress ipAddress = InetAddress.getByName(server);
+		// Define default package length
+		len = udpdata.getBytes().length;
+		// Define byte array for sending data
+		byte[] sendData = new byte[len];
+		sendData = udpdata.getBytes();
+		// Define upd package
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+		// Send to client
+		clientSocket.send(sendPacket);
+		//System.out.println("Registration request has been sent to NameServer.");
+		// Define receive package
+		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+		// Wait for receiving data from server
+		clientSocket.receive(receivePacket);
+		// Create array with actual length
+		data = new byte[receivePacket.getLength()];
+		// Convert original package data with actual length, the blankspace are removed in the tail
+		System.arraycopy(receivePacket.getData(), receivePacket.getOffset(), data, 0, receivePacket.getLength());
+		// Update the public attribute, so the main process can get the value.
+		String feedback = new String(data);
+		// Close connection after sending
+		clientSocket.close();
+
+		return feedback;
+	}
+
+	/**
+	 * Send data to specified address and port via UDP
+	 * @param udpdata, data
+	 * @param server, server name
+	 * @param port, port number
+	 */
+	public static void sendUDP(String udpdata, String server, int port) throws IOException {
+		// Define UDP socket
+		DatagramSocket clientSocket = new DatagramSocket();
+		// Get ip address for destination
+		InetAddress ipAddress = InetAddress.getByName(server);
+		// Define default package length
+		int len = udpdata.getBytes().length;
+		// Define byte array for sending data
+		byte[] sendData = new byte[len];
+		sendData = udpdata.getBytes();
+		// Define upd package
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+		// Send to client
+		clientSocket.send(sendPacket);
+		// Close connection after sending
+		clientSocket.close();
+	}
+
+	/**
+	 * Send data to specified address and port via UDP
+	 * @param udpdata, data
+	 * @param ipAddress, address of the destination
+	 * @param port, port number
+	 */
+	public static void sendUDP(String udpdata, InetAddress ipAddress, int port) throws IOException {
+		// Define UDP socket
+		DatagramSocket clientSocket = new DatagramSocket();
+		// Define default package length
+		int len = udpdata.getBytes().length;
+		// Define byte array for sending data
+		byte[] sentData = new byte[len];
+		sentData = udpdata.getBytes();
+		// Define upd package
+		DatagramPacket sendPacket = new DatagramPacket(sentData, sentData.length, ipAddress, port);
+		// Send to client
+		clientSocket.send(sendPacket);
+		//System.out.println("Send data:" + udpdata + " to hostserver.");
+		// Close connection after sending
+		clientSocket.close();
 	}
 }
 
@@ -275,6 +365,8 @@ class LogHelper {
  * the states according to the inforamtion from host servers or agents.
  */
 class CommunicationListener extends Thread {
+	// logger
+	LogHelper logger;
 	// Server list
 	List<Server> lServer;
 	// Agent list
@@ -289,7 +381,8 @@ class CommunicationListener extends Thread {
 	 * @param s, the socket which is to be monitored
 	 * @param port, the port used to start a new server socket
 	 */
-	CommunicationListener(List<Server> ls, List<Agent> la, List<Group> lg) {
+	CommunicationListener(LogHelper lgr, List<Server> ls, List<Agent> la, List<Group> lg) {
+		this.logger = lgr;
 		this.lServer = ls;
 		this.lAgent = la;
 		this.lGroup = lg;
@@ -299,20 +392,23 @@ class CommunicationListener extends Thread {
 	 * Start to work, receive udp message and provide feedback if necessary
 	 */
 	public void run() {
-		try{
-			// UDP message
-			String updMessage = "";
-			// Flag indicates whether the listener needs to continue work
-			boolean hostRunning = true;
-			// Communication port
-			int port = 48050;
-			// Define package length
-			int len = 1024;
-			// Define byte array to store original data
-			byte[] receiveData = new byte[len];
-			// Data from UDP message with actual length
-			byte[] data;
+		// UDP message
+		String updMessage = "";
+		// Flag indicates whether the listener needs to continue work
+		boolean hostRunning = true;
+		// Communication port
+		int port = 48050;
+		// Define package length
+		int len = 1024;
+		// Define byte array to store original data
+		byte[] receiveData = new byte[len];
+		// Data from UDP message with actual length
+		byte[] data;
 
+		try{
+			//System.out.println("Communication listener is starting up, listening at port " + port + ".");
+			logger.write("Communication listener is starting up, listening at port " + port + ".\n");
+			logger.save();
 			// Define UDP socket with specific port
 			DatagramSocket serverSocket = new DatagramSocket(port);
 			// Define UDP package
@@ -322,6 +418,8 @@ class CommunicationListener extends Thread {
 			lName = buildAgentNameList();
 
 			while(hostRunning) {
+				// Clear log
+				logger.clear();
 				// Wait for receiving data from server
 				serverSocket.receive(receivePacket);
 				// Create array with actual length
@@ -339,7 +437,8 @@ class CommunicationListener extends Thread {
 					if (info.length == 2) { // ip + port
 						// Add to the server list
 						lServer.add(new Server(info[0], Integer.parseInt(info[1])));
-						System.out.println("New Host Server(" + info[0] + ":" + info[1] + ") has been registered.");
+						//System.out.println("New Host Server(" + info[0] + ":" + info[1] + ") has been registered.");
+						logger.write("New Host Server(" + info[0] + ":" + info[1] + ") has been registered.");
 					}
 				}
 				else if (updMessage.startsWith("[NewAgent]")) { // Register agent
@@ -352,8 +451,10 @@ class CommunicationListener extends Thread {
 						Server server = new Server(info[0], Integer.parseInt(info[1]));
 						// Get a unused name for the new agent
 						String agentName = getNewAgentName(lName);
-						System.out.println("\nNew Agent is found, IP: " + info[2] + " Port:" + info[3]);
-						System.out.println("Assigned with name: " + agentName);
+						//System.out.println("\nNew Agent is found, IP: " + info[2] + " Port:" + info[3]);
+						//System.out.println("Assigned with name: " + agentName);
+						logger.write("\nNew Agent is found, IP: " + info[2] + " Port:" + info[3]);
+						logger.write("Assigned with name: " + agentName);
 						// Create a new agent instance
 						Agent agt = new Agent(lAgent.size() + 1, agentName, info[2], Integer.parseInt(info[3]), server, getRandomGroup(lGroup));
 						// Add agent to server
@@ -361,8 +462,8 @@ class CommunicationListener extends Thread {
 							if (srv.getIp().equals(agt.getServer().getIp())
 									&& srv.getPort() == agt.getServer().getPort()) {
 								srv.addAgent(agt);
-								System.out.println("Agent "+agt.getName()+" has been added to server "+srv.getPort());
-								//System.out.println("Server "+srv.getPort()+" has " + srv.getCounter() + " agents. ");
+								//System.out.println("Agent "+agt.getName()+" has been added to server "+srv.getPort());
+								logger.write("Agent "+agt.getName()+" has been added to server "+srv.getPort());
 								break;
 							}
 						}
@@ -370,16 +471,17 @@ class CommunicationListener extends Thread {
 						for(Group grp: lGroup) {
 							if (grp.getId() == agt.getGroup().getId()) {
 								grp.addAgent(agt);
-								System.out.println("Agent "+agt.getName()+" has been added to group "+grp.getName());
-								//System.out.println("Group "+grp.getName()+" has " + grp.getCounter() + " agents. ");
+								//System.out.println("Agent "+agt.getName()+" has been added to group "+grp.getName());
+								logger.write("Agent "+agt.getName()+" has been added to group "+grp.getName());
 								break;
 							}
 						}
 						// Add to the agent list
 						lAgent.add(agt);
-						System.out.println("New Agent(" + agt.toString() + ") has been registered.");
+						//System.out.println("New Agent(" + agt.toString() + ") has been registered.");
+						logger.write("New Agent(" + agt.toString() + ") has been registered.");
 						// send name back to agent
-						sendDataViaUpd(agentName, receivePacket.getAddress(), receivePacket.getPort());
+						UdpHelper.sendUDP(agentName, receivePacket.getAddress(), receivePacket.getPort());
 					}
 				}
 				else if (updMessage.startsWith("[RequireHostServer]")) { // Ask host server for migration
@@ -388,12 +490,13 @@ class CommunicationListener extends Thread {
 					//System.out.println(requirehost);
 					String[] info = requirehost.split("#");
 					if (info.length == 3) { // agent ip + agent port
-						System.out.println("\nAgent(" + info[0] + "-" + info[1] + ":" + info[2]+") is requesting for new HostServer to migrate.");
+						//System.out.println("\nAgent(" + info[0] + "-" + info[1] + ":" + info[2]+") is requesting for new HostServer to migrate.");
+						logger.write("\nAgent(" + info[0] + "-" + info[1] + ":" + info[2]+") is requesting for new HostServer to migrate.");
 						// Get an available server
 						Server server = getRandomServer(lServer);
 						String udpData = server.getIp() + "#" + server.getPort();
 						// Send new host server back to requestor
-						sendDataViaUpd(udpData, receivePacket.getAddress(), receivePacket.getPort());
+						UdpHelper.sendUDP(udpData, receivePacket.getAddress(), receivePacket.getPort());
 					}
 				}
 				else if (updMessage.startsWith("[AgentMigration]")) { // Inform name server that migration finished
@@ -411,9 +514,38 @@ class CommunicationListener extends Thread {
 								break;
 							}
 						}
-						System.out.println("Agent(" + info[0] + ") has migrated to " + info[2]+": "+info[3]);
+						logger.write("Agent(" + info[0] + ") has migrated to " + info[2]+": "+info[3]);
 					}
 				}
+				else if (updMessage.startsWith("[AgentKilled]")) { // Inform name server that migration finished
+					// Extract the information of the migration
+					String agent = updMessage.substring(13, updMessage.length()).trim();
+					System.out.println(agent);
+					String[] info = agent.split("#");
+					if (info.length == 3) { // host ip + host port + agent name
+						// Remove agent from list
+						for(int i=0; i<lAgent.size(); i++) {
+							// Look for the agent and remove it
+							if(lAgent.get(i).getName().equals(info[2])) {
+								lAgent.remove(i);
+								break;
+							}
+						}
+						// Remove agent from server
+						for(int i=0; i<lServer.size(); i++) {
+							// Look for the agent and remove it
+							if(lServer.get(i).getIp().equals(info[0]) &&
+							   lServer.get(i).getPort() == Integer.parseInt(info[1])) {
+								lServer.get(i).removeAgent(info[2]);
+								break;
+							}
+						}
+						logger.write("\nAgent(" + info[0] + "-" + info[1] + ": " + info[2] + ") has been removed from name server");
+					}
+				}
+
+				// Save log to file
+				logger.save();
 			}
 			// Close connetion
 			serverSocket.close();
@@ -427,30 +559,7 @@ class CommunicationListener extends Thread {
 		finally {
 			//System.out.println("UDP Service is stopped!");
 		}
-	}
-
-	/**
-	 * Send data to specified address and port via UDP
-	 * @param udpdata, data
-	 * @param ipAddress, address of the destination
-	 * @param port, port number
-	 */
-	private void sendDataViaUpd(String udpdata, InetAddress ipAddress, int port) throws IOException {
-		// Define UDP socket
-		DatagramSocket clientSocket = new DatagramSocket();
-		// Define default package length
-		int len = udpdata.getBytes().length;
-		// Define byte array for sending data
-		byte[] sentData = new byte[len];
-		sentData = udpdata.getBytes();
-		// Define upd package
-		DatagramPacket sendPacket = new DatagramPacket(sentData, sentData.length, ipAddress, port);
-		// Send to client
-		clientSocket.send(sendPacket);
-		//System.out.println("Send data:" + udpdata + " to hostserver.");
-		// Close connection after sending
-		clientSocket.close();
-	}
+	}	
 
 	/**
 	 * Build list with 20 names
@@ -520,19 +629,18 @@ class CommunicationListener extends Thread {
 }
 
 /**
- * This name server can create HttpWorker to handle the http requests from the
- * client(Web browser). The server does nothing but dispatches requests to
- * workers. Each worker starts a new thread to handle the request. So the web
- * server can handle multiple requests simultaneously. The main functions
- * provided by this web server include: explore files/directories in the root
- * folder of the webserver; display content of a single file from server;
- * handle fake-cgi request, eg. add number.
+ * This name server maintains the whole status of the DIA system. Itself can
+ * handle the general requests which are asking for the current states. Besides,
+ * a communication listener will be setup at the very beginning to handle other
+ * udp requests.
  */
 public class NameServer {
+	// Define log file name server
+	static String	FILE_LOG_NAME_SERVER = "Log_NameServer.txt";
 	// Define thread-safe list to share data between multiple threads
-	static List<Server> servers = Collections.synchronizedList(new ArrayList<Server>());
-	static List<Agent> agents = Collections.synchronizedList(new ArrayList<Agent>());
-	static List<Group> groups = Collections.synchronizedList(new ArrayList<Group>());
+	static List<Server> servers = Collections.synchronizedList(new CopyOnWriteArrayList<Server>());
+	static List<Agent> agents = Collections.synchronizedList(new CopyOnWriteArrayList<Agent>());
+	static List<Group> groups = Collections.synchronizedList(new CopyOnWriteArrayList<Group>());
 
 	/**
 	 * Start a Server Socket to monitor client requests and display the current status
@@ -548,27 +656,24 @@ public class NameServer {
 		String localIP = "";
 
 		try{
+			// Create log instance
+			LogHelper logger = new LogHelper(FILE_LOG_NAME_SERVER);
+			logger.clear();
 			// Setup the server socket
 			ServerSocket servsocket = new ServerSocket(port, queue_len);
-			System.out.println("Rong Zhuang's Name Server is starting up, listening at port " + port + ".");
+			//System.out.println("Rong Zhuang's Name Server is starting up, listening at port " + port + ".");
+			logger.write("Rong Zhuang's Name Server is starting up, listening at port " + port + ".");
 
 			// Get ip address of local host for name server
 			localIP = InetAddress.getLocalHost().getHostAddress();
 			// Build initial group list
 			groups = buildGroups();
-			//Creating BlockingQueue of size 10
-			//BlockingQueue<Server> queueServer = new ArrayBlockingQueue<>(10);
-			//BlockingQueue<Agent> queueAgent = new ArrayBlockingQueue<>(10);
-			CommunicationListener producer = new CommunicationListener(servers, agents, groups);
-			//ServerConsumer srvConsumer = new ServerConsumer(queueServer, servers);
-			//AgentConsumer agtConsumer = new AgentConsumer(queueAgent, agents, servers, groups);
-			//starting producer to produce messages in queue
-			producer.start();
+			// Creating BlockingQueue of size 10
+			CommunicationListener listener = new CommunicationListener(logger, servers, agents, groups);
+			// Start listener to handle communication requests
+			listener.start();
+			// Sleep for a while to make sure it begins work before other thread
 			Thread.sleep(3000);
-			//starting consumer to consume messages from queue
-			//srvConsumer.start();
-			//agtConsumer.start();
-			//System.out.println("Producer and Consumer are starting up.");
 
 			while(true){
 				// Make the server socket wait for the next client request
@@ -576,7 +681,11 @@ public class NameServer {
 				// Output stream to the client
 				PrintStream printer = new PrintStream(socket.getOutputStream());
 				// Send http page to client, which contains the current states
+				logger.clear();
+				logger.write("\nClient is requesting for current states...");
 				sendResponseToClient(localIP, port, agents, servers, printer);
+				logger.write("The latest states have been sent back to client.");
+				logger.save();
 			}
 		}
 		catch(IOException ex){
@@ -654,20 +763,22 @@ public class NameServer {
 			sbHtml.append("        <td> <a href=\"http://" + agt.getServer().getIp() + ":" + agt.getServer().getPort() + "\"> IP: " + agt.getServer().getIp() +" Port: " + agt.getServer().getPort() + " </a> </td>\n");
 			sbHtml.append("        <td bgcolor=\"" + agt.getGroup().getColor() + "\"></td>\n");
 			sbHtml.append("        <td>" + agt.getGroup().getName() + "</td>\n");
-			sbHtml.append("        <td> <a href=\"http://127.0.0.1:4560/dienow\"> Kill! </a> </td>\n");
+			sbHtml.append("        <td> <a href=\"http://" + agt.getIp() + ":" + agt.getPort() + "/action/kill\"> Kill! </a> </td>\n");
 			sbHtml.append("      </tr>\n");
 		}
 		sbHtml.append("    </table>\n");
 		sbHtml.append("    <h2> HostServers </h2>\n");
 		sbHtml.append("    <table style=\"background-color:white\" cellspacing=\"0\" cellpadding=\"3\" border=\"1\" width=\"100%\"> \n");
 		sbHtml.append("      <tr>\n");
-		sbHtml.append("          <th width=\"15%\"> HostServer Location </th>\n");
-		sbHtml.append("          <th width=\"15%\"> Agents on the server </th>\n");
+		sbHtml.append("          <th width=\"40%\"> HostServer Location </th>\n");
+		sbHtml.append("          <th width=\"40%\"> Agents on the server </th>\n");
+		sbHtml.append("          <th width=\"20%\"> Operation </th>\n");
 		sbHtml.append("      </tr>\n");
 		for (Server svr: servers) {
 			sbHtml.append("      <tr>\n");
 			sbHtml.append("        <td> <a href=\"http://" + svr.getIp() + ":" + svr.getPort() + "\"> IP: " + svr.getIp() +" Port: " + svr.getPort() + " </a> </td>\n");
 			sbHtml.append("        <td> Now hosting: " + svr.getCounter() + " agents </td>\n");
+			sbHtml.append("        <td> <a href=\"http://" + svr.getIp() + ":" + svr.getPort() + "\"> Create New Agent </a> </td>\n");
 			sbHtml.append("      </tr>\n");
 		}
 		sbHtml.append("    </table>\n");
