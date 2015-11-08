@@ -37,15 +37,10 @@ D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\Antlr3.
 D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\Microsoft.Web.Infrastructure.dll
 D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\Newtonsoft.Json.dll
 D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Net.Http.Formatting.dll
-D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.Helpers.dll
 D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.Http.dll
 D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.Http.WebHost.dll
 D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.Mvc.dll
 D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.Optimization.dll
-D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.Razor.dll
-D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.Webpages.Deployment.dll
-D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.Webpages.dll
-D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.Webpages.Razor.dll
 D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\WebGrease.dll
 D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\Antlr3.Runtime.pdb
 D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.Optimization.xml
@@ -94,3 +89,8 @@ D:\WorkSpace\DataServer\DataServer\DataServer\bin\System.Web.WebPages.Razor.xml
 D:\WorkSpace\DataServer\DataServer\DataServer\obj\Debug\DataServer.csprojResolveAssemblyReference.cache
 D:\WorkSpace\DataServer\DataServer\DataServer\obj\Debug\DataServer.dll
 D:\WorkSpace\DataServer\DataServer\DataServer\obj\Debug\DataServer.pdb
+D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.Helpers.dll
+D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.Razor.dll
+D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.WebPages.Deployment.dll
+D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.WebPages.dll
+D:\WorkSpace\GitHub\Course\CSC472\FinalProject\DataServer\DataServer\bin\System.Web.WebPages.Razor.dll
