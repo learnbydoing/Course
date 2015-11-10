@@ -165,6 +165,8 @@
     </Compile>
     <Compile Include="Models\HttpResult.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\CommentInfo.cs" />
+    <Compile Include="Models\RatingInfo.cs" />
     <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Models\CommentRespository.cs" />
     <Compile Include="Models\RestaurantRespository.cs" />

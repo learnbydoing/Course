@@ -18,9 +18,9 @@ namespace DataServer.Controllers
             return repo.GetList(keyword);
         }
 
-        public Restaurant Get(string name)
+        public Restaurant Get(int id)
         {
-            return repo.Get(name);
+            return repo.Get(id);
         }
 
         [HttpPost]
@@ -35,9 +35,15 @@ namespace DataServer.Controllers
             return repo.Update(item);
         }
 
-        public void Delete(string name)
+        public void Delete(int id)
         {
-            repo.Remove(name);
+            repo.Remove(id);
+        }
+        
+        [HttpPost]
+        public void SetRate(RatingInfo rate)
+        {
+            repo.SetRate(rate.RestId, rate.Rating);
         }
 	}
 }

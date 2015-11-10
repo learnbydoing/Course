@@ -13,9 +13,9 @@ namespace DataServer.Controllers
             return repo.GetList();
         }
 
-        public IEnumerable<Comment> GetListByRestaurant(string restname)
+        public IEnumerable<Comment> GetListByRestaurant(int restid)
         {
-            return repo.GetListByRestaurant(restname);
+            return repo.GetListByRestaurant(restid);
         }
 
         public IEnumerable<Comment> GetListByUser(int id)
@@ -29,9 +29,10 @@ namespace DataServer.Controllers
         }
 
         [HttpPost]
-        public Comment Create(Comment item)
+        public HttpResult Create(CommentInfo item)
         {
-            return repo.Add(item);
+            repo.Add(item);
+            return new HttpResult { RetCode = 0, Message = "Succeed to submit comment." };
         }
 
         public void Delete(int id)

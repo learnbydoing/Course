@@ -76,6 +76,34 @@
    Get All Restaurant
    URL: http://140.192.34.69/restaurant/api/Restaurant/GetAll
    Method: Get
+
+   Set Rating
+   URL: http://140.192.34.69/restaurant/api/Restaurant/SetRate
+   Method: Post
+   Data: 
+       RestId:1
+       Rating:5
+  </pre>
+  <pre>
+   Get All Comments
+   URL: http://140.192.34.69/restaurant/api/comment/GetAll
+   Method: Get
+
+   Get Comments By Restaurant
+   URL: http://140.192.34.69/restaurant/api/comment/GetListByRestaurant?restname=Alinea
+   Method: Get
+
+   Get Comments By User
+   URL: http://140.192.34.69/restaurant/api/comment/GetListByUser?id=1
+   Method: Get
+
+   Submit Comment
+   URL: http://140.192.34.69/restaurant/api/comment/create
+   Method: Post
+   Data: 
+       RestId: 1
+       UserName: Johnny
+       Content: Very good
   </pre>
   <pre>
    Get All User

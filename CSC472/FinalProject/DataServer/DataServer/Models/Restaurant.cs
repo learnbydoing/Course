@@ -16,9 +16,10 @@ namespace DataServer.Models
         {
 
         }
-        public Restaurant(String name, CategoryType category, String location, float rating, int reviews, String image, String image1, String image2, String image3)
+        public Restaurant(int id, String name, CategoryType category, String location, float rating, int reviews, String image, String image1, String image2, String image3)
         //public Restaurant(String name, String location, float rating, int reviews, String image, String image1, String image2, String image3)
         {
+            this.Id = id;
             this.Name = name;
             this.Category = category;
             this.Location = location;
@@ -30,6 +31,7 @@ namespace DataServer.Models
             this.Image3 = image3;
         }
 
+        public int Id { get; set; }
         public string Name { get; set; }
         public CategoryType Category { get; set; }
         public string Location { get; set; }
