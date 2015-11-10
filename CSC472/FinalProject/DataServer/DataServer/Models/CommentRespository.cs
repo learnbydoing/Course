@@ -148,13 +148,22 @@ namespace DataServer.Models
             return comments.Where(r => r.UserId.Equals(id)).FirstOrDefault();
         }
 
-        public Comment Add(CommentInfo item)
+        public bool Add(CommentInfo item)
         {
-            String restname = RestaurantRespository.Current.GetList().Where(r => r.Id==item.RestId).FirstOrDefault().Name;
-            int userid = UserRespository.Current.GetByName(item.UserName).UserId;
-            Comment newitem = new Comment(comments.Count + 1, item.Content, item.RestId, restname, userid, item.UserName);
-            comments.Add(newitem);
-            return newitem;
+            bool isadded = false;
+            try
+            {
+                String restname = RestaurantRespository.Current.GetList().Where(r => r.Id == item.RestId).FirstOrDefault().Name;
+                int userid = UserRespository.Current.GetByName(item.UserName).UserId;
+                Comment newitem = new Comment(comments.Count + 1, item.Content, item.RestId, restname, userid, item.UserName);
+                comments.Add(newitem);
+                isadded = true;
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex);
+            }
+            return isadded;            
         }
 
         public void Remove(int id)

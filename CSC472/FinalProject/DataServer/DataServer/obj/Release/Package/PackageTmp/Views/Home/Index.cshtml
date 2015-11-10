@@ -90,7 +90,7 @@
    Method: Get
 
    Get Comments By Restaurant
-   URL: http://140.192.34.69/restaurant/api/comment/GetListByRestaurant?restname=Alinea
+   URL: http://140.192.34.69/restaurant/api/comment/GetListByRestaurant?restid=1
    Method: Get
 
    Get Comments By User
@@ -128,6 +128,14 @@
        UserName:johnny
        Password:aaa
   </pre>
+  <pre>
+   Logout: 
+    URL: http://140.192.34.69/restaurant/api/User/Logout
+    Method: Post
+    Data: 
+       UserName:johnny
+  </pre>
+
   <pre>
    Return Json: 
       {"RetCode":0,"Message":"Registration succeed!"}

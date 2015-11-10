@@ -68,9 +68,16 @@ namespace DataServer.Controllers
         }
 
         [HttpPost]
-        public HttpResult Logout()
+        public HttpResult Logout(LogoutInfo logout)
         {
-            return new HttpResult { RetCode = 0, Message = "Logout succeed, see you later!" };
+            if (logout== null ||string.IsNullOrEmpty(logout.UserName))
+            {
+                return new HttpResult { RetCode = 1, Message = "Fail to logout, provide your user name!" };
+            }
+            else
+            {
+                return new HttpResult { RetCode = 0, Message = logout.UserName + ": You are now logout!" };
+            }
         }
 
         [HttpPut]

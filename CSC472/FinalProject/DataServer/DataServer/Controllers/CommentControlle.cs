@@ -7,6 +7,7 @@ namespace DataServer.Controllers
     public class CommentController : ApiController
     {
         private CommentRespository repo = CommentRespository.Current;
+        private RestaurantRespository repoRest = RestaurantRespository.Current;
 
         public IEnumerable<Comment> GetAll()
         {
@@ -31,8 +32,16 @@ namespace DataServer.Controllers
         [HttpPost]
         public HttpResult Create(CommentInfo item)
         {
-            repo.Add(item);
-            return new HttpResult { RetCode = 0, Message = "Succeed to submit comment." };
+            bool ret = repo.Add(item);
+            if (ret)
+            {
+                repoRest.IncrementReview(item.RestId);
+                return new HttpResult { RetCode = 0, Message = "Succeed to submit comment." };
+            }
+            else
+            {
+                return new HttpResult { RetCode = 1, Message = "Fail to submit comment." };
+            }            
         }
 
         public void Delete(int id)

@@ -193,6 +193,15 @@ namespace DataServer.Models
             }
         }
 
+        public void IncrementReview(int id)
+        {
+            Restaurant item = Get(id);
+            if (item != null)
+            {
+                item.Reviews += 1;
+            }
+        }
+
         public void Remove(int id)
         {
             Restaurant item = Get(id);
