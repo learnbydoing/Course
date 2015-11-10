@@ -2,6 +2,7 @@ package edu.depaul.csc472.restaurant;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -11,12 +12,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+import edu.depaul.csc472.restaurant.Model.Comment;
+import edu.depaul.csc472.restaurant.Model.CommentList;
 import edu.depaul.csc472.restaurant.Model.Restaurant;
 import edu.depaul.csc472.restaurant.Model.RestaurantList;
 
@@ -37,6 +48,8 @@ public class RestaurantDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private Restaurant restaurant;
+    private float restrating = 0.0f;
+    private static final int INTENT_COMMENT = 100;
 
     public interface DetailCallbacks {
         /**
@@ -78,6 +91,7 @@ public class RestaurantDetailFragment extends Fragment {
             ImageView icon = (ImageView) rootView.findViewById(R.id.image);
             RatingBar rating = (RatingBar) rootView.findViewById(R.id.rating);
             TextView reviews = (TextView) rootView.findViewById(R.id.reviews);
+            Button btnGotoComment = (Button) rootView.findViewById(R.id.btnAddComment);
 
             name.setText(restaurant.getName());
             location.setText(restaurant.getLocation());
@@ -87,9 +101,40 @@ public class RestaurantDetailFragment extends Fragment {
             rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                    try {
+                        restrating = v;
+                        HashMap<String, String> params = new HashMap<String, String>();
+                        params.put("RestId", String.valueOf(restaurant.getId()));
+                        params.put("Rating", String.valueOf((int) v));
+
+                        AsyncSetRating setRatingTask = new AsyncSetRating();
+                        setRatingTask.params = params;
+                        setRatingTask.execute("http://140.192.34.69/restaurant/api/Restaurant/SetRate");
+
+                    } catch (Exception e) {
+                        // response body is no valid JSON string
+                    }
+
+                    /*
                     restaurant.setRating(v);
                     if (mCallbacks != null) {
                         mCallbacks.onItemChanged();
+                    }*/
+                }
+            });
+
+            btnGotoComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //SignInActivity.UserName = "Johnny";
+                    if (SignInActivity.UserName.equals("")) {
+                        Toast.makeText(getActivity(), "Please login first!", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Intent commentIntent = new Intent(getActivity(), CommentAddActivity.class);
+                        commentIntent.putExtra("RestId", restaurant.getId());
+                        commentIntent.putExtra("UserName", SignInActivity.UserName);
+                        startActivityForResult(commentIntent, INTENT_COMMENT);
                     }
                 }
             });
@@ -109,9 +154,34 @@ public class RestaurantDetailFragment extends Fragment {
                 new DownloadImageTask((ImageView) rootView.findViewById(R.id.image3), (TextView) rootView.findViewById(R.id.download3))
                         .execute(restaurant.getImage3());
             }
+
+            try {
+                Log.d("Get comment", "restid=" + restaurant.getId());
+                new AsyncCommentList().execute("http://140.192.34.69/restaurant/api/comment/GetListByRestaurant?restid="+restaurant.getId());
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                Log.d("Exception Get comment", "message=" + e1.getMessage());
+            }
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if( requestCode == INTENT_COMMENT ) {
+            if (resultCode == getActivity().RESULT_OK) {
+                try {
+                    Log.d("Get comment", "restid=" + restaurant.getId());
+                    new AsyncCommentList().execute("http://140.192.34.69/restaurant/api/comment/GetListByRestaurant?restid="+restaurant.getId());
+                } catch (Exception e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                    Log.d("Exception Get comment", "message=" + e1.getMessage());
+                }
+            }
+        }
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -143,6 +213,96 @@ public class RestaurantDetailFragment extends Fragment {
         }
     }
 
+    private class AsyncCommentList extends AsyncTask<String, Void, JSONArray> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //your code
+        }
+        @Override
+        protected JSONArray doInBackground(String... params) {
+            JSONArray object = HttpHelper.GetList(params[0]);
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray result) {
+
+            Log.d("onPostExecute", "onPostExecute");
+            try {
+                super.onPostExecute(result);
+                if (result!=null) {
+                    ArrayList<Comment> list = new ArrayList<Comment>();
+                    JSONArray jsonArray = result;
+                    if (jsonArray != null) {
+                        int len = jsonArray.length();
+                        JSONObject jsonObj = null;
+                        for (int i=0;i<len;i++){
+                            jsonObj = (JSONObject)jsonArray.get(i);
+                            if (jsonObj != null) {
+                                list.add(
+                                    new Comment(jsonObj.getInt("Id"),
+                                            jsonObj.getString("Content"),
+                                            jsonObj.getInt("RestId"),
+                                            jsonObj.getString("RestName"),
+                                            jsonObj.getInt("UserId"),
+                                            jsonObj.getString("UserName")));
+                            }
+
+                        }
+                    }
+                    Log.d("onPostExecute activity", "list=" + list.size());
+                    CommentList.updateList(list);
+                    CommentListFragment fragComment = (CommentListFragment) getChildFragmentManager().findFragmentById(R.id.comment_list);
+                    if (fragComment!=null) {
+                        fragComment.Refresh();
+                    }
+                }
+            }
+            catch (JSONException e) {
+                int i = 1;
+                i = 2;
+                Log.d("JSONException", "message=" + e.getMessage());
+            }
+            catch (Exception e) {
+                int i = 1;
+                i = 2;
+                Log.d("Exception", "message=" + e.getMessage());
+            }
+        }
+
+    }
+
+    private class AsyncSetRating extends AsyncTask<String, Void, JSONObject> {
+
+        private Exception exception;
+        public HashMap<String, String> params = new HashMap<String, String>();
+
+        protected JSONObject doInBackground(String... urls) {
+            try {
+                JSONObject retJson = HttpHelper.Post(urls[0], params);
+                return retJson;
+            } catch (Exception e) {
+                this.exception = e;
+                return null;
+            }
+        }
+
+        protected void onPostExecute(JSONObject feed) {
+            // TODO: check this.exception
+            // TODO: do something with the feed
+            restaurant.setRating(restrating);
+            if (mCallbacks != null) {
+                mCallbacks.onItemChanged();
+            }
+
+        }
+
+        protected void showMSG(String msg){
+            //Toast.makeText(SignInActivity.this, msg, Toast.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -160,4 +320,6 @@ public class RestaurantDetailFragment extends Fragment {
 
         mCallbacks = null;
     }
+
+
 }

@@ -1,39 +1,32 @@
 package edu.depaul.csc472.restaurant.Model;
 
-import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.depaul.csc472.restaurant.HttpHelper;
-
 /**
  * Created by RZHUANG on 10/28/2015.
  */
-public class RestaurantList {
+public class CommentList {
     /**
      * An array of sample (dummy) items.
      */
-    public static List<Restaurant> Restaurants = new ArrayList<Restaurant>();
+    public static List<Comment> Comments = new ArrayList<Comment>();
 
     /**
-     * A map of sample (dummy) items, by ID.
+     * A map of sample (dummy) items, by restaurant name
      */
-    public static Map<String, Restaurant> Restaurant_Map = new HashMap<String, Restaurant>();
+    public static Map<String, Comment> Comment_Map = new HashMap<String, Comment>();
 
-    private static void addItem(Restaurant restaurant) {
-        Restaurants.add(restaurant);
-        Restaurant_Map.put(restaurant.name, restaurant);
+    private static void addItem(Comment comment) {
+        Comments.add(comment);
+        Comment_Map.put(comment.restname, comment);
     }
 
-    public static final Restaurant[] Restaurant_Array = new Restaurant[]{};
+    public static final Comment[] Comment_Array = new Comment[]{};
     /*
     public static final Restaurant[] Restaurant_Array = {
             new Restaurant("Bavette's Bar and Boeuf",
@@ -177,44 +170,47 @@ public class RestaurantList {
     */
 
     static {
-        for (Restaurant restaurant : Restaurant_Array) {
-            addItem(restaurant);
+        for (Comment comment : Comment_Array) {
+            addItem(comment);
         }
     }
 
-    public static void Search(String keyword) {
-            Restaurants.clear();
-            Restaurant_Map.clear();
+    public static void getCommentsByRest(String restname) {
+        Comments.clear();
+        Comment_Map.clear();
 
-            if (keyword==null||keyword.equals("")){
-                    for (Restaurant restaurant : Restaurant_Array) {
-                            addItem(restaurant);
-                    }
+        if (restname==null||restname.equals("")){
+            for (Comment comment : Comment_Array) {
+                addItem(comment);
             }
-            else {
-                    ArrayList<Restaurant> searchList = new ArrayList<Restaurant>();
-                    for (Restaurant item : Restaurant_Array) {
-                            if (item.getName().toLowerCase().contains(keyword.toLowerCase())) {
-                                    searchList.add(item);
-                            }
-                    }
-
-                    for (Restaurant restaurant : searchList) {
-                            addItem(restaurant);
-                    }
+        }
+        else {
+            ArrayList<Comment> commentList = new ArrayList<Comment>();
+            for (Comment item : Comment_Array) {
+                if (item.getRestName().toLowerCase().contains(restname.toLowerCase())) {
+                    commentList.add(item);
+                }
             }
 
-            Log.d("List", "SearchResult:" + Restaurants.size());
+            for (Comment comment : commentList) {
+                addItem(comment);
+            }
+        }
+
+        Log.d("CommentListByRestaurant", "Result:" + Comments.size());
 
     }
 
-    public static void updateList(ArrayList<Restaurant> list) {
-        Restaurants.clear();
-        Restaurant_Map.clear();
+    public static void updateList(ArrayList<Comment> list) {
+        Comments.clear();
+        Comment_Map.clear();
         if (list!=null) {
-            for (Restaurant restaurant : list) {
-                addItem(restaurant);
+            for (Comment comment : list) {
+                addItem(comment);
             }
         }
     }
+
+
+
 }

@@ -11,6 +11,7 @@ import android.os.Parcelable;
 public class Restaurant implements Parcelable {
     public enum Category {Restaurant, Dessert, CoffeeTea, Bakeries, IceCream}
 
+    int id;
     String name;
     Category category;
     String location;
@@ -21,7 +22,8 @@ public class Restaurant implements Parcelable {
     String image2;
     String image3;
 
-    public Restaurant(String name, Category category, String location, float rating, int reviews, String image, String image1, String image2, String image3) {
+    public Restaurant(int id, String name, Category category, String location, float rating, int reviews, String image, String image1, String image2, String image3) {
+        this.id = id;
         this.name = name;
         this.category = category;
         this.location = location;
@@ -31,6 +33,13 @@ public class Restaurant implements Parcelable {
         this.image1 = image1;
         this.image2 = image2;
         this.image3 = image3;
+    }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -152,6 +161,7 @@ public class Restaurant implements Parcelable {
 
     // implement Parcelable
     private Restaurant(Parcel in) {
+        id = in.readInt();
         name = in.readString();
         category = Category.values()[in.readInt()];
         location = in.readString();
@@ -170,6 +180,7 @@ public class Restaurant implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(id);
         out.writeString(name);
         out.writeInt(category.ordinal());
         out.writeString(location);

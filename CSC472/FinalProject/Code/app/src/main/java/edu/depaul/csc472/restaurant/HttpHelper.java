@@ -32,6 +32,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class HttpHelper {
     public static JSONObject Get(String url) {
         HttpURLConnection urlConnection = null;
+        JSONObject jsonObject = null;
         try {
             // create connection
             URL urlToRequest = new URL(url);
@@ -51,7 +52,7 @@ public class HttpHelper {
             // create JSON object from content
             InputStream in = new BufferedInputStream(
                     urlConnection.getInputStream());
-            return new JSONObject(getResponseText(in));
+            jsonObject = new JSONObject(getResponseText(in));
 
         } catch (MalformedURLException e) {
             int a = 1;
@@ -77,7 +78,7 @@ public class HttpHelper {
             }
         }
 
-        return null;
+        return jsonObject;
     }
 
     public static JSONObject Post (String requestURL,
@@ -87,9 +88,10 @@ public class HttpHelper {
         URL url;
         String response = "";
         HttpURLConnection conn = null;
+        JSONObject jsonObject = null;
         try {
             url = new URL(requestURL);
-
+            Log.d("HTTP Post", "requestURL=" + requestURL);
             conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(30000);
             conn.setConnectTimeout(30000);
@@ -98,7 +100,7 @@ public class HttpHelper {
             conn.setDoOutput(true);
 
             String param = getPostDataString(postDataParams);
-
+            Log.d("HTTP Post", "param=" + param);
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
@@ -121,7 +123,7 @@ public class HttpHelper {
 
             }
 
-            return new JSONObject(response);
+            jsonObject = new JSONObject(response);
         } catch (MalformedURLException e) {
             // URL is invalid
         } catch (SocketTimeoutException e) {
@@ -137,7 +139,7 @@ public class HttpHelper {
             }
         }
 
-        return null;
+        return jsonObject;
     }
 
     public static JSONArray GetList(String url) {

@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +19,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import edu.depaul.csc472.restaurant.Model.Restaurant;
 import edu.depaul.csc472.restaurant.Model.RestaurantList;
@@ -116,7 +118,7 @@ public class RestaurantListActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView =
                 (SearchView) MenuItemCompat.getActionView(searchItem);
 
@@ -124,7 +126,8 @@ public class RestaurantListActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 callSearch(query);
-                return true;
+                //searchItem.collapseActionView();
+                return false;
             }
 
             @Override
@@ -132,17 +135,16 @@ public class RestaurantListActivity extends AppCompatActivity
                 if (!searchView.isIconified() && TextUtils.isEmpty(newText)) {
                     callSearch(newText);
                 }
-                return true;
+                return false;
             }
 
             public void callSearch(String query) {
                 try {
                     Log.d("callSearch", "query=" + query);
-                    if (query==null||query.equals("")) {
+                    if (query == null || query.equals("")) {
                         new AsyncList().execute("http://140.192.34.69/restaurant/api/Restaurant/GetAll");
-                    }
-                    else {
-                        new AsyncList().execute("http://140.192.34.69/restaurant/api/Restaurant/GetAll?keyword="+query);
+                    } else {
+                        new AsyncList().execute("http://140.192.34.69/restaurant/api/Restaurant/GetAll?keyword=" + query);
                     }
                 } catch (Exception e1) {
                     // TODO Auto-generated catch block
@@ -170,14 +172,26 @@ public class RestaurantListActivity extends AppCompatActivity
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
 
-            case R.id.action_user:
+            case R.id.action_signin:
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite....
                 Intent loginIntent = new Intent(this, SignInActivity.class);
                 //loginIntent.putExtra(RestaurantDetailFragment.ARG_ITEM_ID, id);
                 startActivity(loginIntent);
                 return true;
+            case R.id.action_logout:
+                try{
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    params.put("UserName", SignInActivity.UserName);
 
+                    AsyncLogout logoutTask = new AsyncLogout();
+                    logoutTask.params = params;
+                    logoutTask.execute("http://140.192.34.69/restaurant/api/User/Logout");
+
+                } catch (Exception e) {
+                    // response body is no valid JSON string
+                }
+                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -214,7 +228,8 @@ public class RestaurantListActivity extends AppCompatActivity
                             jsonObj = (JSONObject)jsonArray.get(i);
                             if (jsonObj != null) {
                                 list.add(
-                                    new Restaurant(jsonObj.getString("Name"),
+                                    new Restaurant(jsonObj.getInt("Id"),
+                                            jsonObj.getString("Name"),
                                             Restaurant.getCategoryByNumber(jsonObj.getInt("Category")),
                                             jsonObj.getString("Location"),
                                             Float.parseFloat(jsonObj.getString("Rating")),
@@ -241,9 +256,45 @@ public class RestaurantListActivity extends AppCompatActivity
             catch (Exception e) {
                 int i = 1;
                 i = 2;
-                Log.d("oException", "message=" + e.getMessage());
+                Log.d("Exception", "message=" + e.getMessage());
             }
         }
 
+    }
+
+    private class AsyncLogout extends AsyncTask<String, Void, JSONObject> {
+
+        private Exception exception;
+        public HashMap<String, String> params = new HashMap<String, String>();
+
+        protected JSONObject doInBackground(String... urls) {
+            try {
+                JSONObject retJson = HttpHelper.Post(urls[0], params);
+                return retJson;
+            } catch (Exception e) {
+                this.exception = e;
+                return null;
+            }
+        }
+
+        protected void onPostExecute(JSONObject feed) {
+            // TODO: check this.exception
+            // TODO: do something with the feed
+            try {
+                if (feed!=null) {
+                    showMSG(feed.getString("Message"));
+                    if (feed.getString("RetCode").equals("0")){
+                        SignInActivity.UserName = "";
+                    }
+                }
+            }
+            catch (JSONException e) {
+
+            }
+        }
+
+        protected void showMSG(String msg){
+            Toast.makeText(RestaurantListActivity.this, msg, Toast.LENGTH_LONG).show();
+        }
     }
 }

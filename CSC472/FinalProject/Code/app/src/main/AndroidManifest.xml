@@ -42,6 +42,11 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".RestaurantListActivity" >
         </activity>
+        <activity
+            android:name=".CommentAddActivity"
+            android:label="@string/title_activity_comment"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>
