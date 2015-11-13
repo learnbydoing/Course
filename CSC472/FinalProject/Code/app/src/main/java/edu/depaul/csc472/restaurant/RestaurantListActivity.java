@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -296,5 +297,14 @@ public class RestaurantListActivity extends AppCompatActivity
         protected void showMSG(String msg){
             Toast.makeText(RestaurantListActivity.this, msg, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void email(View view) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "me@cdm.depaul.edu" } );
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Email from Implicit Intent Demo");
+        intent.putExtra(Intent.EXTRA_TEXT, "-- Sent by my Android App");
+        startActivity(intent);
     }
 }

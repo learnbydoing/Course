@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,5 +88,13 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void email(View view) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "me@cdm.depaul.edu" } );
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Email from Implicit Intent Demo");
+        intent.putExtra(Intent.EXTRA_TEXT, "-- Sent by my Android App");
+        startActivity(intent);
+    }
 
 }
