@@ -36,10 +36,10 @@ extension String {
 
 func convertDate(datestr: String?) -> NSDate {
     if let str = datestr {
-        var dateFormatter = NSDateFormatter()
+        let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "YYYY MMMM dd' 'hh:mm a'"
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
-        var date = dateFormatter.dateFromString(str)
+        let date = dateFormatter.dateFromString(str)
         return date!
     }
     else {
@@ -52,7 +52,7 @@ func convertDateTime(timezoneid: String, time: String) -> String {
     //println(time)
     //let timezoneid2 = "Asia/Shanghai"
     //let time2 = "2015-06-05 04:51"
-    var dateFormatter = NSDateFormatter()
+    let dateFormatter = NSDateFormatter()
     dateFormatter.dateFormat = "YYYY-MM-dd HH:mm"
     dateFormatter.timeZone = NSTimeZone(name: timezoneid)
     
@@ -152,15 +152,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let reachablityStatus = currentReachability.currentReachabilityStatus()
         
-        if (reachablityStatus.value == NotReachable.value)
+        if (reachablityStatus.rawValue == NotReachable.rawValue)
         {
             connectionStatus = NetworkStatus.NoConnetion
         }
-        else if (reachablityStatus.value == ReachableViaWiFi.value)
+        else if (reachablityStatus.rawValue == ReachableViaWiFi.rawValue)
         {
             connectionStatus = NetworkStatus.Wifi
         }
-        else if (reachablityStatus.value == ReachableViaWWAN.value)
+        else if (reachablityStatus.rawValue == ReachableViaWWAN.rawValue)
         {
             connectionStatus = NetworkStatus.Cellular
         }

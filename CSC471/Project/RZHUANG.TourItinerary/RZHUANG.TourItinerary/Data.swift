@@ -73,7 +73,7 @@ func addNewTrip(trip: Trip) {
 
 func getNextTrip() ->Trip? {
     if trips.count > 0 {
-        trips.sort({$0.from.compare($1.from) == NSComparisonResult.OrderedAscending })
+        trips.sortInPlace({$0.from.compare($1.from) == NSComparisonResult.OrderedAscending })
         let trip = trips[0]
         return trip
     }
@@ -309,7 +309,7 @@ class Favorite {
 
 func sortFavorites() {
     if favorites.count > 0 {
-        favorites.sort({$0.addedtime.compare($1.addedtime) == NSComparisonResult.OrderedDescending })
+        favorites.sortInPlace({$0.addedtime.compare($1.addedtime) == NSComparisonResult.OrderedDescending })
     }
 }
 

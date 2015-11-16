@@ -50,7 +50,7 @@ class MyTripsViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let trip = trips[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("basic", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("basic", forIndexPath: indexPath) 
         
         // Configure the cell...
         cell.textLabel?.text = trip.destination
@@ -77,7 +77,7 @@ class MyTripsViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         
         if let tripDetailViewController = segue.destinationViewController as? TripDetailViewController {
-            if let indexPath = self.tableView.indexPathForSelectedRow() {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
                 let trip = trips[indexPath.row]
                 tripDetailViewController.viewTitle = trip.destination
                 tripDetailViewController.trip = trip

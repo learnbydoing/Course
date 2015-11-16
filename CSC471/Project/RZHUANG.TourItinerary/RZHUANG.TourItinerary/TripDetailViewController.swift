@@ -92,14 +92,14 @@ class TripDetailViewController: UITableViewController {
         textToShare += "Hotel: \(trip!.hotel)\n"
         textToShare += "Note: \(trip!.note)\n"
         let objectsToShare = [textToShare, []]
-        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        let activityVC = UIActivityViewController(activityItems: objectsToShare as [AnyObject], applicationActivities: nil)
         
         self.presentViewController(activityVC, animated: true, completion: nil)
     }
     
     @IBAction func saveTrip(sender: UIBarButtonItem) {
     
-        if txtCity.text.isEmpty{
+        if txtCity.text!.isEmpty{
             let title = "Error"
             let alertController = UIAlertController(title: title, message: "City can't be empty!", preferredStyle: .Alert)
             
@@ -125,34 +125,34 @@ class TripDetailViewController: UITableViewController {
         
         if trip == nil {
             var newTrip = Trip()
-            newTrip.destination = txtCity.text
-            newTrip.country = txtCountry.text
+            newTrip.destination = txtCity.text!
+            newTrip.country = txtCountry.text!
             newTrip.from = fromdate
             newTrip.to = todate
-            newTrip.flight1 = txtFlight1.text
-            newTrip.flight2 = txtFlight2.text
-            newTrip.hotel = txtHotel.text
-            newTrip.sights[0] = txtSight1.text
-            newTrip.sights[1] = txtSight2.text
-            newTrip.sights[2] = txtSight3.text
-            newTrip.sights[3] = txtSight4.text
-            newTrip.sights[4] = txtSight5.text
+            newTrip.flight1 = txtFlight1.text!
+            newTrip.flight2 = txtFlight2.text!
+            newTrip.hotel = txtHotel.text!
+            newTrip.sights[0] = txtSight1.text!
+            newTrip.sights[1] = txtSight2.text!
+            newTrip.sights[2] = txtSight3.text!
+            newTrip.sights[3] = txtSight4.text!
+            newTrip.sights[4] = txtSight5.text!
             newTrip.note = textviewNote.text
             addNewTrip(newTrip)
         }
         else {
-            trip!.destination = txtCity.text
-            trip!.country = txtCountry.text
+            trip!.destination = txtCity.text!
+            trip!.country = txtCountry.text!
             trip!.from = fromdate
             trip!.to = todate
-            trip!.flight1 = txtFlight1.text
-            trip!.flight2 = txtFlight2.text
-            trip!.hotel = txtHotel.text
-            trip!.sights[0] = txtSight1.text
-            trip!.sights[1] = txtSight2.text
-            trip!.sights[2] = txtSight3.text
-            trip!.sights[3] = txtSight4.text
-            trip!.sights[4] = txtSight5.text
+            trip!.flight1 = txtFlight1.text!
+            trip!.flight2 = txtFlight2.text!
+            trip!.hotel = txtHotel.text!
+            trip!.sights[0] = txtSight1.text!
+            trip!.sights[1] = txtSight2.text!
+            trip!.sights[2] = txtSight3.text!
+            trip!.sights[3] = txtSight4.text!
+            trip!.sights[4] = txtSight5.text!
             trip!.note = textviewNote.text
             //tableView.reloadData()
         }
@@ -169,9 +169,9 @@ class TripDetailViewController: UITableViewController {
         popDatePicker("2")
     }
     func popDatePicker(dateno: String) {
-        var title = "Select Date"
-        var message = "\n\n\n\n\n\n\n\n\n\n\n\n\n";
-        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.ActionSheet);
+        let title = "Select Date"
+        let message = "\n\n\n\n\n\n\n\n\n\n\n\n\n";
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.ActionSheet);
         alert.modalInPopover = true;
         
         var pickerFrame: CGRect
@@ -181,7 +181,7 @@ class TripDetailViewController: UITableViewController {
         else {
             pickerFrame = CGRect(x: 0, y: 30, width: self.view.frame.width-17, height: 100); //portrait
         }
-        var datePicker: UIDatePicker = UIDatePicker(frame: pickerFrame);
+        let datePicker: UIDatePicker = UIDatePicker(frame: pickerFrame);
         datePicker.datePickerMode = .DateAndTime
         datePicker.locale = NSLocale(localeIdentifier: "en_US")
 

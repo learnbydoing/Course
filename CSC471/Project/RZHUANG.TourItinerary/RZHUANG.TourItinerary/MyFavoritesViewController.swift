@@ -67,7 +67,7 @@ class MyFavoritesViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let city = favoriteCityList[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("basic", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("basic", forIndexPath: indexPath) 
         
         // Configure the cell...
         cell.textLabel?.text = city.name
@@ -118,7 +118,7 @@ class MyFavoritesViewController: UITableViewController {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.        
         if let cityDetailViewController = segue.destinationViewController as? CityDetailViewController {
-            if let indexPath = self.tableView.indexPathForSelectedRow() {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
                 cityDetailViewController.city = favoriteCityList[indexPath.row]
             }
         }

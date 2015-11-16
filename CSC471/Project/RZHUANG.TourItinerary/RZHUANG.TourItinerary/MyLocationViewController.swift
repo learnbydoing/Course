@@ -68,7 +68,7 @@ class MyLocationViewController: UITableViewController {
                 self.lblLocalWeather.text = "[Fail to get the weather!]"
                 self.activityIndicatorTime.stopAnimating()
                 self.activityIndicatorWeather.stopAnimating()
-                println(err.localizedDescription)
+                print(err.localizedDescription)
             }
             self.manager = nil
         }
@@ -83,7 +83,7 @@ class MyLocationViewController: UITableViewController {
             return
         }
         
-        if txtLatitude.text.isEmpty || txtLongitude.text.isEmpty {
+        if txtLatitude.text!.isEmpty || txtLongitude.text!.isEmpty {
             let title = "Error"
             let alertController = UIAlertController(title: title, message: "Latitude and Longitude can't be empty!", preferredStyle: .Alert)
             
@@ -135,7 +135,7 @@ class MyLocationViewController: UITableViewController {
         let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {
             (data, response, error) in
             dispatch_async(dispatch_get_main_queue(), {
-                self.setLabels(data)
+                self.setLabels(data!)
             })
         }
         
@@ -145,7 +145,8 @@ class MyLocationViewController: UITableViewController {
     func setLabels(weatherData: NSData) {
         var jsonError: NSError?
         
-        if let json: AnyObject = NSJSONSerialization.JSONObjectWithData(weatherData, options: nil, error:&jsonError) {
+        do {
+            let json: AnyObject = try NSJSONSerialization.JSONObjectWithData(weatherData, options: [])
             if let dict = json as? NSDictionary {
                 var temp: Double = 0.0
                 var humidity: Double = 0.0
@@ -162,13 +163,14 @@ class MyLocationViewController: UITableViewController {
                 activityIndicatorWeather.stopAnimating()
                 lblLocalWeather.text = formatWeather(temp, humidity: humidity)
             } else {
-                println("not a dictionary")
+                print("not a dictionary")
                 lblLocalWeather.text = "[Fail to get the weather!]"
                 self.activityIndicatorWeather.stopAnimating()
                 return
             }
-        } else {
-            println("Could not parse JSON: \(jsonError!)")
+        } catch let error as NSError {
+            jsonError = error
+            print("Could not parse JSON: \(jsonError!)")
             lblLocalWeather.text = "[Fail to get the weather!]"
             self.activityIndicatorWeather.stopAnimating()
             return
@@ -193,7 +195,7 @@ class MyLocationViewController: UITableViewController {
         let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {
             (data, response, error) in
             dispatch_async(dispatch_get_main_queue(), {
-                self.setLocalTimeLabel(data)
+                self.setLocalTimeLabel(data!)
             })
         }
         
@@ -204,7 +206,8 @@ class MyLocationViewController: UITableViewController {
     func setLocalTimeLabel(timeData: NSData) {
         var jsonError: NSError?
         
-        if let json: AnyObject = NSJSONSerialization.JSONObjectWithData(timeData, options: nil, error:&jsonError) {
+        do {
+            let json: AnyObject = try NSJSONSerialization.JSONObjectWithData(timeData, options: [])
             if let dict = json as? NSDictionary {
                 var timezoneid: String = ""
                 var time: String = ""
@@ -218,7 +221,7 @@ class MyLocationViewController: UITableViewController {
                 
                 if !timezoneid.isEmpty && !time.isEmpty {
                     activityIndicatorTime.stopAnimating()
-                    lblLocalTime.text = convertDateTime(timezoneid, time)
+                    lblLocalTime.text = convertDateTime(timezoneid, time: time)
                 }
                 else {
                     lblLocalTime.text = "[Fail to get the local time!]"
@@ -227,13 +230,14 @@ class MyLocationViewController: UITableViewController {
                 
                 
             } else {
-                println("not a dictionary")
+                print("not a dictionary")
                 lblLocalTime.text = "[Fail to get the local time!]"
                 self.activityIndicatorTime.stopAnimating()
                 return
             }
-        } else {
-            println("Could not parse JSON: \(jsonError!)")
+        } catch let error as NSError {
+            jsonError = error
+            print("Could not parse JSON: \(jsonError!)")
             lblLocalTime.text = "[Fail to get the local time!]"
             self.activityIndicatorTime.stopAnimating()
             return

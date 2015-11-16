@@ -30,7 +30,7 @@ class TabSettingsViewController: UITableViewController {
     }
     
     @IBAction func rateApp(sender: UIButton) {
-        var rate = RateMyApp.sharedInstance
+        let rate = RateMyApp.sharedInstance
         rate.appID = "284882215" //facebook
         
         //dispatch_async(dispatch_get_main_queue(), { () -> Void in

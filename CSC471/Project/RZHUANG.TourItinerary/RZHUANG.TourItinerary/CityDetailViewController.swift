@@ -89,7 +89,7 @@ class CityDetailViewController: UITableViewController {
             getTimezoneInfo("http://api.geonames.org/timezoneJSON?lat=\(c.latitude)&lng=\(c.longitude)&username=demo")
             
             //get weather
-            var escapedParams = c.name.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())
+            let escapedParams = c.name.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())
             if let encodedAddress = escapedParams {
                 let urlpath = "http://api.openweathermap.org/data/2.5/weather?q=" + encodedAddress
                 getWeatherInfo(urlpath)
@@ -131,8 +131,8 @@ class CityDetailViewController: UITableViewController {
     }
     
     @IBAction func switchImage(sender: UIButton) {
-        var transitionOptions = appSettings.transitionOptions
-        var current = indexImage
+        let transitionOptions = appSettings.transitionOptions
+        let current = indexImage
         var next = current + 1
         if next >= 5 {
             next = 0
@@ -160,7 +160,9 @@ class CityDetailViewController: UITableViewController {
         let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {
             (data, response, error) in
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.setLabels(data)
+                    if data != nil {
+                        self.setLabels(data!)
+                    }
                 })
         }
         
@@ -171,7 +173,8 @@ class CityDetailViewController: UITableViewController {
     func setLabels(weatherData: NSData) {
         var jsonError: NSError?
         
-        if let json: AnyObject = NSJSONSerialization.JSONObjectWithData(weatherData, options: nil, error:&jsonError) {
+        do {
+            let json: AnyObject = try NSJSONSerialization.JSONObjectWithData(weatherData, options: [])
             if let dict = json as? NSDictionary {
                 var temp: Double = 0.0
                 var humidity: Double = 0.0
@@ -191,11 +194,12 @@ class CityDetailViewController: UITableViewController {
                 
                 
             } else {
-                println("not a dictionary")
+                print("not a dictionary")
                 return
             }
-        } else {
-            println("Could not parse JSON: \(jsonError!)")
+        } catch let error as NSError {
+            jsonError = error
+            print("Could not parse JSON: \(jsonError!)")
             return
         }
 
@@ -220,7 +224,9 @@ class CityDetailViewController: UITableViewController {
         let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {
             (data, response, error) in
             dispatch_async(dispatch_get_main_queue(), {
-                self.setLocalTimeLabel(data)
+                if data != nil {
+                    self.setLocalTimeLabel(data!)
+                }
             })
         }
         
@@ -231,7 +237,8 @@ class CityDetailViewController: UITableViewController {
     func setLocalTimeLabel(timeData: NSData) {
         var jsonError: NSError?
         
-        if let json: AnyObject = NSJSONSerialization.JSONObjectWithData(timeData, options: nil, error:&jsonError) {
+        do {
+            let json: AnyObject = try NSJSONSerialization.JSONObjectWithData(timeData, options: [])
             if let dict = json as? NSDictionary {
                 var timezoneid: String = ""
                 var time: String = ""
@@ -244,7 +251,7 @@ class CityDetailViewController: UITableViewController {
                 }
                 
                 if !timezoneid.isEmpty && !time.isEmpty {
-                    var str = convertDateTime(timezoneid, time)
+                    var str = convertDateTime(timezoneid, time: time)
                     if str.isEmpty {
                         str = "[Fail to get the local time!]"
                     }
@@ -255,12 +262,13 @@ class CityDetailViewController: UITableViewController {
                 }
 
             } else {
-                println("not a dictionary")
+                print("not a dictionary")
                 lblLocalTime.text = "[Fail to get the local time!]"
                 return
             }
-        } else {
-            println("Could not parse JSON: \(jsonError!)")
+        } catch var error as NSError {
+            jsonError = error
+            print("Could not parse JSON: \(jsonError!)")
             lblLocalTime.text = "[Fail to get the local time!]"
             return
         }
@@ -285,7 +293,7 @@ class CityDetailViewController: UITableViewController {
         if indexPath.row == 0 {
             //city name in the left corner of the image
             let cityFrame = CGRect(x: 10, y: imageCity.frame.height-25, width: imageCity.frame.width-10, height: 20)
-            var lblCity = UILabel(frame: cityFrame)
+            let lblCity = UILabel(frame: cityFrame)
             lblCity.font = UIFont.boldSystemFontOfSize(17.0)
             lblCity.textColor = UIColor.whiteColor()
             lblCity.textAlignment = .Left
@@ -310,7 +318,7 @@ class CityDetailViewController: UITableViewController {
         else if indexPath.row == 3 {
             //Display location info in the left bottom of map view
             let locationFrame = CGRect(x: 4, y: mapView.frame.height-19, width: 175, height: 20)
-            var lblLocation = UILabel(frame: locationFrame)
+            let lblLocation = UILabel(frame: locationFrame)
             lblLocation.backgroundColor = UIColor.darkGrayColor()
             lblLocation.font = UIFont.boldSystemFontOfSize(12.0)
             lblLocation.textColor = UIColor.whiteColor()
@@ -333,7 +341,7 @@ class CityDetailViewController: UITableViewController {
             container.addSubview(pointsViews[0])
             
             //create a button upon the images to receive the on touch event
-            var btnFrame = CGRect(x: 0, y: 0, width: imageCity.frame.width, height: imageCity.frame.height)
+            let btnFrame = CGRect(x: 0, y: 0, width: imageCity.frame.width, height: imageCity.frame.height)
             btnSwitch = UIButton(frame: btnFrame)
             btnSwitch.addTarget(self, action: "switchImage:", forControlEvents: .TouchUpInside)
             pointsCell.addSubview(btnSwitch)
