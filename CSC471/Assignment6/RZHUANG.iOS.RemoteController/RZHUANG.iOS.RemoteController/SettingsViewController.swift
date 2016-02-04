@@ -38,7 +38,7 @@ class SettingsViewController: UIViewController {
         let channelTitle = txtTitle.text
         
         //check empty
-        if channelTitle.isEmpty {
+        if channelTitle!.isEmpty {
             let alertController = UIAlertController(title: "Error", message: "Channel title can't be empty!", preferredStyle: .Alert)
             let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alertController.addAction(okAction)
@@ -47,7 +47,7 @@ class SettingsViewController: UIViewController {
         }
         
         //check length
-        if count(channelTitle) > 4 {
+        if channelTitle!.characters.count > 4 {
             let alertController = UIAlertController(title: "Error", message: "The length of channel title can't be larger than 4!", preferredStyle: .Alert)
             let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alertController.addAction(okAction)
@@ -63,9 +63,9 @@ class SettingsViewController: UIViewController {
             
             var a:Double = 1.5
             var b:String = String(format:"%f", a)
-            println("b: \(b)") // b: 1.500000
+            print("b: \(b)") // b: 1.500000
             
-            let channelNo = lblNumber.text!.toInt()
+            let channelNo = Int(lblNumber.text!)
             let channelNoStr = String(format:"%02d", channelNo!)
             if item.Number == channelNo {
                 let alertController = UIAlertController(title: "Error", message: "The number \(channelNoStr) has been used by Id: \(item.Id), choose another number!", preferredStyle: .Alert)
@@ -78,8 +78,8 @@ class SettingsViewController: UIViewController {
         txtTitle.resignFirstResponder()
         
         var channel = arrayChannels[segmentChannel.selectedSegmentIndex]
-        channel.Title = channelTitle
-        channel.Number = lblNumber.text!.toInt()
+        channel.Title = channelTitle!
+        channel.Number = Int(lblNumber.text!)
         
         let saveAlertController = UIAlertController(title: "Success", message: "The favorite channel has been updated!", preferredStyle: .Alert)
         let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
@@ -94,7 +94,7 @@ class SettingsViewController: UIViewController {
     }
     
     func refresh(index: Int) {
-        var channel = arrayChannels[index]
+        let channel = arrayChannels[index]
         txtTitle.text = channel.Title
         stepperChannel.value = Double(channel.Number!)
         lblNumber.text = Int(stepperChannel.value).description

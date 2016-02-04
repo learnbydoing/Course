@@ -19,22 +19,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
       
-        var channel1 = Channel();
+        let channel1 = Channel();
         channel1.Id = "1"
         channel1.Title = "ABC"
         channel1.Number = 33
         arrayChannels.append(channel1)
-        var channel2 = Channel();
+        let channel2 = Channel();
         channel2.Id = "2"
         channel2.Title = "NBC"
         channel2.Number = 44
         arrayChannels.append(channel2)
-        var channel3 = Channel();
+        let channel3 = Channel();
         channel3.Id = "3"
         channel3.Title = "CBS"
         channel3.Number = 55
         arrayChannels.append(channel3)
-        var channel4 = Channel();
+        let channel4 = Channel();
         channel4.Id = "4"
         channel4.Title = "FOX"
         channel4.Number = 66

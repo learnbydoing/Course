@@ -132,7 +132,7 @@ class TVViewController: UIViewController {
             }
             else {
                 strChannel+="\(btnTitle)"
-                var newchannel:Int = strChannel.toInt()!
+                let newchannel:Int = Int(strChannel)!
                 updateChannel(newchannel)
             }
         }
