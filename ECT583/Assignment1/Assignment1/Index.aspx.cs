@@ -11,7 +11,19 @@ namespace Assignment1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            if (!IsPostBack)
+            {
+                Refresh();
+            }
+        }
+
+        protected void btnRefresh_Click(object sender, EventArgs e)
+        {
+            Refresh();
+        }
+
+        private void Refresh()
+        {
             Session["VisitedTimes"] = (int)Session["VisitedTimes"] + 1;
             int visitedtimes = ((int)Session["VisitedTimes"]);
             lblVisistedTimes.Text = visitedtimes.ToString();
@@ -35,7 +47,7 @@ namespace Assignment1
             else // > 100
             {
                 lblMessage.Text = "Leave me alone";
-            }            
+            }
         }
     }
 }
