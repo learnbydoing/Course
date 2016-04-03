@@ -13,20 +13,38 @@ namespace Assignment1
         {
             if (!IsPostBack)
             {
+                // Update status for each time refresh the current page(F5 from browser or click Refresh button)
                 Refresh();
             }
         }
 
+        /// <summary>
+        /// Handle the button click event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnRefresh_Click(object sender, EventArgs e)
         {
-            Refresh();
+            // Use redirect instead of calling refresh methond to avoid 'confirm form resubmission' warning 
+            // message. It will prompt if you refresh(F5) your browser after clicking the 'Refresh' button.
+            Response.Redirect("Index.aspx");
+            //Refresh();
         }
-
+        
+        /// <summary>
+        /// Update the status
+        /// </summary>
         private void Refresh()
         {
+            // The session value is initialized in Session_Start event
+
+            // Plus one for each visit
             Session["VisitedTimes"] = (int)Session["VisitedTimes"] + 1;
+            // Convert to integer
             int visitedtimes = ((int)Session["VisitedTimes"]);
-            lblVisistedTimes.Text = visitedtimes.ToString();
+            // Update visited times to label in html
+            lblVisitedTimes.Text = visitedtimes.ToString();
+            // Show proper message to page according to the visited times
             if (visitedtimes == 1)
             {
                 lblMessage.Text = "Welcome to the site!";
@@ -42,11 +60,11 @@ namespace Assignment1
             }
             else if (visitedtimes >= 51 && visitedtimes <= 100)
             {
-                lblMessage.Text = "Be patient..";
+                lblMessage.Text = "Be patient...";
             }
             else // > 100
             {
-                lblMessage.Text = "Leave me alone";
+                lblMessage.Text = "Leave me alone!";
             }
         }
     }

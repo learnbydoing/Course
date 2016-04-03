@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\rzhuangect583 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\rzhuangect583.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

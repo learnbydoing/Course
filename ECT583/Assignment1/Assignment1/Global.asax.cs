@@ -17,6 +17,7 @@ namespace Assignment1
 
         protected void Session_Start(object sender, EventArgs e)
         {
+            // Initial the session value
             Session["VisitedTimes"] = 0;
         }
 

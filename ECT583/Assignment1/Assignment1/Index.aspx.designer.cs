@@ -31,13 +31,13 @@ namespace Assignment1 {
         protected global::System.Web.UI.WebControls.Button btnRefresh;
         
         /// <summary>
-        /// lblVisistedTimes control.
+        /// lblVisitedTimes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblVisistedTimes;
+        protected global::System.Web.UI.WebControls.Label lblVisitedTimes;
         
         /// <summary>
         /// lblMessage control.

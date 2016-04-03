@@ -19,12 +19,12 @@
             <p>This page shows you how session works.</p> 
         </div>
         <div class="panel panel-info">
-          <div class="panel-heading">Click the 'Refresh' button to see different results.</div>
+          <div class="panel-heading">Click below 'Refresh' button or F5 from web browser to see different results.</div>
           <div class="panel-body"><asp:Button ID="btnRefresh" runat="server" Text="Refresh" class="btn btn-primary" OnClick="btnRefresh_Click" /></div>
         </div>
         
         <div class="panel panel-default">
-          <div class="panel-body">Visisted Times: <asp:Label runat="server" ID="lblVisistedTimes"></asp:Label> <br/>
+          <div class="panel-body">Visited Times: <asp:Label runat="server" ID="lblVisitedTimes"></asp:Label> <br/>
 				Message: <asp:Label runat="server" ID="lblMessage"></asp:Label> <br/></div>
         </div>
 	</div>
