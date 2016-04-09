@@ -1,0 +1,117 @@
+﻿@model Assignment2.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Summary";
+}
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Register", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <h4>Summry of your registration</h4>
+    <hr />
+    <div class="panel panel-info">
+        <div class="panel-heading">Account</div>
+        <div class="panel-body">
+            <div class="form-group required">
+                @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group required">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Password, new { type = "password", @class = "form-control", disabled = "true" })
+                    @*@Html.PasswordFor(m => m.Password, new { @class = "form-control" })*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">Personal Information</div>
+        <div class="panel-body">
+            <div class="form-group required">
+                @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group required">
+                @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label", disabled = "true" })
+                <div class="col-md-10">
+                    <div class="col-md-10">
+                        <label>
+                            @Html.RadioButtonFor(m => m.Gender, "True", new { disabled = "true" })
+                            Male
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.Gender, "False", new { disabled = "true" })
+                            Female
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Age, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Age, new { @class = "form-control", disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group required">
+                @Html.LabelFor(m => m.Address1, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Address1, new { @class = "form-control", disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address2, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Address2, new { @class = "form-control", disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group required">
+                @Html.LabelFor(m => m.City, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.City, new { @class = "form-control", disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group required">
+                @Html.LabelFor(m => m.State, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownList("State", new SelectList(ViewBag.States, "Key", "Name", Model.State), new { @class = "form-control", disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group required">
+                @Html.LabelFor(m => m.Zip, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Zip, new { @class = "form-control", disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group required">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", disabled = "true" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <div class="checkbox">
+                @Html.CheckBoxFor(m => m.Subscription, new { disabled = "true" })
+                @Html.LabelFor(m => m.Subscription)
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <a href="javascript:history.back()" class = "btn btn-success">Back</a>
+            <a href="javascript:alert('Register Successfully!')" class = "btn btn-success">Confirmed</a>
+        </div>
+    </div>
+}
