@@ -3,46 +3,36 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
- <servlet>
-  <servlet-name>TestingServlet</servlet-name>
-  <servlet-class>TestingServlet</servlet-class>
- </servlet>
- <servlet-mapping>
-	<servlet-name>TestingServlet</servlet-name>
-	<url-pattern>/TestingServlet</url-pattern>
-</servlet-mapping>
-
- <servlet>
-  <servlet-name>MakeTable</servlet-name>
-  <servlet-class>MakeTable</servlet-class>
- </servlet>
- <servlet-mapping>
-	<servlet-name>MakeTable</servlet-name>
-	<url-pattern>/MakeTable</url-pattern>
-</servlet-mapping>
-
-<servlet>
-  <servlet-name>ShowMessage</servlet-name>
-  <servlet-class>ShowMessage</servlet-class>
-  <init-param>
-	<param-name>message</param-name>
-	<param-value>Hello World From R.Zhuang</param-value>
-  </init-param>
-</servlet>
-<servlet-mapping>
-	<servlet-name>ShowMessage</servlet-name>
-	<url-pattern>/ShowMessage</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-	<servlet-name>ShowMessage</servlet-name>
-	<url-pattern>/HelloZhuang</url-pattern>
-</servlet-mapping>
-<servlet>
-  <servlet-name>ShowMsg</servlet-name>
-  <servlet-class>ShowMessage</servlet-class>
-</servlet>
-<servlet-mapping>
-	<servlet-name>ShowMsg</servlet-name>
-	<url-pattern>/ShowMsg</url-pattern>
-</servlet-mapping>
+  <servlet>
+    <servlet-name>MakeTable</servlet-name>
+    <servlet-class>MakeTable</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MakeTable</servlet-name>
+    <url-pattern>/MakeTable</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ShowMessage</servlet-name>
+    <servlet-class>ShowMessage</servlet-class>
+    <init-param>
+      <param-name>message</param-name>
+      <param-value>Hello World From R.Zhuang</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowMessage</servlet-name>
+    <url-pattern>/ShowMessage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ShowMessage</servlet-name>
+    <url-pattern>/HelloZhuang</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ShowMsg</servlet-name>
+    <servlet-class>ShowMessage</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowMsg</servlet-name>
+    <url-pattern>/ShowMsg</url-pattern>
+  </servlet-mapping>
 </web-app>

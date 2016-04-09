@@ -11,7 +11,7 @@ public class MakeTable extends HttpServlet {
 			String docType =
 				"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 " +
 				"Transitional//EN\">\n";
-				out.println(docType +
+			out.println(docType +
 				"<HTML>\n" +
 				"<HEAD><TITLE>Make Table</TITLE></HEAD>\n" +
 				"<BODY>\n" +
