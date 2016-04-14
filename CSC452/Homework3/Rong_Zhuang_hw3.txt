@@ -1,0 +1,167 @@
+1)
+ACCEPT p_1 PROMPT 'Please enter a positive integer:'
+DECLARE
+  v_input_rank   NUMBER := &p_1;  
+  v_rank         popular_names.rank%TYPE;
+  v_sex          popular_names.sex%TYPE;
+  v_sex2         varchar2(10);
+  v_name         popular_names.given_name%TYPE;
+  v_number       popular_names.number_of_occurrences%TYPE;
+  CURSOR c_name IS
+        SELECT   	rank, sex, given_name, number_of_occurrences
+        FROM 	  	popular_names        
+        ORDER BY 	given_name;
+BEGIN
+  IF v_input_rank <= 0 THEN
+    DBMS_OUTPUT.PUT_LINE('Invalid number: ' || TO_CHAR(v_input_rank));
+  ELSE
+    OPEN c_name;
+    FETCH	c_name INTO v_rank, v_sex, v_name, v_number;
+    IF c_name%NOTFOUND THEN
+      DBMS_OUTPUT.PUT_LINE('There is no result found!');
+    ELSE
+      DBMS_OUTPUT.PUT_LINE(RPAD('Given Name', 20) || RPAD('Rank', 7) || RPAD('Sex', 10) || 'Number of Occurrences');
+      DBMS_OUTPUT.PUT_LINE(LPAD('=', 58, '='));
+      LOOP
+        IF v_rank <= v_input_rank THEN
+          IF UPPER(v_sex) = 'M' THEN
+            v_sex2 := 'Male';
+          ELSE
+            v_sex2 := 'Female';
+          END IF;
+          DBMS_OUTPUT.PUT_LINE(RPAD(v_name, 20) || LPAD(v_rank, 4) || LPAD(' ', 3, ' ')|| RPAD(v_sex2, 10) || ' ' || LPAD(TO_CHAR(v_number), 20));      
+        END IF;
+        FETCH	c_name INTO v_rank, v_sex, v_name, v_number;
+        EXIT WHEN c_name%NOTFOUND;
+      END LOOP;
+    END IF;
+    CLOSE c_name;
+  END IF;
+END;
+
+2)
+DECLARE
+  v_emp_num      NUMBER;
+  v_max          employee.salary%TYPE;
+  v_min          employee.salary%TYPE;
+  v_avg          employee.salary%TYPE;
+  v_max55        employee.salary%TYPE;
+  v_dept_id      department.department_id%TYPE;
+  v_dept_name    department.department_name%TYPE;
+  v_emp_num_dpt  NUMBER;
+  v_max_dpt      employee.salary%TYPE;
+  v_min_dpt      employee.salary%TYPE;
+  v_avg_dpt      employee.salary%TYPE;
+  CURSOR c_dept IS
+        SELECT   	department_id, department_name
+        FROM 	  	department
+        ORDER BY 	department_name;
+BEGIN
+  SELECT COUNT(*)
+    INTO v_emp_num
+    FROM employee;
+  DBMS_OUTPUT.PUT_LINE(RPAD('NUMBER OF EMPLOYEES', 50) || LPAD(TO_CHAR(v_emp_num),11));
+  DBMS_OUTPUT.PUT_LINE(LPAD('-', 61, '-'));
+  
+  SELECT MAX(salary + NVL(commission, 0)), MIN(salary + NVL(commission, 0)), AVG(salary + NVL(commission, 0))
+  INTO v_max, v_min, v_avg
+  FROM employee;
+  
+  DBMS_OUTPUT.PUT_LINE(RPAD('COMPANY MAXIMUM TOTAL PAY:', 50) || TO_CHAR(v_max, '$99,990.00'));
+  DBMS_OUTPUT.PUT_LINE(RPAD('COMPANY MINIMUM TOTAL PAY:', 50) || TO_CHAR(v_min, '$99,990.00'));
+  DBMS_OUTPUT.PUT_LINE(RPAD('COMPANY AVERAGE TOTAL PAY:', 50) || TO_CHAR(v_avg, '$99,990.00'));  
+  DBMS_OUTPUT.PUT_LINE(LPAD('-', 61, '-'));
+  
+  v_max55 := 0.55 * v_max;
+  DBMS_OUTPUT.PUT_LINE(RPAD('COMPANY AVERAGE TOTAL PAY (55%):', 50) || TO_CHAR(v_max55, '$99,990.00'));  
+  DBMS_OUTPUT.PUT_LINE(LPAD('-', 61, '-'));
+   
+  OPEN c_dept;
+  FETCH	c_dept INTO v_dept_id, v_dept_name;
+  IF c_dept%NOTFOUND THEN
+    DBMS_OUTPUT.PUT_LINE('No entry in DEPARTMENT table!');
+  ELSE
+    LOOP       
+      SELECT COUNT(*), MAX(salary + NVL(commission, 0)), MIN(salary + NVL(commission, 0)), AVG(salary + NVL(commission, 0))
+          INTO v_emp_num_dpt, v_max_dpt, v_min_dpt, v_avg_dpt
+          FROM employee
+          WHERE department_id = v_dept_id;      
+      IF v_emp_num_dpt >= 1 AND v_avg_dpt > v_max55 THEN
+        DBMS_OUTPUT.PUT_LINE(RPAD('DEPARTMENT NAME:', 50) || LPAD(v_dept_name, 11));
+        DBMS_OUTPUT.PUT_LINE(RPAD('NUMBER OF EMPLOYEES:', 50) || LPAD(TO_CHAR(v_emp_num_dpt), 11));  
+        DBMS_OUTPUT.PUT_LINE(RPAD('MAXIMUM TOTAL PAY:', 50) || TO_CHAR(v_max_dpt, '$99,990.00'));
+        DBMS_OUTPUT.PUT_LINE(RPAD('MINIMUM TOTAL PAY:', 50) || TO_CHAR(v_min_dpt, '$99,990.00'));
+        DBMS_OUTPUT.PUT_LINE(RPAD('AVERAGE TOTAL PAY:', 50) || TO_CHAR(v_avg_dpt, '$99,990.00'));  
+        DBMS_OUTPUT.PUT_LINE(LPAD('-', 61, '-')); 
+      END IF;
+      FETCH	c_dept INTO v_dept_id, v_dept_name;
+      EXIT WHEN c_dept%NOTFOUND; 
+    END LOOP;
+  END IF;
+  CLOSE c_dept;
+END;
+
+3)
+DECLARE 
+  v_vin          auto_service.vin%TYPE;  
+  v_service_num  NUMBER;
+  v_first_date   auto_service.srv_date%TYPE;
+  v_last_date    auto_service.srv_date%TYPE;
+  v_min_price    auto_service.srv_price%TYPE;
+  v_max_price    auto_service.srv_price%TYPE;
+  v_sum_price    auto_service.srv_price%TYPE;
+  v_last_price   auto_service.srv_price%TYPE;
+  v_min_date     auto_service.srv_date%TYPE;
+  v_max_date     auto_service.srv_date%TYPE;
+  CURSOR c_auto IS
+        SELECT vin, MIN(srv_date)
+        FROM auto_service
+        GROUP BY vin
+        HAVING MIN(srv_date) >= to_date('01-FEB-2008','DD-MON-YYYY')
+        AND MIN(srv_date) < to_date('31-MAR-2013','DD-MON-YYYY')
+        ORDER BY vin;
+BEGIN
+  
+  OPEN c_auto;
+  FETCH	c_auto INTO v_vin, v_first_date;
+  IF c_auto%NOTFOUND THEN
+    DBMS_OUTPUT.PUT_LINE('No VIN found in the time frame!');
+  ELSE
+    DBMS_OUTPUT.PUT_LINE(RPAD('VIN', 8) || RPAD('# of Services', 16) || RPAD('First Service Date', 21) 
+       || RPAD('Last Service Date (Price)', 28) || RPAD('Min Price (Service Date)', 27) 
+       || RPAD('Max Price (Service Date)', 27) || RPAD('Total Price', 11));
+    DBMS_OUTPUT.PUT_LINE(LPAD('=', 138, '='));
+    LOOP
+      SELECT COUNT(*), MIN(srv_date), MAX(srv_date), MIN(srv_price), MAX(srv_price), SUM(srv_price)
+        INTO v_service_num, v_first_date, v_last_date, v_min_price, v_max_price, v_sum_price
+        FROM auto_service
+       WHERE vin = v_vin;
+      
+      SELECT srv_price
+        INTO v_last_price
+        FROM auto_service
+        WHERE vin = v_vin AND srv_date = v_last_date;
+      
+      SELECT srv_date
+        INTO v_min_date
+        FROM auto_service
+        WHERE vin = v_vin AND srv_price = v_min_price;
+     
+      SELECT srv_date
+        INTO v_max_date
+        FROM auto_service
+        WHERE vin = v_vin AND srv_price = v_max_price;
+
+      DBMS_OUTPUT.PUT_LINE(RPAD(v_vin, 8) || LPAD(v_service_num, 13) || LPAD(v_first_date, 21) 
+       || LPAD(TO_CHAR(v_last_date) || ' (' || TO_CHAR(v_last_price, '$99,990.00') || ')', 28) 
+       || LPAD(TO_CHAR(v_min_price, '$99,990.00') || ' (' || TO_CHAR(v_min_date) || ')', 27) 
+       || LPAD(TO_CHAR(v_max_price, '$99,990.00') || ' (' || TO_CHAR(v_max_date) || ')', 27) 
+       || LPAD(TO_CHAR(v_sum_price, '$99,990.00'), 14));
+       
+      FETCH	c_auto INTO v_vin, v_first_date;
+      EXIT WHEN c_auto%NOTFOUND; 
+    END LOOP;
+  END IF;
+  CLOSE c_auto;
+END;
+
