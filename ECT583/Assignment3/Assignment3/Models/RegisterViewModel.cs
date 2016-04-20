@@ -8,13 +8,20 @@ namespace Assignment3.Models
 {
     public class RegisterViewModel
     {
+        public RegisterViewModel()
+        {
+            Customer = new Customer();
+        }
         public Customer Customer { get; set; }
 
         [Required]
         [StringLength(20, ErrorMessage = "The {0} must be between {2} and {1} characters.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
-        public string Password { get; set; }
+        public string Password {
+            get { return Customer.Password; }
+            set { Customer.Password = value; }
+        }
 
         [Required]
         [DataType(DataType.Password)]

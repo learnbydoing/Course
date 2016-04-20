@@ -1,10 +1,89 @@
-﻿@{
+﻿@model Assignment3.Models.CustomerListViewModel
+@{
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>Rong's Store</h1>
-    <p class="lead">Welcome to Rong's Store!</p>
-</div>
-
 @Html.ActionLink("Register as a new user", "Register", "Home")
+@if (Model.IsError == false)
+{
+    if (Model.Customers.Count == 0)
+    {
+        <strong>No customer found.</strong>
+    }
+    else
+    {
+        <div class="container">
+            <h2>Customer List</h2>            
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>User Name</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Operations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var customer in Model.Customers)
+                    {
+                        <tr>
+                            <td>@customer.Id</td>
+                            <td>@customer.UserName</td>
+                            <td>@customer.FirstName</td>
+                            <td>@customer.LastName</td>
+                            <td>@customer.Email</td>
+                            <td><span style="padding-right:3px;">@Html.ActionLink("Edit", "Edit", "Home", new { id = customer.Id }, new { @class = "fancybox fancybox.iframe" }) </span>
+                            <span>@Html.ActionLink("Delete", "Delete", "Home", new { id = customer.Id }, new { onclick = "return confirm('Are you sure you want to delete this customer?');", @class = "fancybox fancybox.iframe" })</span>
+                            </td>
+                        </tr>
+                    }                    
+                </tbody>
+            </table>
+        </div>
+    }
+    <div>
+        <p>
+            @if (Model.Customers.Count > 0)
+            {
+                <span style="background-color:azure;width=50px; border:2px solid black;"> @Html.ActionLink("Add New Student", "Add", "StudentManagement", null, new { @class = "fancybox fancybox.iframe" })</span><br /><br />
+
+                foreach (var customer in Model.Customers)
+                {
+                    <strong>@customer.FirstName @customer.LastName </strong>
+                    <span style="padding-right:3px;">@Html.ActionLink("Edit", "Edit", "Home", new { id = customer.Id }, new { @class = "fancybox fancybox.iframe" }) </span>
+                    <span>@Html.ActionLink("Delete", "Delete", "Home", new { id = customer.Id }, new { onclick = "return confirm('Are you sure you want to delete this customer?');", @class = "fancybox fancybox.iframe" })</span>
+                    <br />
+
+                }
+            }
+            else
+            {
+                <strong>No customer found.</strong>
+            }
+        </p>
+    </div>
+}
+else
+{
+    <strong>@Model.Message</strong>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".fancybox").fancybox({
+                fitToView: false,
+                autoSize: false,
+                autoDimensions: false,
+                width: 520,
+                height: 310,
+                afterClose: function () { window.location.reload(); }
+            });
+        });
+
+    </script>
+}

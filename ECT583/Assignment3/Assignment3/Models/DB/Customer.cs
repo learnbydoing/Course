@@ -12,6 +12,7 @@ namespace Assignment3.Models
         {
             Gender = true;
             Age = 18;
+            State = "AL";
         }
 
         [Key]
@@ -21,7 +22,7 @@ namespace Assignment3.Models
         [Display(Name = "User Name")]
         public string UserName { get; set; }
 
-        [Required]
+        //[Required]
         [StringLength(20, ErrorMessage = "The {0} must be between {2} and {1} characters.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

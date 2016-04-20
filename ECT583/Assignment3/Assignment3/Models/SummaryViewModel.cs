@@ -8,6 +8,10 @@ namespace Assignment3.Models
 {
     public class SummaryViewModel
     {
+        public SummaryViewModel()
+        {
+            Customer = new Customer();
+        }
         public Customer Customer { get; set; }
         /*
         public string UserName { get; set; }

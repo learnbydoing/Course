@@ -1,26 +1,36 @@
-﻿@model Assignment3.Models.RegisterViewModel
+﻿@model Assignment3.Models.SummaryViewModel
 @{
     ViewBag.Title = "Summary";
 }
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm("Register", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Summary", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     <h4>Summry of your registration</h4>
     <hr />
+    <div>@ViewBag.Message</div>
     <div class="panel panel-info">
         <div class="panel-heading">Account</div>
         <div class="panel-body">
             <div class="form-group required">
-                @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Customer.Id, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", disabled = "true" })
+                    @Html.TextBoxFor(m => m.Customer.Id, new { @class = "form-control", disabled = "true" })
+                    @Html.HiddenFor(m => m.Customer.Id)
                 </div>
             </div>
             <div class="form-group required">
-                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Customer.UserName, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Password, new { type = "password", @class = "form-control", disabled = "true" })
+                    @Html.TextBoxFor(m => m.Customer.UserName, new { @class = "form-control", disabled = "true" })
+                    @Html.HiddenFor(m => m.Customer.UserName)
+                </div>
+            </div>
+            <div class="form-group required">
+                @Html.LabelFor(m => m.Customer.Password, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Customer.Password, new { type = "password", @class = "form-control", disabled = "true" })
+                    @Html.HiddenFor(m => m.Customer.Password)
                     @*@Html.PasswordFor(m => m.Password, new { @class = "form-control" })*@
                 </div>
             </div>
@@ -30,72 +40,82 @@
         <div class="panel-heading">Personal Information</div>
         <div class="panel-body">
             <div class="form-group required">
-                @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Customer.FirstName, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", disabled = "true" })
+                    @Html.TextBoxFor(m => m.Customer.FirstName, new { @class = "form-control", disabled = "true" })
+                    @Html.HiddenFor(m => m.Customer.FirstName)
                 </div>
             </div>
             <div class="form-group required">
-                @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Customer.LastName, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", disabled = "true" })
+                    @Html.TextBoxFor(m => m.Customer.LastName, new { @class = "form-control", disabled = "true" })
+                    @Html.HiddenFor(m => m.Customer.LastName)
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label", disabled = "true" })
+                @Html.LabelFor(m => m.Customer.Gender, new { @class = "col-md-2 control-label", disabled = "true" })
                 <div class="col-md-10">
                     <div class="col-md-10">
                         <label>
-                            @Html.RadioButtonFor(m => m.Gender, "True", new { disabled = "true" })
+                            @Html.RadioButtonFor(m => m.Customer.Gender, "True", new { disabled = "true" })
                             Male
                         </label>
                         <label>
-                            @Html.RadioButtonFor(m => m.Gender, "False", new { disabled = "true" })
+                            @Html.RadioButtonFor(m => m.Customer.Gender, "False", new { disabled = "true" })
                             Female
                         </label>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Age, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Customer.Age, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Age, new { @class = "form-control", disabled = "true" })
+                    @Html.TextBoxFor(m => m.Customer.Age, new { @class = "form-control", disabled = "true" })
+                    @Html.HiddenFor(m => m.Customer.Age)
                 </div>
             </div>
             <div class="form-group required">
-                @Html.LabelFor(m => m.Address1, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Customer.Address1, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Address1, new { @class = "form-control", disabled = "true" })
+                    @Html.TextBoxFor(m => m.Customer.Address1, new { @class = "form-control", disabled = "true" })
+                    @Html.HiddenFor(m => m.Customer.Address1)
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Address2, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Customer.Address2, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Address2, new { @class = "form-control", disabled = "true" })
+                    @Html.TextBoxFor(m => m.Customer.Address2, new { @class = "form-control", disabled = "true" })
+                    @Html.HiddenFor(m => m.Customer.Address2)
                 </div>
             </div>
             <div class="form-group required">
-                @Html.LabelFor(m => m.City, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Customer.City, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.City, new { @class = "form-control", disabled = "true" })
+                    @Html.TextBoxFor(m => m.Customer.City, new { @class = "form-control", disabled = "true" })
+                    @Html.HiddenFor(m => m.Customer.City)
                 </div>
             </div>
             <div class="form-group required">
-                @Html.LabelFor(m => m.State, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Customer.State, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.DropDownList("State", new SelectList(ViewBag.States, "Key", "Name", Model.State), new { @class = "form-control", disabled = "true" })
+                    @*Html.DropDownList("State",new SelectList(ViewBag.States, "Key", "Name", Model.Customer.State), new { @class = "form-control" })*@
+                    @Html.DropDownListFor(m => m.Customer.State, new SelectList(ViewBag.States, "Key", "Name"), new { @class = "form-control" })
+                    @Html.HiddenFor(m => m.Customer.State)
                 </div>
             </div>
             <div class="form-group required">
-                @Html.LabelFor(m => m.Zip, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Customer.Zip, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Zip, new { @class = "form-control", disabled = "true" })
+                    @Html.TextBoxFor(m => m.Customer.Zip, new { @class = "form-control", disabled = "true" })
+                    @Html.HiddenFor(m => m.Customer.Zip)
                 </div>
             </div>
             <div class="form-group required">
-                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Customer.Email, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", disabled = "true" })
+                    @Html.TextBoxFor(m => m.Customer.Email, new { @class = "form-control", disabled = "true" })
+                    @Html.HiddenFor(m => m.Customer.Email)
                 </div>
             </div>
         </div>
@@ -103,15 +123,15 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <div class="checkbox">
-                @Html.CheckBoxFor(m => m.Subscription, new { disabled = "true" })
-                @Html.LabelFor(m => m.Subscription)
+                @Html.CheckBoxFor(m => m.Customer.Subscription, new { disabled = "true" })
+                @Html.LabelFor(m => m.Customer.Subscription)
             </div>
         </div>
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <a href="javascript:history.back()" class = "btn btn-success">Back</a>
-            <a href="javascript:alert('Register Successfully!')" class = "btn btn-success">Confirmed</a>
+            <input type="submit" class="btn btn-success" value="Confirmed" />
         </div>
     </div>
 }

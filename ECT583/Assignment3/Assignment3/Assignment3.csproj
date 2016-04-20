@@ -133,8 +133,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomerEditViewModel.cs" />
+    <Compile Include="Models\CustomerListViewModel.cs" />
     <Compile Include="Models\DB\Assignment3Context.cs" />
     <Compile Include="Models\DB\Customer.cs" />
+    <Compile Include="Models\CustomerDeleteViewModel.cs" />
     <Compile Include="Models\SummaryViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\State.cs" />
@@ -172,6 +175,7 @@
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\Summary.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
