@@ -6,19 +6,26 @@
 
 @using (Html.BeginForm("Summary", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
-    <h4>Summry of your registration</h4>
+    <h4>Summary of your registration</h4>
     <hr />
-    <div>@ViewBag.Message</div>
+    if (ViewBag.Message != null) {
+        <div class="alert alert-success">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success! </strong>@ViewBag.Message
+        </div>
+    }
     <div class="panel panel-info">
         <div class="panel-heading">Account</div>
         <div class="panel-body">
-            <div class="form-group required">
-                @Html.LabelFor(m => m.Customer.Id, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Customer.Id, new { @class = "form-control", disabled = "true" })
-                    @Html.HiddenFor(m => m.Customer.Id)
+            @if (Model.Customer.Id > 0) {
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Customer.Id, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Customer.Id, new { @class = "form-control", disabled = "true" })
+                        @Html.HiddenFor(m => m.Customer.Id)
+                    </div>
                 </div>
-            </div>
+            }
             <div class="form-group required">
                 @Html.LabelFor(m => m.Customer.UserName, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
@@ -55,6 +62,7 @@
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Customer.Gender, new { @class = "col-md-2 control-label", disabled = "true" })
+                @Html.HiddenFor(m => m.Customer.Gender)
                 <div class="col-md-10">
                     <div class="col-md-10">
                         <label>
@@ -100,7 +108,7 @@
                 @Html.LabelFor(m => m.Customer.State, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
                     @*Html.DropDownList("State",new SelectList(ViewBag.States, "Key", "Name", Model.Customer.State), new { @class = "form-control" })*@
-                    @Html.DropDownListFor(m => m.Customer.State, new SelectList(ViewBag.States, "Key", "Name"), new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.Customer.State, new SelectList(ViewBag.States, "Key", "Name"), new { @class = "form-control", disabled = "true" })
                     @Html.HiddenFor(m => m.Customer.State)
                 </div>
             </div>
@@ -123,15 +131,23 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <div class="checkbox">
+                @Html.HiddenFor(m => m.Customer.Subscription)
                 @Html.CheckBoxFor(m => m.Customer.Subscription, new { disabled = "true" })
                 @Html.LabelFor(m => m.Customer.Subscription)
             </div>
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <a href="javascript:history.back()" class = "btn btn-success">Back</a>
-            <input type="submit" class="btn btn-success" value="Confirmed" />
+        <div class="col-md-offset-2 col-md-10">            
+            @if (Model.Customer.Id == 0)
+            {
+                <a href="javascript:history.back()" class="btn btn-default">Back</a>
+                <input type="submit" class="btn btn-success" value="Confirmed" />
+            }
+            else
+            {
+                @Html.ActionLink("Go to List", "Index", null, new { @class="btn btn-success"});
+            }
         </div>
     </div>
 }

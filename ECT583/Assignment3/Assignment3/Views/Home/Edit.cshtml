@@ -1,0 +1,164 @@
+﻿@model Assignment3.Models.CustomerEditViewModel
+@{
+    ViewBag.Title = "Edit Customer";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{    
+    @Html.AntiForgeryToken()
+    <h4>Edit Customer</h4>
+    <hr />
+    if (Model.IsError)
+    {
+        <div class="alert alert-danger">            
+            <strong>Error! </strong>@Model.Message
+        </div>
+    }
+    else
+    {
+        if (Model.Message != null)
+        {
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success! </strong>@Model.Message
+            </div>
+        }        
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        <div class="panel panel-info">
+            <div class="panel-heading">Account</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Customer.Id, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Customer.Id, new { @class = "form-control", disabled = "true" })
+                        @Html.HiddenFor(m => m.Customer.Id)
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(m => m.Customer.UserName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Customer.UserName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Password, new { type = "password", @class = "form-control" })
+                        @*@Html.PasswordFor(m => m.Password, new { @class = "form-control" })*@
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.ConfirmPassword, new { type = "password", @class = "form-control disabled" })
+                        @*@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">Personal Information</div>
+            <div class="panel-body">
+                <div class="form-group required">
+                    @Html.LabelFor(m => m.Customer.FirstName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Customer.FirstName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(m => m.Customer.LastName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Customer.LastName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Customer.Gender, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">   
+                        <label>
+                            @Html.RadioButtonFor(m => m.Customer.Gender, "True")
+                            Male
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.Customer.Gender, "False")
+                            Female
+                        </label>         
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Customer.Age, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Customer.Age, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(m => m.Customer.Address1, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Customer.Address1, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Customer.Address2, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Customer.Address2, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(m => m.Customer.City, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Customer.City, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(m => m.Customer.State, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @*Html.DropDownList("State",new SelectList(ViewBag.States, "Key", "Name", Model.Customer.State), new { @class = "form-control" })*@
+                        @Html.DropDownListFor(m => m.Customer.State, new SelectList(ViewBag.States, "Key", "Name"), new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(m => m.Customer.Zip, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Customer.Zip, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(m => m.Customer.Email, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Customer.Email, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(m => m.Customer.Subscription)
+                    @Html.LabelFor(m => m.Customer.Subscription)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-success" value="Save" />
+                @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-danger" })
+            </div>
+        </div>        
+    }
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        window.setTimeout(function () {
+            $(".alert-success").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+            });
+        }, 3000);
+    </script>
+    
+}

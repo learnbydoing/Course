@@ -12,11 +12,14 @@ namespace Assignment3.Controllers
     {
         public ActionResult Index()
         {
-            CustomerListViewModel model = new CustomerListViewModel();
-            model.IsError = false;
+            CustomerListViewModel model = TempData["model"] as CustomerListViewModel;
+            if (model == null)
+            {
+                model = new CustomerListViewModel();
+                model.IsError = false;
+            }
             try
             {
-                model.Title = "Manage Customers";
                 using (Assignment3Context context = new Assignment3Context())
                 {
                     var customers = from s in context.Customers
@@ -62,7 +65,15 @@ namespace Assignment3.Controllers
         {
             ViewBag.States = State.List();
             SummaryViewModel summary = TempData["summary"] as SummaryViewModel;
-            return View(summary);
+            if (summary == null || summary.Customer == null)
+            {
+                ViewBag.Message = "Invalid access! You must fill information in registration page first!";
+                return View("Error");
+            }
+            else
+            {
+                return View(summary);
+            }
         }
 
         [HttpPost]
@@ -75,9 +86,10 @@ namespace Assignment3.Controllers
                     context.Customers.Add(summary.Customer);
                     context.SaveChanges();
                 }
-                ViewBag.Message = "Register Successfully!";
+                ViewBag.Message = "New customer [" + summary.Customer.Id.ToString() + "] has registered successfully!";
                 ViewBag.States = State.List();
                 return View(summary);
+                //return RedirectToAction("Index", new { message = "New Customer Register!" });
             }
             else
                 return View("Error");
@@ -85,7 +97,7 @@ namespace Assignment3.Controllers
 
         public ActionResult Delete(int id)
         {
-            CustomerDeleteViewModel model = new CustomerDeleteViewModel();
+            CustomerListViewModel model = new CustomerListViewModel();
             try
             {
                 using (Assignment3Context context = new Assignment3Context())
@@ -94,35 +106,44 @@ namespace Assignment3.Controllers
                     context.Customers.Remove(customer);
                     context.SaveChanges();
                 }
-                model.IsError = false;
-                model.Message = "Customer Deleted.";                
-                model.Id = id;
-            }
 
+                model.IsError = false;
+                model.Message = "Customer [" + id.ToString() + "] has been deleted!";                
+            }
             catch (Exception e)
             {
                 model.IsError = true;
-                model.Message = "Error: " + e.Message;                
-                model.Id = id;
+                model.Message = "Error: " + e.Message;   
             }
-            return View(model);
+            TempData["model"] = model;
+            return RedirectToAction("Index");
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
             CustomerEditViewModel model = new CustomerEditViewModel();
             model.IsError = false;
             try
             {
-
                 model.Title = "Edit Customer";
-                using (Assignment3Context context = new Assignment3Context())
+                if (id == null)
                 {
+                    model.IsError = true;
+                    model.Message = "Error: " + "Invalid Parameter!";
+                }
+                else
+                {
+                    using (Assignment3Context context = new Assignment3Context())
+                    {
 
-                    var customer = from s in context.Customers
-                                  where s.Id == id
-                                  select s;
-                    model.EditableCustomer = customer.FirstOrDefault();
+                        var customer = from s in context.Customers
+                                       where s.Id == id
+                                       select s;
+                        model.Customer = customer.FirstOrDefault();
+                        model.Password = model.Customer.Password;
+                        model.ConfirmPassword = model.Customer.Password;
+                    }
+                    ViewBag.States = State.List();
                 }
                 return View(model);
             }
@@ -133,30 +154,27 @@ namespace Assignment3.Controllers
                 return View(model);
             }
         }
-
-        public ActionResult Update(Customer customer)
+        [HttpPost]
+        public ActionResult Edit(CustomerEditViewModel model)
         {
-            CustomerDeleteViewModel model = new CustomerDeleteViewModel();
             try
             {
                 using (Assignment3Context context = new Assignment3Context())
                 {
-
-                    Customer original = context.Customers.Find(customer.Id);
-                    context.Entry(original).CurrentValues.SetValues(customer);
+                    Customer original = context.Customers.Find(model.Customer.Id);
+                    context.Entry(original).CurrentValues.SetValues(model.Customer);
                     context.SaveChanges();
                 }
                 model.IsError = false;
                 model.Message = "Customer Updated.";                
-                model.Id = customer.Id;
             }
 
             catch (Exception e)
             {
                 model.IsError = true;
                 model.Message = "Error: " + e.Message;
-                model.Id = customer.Id;
             }
+            ViewBag.States = State.List();
             return View(model);
         }
     }
