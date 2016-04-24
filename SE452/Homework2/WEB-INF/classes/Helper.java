@@ -42,28 +42,52 @@ public class Helper {
 	}
 	public void prepareHeader() {
 		_header = HtmlToString("site_header.html");
-	}
-	public void prepareMenu() {
-		_menu = HtmlToString("site_menu.html");
 		String menuitem = "";
 		if (session.getAttribute("username")!=null){
 			String username = session.getAttribute("username").toString();
 			username = Character.toUpperCase(username.charAt(0)) + username.substring(1);
 			menuitem = menuitem
 					+ "<ul>"
-					+ "	<li><a>Hello, "+username+"</a></li>"
-					+ "	<li><a href='Account'>Account</a></li>"
+					+ "	<li>Hello, "+username+"</li>"
 					+ "	<li><a href='Logout'>Logout</a></li>"
-					+ "	<li><a href='Cart'>Cart("+CartCount()+")</a></li>"
 					+ "</ul>";
 		}
 		else {
 			menuitem = menuitem
 					+ "<ul>"
+					+ "	<li><a href='Registration'>Register</a></li>"
 					+ "	<li><a href='Login'>Login</a></li>"
+					+ "</ul>";
+		}
+		_header = _header.replace("$menuitem$", menuitem);
+	}
+	public void prepareMenu() {
+		_menu = HtmlToString("site_menu.html");
+		String menuitem = "";
+		if (session.getAttribute("usertype")!=null){
+			String usertype = session.getAttribute("usertype").toString();
+			if (usertype.toLowerCase().equals("storemanager")) {
+				menuitem = menuitem
+						+ "<ul>"
+						+ "	<li><a href='Product'>Product</a></li>"
+						+ "	<li><a href='Account'>Account</a></li>"
+						+ "	<li><a href='Cart'>Cart("+CartCount()+")</a></li>"
+						+ "</ul>";
+			} else {
+				menuitem = menuitem
+						+ "<ul>"
+						+ "	<li><a href='Account'>Account</a></li>"
+						+ "	<li><a href='Cart'>Cart("+CartCount()+")</a></li>"
+						+ "</ul>";
+			}
+		} else {
+			menuitem = menuitem
+					+ "<ul>"
+					+ "	<li><a href='Account'>Account</a></li>"
 					+ "	<li><a href='Cart'>Cart(0)</a></li>"
 					+ "</ul>";
 		}
+
 		_menu = _menu.replace("$usermenu$", menuitem);
 	}
 	public void prepareContent(String content) {
@@ -175,10 +199,10 @@ public class Helper {
 		HashMap<String, User> hm = new HashMap<String, User>();
 		if (usertype.equals("customer")) {
 			hm.putAll(UserHashMap.customer);
-		} else if (usertype.equals("retailer")) {
-			hm.putAll(UserHashMap.retailer);
-		} else if (usertype.equals("manager")) {
-			hm.putAll(UserHashMap.manager);
+		} else if (usertype.equals("storemanager")) {
+			hm.putAll(UserHashMap.storemanager);
+		} else if (usertype.equals("salesman")) {
+			hm.putAll(UserHashMap.salesman);
 		}
 		User user = hm.get(username());
 		return user;
@@ -186,21 +210,19 @@ public class Helper {
 
 	public ArrayList<OrderItem> getCustomerOrders(){
 		ArrayList<OrderItem> order = new ArrayList<OrderItem>();
-		if(OrdersHashMap.orders.containsKey(username()))
+		if(OrdersHashMap.orders.containsKey(username())) {
 			order= OrdersHashMap.orders.get(username());
+		}
 		return order;
 	}
 
-
-
 	public int CartCount(){
-		if(isLoggedin())
-		return getCustomerOrders().size();
-		return 0;
+		if(isLoggedin()) {
+			return getCustomerOrders().size();
+		} else {
+			return 0;
+		}
 	}
-
-
-
 
 	public void storeProduct(String name,String type,String maker, String acc){
 		if(!OrdersHashMap.orders.containsKey(username())){
@@ -210,15 +232,15 @@ public class Helper {
 
 		ArrayList<OrderItem> orderItems = OrdersHashMap.orders.get(username());
 
-		if(type.equals("consoles")){
+		if(type.toLowerCase().equals("consoles")){
 			Console console = null;
-			if(maker.equals("microsoft")){
+			if(maker.toLowerCase().equals("microsoft")){
 				console = ConsoleHashMap.microsoft.get(name);
 			}
-			else if(maker.equals("sony")){
+			else if(maker.toLowerCase().equals("sony")){
 				console = ConsoleHashMap.sony.get(name);
 			}
-			else if(maker.equals("nintendo")){
+			else if(maker.toLowerCase().equals("nintendo")){
 				console = ConsoleHashMap.nintendo.get(name);
 			}else{
 				HashMap<String, Console> hm = new HashMap<String, Console>();
@@ -226,20 +248,19 @@ public class Helper {
 				hm.putAll(ConsoleHashMap.sony);
 				hm.putAll(ConsoleHashMap.nintendo);
 				console = hm.get(name);
-
 			}
 			OrderItem orderitem = new OrderItem(console.getName(), console.getPrice(), console.getImage(), console.getRetailer());
 			orderItems.add(orderitem);
 		}
-		if(type.equals("games")){
+		if(type.toLowerCase().equals("games")){
 			Game game = null;
-			if(maker.equals("electronicArts")){
+			if(maker.toLowerCase().equals("electronicarts")){
 				game = GameHashMap.electronicArts.get(name);
 			}
-			else if(maker.equals("activision")){
+			else if(maker.toLowerCase().equals("activision")){
 				game = GameHashMap.activision.get(name);
 			}
-			else if(maker.equals("takeTwoInteractive")){
+			else if(maker.toLowerCase().equals("taketwointeractive")){
 				game = GameHashMap.takeTwoInteractive.get(name);
 			}else{
 				HashMap<String, Game> hm = new HashMap<String, Game>();
@@ -252,13 +273,13 @@ public class Helper {
 			orderItems.add(orderitem);
 		}
 
-		if(type.equals("tablets")){
+		if(type.toLowerCase().equals("tablets")){
 			Tablet tablet = null;
-			if (maker.equals("apple")) {
+			if (maker.toLowerCase().equals("apple")) {
 				tablet = TabletHashMap.apple.get(name);
-			} else if (maker.equals("microsoft")) {
+			} else if (maker.toLowerCase().equals("microsoft")) {
 				tablet = TabletHashMap.microsoft.get(name);
-			} else if (maker.equals("samsung")) {
+			} else if (maker.toLowerCase().equals("samsung")) {
 				tablet = TabletHashMap.samsung.get(name);
 			}else{
 				HashMap<String, Tablet> hm = new HashMap<String, Tablet>();
@@ -271,15 +292,15 @@ public class Helper {
 			orderItems.add(orderitem);
 		}
 
-		if(type.equals("accessories")){
+		if(type.toLowerCase().equals("accessories")){
 			Console console = null;
-			if(maker.equals("microsoft")){
+			if(maker.toLowerCase().equals("microsoft")){
 				console = ConsoleHashMap.microsoft.get(acc);
 			}
-			else if(maker.equals("sony")){
+			else if(maker.toLowerCase().equals("sony")){
 				console = ConsoleHashMap.sony.get(acc);
 			}
-			else if(maker.equals("nintendo")){
+			else if(maker.toLowerCase().equals("nintendo")){
 				console = ConsoleHashMap.nintendo.get(acc);
 			}
 

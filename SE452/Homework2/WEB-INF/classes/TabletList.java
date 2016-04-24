@@ -45,7 +45,7 @@ public class TabletList extends HttpServlet {
 		helper.prepareLayout();
 		helper.prepareHeader();
 		helper.prepareMenu();
-		String itemtemp = helper.getTemplate("shopping_item.html");
+		String itemtemp = helper.getTemplate("shopping_item2.html");
 		String content = "";
 		content += "<section id='content'>";
 		content += "	<h3>"+name+" Tablets</h3>";

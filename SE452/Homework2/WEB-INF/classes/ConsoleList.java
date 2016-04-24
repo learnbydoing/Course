@@ -16,24 +16,24 @@ public class ConsoleList extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 		String name = null;
-		String CategoryName = request.getParameter("maker");
+		String makerName = request.getParameter("maker");
+		makerName = makerName == null ? "" : makerName.toLowerCase();
 		HashMap<String, Console> hm = new HashMap<String, Console>();
-		if(CategoryName==null){
-			CategoryName = "";
+		if(makerName==null || makerName.isEmpty()){
 			hm.putAll(ConsoleHashMap.microsoft);
 			hm.putAll(ConsoleHashMap.sony);
 			hm.putAll(ConsoleHashMap.nintendo);
 			name = "";
 		}else{
-			if(CategoryName.equals("microsoft")){
+			if(makerName.equals("microsoft")){
 				hm.putAll(ConsoleHashMap.microsoft);
 				name = ConsoleHashMap.string_microsoft;
 			}
-			else if(CategoryName.equals("sony")){
+			else if(makerName.equals("sony")){
 				hm.putAll(ConsoleHashMap.sony);
 				name = ConsoleHashMap.string_sony;
 			}
-			else if(CategoryName.equals("nintendo")){
+			else if(makerName.equals("nintendo")){
 				hm.putAll(ConsoleHashMap.nintendo);
 				name = ConsoleHashMap.string_nintendo;
 			}
@@ -60,7 +60,7 @@ public class ConsoleList extends HttpServlet {
 								.replace("$newprice$", String.valueOf(console.getPrice()))
 								.replace("$name$", entry.getKey())
 								.replace("$type$", "consoles")
-								.replace("$maker$", CategoryName);
+								.replace("$maker$", console.getRetailer());
 			content += item;
 			if(i%3==0 || i == size) {
 				content += "</div>";

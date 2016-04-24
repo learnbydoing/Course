@@ -24,22 +24,20 @@ public class Login extends HttpServlet {
 		HashMap<String, User> hm = new HashMap<String, User>();
 		if (usertype.equals("customer")) {
 			hm.putAll(UserHashMap.customer);
-		} else if (usertype.equals("retailer")) {
-			hm.putAll(UserHashMap.retailer);
-		} else if (usertype.equals("manager")) {
-			hm.putAll(UserHashMap.manager);
+		} else if (usertype.equals("storemanager")) {
+			hm.putAll(UserHashMap.storemanager);
+		} else if (usertype.equals("salesman")) {
+			hm.putAll(UserHashMap.salesman);
 		}
 		User user = hm.get(username);
 		if(user!=null){
-		String user_password = user.getPassword();
-		if (password.equals(user_password)) {
-			HttpSession session = request.getSession(true);
-
-			session.setAttribute("username", user.getName());
-			session.setAttribute("usertype", user.getUsertype());
-
-			response.sendRedirect("Home");
-			return;
+			String user_password = user.getPassword();
+			if (password.equals(user_password)) {
+				HttpSession session = request.getSession(true);
+				session.setAttribute("username", user.getName());
+				session.setAttribute("usertype", user.getUsertype());
+				response.sendRedirect("Home");
+				return;
 			}
 		}
 		displayLogin(request, response, pw, true);

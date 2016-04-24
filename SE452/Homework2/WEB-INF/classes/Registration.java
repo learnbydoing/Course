@@ -37,10 +37,10 @@ public class Registration extends HttpServlet {
 			HashMap<String, User> hm = new HashMap<String, User>();
 			if (usertype.equals("customer")) {
 				hm.putAll(UserHashMap.customer);
-			} else if (usertype.equals("retailer")) {
-				hm.putAll(UserHashMap.retailer);
-			} else if (usertype.equals("manager")) {
-				hm.putAll(UserHashMap.manager);
+			} else if (usertype.equals("storemanager")) {
+				hm.putAll(UserHashMap.storemanager);
+			} else if (usertype.equals("salesman")) {
+				hm.putAll(UserHashMap.salesman);
 			}
 
 			if(hm.containsKey(username))
@@ -49,10 +49,10 @@ public class Registration extends HttpServlet {
 				User user = new User(username,password,usertype);
 				if (usertype.equals("customer")) {
 					UserHashMap.customer.put(username, user);
-				} else if (usertype.equals("retailer")) {
-					UserHashMap.retailer.put(username, user);
-				} else if (usertype.equals("manager")) {
-					UserHashMap.manager.put(username, user);
+				} else if (usertype.equals("storemanager")) {
+					UserHashMap.storemanager.put(username, user);
+				} else if (usertype.equals("salesman")) {
+					UserHashMap.salesman.put(username, user);
 				}
 				HttpSession session = request.getSession(true);
 				session.setAttribute("login_msg", "Your "+usertype+" account has been created. Please login");
@@ -74,7 +74,7 @@ public class Registration extends HttpServlet {
 
 	protected void displayRegistration(HttpServletRequest request,
 			HttpServletResponse response, PrintWriter pw, boolean error)
-			throws ServletException, IOException {		
+			throws ServletException, IOException {
 
 		Helper helper = new Helper(request,pw);
 		helper.prepareLayout();

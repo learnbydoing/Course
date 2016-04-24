@@ -18,35 +18,35 @@ public class GamesList extends HttpServlet {
 		PrintWriter pw = response.getWriter();
 
 		String name = null;
-		String CategoryName = request.getParameter("maker");
+		String makerName = request.getParameter("maker");
+		makerName = makerName == null ? "" : makerName.toLowerCase();
 		HashMap<String, Game> hm = new HashMap<String, Game>();
 
-		if(CategoryName==null){
-			CategoryName = "";
+		if(makerName==null || makerName.isEmpty()){
 			hm.putAll(GameHashMap.electronicArts);
 			hm.putAll(GameHashMap.activision);
 			hm.putAll(GameHashMap.takeTwoInteractive);
 			name = "";
 		}else{
-		if(CategoryName.equals("electronicArts")){
-			hm.putAll(GameHashMap.electronicArts);
-			name = GameHashMap.string_electronicArts;
-		}
-		else if(CategoryName.equals("activision")){
-			hm.putAll(GameHashMap.activision);
-			name = GameHashMap.string_activision;
-		}
-		else if(CategoryName.equals("takeTwoInteractive")){
-			hm.putAll(GameHashMap.takeTwoInteractive);
-			name = GameHashMap.string_takeTwoInteractive;
-		}
+			if(makerName.equals("electronicarts")){
+				hm.putAll(GameHashMap.electronicArts);
+				name = GameHashMap.string_electronicArts;
+			}
+			else if(makerName.equals("activision")){
+				hm.putAll(GameHashMap.activision);
+				name = GameHashMap.string_activision;
+			}
+			else if(makerName.equals("taketwointeractive")){
+				hm.putAll(GameHashMap.takeTwoInteractive);
+				name = GameHashMap.string_takeTwoInteractive;
+			}
 		}
 
 		Helper helper = new Helper(request,pw);
 		helper.prepareLayout();
 		helper.prepareHeader();
 		helper.prepareMenu();
-		String itemtemp = helper.getTemplate("shopping_item.html");
+		String itemtemp = helper.getTemplate("shopping_item2.html");
 		String content = "";
 		content += "<section id='content'>";
 		content += "	<h3>"+name+" Games</h3>";
@@ -63,7 +63,7 @@ public class GamesList extends HttpServlet {
 								.replace("$newprice$", String.valueOf(game.getPrice()))
 								.replace("$name$", entry.getKey())
 								.replace("$type$", "games")
-								.replace("$maker$", CategoryName);
+								.replace("$maker$", makerName);
 			content += item;
 			if(i%3==0 || i == size) {
 				content += "</div>";

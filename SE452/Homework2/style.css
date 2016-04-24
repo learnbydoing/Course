@@ -13,6 +13,15 @@ body {
 	margin:0;
 	padding:0;
 }
+.account {
+	float: right;
+}
+.account ul li{
+  display: inline;
+}
+.account a {
+	text-decoration: none;
+}
 .page_header_main {
   padding: 0.5em 0;
   margin-bottom: 0;
@@ -25,9 +34,8 @@ body {
 	height: 80px;
 }
 .header_right {
-	margin-top: 30px;
   float: right;
-  width: 26%;
+  width: 36%;
 }
 .header_search {
 	position: relative;
@@ -102,7 +110,7 @@ body {
 	text-align:center;
 }
 .special_box {
-	border: 1px solid #00bfff;
+	border: 1px solid #e9e9e9;
 }
 .special_grid_col:hover .special_box{
 	/*border: 1px solid #f54d56;*/
