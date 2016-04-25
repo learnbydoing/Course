@@ -1,5 +1,3 @@
-
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -15,27 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 public class AccessoryList extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 
 		String makerName = request.getParameter("maker");
-		makerName = makerName == null ? "" : makerName.toLowerCase();
+		makerName = makerName == null ? "" : makerName;
 		String consoleName = request.getParameter("console");
-		HashMap<String, Console> hm = new HashMap<String, Console>();
-		if(makerName.equals("microsoft")){
-			hm.putAll(ConsoleHashMap.microsoft);
-		}
-		else if(makerName.equals("sony")){
-			hm.putAll(ConsoleHashMap.sony);
-		}
-		else if(makerName.equals("nintendo")){
-			hm.putAll(ConsoleHashMap.nintendo);
-		}
-
-		Console console = hm.get(consoleName);
 
 		Helper helper = new Helper(request,pw);
+		HashMap<String, Console> hm = helper.getConsoles(makerName);
+		Console console = hm.get(consoleName);
 		helper.prepareLayout();
 		helper.prepareHeader();
 		helper.prepareMenu();
@@ -43,7 +30,7 @@ public class AccessoryList extends HttpServlet {
 		String content = "";
 		content += "<section id='content'>";
 		content += "	<h3>"+console.getName()+": Accessories</h3>";
-		int i = 1; int size= hm.size();
+		int i = 1; int size= console.getAccessories().size();
 		for(Map.Entry<String, Accessory> entry : console.getAccessories().entrySet()){
 			Accessory accessory = entry.getValue();
 			if(i%3==1) {

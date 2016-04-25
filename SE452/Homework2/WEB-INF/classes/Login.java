@@ -21,14 +21,8 @@ public class Login extends HttpServlet {
 		String password = request.getParameter("password");
 		String usertype = request.getParameter("usertype");
 
-		HashMap<String, User> hm = new HashMap<String, User>();
-		if (usertype.equals("customer")) {
-			hm.putAll(UserHashMap.customer);
-		} else if (usertype.equals("storemanager")) {
-			hm.putAll(UserHashMap.storemanager);
-		} else if (usertype.equals("salesman")) {
-			hm.putAll(UserHashMap.salesman);
-		}
+		Helper helper = new Helper(request,pw);
+		HashMap<String, User> hm = helper.getUsers(usertype);
 		User user = hm.get(username);
 		if(user!=null){
 			String user_password = user.getPassword();

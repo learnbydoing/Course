@@ -19,37 +19,17 @@ public class GamesList extends HttpServlet {
 
 		String name = null;
 		String makerName = request.getParameter("maker");
-		makerName = makerName == null ? "" : makerName.toLowerCase();
-		HashMap<String, Game> hm = new HashMap<String, Game>();
-
-		if(makerName==null || makerName.isEmpty()){
-			hm.putAll(GameHashMap.electronicArts);
-			hm.putAll(GameHashMap.activision);
-			hm.putAll(GameHashMap.takeTwoInteractive);
-			name = "";
-		}else{
-			if(makerName.equals("electronicarts")){
-				hm.putAll(GameHashMap.electronicArts);
-				name = GameHashMap.string_electronicArts;
-			}
-			else if(makerName.equals("activision")){
-				hm.putAll(GameHashMap.activision);
-				name = GameHashMap.string_activision;
-			}
-			else if(makerName.equals("taketwointeractive")){
-				hm.putAll(GameHashMap.takeTwoInteractive);
-				name = GameHashMap.string_takeTwoInteractive;
-			}
-		}
+		makerName = makerName == null ? "" : makerName;
 
 		Helper helper = new Helper(request,pw);
+		HashMap<String, Game> hm = helper.getGames(makerName);
 		helper.prepareLayout();
 		helper.prepareHeader();
 		helper.prepareMenu();
 		String itemtemp = helper.getTemplate("shopping_item2.html");
 		String content = "";
 		content += "<section id='content'>";
-		content += "	<h3>"+name+" Games</h3>";
+		content += "	<h3>"+makerName+" Games</h3>";
 		int i = 1; int size= hm.size();
 		for(Map.Entry<String, Game> entry : hm.entrySet()){
 			Game game = entry.getValue();

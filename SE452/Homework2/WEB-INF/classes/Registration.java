@@ -28,32 +28,19 @@ public class Registration extends HttpServlet {
 		String password = request.getParameter("password");
 		String repassword = request.getParameter("repassword");
 		String usertype = "customer";
-		if(!helper.isLoggedin())
+		if(!helper.isLoggedin()) {
 			usertype = request.getParameter("usertype");
+		}
 
 		if(!password.equals(repassword)){
 			error_msg = "Passwords doesn't match!";
 		}else{
-			HashMap<String, User> hm = new HashMap<String, User>();
-			if (usertype.equals("customer")) {
-				hm.putAll(UserHashMap.customer);
-			} else if (usertype.equals("storemanager")) {
-				hm.putAll(UserHashMap.storemanager);
-			} else if (usertype.equals("salesman")) {
-				hm.putAll(UserHashMap.salesman);
-			}
-
+			HashMap<String, User> hm = helper.getUsers(usertype);
 			if(hm.containsKey(username))
 				error_msg = "Username already exist as " + usertype;
 			else{
 				User user = new User(username,password,usertype);
-				if (usertype.equals("customer")) {
-					UserHashMap.customer.put(username, user);
-				} else if (usertype.equals("storemanager")) {
-					UserHashMap.storemanager.put(username, user);
-				} else if (usertype.equals("salesman")) {
-					UserHashMap.salesman.put(username, user);
-				}
+				hm.put(username, user);
 				HttpSession session = request.getSession(true);
 				session.setAttribute("login_msg", "Your "+usertype+" account has been created. Please login");
 				if(!helper.isLoggedin()){

@@ -1,26 +1,37 @@
-
-
 public class Game {
+	private String key;
+	private String maker;
 	private String name;
 	private double price;
 	private String image;
 	private String retailer;
 	private String condition;
 	private double discount;
-	
-	public Game(String name, double price, String image, String retailer,String condition,double discount){
-		this.name=name;
-		this.price=price;
-		this.image=image;
-		this.condition=condition;
+
+	public Game(String key, String maker, String name, double price, String image, String retailer,String condition,double discount){
+		this.key = key;
+		this.maker = maker;
+		this.name = name;
+		this.price = price;
+		this.image = image;
+		this.condition = condition;
 		this.discount = discount;
 		this.retailer = retailer;
 	}
-	
+
 	public Game(){
-		
+
 	}
-	
+
+	public String getKey() {
+		return key;
+	}
+	public String getMaker() {
+		return maker;
+	}
+	public void setMaker(String maker) {
+		this.maker = maker;
+	}
 	public String getName() {
 		return name;
 	}
@@ -61,5 +72,5 @@ public class Game {
 	public void setDiscount(double discount) {
 		this.discount = discount;
 	}
-	
+
 }

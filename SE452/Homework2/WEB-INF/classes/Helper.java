@@ -66,10 +66,18 @@ public class Helper {
 		String menuitem = "";
 		if (session.getAttribute("usertype")!=null){
 			String usertype = session.getAttribute("usertype").toString();
-			if (usertype.toLowerCase().equals("storemanager")) {
+			if (usertype.toLowerCase().equals(UserHashMap.CONST_TYPE_STOREMANAGER)) {
 				menuitem = menuitem
 						+ "<ul>"
-						+ "	<li><a href='Product'>Product</a></li>"
+						+ "	<li><a href='AccessoryMgn'>Accessory</a></li>"
+						+ "	<li><a href='GameMgn'>Game</a></li>"
+						+ "	<li><a href='Account'>Account</a></li>"
+						+ "	<li><a href='Cart'>Cart("+CartCount()+")</a></li>"
+						+ "</ul>";
+			} else if (usertype.toLowerCase().equals(UserHashMap.CONST_TYPE_SALESMAN)) {
+				menuitem = menuitem
+						+ "<ul>"
+						+ "	<li><a href='UserMgn'>User</a></li>"
 						+ "	<li><a href='Account'>Account</a></li>"
 						+ "	<li><a href='Cart'>Cart("+CartCount()+")</a></li>"
 						+ "</ul>";
@@ -197,12 +205,12 @@ public class Helper {
 	public User getUser(){
 		String usertype = usertype();
 		HashMap<String, User> hm = new HashMap<String, User>();
-		if (usertype.equals("customer")) {
-			hm.putAll(UserHashMap.customer);
-		} else if (usertype.equals("storemanager")) {
-			hm.putAll(UserHashMap.storemanager);
-		} else if (usertype.equals("salesman")) {
-			hm.putAll(UserHashMap.salesman);
+		if (usertype.equals(UserHashMap.CONST_TYPE_CUSTOMER)) {
+			hm.putAll(UserHashMap.Customer);
+		} else if (usertype.equals(UserHashMap.CONST_TYPE_STOREMANAGER)) {
+			hm.putAll(UserHashMap.Storemanager);
+		} else if (usertype.equals(UserHashMap.CONST_TYPE_SALESMAN)) {
+			hm.putAll(UserHashMap.Salesman);
 		}
 		User user = hm.get(username());
 		return user;
@@ -235,18 +243,18 @@ public class Helper {
 		if(type.toLowerCase().equals("consoles")){
 			Console console = null;
 			if(maker.toLowerCase().equals("microsoft")){
-				console = ConsoleHashMap.microsoft.get(name);
+				console = ConsoleHashMap.Microsoft.get(name);
 			}
 			else if(maker.toLowerCase().equals("sony")){
-				console = ConsoleHashMap.sony.get(name);
+				console = ConsoleHashMap.Sony.get(name);
 			}
 			else if(maker.toLowerCase().equals("nintendo")){
-				console = ConsoleHashMap.nintendo.get(name);
+				console = ConsoleHashMap.Nintendo.get(name);
 			}else{
 				HashMap<String, Console> hm = new HashMap<String, Console>();
-				hm.putAll(ConsoleHashMap.microsoft);
-				hm.putAll(ConsoleHashMap.sony);
-				hm.putAll(ConsoleHashMap.nintendo);
+				hm.putAll(ConsoleHashMap.Microsoft);
+				hm.putAll(ConsoleHashMap.Sony);
+				hm.putAll(ConsoleHashMap.Nintendo);
 				console = hm.get(name);
 			}
 			OrderItem orderitem = new OrderItem(console.getName(), console.getPrice(), console.getImage(), console.getRetailer());
@@ -255,18 +263,18 @@ public class Helper {
 		if(type.toLowerCase().equals("games")){
 			Game game = null;
 			if(maker.toLowerCase().equals("electronicarts")){
-				game = GameHashMap.electronicArts.get(name);
+				game = GameHashMap.ElectronicArts.get(name);
 			}
 			else if(maker.toLowerCase().equals("activision")){
-				game = GameHashMap.activision.get(name);
+				game = GameHashMap.Activision.get(name);
 			}
 			else if(maker.toLowerCase().equals("taketwointeractive")){
-				game = GameHashMap.takeTwoInteractive.get(name);
+				game = GameHashMap.TakeTwoInteractive.get(name);
 			}else{
 				HashMap<String, Game> hm = new HashMap<String, Game>();
-				hm.putAll(GameHashMap.electronicArts);
-				hm.putAll(GameHashMap.activision);
-				hm.putAll(GameHashMap.takeTwoInteractive);
+				hm.putAll(GameHashMap.ElectronicArts);
+				hm.putAll(GameHashMap.Activision);
+				hm.putAll(GameHashMap.TakeTwoInteractive);
 				game = hm.get(name);
 			}
 			OrderItem orderitem = new OrderItem(game.getName(), game.getPrice(), game.getImage(), game.getRetailer());
@@ -295,13 +303,13 @@ public class Helper {
 		if(type.toLowerCase().equals("accessories")){
 			Console console = null;
 			if(maker.toLowerCase().equals("microsoft")){
-				console = ConsoleHashMap.microsoft.get(acc);
+				console = ConsoleHashMap.Microsoft.get(acc);
 			}
 			else if(maker.toLowerCase().equals("sony")){
-				console = ConsoleHashMap.sony.get(acc);
+				console = ConsoleHashMap.Sony.get(acc);
 			}
 			else if(maker.toLowerCase().equals("nintendo")){
-				console = ConsoleHashMap.nintendo.get(acc);
+				console = ConsoleHashMap.Nintendo.get(acc);
 			}
 
 			Accessory accessory = console.getAccessories().get(name);
@@ -317,19 +325,93 @@ public class Helper {
 		return dateFormat.format(date).toString();
 	}
 
+	public Accessory getAccessory(String manufacturer, String console, String accessory){
+		HashMap<String, Console> hm = getConsoles(manufacturer);
+		if (hm == null) {
+			return null;
+		}
+		Console conobj = hm.get(console);
+		if (conobj==null) {
+			return null;
+		}
+
+		HashMap<String, Accessory> map = conobj.getAccessories();
+		if (map == null || map.size()==0) {
+			return null;
+		}
+		return map.get(accessory);
+	}
+
+	public Console getConsole(String manufacturer, String console){
+		HashMap<String, Console> hmconsole = getConsoles(manufacturer);
+		if (hmconsole==null || hmconsole.size()==0) {
+			return null;
+		} else {
+			return hmconsole.get(console);
+		}
+	}
+
+	public HashMap<String, Console> getConsoles(String manufacturer){
+		HashMap<String, Console> hm = new HashMap<String, Console>();
+		if (manufacturer == null || manufacturer.isEmpty()) {
+			hm = getConsoles();
+		} else {
+			switch(manufacturer.toLowerCase()) {
+				case ConsoleHashMap.CONST_MICROSOFT_LOWER:
+					hm.putAll(ConsoleHashMap.Microsoft);
+					break;
+				case ConsoleHashMap.CONST_SONY_LOWER:
+					hm.putAll(ConsoleHashMap.Sony);
+					break;
+				case ConsoleHashMap.CONST_NINTENDO_LOWER:
+					hm.putAll(ConsoleHashMap.Nintendo);
+					break;
+			}
+		}
+		return hm;
+	}
+
 	public HashMap<String, Console> getConsoles(){
 			HashMap<String, Console> hm = new HashMap<String, Console>();
-			hm.putAll(ConsoleHashMap.microsoft);
-			hm.putAll(ConsoleHashMap.sony);
-			hm.putAll(ConsoleHashMap.nintendo);
+			hm.putAll(ConsoleHashMap.Microsoft);
+			hm.putAll(ConsoleHashMap.Sony);
+			hm.putAll(ConsoleHashMap.Nintendo);
 			return hm;
+	}
+
+	public Game getGame(String maker, String key) {
+		HashMap<String, Game> hm = getGames(maker);
+		if (hm==null||hm.size()==0){
+			return null;
+		} else {
+			return hm.get(key);
+		}
+	}
+	public HashMap<String, Game> getGames(String maker){
+		HashMap<String, Game> hm = new HashMap<String, Game>();
+		if (maker == null || maker.isEmpty()) {
+			hm = getGames();
+		} else {
+			switch(maker.toLowerCase()) {
+				case GameHashMap.CONST_ELECTRONICARTS_LOWER:
+					hm = GameHashMap.ElectronicArts;
+					break;
+				case GameHashMap.CONST_ACTIVISION_LOWER:
+					hm = GameHashMap.Activision;
+					break;
+				case GameHashMap.CONST_TAKETWOINTERACTIVE_LOWER:
+					hm = GameHashMap.TakeTwoInteractive;
+					break;
+			}
+		}
+		return hm;
 	}
 
 	public HashMap<String, Game> getGames(){
 		HashMap<String, Game> hm = new HashMap<String, Game>();
-			hm.putAll(GameHashMap.electronicArts);
-			hm.putAll(GameHashMap.activision);
-			hm.putAll(GameHashMap.takeTwoInteractive);
+			hm.putAll(GameHashMap.ElectronicArts);
+			hm.putAll(GameHashMap.Activision);
+			hm.putAll(GameHashMap.TakeTwoInteractive);
 			return hm;
 	}
 
@@ -366,6 +448,40 @@ public class Helper {
 		return ar;
 	}
 
+	public User getUser(String usertype, String name) {
+		HashMap<String, User> hm = getUsers(usertype);
+		if (hm==null||hm.size()==0){
+			return null;
+		} else {
+			return hm.get(name);
+		}
+	}
 
+	public HashMap<String, User> getUsers(String usertype){
+		HashMap<String, User> hm = new HashMap<String, User>();
+		if (usertype == null || usertype.isEmpty()) {
+			hm = getUsers();
+		} else {
+			switch(usertype.toLowerCase()) {
+				case UserHashMap.CONST_TYPE_CUSTOMER:
+					hm = UserHashMap.Customer;
+					break;
+				case UserHashMap.CONST_TYPE_STOREMANAGER:
+					hm = UserHashMap.Storemanager;
+					break;
+				case UserHashMap.CONST_TYPE_SALESMAN:
+					hm = UserHashMap.Salesman;
+					break;
+			}
+		}
+		return hm;
+	}
 
+	public HashMap<String, User> getUsers(){
+		HashMap<String, User> hm = new HashMap<String, User>();
+			hm.putAll(UserHashMap.Customer);
+			hm.putAll(UserHashMap.Storemanager);
+			hm.putAll(UserHashMap.Salesman);
+			return hm;
+	}
 }

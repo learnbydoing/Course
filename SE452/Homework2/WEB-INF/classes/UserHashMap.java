@@ -1,22 +1,26 @@
 import java.util.HashMap;
 
 public class UserHashMap {
-	public static HashMap<String, User> customer = new HashMap<String, User>();
-	public static HashMap<String, User> storemanager = new HashMap<String, User>();
-	public static HashMap<String, User> salesman = new HashMap<String, User>();
+	public static HashMap<String, User> Customer = new HashMap<String, User>();
+	public static HashMap<String, User> Storemanager = new HashMap<String, User>();
+	public static HashMap<String, User> Salesman = new HashMap<String, User>();
+
+	public static final String CONST_TYPE_CUSTOMER = "customer";
+	public static final String CONST_TYPE_STOREMANAGER = "storemanager";
+	public static final String CONST_TYPE_SALESMAN = "salesman";
 
 	public UserHashMap(){
-		if(customer.isEmpty()){
-			User user = new User("customer","customer","customer");
-			customer.put("customer",user);
+		if(Customer.isEmpty()){
+			User user = new User("customer","customer", CONST_TYPE_CUSTOMER);
+			Customer.put("customer",user);
 		}
-		if(storemanager.isEmpty()){
-			User user = new User("storemanager","storemanager","storemanager");
-			storemanager.put("storemanager",user);
+		if(Storemanager.isEmpty()){
+			User user = new User("storemanager","storemanager", CONST_TYPE_STOREMANAGER);
+			Storemanager.put("storemanager",user);
 		}
-		if(salesman.isEmpty()){
-			User user = new User("salesman","salesman","salesman");
-			salesman.put("salesman",user);
+		if(Salesman.isEmpty()){
+			User user = new User("salesman","salesman", CONST_TYPE_SALESMAN);
+			Salesman.put("salesman",user);
 		}
 	}
 }
