@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Game Speed - By Rong</title>
+<link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+<body>
+<div id="container">
+	<header>
+		<div class="header_logo">
+			<table>
+				<tr>
+					<td><img src="images/site/GameON.jpg" alt="" /></td>
+					<td><h1><a href="/">Game <span>Speed</span></a></h1></td>
+				</tr>
+			</table>
+		</div>
+		<div class="header_right">
+			<div class="account">
+				<ul>
+					<li>Hello Johnny</li>
+					<li><a href="Logout">Logout</a></li>
+					<li><a href='registration.html'>Register</a></li>
+					<li><a href='login.html'>Login</a></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+			<div class="header_search">
+				<form>
+					<input type="text" value="" placeholder="search...">
+					<input type="submit" value="">
+				</form>
+			</div>
+		</div>
+	</header>
+	<div class="clear"></div>
+	<div>
+		<nav>
+			<div style="float: left; ">
+			<ul>
+				<li class="start selected"><a href="index.html">Home</a></li>
+				<li class=""><a href="consolelist.html">Consoles</a></li>
+				<li><a href="#">Games</a></li>
+				<li><a href="#">Tablets</a></li>
+				<li class="end"><a href="examples.html">Trending</a></li>
+			</ul>
+		</div>
+			<div id="menu" style="float: right;">
+				<ul>
+					<li><a href='products.html'>Product</a></li>
+					<li><a href='registration.html'>Account</a></li>
+					<li><a href='cart.html'>Cart(2)</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<div id="body">
+		<section id="content">
+			<div>
+				<h3>Add Product</h3>
+				<h3 style='color:red'>Discount must be number!</h3>
+				<form action="AddProduct" method="Post">
+					<table style='width:50%'>
+						<tr><td><h5>Console</h5></td><td><select name='console' class='input'><option value='microsoft' selected>Microsoft</option><option value='sony'>Sony</option><option value='nintendo'>Nintendo</option></select></td></tr>
+						<tr><td><h5>Name:</h5></td><td><input type='text' name='name' value='' class='input' required /></td></tr>
+						<tr><td><h5>Price:</h5></td><td><input type='text' name='price' value='' class='input' required /></td></tr>
+						<tr><td><h5>Image:</h5></td><td><input type='text' name='image' value='' class='input' required /></td></tr>
+						<tr><td><h5>Retailer:</h5></td><td><input type='text' name='price' value='' class='input' required /></td></tr>
+						<tr><td><h5>Condition:</h5></td><td><input type='text' name='condition' value='' class='input' required /></td></tr>
+						<tr><td><h5>Discount:</h5></td><td><input type='text' name='discount' value='' class='input' required /></td></tr>
+						<tr><td colspan="2"><input name="create" class="formbutton" value="Create" type="submit" /></td></tr>
+					</table>
+				</form>
+			</div>
+		</section>
+		<aside class="sidebar">
+			<ul>
+				<li>
+					<h4>Consoles</h4>
+					<ul>
+						<li id="first"><a href="ConsoleList?maker=microsoft">Microsoft</a></li>
+						<li><a href="ConsoleList?maker=sony">Sony</a></li>
+						<li><a href="ConsoleList?maker=nintendo">Nintendo</a></li>
+					</ul>
+				</li>
+				<li>
+					<h4>Games</h4>
+					<ul>
+						<li id="first"><a href="GamesList?maker=electronicArts">Electronic Arts</a></li>
+						<li><a href="GamesList?maker=activision">Activision</a></li>
+						<li><a href="GamesList?maker=takeTwoInteractive">Take-Two Interactive</a></li>
+					</ul>
+				</li>
+				<li>
+					<h4>Tablets</h4>
+					<ul>
+						<li id="first"><a href="TabletList?maker=apple">Apple</a></li>
+						<li><a href="TabletList?maker=microsoft">Microsoft</a></li>
+						<li><a href="TabletList?maker=samsung">Samsung</a></li>
+					</ul>
+				</li>
+			</ul>
+		</aside>
+		<div class="clear"></div>
+	</div>
+	<footer>
+		<div class="footer-bottom">
+			<p>&copy; Game Speed 2016. All Rights Reserved.</p>
+		</div>
+	</footer>
+</div>
+</body>
+</html>

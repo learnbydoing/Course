@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Game Speed - By Rong</title>
+<link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+<body>
+<div id="container">
+	<header>
+		<div class="header_logo">
+			<table>
+				<tr>
+					<td><img src="images/site/GameON.jpg" alt="" /></td>
+					<td><h1><a href="/">Game <span>Speed</span></a></h1></td>
+				</tr>
+			</table>
+		</div>
+		<div class="header_right">
+			<div class="account">
+				<ul>
+					<li>Hello Johnny</li>
+					<li><a href="Logout">Logout</a></li>
+					<li><a href='registration.html'>Register</a></li>
+					<li><a href='login.html'>Login</a></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+			<div class="header_search">
+				<form>
+					<input type="text" value="" placeholder="search...">
+					<input type="submit" value="">
+				</form>
+			</div>
+		</div>
+	</header>
+	<div class="clear"></div>
+	<div>
+		<nav>
+			<div style="float: left; ">
+			<ul>
+				<li class="start selected"><a href="index.html">Home</a></li>
+				<li class=""><a href="consolelist.html">Consoles</a></li>
+				<li><a href="#">Games</a></li>
+				<li><a href="#">Tablets</a></li>
+				<li class="end"><a href="examples.html">Trending</a></li>
+			</ul>
+		</div>
+			<div id="menu" style="float: right;">
+				<ul>
+					<li><a href='products.html'>Product</a></li>
+					<li><a href='registration.html'>Account</a></li>
+					<li><a href='cart.html'>Cart(2)</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<div id="body">
+		<section id="content">
+			<div class="post">
+				<form action="Login" method="get">
+					<table style='width:50%'>
+						<tr><td><h5>User Name:</h5></td><td><input type='text' name='username' value='' class='input' required /></td></tr>
+						<tr><td><h5>Password:</h5></td><td><input type='password' name='password' value='' class='input' required /></td></tr>
+						<tr><td><h5>Re-Password:</h5></td><td><input type='password' name='repassword' value='' class='input' required /></td></tr>
+						<tr><td><h5>User Type</h5></td><td><select name='usertype' class='input'><option value='customer' selected>Customer</option><option value='retailer'>Store Manager</option><option value='manager'>Salesman</option></select></td></tr>
+						<tr><td colspan="2"><input name="register" class="formbutton" value="Register" type="submit" /></td></tr>
+					</table>
+				</form>
+			</div>
+		</section>
+		<div class="clear"></div>
+	</div>
+	<footer>
+		<div class="footer-bottom">
+			<p>&copy; Game Speed 2016. All Rights Reserved.</p>
+		</div>
+	</footer>
+</div>
+</body>
+</html>
