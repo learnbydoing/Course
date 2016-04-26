@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TV Plan</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="tvplan">
+            <h2>TV plan</h2>
+            <div class="item">
+                <h5>Basic - 50 Channels</h5>
+                <h5>$48.99</h5>
+                <form action='Cart' method='Post' >
+                    <input type='hidden' name='id' value='tv1'>
+                    <input type='hidden' name='type' value='1'>
+                    <input type='submit' value='Add to Cart'></input>
+                </form>
+            </div>
+            <div class="item">
+                <h5>BasicPlus - 100 Channels</h5>
+                <h5>$98.99</h5>
+                <form action='Cart' method='Post' >
+                    <input type='hidden' name='id' value='tv2'>
+                    <input type='hidden' name='type' value='1'>
+                    <input type='submit' value='Add to Cart'></input>
+                </form>
+            </div>
+            <div class="item">
+                <h5>Ultimate - 200 Channels</h5>
+                <h5>$138.99</h5>
+                <form action='Cart' method='Post' >
+                    <input type='hidden' name='id' value='tv3'>
+                    <input type='hidden' name='type' value='1'>
+                    <input type='submit' value='Add to Cart'></input>
+                </form>
+            </div>
+        </div>
+        <div class="internetplan">
+            <h2>Internet plan</h2>
+            <div class="item">
+                <h5>SpeedLane - 20/5 Mbps</h5>
+                <h5>$56.49</h5>
+                <form action='Cart' method='Post' >
+                    <input type='hidden' name='id' value='net1'>
+                    <input type='hidden' name='type' value='2'>
+                    <input type='submit' value='Add to Cart'></input>
+                </form>
+            </div>
+            <div class="item">
+                <h5>LightLane - 50/10 MBPS</h5>
+                <h5>$79.99</h5>
+                <form action='Cart' method='Post' >
+                    <input type='hidden' name='id' value='net2'>
+                    <input type='hidden' name='type' value='2'>
+                    <input type='submit' value='Add to Cart'></input>
+                </form>
+            </div>            
+        </div>
+        <div class="phoneline">
+            <h2>Phone Line</h2>
+            <div class="item">
+                <h5>Basic – 1000 calls</h5>
+                <h5>$35.99</h5>
+                <form action='Cart' method='Post' >
+                    <input type='hidden' name='id' value='phone1'>
+                    <input type='hidden' name='type' value='3'>
+                    <input type='submit' value='Add to Cart'></input>
+                </form>
+            </div>
+            <div class="item">
+                <h5>Freedom – unlimited calls</h5>
+                <h5>$69.09</h5>
+                <form action='Cart' method='Post' >
+                    <input type='hidden' name='id' value='phone2'>
+                    <input type='hidden' name='type' value='3'>
+                    <input type='submit' value='Add to Cart'></input>
+                </form>
+            </div>            
+        </div>
+    </body>
+</html>
