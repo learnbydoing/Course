@@ -15,17 +15,16 @@ public class UserDel extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
-        String errmsg = "";
         String usertype = request.getParameter("usertype");
         String name = request.getParameter("name");
 
         PrintWriter pw = response.getWriter();
         Helper helper = new Helper(request,pw);
-        HashMap<String, User> userlist = helper.getUsers(usertype);
-        if (userlist==null||userlist.size() == 0) {
-            errmsg = "<h3 style='color:red'>No User found!</h3>";
+        HashMap<String, User> hm = helper.getUsers();
+        if (hm==null||hm.size() == 0) {
+            error_msg = "<h3 style='color:red'>No User found!</h3>";
         } else {
-            userlist.remove(name);
+            hm.remove(name);
         }
         response.sendRedirect("UserMgn");
     }

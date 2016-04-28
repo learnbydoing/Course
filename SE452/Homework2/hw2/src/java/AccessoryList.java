@@ -41,8 +41,9 @@ public class AccessoryList extends HttpServlet {
                        .replace("$image$", accessory.getImage())
                        .replace("$oldprice$", String.valueOf(accessory.getPrice()))
                        .replace("$newprice$", String.valueOf(accessory.getPrice()))
-                       .replace("$name$", entry.getKey())
-                       .replace("$type$", "accessories")
+                       .replace("$id$", accessory.getKey())
+                       .replace("$name$", accessory.getName())
+                       .replace("$type$", "1")
                        .replace("$maker$", makerName)
                        .replace("$access$", consoleName);
             content += item;

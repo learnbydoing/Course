@@ -43,7 +43,7 @@ public class UserEdit extends HttpServlet {
             return;
         }
 
-        HashMap<String, User> userlist = helper.getUsers(usertype);
+        HashMap<String, User> userlist = helper.getUsers();
         User userobj = userlist.get(name);
         if (userobj == null) {
             error_msg = "User ["+name+"] does not exist!";
@@ -99,7 +99,7 @@ public class UserEdit extends HttpServlet {
         }
         strOptionlist += "</select></td></tr>";
 
-        User userobj = helper.getUser(usertype, name);
+        User userobj = helper.getUser(name);
         helper.prepareLayout();
         helper.prepareHeader();
         helper.prepareMenu();

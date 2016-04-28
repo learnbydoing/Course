@@ -1,8 +1,8 @@
-public class OrderItem {
+public class CartItem {
     private ProductItem item;
     private int quantity;
 
-    public OrderItem(ProductItem item) {
+    public CartItem(ProductItem item) {
         setItem(item);
         setQuantity(1);
     }

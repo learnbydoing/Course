@@ -33,11 +33,11 @@ public class Registration extends HttpServlet {
         }
 
         if(!password.equals(repassword)){
-            error_msg = "Passwords doesn't match!";
+            error_msg = "Password and Re-Password doesn't match!";
         } else {
-            HashMap<String, User> hm = helper.getUsers(usertype);
+            HashMap<String, User> hm = helper.getUsers();
             if(hm.containsKey(username)) {
-                error_msg = "Username already exist as " + usertype;
+                error_msg = "Username ["+username+"] already exist as " + usertype;
             } else {
                 User user = new User(username,password,usertype);
                 hm.put(username, user);

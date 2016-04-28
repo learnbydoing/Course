@@ -44,10 +44,8 @@ public class UserAdd extends HttpServlet {
             return;
         }
 
-        HashMap<String, User> hm = helper.getUsers(usertype);
-        if (hm==null) {
-                error_msg = "No such user type ["+usertype+"]!";
-        } else if(hm.containsKey(name)) {
+        HashMap<String, User> hm = helper.getUsers();
+        if(hm.containsKey(name)) {
             error_msg = "User ["+name+"] already exist!";
         } else{
             User ur = new User(name, password, usertype);

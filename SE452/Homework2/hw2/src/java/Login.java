@@ -21,11 +21,11 @@ public class Login extends HttpServlet {
         String usertype = request.getParameter("usertype");
 
         Helper helper = new Helper(request,pw);
-        HashMap<String, User> hm = helper.getUsers(usertype);
-        User user = hm.get(username);
+        User user = helper.getUser(username);
         if(user!=null){
             String user_password = user.getPassword();
-            if (password.equals(user_password)) {
+            String user_usertype = user.getUsertype();
+            if (password.equals(user_password)&&usertype.equals(user_usertype)) {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("username", user.getName());
                 session.setAttribute("usertype", user.getUsertype());
@@ -54,7 +54,7 @@ public class Login extends HttpServlet {
         helper.prepareMenu();
         String errmsg = "";
         if (error) {
-            errmsg = "<h3 style='color:red'>Please check your username, password and user type!</h3>";
+            errmsg = "<h3 style='color:red'>Login failed! <br>Please check your username, password and user type!</h3>";
         }
         HttpSession session = request.getSession(true);
         if(session.getAttribute("login_msg")!=null){

@@ -40,8 +40,9 @@ public class GamesList extends HttpServlet {
                        .replace("$image$", game.getImage())
                        .replace("$oldprice$", String.valueOf(game.getPrice()))
                        .replace("$newprice$", String.valueOf(game.getPrice()))
-                       .replace("$name$", entry.getKey())
-                       .replace("$type$", "games")
+                       .replace("$id$", game.getKey())
+                       .replace("$name$", game.getName())
+                       .replace("$type$", "2")
                        .replace("$maker$", makerName);
             content += item;
             if(i%3==0 || i == size) {

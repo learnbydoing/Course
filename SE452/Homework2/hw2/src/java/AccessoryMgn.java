@@ -62,7 +62,7 @@ public class AccessoryMgn extends HttpServlet {
                     content += "</td>";
                     content += "</tr>";
                     i++;
-            }
+                }
             }
             content += "</table>";
         } else {
