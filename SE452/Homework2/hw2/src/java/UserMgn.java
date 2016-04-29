@@ -29,13 +29,13 @@ public class UserMgn extends HttpServlet {
         Helper helper = new Helper(request,pw);
         if(!helper.isLoggedin()){
             HttpSession session = request.getSession(true);
-            session.setAttribute("login_msg", "Please login to manage user!");
+            session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
             response.sendRedirect("Login");
             return;
         }
         String usertype = helper.usertype();
         String errmsg = "";
-        if (usertype==null || !usertype.equals(UserHashMap.CONST_TYPE_SALESMAN)) {
+        if (usertype==null || !usertype.equals(UserHashMap.CONST_TYPE_SALESMAN_LOWER)) {
             errmsg = "You have no authorization to manage user!";
         }
 
@@ -56,7 +56,7 @@ public class UserMgn extends HttpServlet {
                 content += "<td>"+i+"</td><td>"+user.getName()+"</td><td>"+user.getUsertype()+"</td>";
                 content += "<td>";
                 content += "  <span style='padding-right:3px;'><a href='UserEdit?usertype="+user.getUsertype()+"&name="+user.getName()+"' class='button'>Edit</a></span>";
-                content += "  <span><a href='UserDel?usertype="+user.getUsertype()+"&name="+user.getName()+"' class='button' onclick = \"return confirm('Are you sure you want to delete this user?')\">Delete</a></span>";
+                content += "  <span><a href='UserDel?usertype="+user.getUsertype()+"&name="+user.getName()+"' class='button' onclick = \"return confirm('Are you sure to delete this user?')\">Delete</a></span>";
                 content += "</td>";
                 content += "</tr>";
                     i++;

@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +23,7 @@ public class Cart extends HttpServlet {
         Helper helper = new Helper(request,pw);
         if(!helper.isLoggedin()){
             HttpSession session = request.getSession(true);
-            session.setAttribute("login_msg", "Please Login to add items to cart");
+            session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
             response.sendRedirect("Login");
             return;
         }
@@ -30,10 +31,10 @@ public class Cart extends HttpServlet {
         HttpSession session = request.getSession();
         ShoppingCart cart;
         synchronized(session) {
-            cart = (ShoppingCart)session.getAttribute("Cart");
+            cart = (ShoppingCart)session.getAttribute(helper.SESSION_CART);
             if (cart == null) {
                 cart = new ShoppingCart();
-                session.setAttribute("Cart", cart);
+                session.setAttribute(helper.SESSION_CART, cart);
             }
             String id = request.getParameter("id");
             String strtype = request.getParameter("type");
@@ -72,9 +73,9 @@ public class Cart extends HttpServlet {
              content += "<h3 style='color:red'>Your Cart is empty!</h3>";
         } else {
             content += "<table cellspacing='0'>";
-            content += "<tr><th>Item No.</th><th>Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th></tr>"; 
+            content += "<tr><th>No.</th><th>Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th></tr>"; 
             CartItem cartItem;
-            NumberFormat formatter = NumberFormat.getCurrencyInstance();
+            NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
             double total = 0;
             for(int i = 0; i < items.size(); i++) {
                 cartItem = items.get(i);
@@ -88,14 +89,14 @@ public class Cart extends HttpServlet {
                    "       value=\"" + cartItem.getItemType()+ "\">" +
                    "<input type=\"text\" name=\"quantity\" size=3 value=\"" + 
                    cartItem.getQuantity() + "\">\n" +
-                   "<input type=\"submit\" class=\"formbutton\" value=\"Update\">"+      
+                   "<input type=\"submit\" class=\"formbutton2\" value=\"Update\">"+      
                    "</form></td>" +
                    "  <td>" +  formatter.format(cartItem.getTotalCost())+ "</td>";
                 content += "</tr>";
                 total = total +cartItem.getTotalCost();
             }
-            content += "<tr class='total'><td></td><td></td><td></td><td>Total</td><td>$"+total+"</td></tr>";
-            content += "<tr><td></td><td></td><td></td><td></td><td><a href='Checkout' class='button'>Check Out</a></td></tr></table>";
+            content += "<tr class='total'><td></td><td></td><td></td><td>Total</td><td>"+formatter.format(total)+"</td></tr>";
+            content += "<tr><td></td><td></td><td></td><td></td><td><a href='Checkout' class='button2'>Check Out</a></td></tr></table>";
         }
         content += "  </div>";
         content += "</section>";

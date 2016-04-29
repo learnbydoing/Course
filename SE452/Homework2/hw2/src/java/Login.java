@@ -27,8 +27,8 @@ public class Login extends HttpServlet {
             String user_usertype = user.getUsertype();
             if (password.equals(user_password)&&usertype.equals(user_usertype)) {
                 HttpSession session = request.getSession(true);
-                session.setAttribute("username", user.getName());
-                session.setAttribute("usertype", user.getUsertype());
+                session.setAttribute(helper.SESSION_USERNAME, user.getName());
+                session.setAttribute(helper.SESSION_USERTYPE, user.getUsertype());
                 response.sendRedirect("Home");
                 return;
             }
@@ -57,9 +57,9 @@ public class Login extends HttpServlet {
             errmsg = "<h3 style='color:red'>Login failed! <br>Please check your username, password and user type!</h3>";
         }
         HttpSession session = request.getSession(true);
-        if(session.getAttribute("login_msg")!=null){
-            errmsg = "<h3 style='color:red'>" + session.getAttribute("login_msg") + "</h3>";
-            session.removeAttribute("login_msg");
+        if(session.getAttribute(helper.SESSION_LOGIN_MSG)!=null){
+            errmsg = "<h3 style='color:red'>" + session.getAttribute(helper.SESSION_LOGIN_MSG) + "</h3>";
+            session.removeAttribute(helper.SESSION_LOGIN_MSG);
         }
         String template = helper.getTemplate("account_login.html");
         template = template.replace("$errmsg$", errmsg);

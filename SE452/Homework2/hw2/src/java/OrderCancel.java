@@ -30,6 +30,9 @@ public class OrderCancel extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html");
+        PrintWriter pw = response.getWriter();
+        Helper helper = new Helper(request, pw);
+        
         String errmsg = "";
         String orderid = request.getParameter("orderid");
         if (orderid==null||orderid.isEmpty()) {
@@ -40,7 +43,7 @@ public class OrderCancel extends HttpServlet {
             HttpSession session = request.getSession();
             OrderList orderlist;
             synchronized(session) {
-                orderlist = (OrderList)session.getAttribute("Orders");
+                orderlist = (OrderList)session.getAttribute(helper.SESSION_ORDERS);
                 if (orderlist == null) {
                     errmsg = "You have no order!";
                 } else {
@@ -68,15 +71,12 @@ public class OrderCancel extends HttpServlet {
                 }
                 if (errmsg.isEmpty()) {
                     orderlist.removeOrder(orderid);
-                    session.setAttribute("Orders", orderlist);
+                    session.setAttribute(helper.SESSION_ORDERS, orderlist);
                     errmsg = "Your order ["+orderid+"] has been removed!";
                 }
             }
-        }
+        }        
         
-        response.setContentType("text/html");
-        PrintWriter pw = response.getWriter();
-        Helper helper = new Helper(request, pw);
         helper.prepareLayout();
         helper.prepareHeader();
         helper.prepareMenu();

@@ -43,7 +43,7 @@ public class AccessoryList extends HttpServlet {
                        .replace("$newprice$", String.valueOf(accessory.getPrice()))
                        .replace("$id$", accessory.getKey())
                        .replace("$name$", accessory.getName())
-                       .replace("$type$", "1")
+                       .replace("$type$", "2")
                        .replace("$maker$", makerName)
                        .replace("$access$", consoleName);
             content += item;

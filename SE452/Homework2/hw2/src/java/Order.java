@@ -6,12 +6,16 @@ import java.util.List;
 public class Order {
     private String id;
     private String username;
+    private String address;
+    private String creditcard;
     private String confirmation;
     private Date deliverydate;
     private ArrayList<OrderItem> items;
-    public Order(String id, String username, String confirmation, Date deliverydate) {
+    public Order(String id, String username, String address, String creditcard, String confirmation, Date deliverydate) {
         this.id = id;
         this.username = username;
+        this.address = address;
+        this.creditcard = creditcard;
         this.confirmation = confirmation;
         this.deliverydate = deliverydate;
         items = new ArrayList();
@@ -23,6 +27,14 @@ public class Order {
     
     public String getUserName() {
         return username;
+    }
+    
+    public String getAddress() {
+        return address;
+    }
+    
+    public String getCreditCard() {
+        return creditcard;
     }
     
     public String getConfirmation() {

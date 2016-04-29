@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class MyOrder extends HttpServlet {
+public class OrderAll extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -22,19 +22,24 @@ public class MyOrder extends HttpServlet {
             session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
             response.sendRedirect("Login");
             return;
-        }        
+        }
+        
+        String usertype = helper.usertype();
+        String errmsg = "";
+        if (usertype==null || !usertype.equals(UserHashMap.CONST_TYPE_SALESMAN_LOWER)) {
+            errmsg = "You have no authorization to manage orders!";
+        }
         
         HttpSession session = request.getSession();
-        String errmsg = "";
         List<Order> orders = null;
         synchronized(session) {
             OrderList allorders = (OrderList)session.getAttribute(helper.SESSION_ORDERS);
             if (allorders == null) {
-                errmsg = "You have no order yet!";
+                errmsg = "There is no order created yet!";
             } else {
-                orders = allorders.getOrders(helper.username()); 
+                orders = allorders.getOrders(); 
                 if (orders == null || orders.size() == 0) {
-                    errmsg = "You have no order yet!";
+                    errmsg = "There is no order created yet!";
                 }
             }
         }
@@ -43,7 +48,7 @@ public class MyOrder extends HttpServlet {
         helper.prepareMenu();
         String content = "<section id='content'>";
         content += "  <div class='cart'>";
-        content += "  <h3>My Orders</h3>";
+        content += "  <h3>All Orders</h3>";
         if (!errmsg.isEmpty()) {
             content += "<h3 style='color:red'>"+errmsg+"</h3>";
         } else {

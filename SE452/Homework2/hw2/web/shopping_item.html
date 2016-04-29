@@ -10,6 +10,7 @@
         <ul>
           <li>
             <form method='post' action='Cart'>
+              <input type='hidden' name='id' value='$id$'>
               <input type='hidden' name='name' value='$name$'>
               <input type='hidden' name='type' value='$type$'>
               <input type='hidden' name='maker' value='$maker$'>
@@ -17,7 +18,7 @@
               <input type='submit' class='formbutton' value='Add to Cart'>
             </form>
           </li>
-          <li><a class='button' href='AccessoryList?maker=$maker$&console=$name$'>View Accessories</a></li>
+          <li><a class='button' href='AccessoryList?maker=$maker$&console=$id$'>View Accessories</a></li>
           <li><a class='button' href='Review?name=$name$&type=$type$&maker=$maker$&access='>Reviews</a></li>
         </ul>
       </div>

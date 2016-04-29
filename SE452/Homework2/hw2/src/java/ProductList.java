@@ -3,7 +3,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProductList {    
+public class ProductList {
+    public static ArrayList<ProductItem> getItems() {
+        ArrayList<ProductItem> res = new ArrayList();
+        for (int i = 1; i <= 4; i++) {
+            ArrayList<ProductItem> items = getItems(i);
+            res.addAll(items);
+        }
+        return res;
+    }
     public static ArrayList<ProductItem> getItems(int type) {
         ArrayList<ProductItem> items = new ArrayList();
         switch(type) {
@@ -13,29 +21,39 @@ public class ProductList {
                 hmc.putAll(ConsoleHashMap.Sony);
                 hmc.putAll(ConsoleHashMap.Nintendo);
                 for(Map.Entry<String, Console> entry : hmc.entrySet()){
-                    Console console = entry.getValue();
-                    for (Map.Entry<String, Accessory> entry2 : console.getAccessories().entrySet()) {
-                        Accessory ac = entry2.getValue();
-                        items.add(new ProductItem(ac.getKey(),ac.getName(), 1, ac.getPrice()));
-                    }
+                    Console cs = entry.getValue();
+                    items.add(new ProductItem(cs.getKey(),cs.getName(), 1, cs.getPrice(), cs.getImage(), cs.getManufacturer()));
                 }
                 break;
             case 2:
+                HashMap<String, Console> hmc2 = new HashMap<String, Console>();
+                hmc2.putAll(ConsoleHashMap.Microsoft);
+                hmc2.putAll(ConsoleHashMap.Sony);
+                hmc2.putAll(ConsoleHashMap.Nintendo);
+                for(Map.Entry<String, Console> entry : hmc2.entrySet()){
+                    Console console = entry.getValue();
+                    for (Map.Entry<String, Accessory> entry2 : console.getAccessories().entrySet()) {
+                        Accessory ac = entry2.getValue();
+                        items.add(new ProductItem(ac.getKey(),ac.getName(), 2, ac.getPrice(), ac.getImage(), ac.getRetailer()));
+                    }
+                }
+                break;
+            case 3:
                 HashMap<String, Game> hmg = new HashMap<String, Game>();
                 hmg.putAll(GameHashMap.ElectronicArts);
                 hmg.putAll(GameHashMap.Activision);
                 hmg.putAll(GameHashMap.TakeTwoInteractive);
                 for(Map.Entry<String, Game> entry : hmg.entrySet()){
                     Game gm = entry.getValue();
-                    items.add(new ProductItem(gm.getKey(),gm.getName(), 2, gm.getPrice()));
+                    items.add(new ProductItem(gm.getKey(),gm.getName(), 3, gm.getPrice(), gm.getImage(), gm.getMaker()));
                 }
                 break;
-            case 3:
+            case 4:
                 break;
         }
         
         return items;
-    }
+    }    
     public static ProductItem getItem(String id, int type) {
         
         if (id == null || id.isEmpty()) {
@@ -50,5 +68,21 @@ public class ProductList {
             }
         }
         return null;
-    }   
+    }
+    
+    public static ArrayList<ProductItem> searchProduct(String keyword) {
+        ArrayList<ProductItem> res = new ArrayList();
+        ArrayList<ProductItem> list = getItems();
+        if (keyword == null || keyword.isEmpty()) {
+            return list;
+        }
+        ProductItem item;
+        for(int i = 0; i < list.size(); i++) {
+            item = list.get(i);
+            if (item.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                res.add(item);
+            }
+        }
+        return res;
+    }
 }

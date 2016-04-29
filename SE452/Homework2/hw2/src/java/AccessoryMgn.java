@@ -29,13 +29,13 @@ public class AccessoryMgn extends HttpServlet {
         Helper helper = new Helper(request,pw);
         if(!helper.isLoggedin()){
             HttpSession session = request.getSession(true);
-            session.setAttribute("login_msg", "Please login to manage accessory");
+            session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
             response.sendRedirect("Login");
             return;
         }
         String usertype = helper.usertype();
         String errmsg = "";
-        if (usertype==null || !usertype.equals("storemanager")) {
+        if (usertype==null || !usertype.equals(UserHashMap.CONST_TYPE_STOREMANAGER_LOWER)) {
             errmsg = "You have no authorization to manage accessary!";
         }
 
@@ -48,14 +48,14 @@ public class AccessoryMgn extends HttpServlet {
         content += "    <div style='padding:5px'><a href='AccessoryAdd' class='button'>Create New Accessory</a></div>";
         if(errmsg.isEmpty()){
             content += "<table cellspacing='0'>";
-            content += "<tr><th>No.</th><th>Console</th><th>Accessory Name</th><th>Price</th><th>Management</th></tr>";
+            content += "<tr><th>No.</th><th>Accessory Name</th><th>Console</th><th>Price</th><th>Management</th></tr>";
             int i = 1;
             for(Map.Entry<String, Console> entry : helper.getConsoles().entrySet()){
                 Console console = entry.getValue();
                 for (Map.Entry<String, Accessory> entry2 : console.getAccessories().entrySet()) {
                     Accessory ac = entry2.getValue();
                     content += "<tr>";
-                    content += "<td>"+i+"</td><td>"+console.getName()+"</td><td>"+ac.getName()+"</td><td>$"+ac.getPrice()+"</td>";
+                    content += "<td>"+i+"</td><td>"+ac.getName()+"</td><td>"+console.getName()+"</td><td>$"+ac.getPrice()+"</td>";
                     content += "<td>";
                     content += "  <span style='padding-right:3px;'><a href='AccessoryEdit?manufacturer="+console.getManufacturer()+"&console="+console.getKey()+"&accessory="+ac.getKey()+"' class='button'>Edit</a></span>";
                     content += "  <span><a href='AccessoryDel?manufacturer="+console.getManufacturer()+"&console="+console.getKey()+"&accessory="+ac.getKey()+"'' class='button' onclick=\"return confirm('Are you sure you want to delete this accessary?')\">Delete</a></span>";

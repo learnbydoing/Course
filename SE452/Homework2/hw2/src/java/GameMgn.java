@@ -29,13 +29,13 @@ public class GameMgn extends HttpServlet {
         Helper helper = new Helper(request,pw);
         if(!helper.isLoggedin()){
             HttpSession session = request.getSession(true);
-            session.setAttribute("login_msg", "Please login to manage game!");
+            session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
             response.sendRedirect("Login");
             return;
         }
         String usertype = helper.usertype();
         String errmsg = "";
-        if (usertype==null || !usertype.equals("storemanager")) {
+        if (usertype==null || !usertype.equals(UserHashMap.CONST_TYPE_STOREMANAGER_LOWER)) {
             errmsg = "You have no authorization to manage game!";
         }
 

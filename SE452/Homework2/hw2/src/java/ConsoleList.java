@@ -37,8 +37,9 @@ public class ConsoleList extends HttpServlet {
                        .replace("$image$", console.getImage())
                        .replace("$oldprice$", String.valueOf(console.getPrice()))
                        .replace("$newprice$", String.valueOf(console.getPrice()))
-                       .replace("$name$", entry.getKey())
-                       .replace("$type$", "consoles")
+                       .replace("$id$", console.getKey())
+                       .replace("$name$", console.getName())
+                       .replace("$type$", "1")
                        .replace("$maker$", console.getRetailer());
             content += item;
             if(i%3==0 || i == size) {

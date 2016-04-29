@@ -27,7 +27,7 @@ public class Registration extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String repassword = request.getParameter("repassword");
-        String usertype = "customer";
+        String usertype = UserHashMap.CONST_TYPE_CUSTOMER;
         if(!helper.isLoggedin()) {
             usertype = request.getParameter("usertype");
         }
@@ -42,7 +42,7 @@ public class Registration extends HttpServlet {
                 User user = new User(username,password,usertype);
                 hm.put(username, user);
                 HttpSession session = request.getSession(true);
-                session.setAttribute("login_msg", "Your "+usertype+" account has been created. Please login");
+                session.setAttribute(helper.SESSION_LOGIN_MSG, "Your "+usertype+" account has been created. Please login");
                 if(!helper.isLoggedin()){
                     response.sendRedirect("Login"); return;
                 } else {
@@ -52,7 +52,7 @@ public class Registration extends HttpServlet {
         }
         if(helper.isLoggedin()){
             HttpSession session = request.getSession(true);
-            session.setAttribute("login_msg", error_msg);
+            session.setAttribute(helper.SESSION_LOGIN_MSG, error_msg);
             response.sendRedirect("Account"); return;
         }
         displayRegistration(request, response, pw, true);

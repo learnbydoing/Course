@@ -42,7 +42,7 @@ public class GamesList extends HttpServlet {
                        .replace("$newprice$", String.valueOf(game.getPrice()))
                        .replace("$id$", game.getKey())
                        .replace("$name$", game.getName())
-                       .replace("$type$", "2")
+                       .replace("$type$", "3")
                        .replace("$maker$", makerName);
             content += item;
             if(i%3==0 || i == size) {

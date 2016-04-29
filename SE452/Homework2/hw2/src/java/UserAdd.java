@@ -65,7 +65,7 @@ public class UserAdd extends HttpServlet {
         Helper helper = new Helper(request,pw);
         if(!helper.isLoggedin()){
             HttpSession session = request.getSession(true);
-            session.setAttribute("login_msg", "Please login to manage user!");
+            session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
             response.sendRedirect("Login");
             return;
         }

@@ -94,9 +94,9 @@ body {
 	border-bottom: 1px solid #ccc;
 }
 .cart .total {
-	font-weight: bold;
-	color: #ff0000;
-	background: #00e673 none repeat-x scroll left top;
+    font-weight: bold;
+    color: #ff0000;
+    background: #00e673 none repeat-x scroll left top;
 }
 
 .special_grid_row{
@@ -184,6 +184,23 @@ body {
 	margin-bottom: 5px;
 }
 
+.order_box {
+    border: 1px solid #0099ff;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+.order_table {
+    width: 100%;
+    text-align: left;
+    padding: 0px;
+}
+.order_table tr td{
+    margin: 0;
+    padding: 0;
+    border: 0;    
+}
+
 code, blockquote {
 	display: block;
 	border-left: 5px solid #222;
@@ -224,6 +241,19 @@ a:focus {
 	outline: none;
 }
 
+a.button2 {
+    border: none;
+    background: #DE2D3A;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: Tahoma, Geneva, sans-serif;
+    letter-spacing: 1px;
+    width: auto;
+    overflow: visible;
+    text-decoration: none;
+}
 
 a.button {
     background-color: #799AC0;
@@ -233,12 +263,12 @@ a.button {
     font-size: 13px;
     font-weight: bold;
     padding: 8px 15px;
-		text-align: center;
+    text-align: center;
     text-decoration: none;
 }
 
 a.button:hover {
-	background-color: #4076AB;
+    background-color: #4076AB;
 }
 
 
@@ -273,6 +303,22 @@ form input, form select, form textarea {
 	background-color:#fff;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 13px;
+}
+
+form input.formbutton2 {
+    background-color: #799AC0;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 6px 6px;
+    text-align: center;
+    text-decoration: none;
+}
+
+form input.formbutton2:hover {
+    background-color: #4076AB;
 }
 
 form input.formbutton {

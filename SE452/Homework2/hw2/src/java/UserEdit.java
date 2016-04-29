@@ -64,7 +64,7 @@ public class UserEdit extends HttpServlet {
         Helper helper = new Helper(request,pw);
         if(!helper.isLoggedin()){
             HttpSession session = request.getSession(true);
-            session.setAttribute("login_msg", "Please login to manage user!");
+            session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
             response.sendRedirect("Login");
             return;
         }
@@ -83,12 +83,12 @@ public class UserEdit extends HttpServlet {
             errmsg = "<h3 style='color:red'>Invalid Paramters!</h3>";
         }
         String[][] arr = new String[3][2];
-        arr[0][0] = "customer";
-        arr[0][1] = "Customer";
-        arr[1][0] = "storemanager";
-        arr[1][1] = "Store Manager";
-        arr[2][0] = "salesman";
-        arr[2][1] = "Salesman";
+        arr[0][0] = UserHashMap.CONST_TYPE_CUSTOMER_LOWER;
+        arr[0][1] = UserHashMap.CONST_TYPE_CUSTOMER;;
+        arr[1][0] = UserHashMap.CONST_TYPE_STOREMANAGER_LOWER;
+        arr[1][1] = UserHashMap.CONST_TYPE_STOREMANAGER;
+        arr[2][0] = UserHashMap.CONST_TYPE_SALESMAN_LOWER;
+        arr[2][1] = UserHashMap.CONST_TYPE_SALESMAN;
         String strOptionlist = "<tr><td><h5>User Type:</h5></td><td><select name='usertype' class='input' disabled>";
         for (int i = 0; i < arr.length; i++) {
             if (arr[i][0].equals(usertype.toLowerCase())) {

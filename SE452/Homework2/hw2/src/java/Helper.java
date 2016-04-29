@@ -14,6 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class Helper {
+    public final String SESSION_USERNAME = "username";
+    public final String SESSION_USERTYPE = "usertype";
+    public final String SESSION_CART = "cart";
+    public final String SESSION_ORDERS = "orders";
+    public final String SESSION_LOGIN_MSG = "login_msg";
     HttpServletRequest req;
     PrintWriter pw;
     String url;
@@ -43,8 +48,8 @@ public class Helper {
     public void prepareHeader() {
         _header = HtmlToString("site_header.html");
         String menuitem = "";
-        if (session.getAttribute("username")!=null){
-            String username = session.getAttribute("username").toString();
+        if (session.getAttribute(SESSION_USERNAME)!=null){
+            String username = session.getAttribute(SESSION_USERNAME).toString();
             username = Character.toUpperCase(username.charAt(0)) + username.substring(1);
             menuitem += "<ul>"
                       + "  <li>Hello, "+username+"</li>"
@@ -61,16 +66,17 @@ public class Helper {
     public void prepareMenu() {
         _menu = HtmlToString("site_menu.html");
         String menuitem = "<ul>";
-        if (session.getAttribute("usertype")!=null){
-            String usertype = session.getAttribute("usertype").toString();
-            if (usertype.toLowerCase().equals(UserHashMap.CONST_TYPE_STOREMANAGER)) {
+        if (session.getAttribute(SESSION_USERTYPE)!=null){
+            String usertype = session.getAttribute(SESSION_USERTYPE).toString();
+            if (usertype.toLowerCase().equals(UserHashMap.CONST_TYPE_STOREMANAGER_LOWER)) {
                 menuitem += "  <li><a href='AccessoryMgn'>Accessory</a></li>"
                           + "  <li><a href='GameMgn'>Game</a></li>";                          
-            } else if (usertype.toLowerCase().equals(UserHashMap.CONST_TYPE_SALESMAN)) {
+            } else if (usertype.toLowerCase().equals(UserHashMap.CONST_TYPE_SALESMAN_LOWER)) {
+                menuitem += "  <li><a href='OrderAll'>All Order("+AllOrderCount()+")</a></li>";
                 menuitem += "  <li><a href='UserMgn'>User</a></li>";
             }
         }
-        menuitem += "  <li><a href='MyOrder'>My Order</a></li>"
+        menuitem += "  <li><a href='MyOrder'>My Order("+OrderCount()+")</a></li>"
                   + "  <li><a href='Cart'>Cart("+CartCount()+")</a></li>"
                   + "</ul>";
 
@@ -134,43 +140,64 @@ public class Helper {
     }
 
     public void logout(){
-        session.removeAttribute("username");
-        session.removeAttribute("usertype");
+        session.removeAttribute(SESSION_USERNAME);
+        session.removeAttribute(SESSION_USERTYPE);
+        session.removeAttribute(SESSION_CART);
+        //session.removeAttribute(SESSION_ORDERS);
     }
 
     public boolean isLoggedin(){
-        if (session.getAttribute("username")==null)
+        if (session.getAttribute(SESSION_USERNAME)==null)
             return false;
         return true;
     }
 
     public String username(){
-        if (session.getAttribute("username")!=null)
-            return session.getAttribute("username").toString();
+        if (session.getAttribute(SESSION_USERNAME)!=null)
+            return session.getAttribute(SESSION_USERNAME).toString();
         return "";
     }
 
     public String usertype(){
-        if (session.getAttribute("usertype")!=null)
-            return session.getAttribute("usertype").toString();
+        if (session.getAttribute(SESSION_USERTYPE)!=null)
+            return session.getAttribute(SESSION_USERTYPE).toString();
         return null;
     }
 
-    public ArrayList<OrderItem> getCustomerOrders(){
-        ArrayList<OrderItem> order = new ArrayList<OrderItem>();
-        if(OrdersHashMap.orders.containsKey(username())) {
-            order= OrdersHashMap.orders.get(username());
-        }
-        return order;
-    }
-
     public int CartCount(){
-        if(isLoggedin()) {
-            return getCustomerOrders().size();
-        } else {
+        if(!isLoggedin()) {
             return 0;
         }
-    }    
+        
+        ShoppingCart cart = (ShoppingCart)session.getAttribute(SESSION_CART);
+        if (cart == null) {
+            return 0;
+        }
+        return cart.getItems().size();           
+    } 
+    public int AllOrderCount(){
+        if(!isLoggedin()) {
+            return 0;
+        }
+        
+        OrderList orders = (OrderList)session.getAttribute(SESSION_ORDERS);
+        if (orders == null) {
+            return 0;
+        }
+        return orders.getOrders().size();           
+    } 
+    
+    public int OrderCount(){
+        if(!isLoggedin()) {
+            return 0;
+        }
+        
+        OrderList orders = (OrderList)session.getAttribute(SESSION_ORDERS);
+        if (orders == null) {
+            return 0;
+        }
+        return orders.getOrders(username()).size();           
+    } 
 
     public String currentDate(){
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
