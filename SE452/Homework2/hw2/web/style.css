@@ -241,6 +241,18 @@ a:focus {
 	outline: none;
 }
 
+a.button3 {    
+    background-color: #799AC0;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 6px 6px;
+    text-align: center;
+    text-decoration: none;    
+}
+
 a.button2 {
     border: none;
     background: #DE2D3A;

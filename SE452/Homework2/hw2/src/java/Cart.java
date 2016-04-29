@@ -73,14 +73,13 @@ public class Cart extends HttpServlet {
              content += "<h3 style='color:red'>Your Cart is empty!</h3>";
         } else {
             content += "<table cellspacing='0'>";
-            content += "<tr><th>No.</th><th>Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th></tr>"; 
-            CartItem cartItem;
-            NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
+            content += "<tr><th>No.</th><th>Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th><th>Management</th></tr>"; 
+            CartItem cartItem;            
             double total = 0;
             for(int i = 0; i < items.size(); i++) {
                 cartItem = items.get(i);
                 content += "<tr>";
-                content += "<td>"+(i+1)+"</td><td>"+cartItem.getItemName()+"</td><td>"+formatter.format(cartItem.getUnitPrice())+"</td>";
+                content += "<td>"+(i+1)+"</td><td>"+cartItem.getItemName()+"</td><td>"+helper.formatCurrency(cartItem.getUnitPrice())+"</td>";
                 content += "  <td>" +
                    "<form>" +  // Submit to current URL
                    "<input type=\"hidden\" name=\"id\"" +
@@ -91,12 +90,15 @@ public class Cart extends HttpServlet {
                    cartItem.getQuantity() + "\">\n" +
                    "<input type=\"submit\" class=\"formbutton2\" value=\"Update\">"+      
                    "</form></td>" +
-                   "  <td>" +  formatter.format(cartItem.getTotalCost())+ "</td>";
+                   "  <td>" +  helper.formatCurrency(cartItem.getTotalCost())+ "</td>";
+                content += "<td>";
+                content += "  <span><a href='Cart?id="+cartItem.getItemId()+"&type="+cartItem.getItemType()+"&quantity=0' class='button3' onclick = \"return confirm('Are you sure to delete this product?')\">Delete</a></span>";
+                content += "</td>";
                 content += "</tr>";
                 total = total +cartItem.getTotalCost();
             }
-            content += "<tr class='total'><td></td><td></td><td></td><td>Total</td><td>"+formatter.format(total)+"</td></tr>";
-            content += "<tr><td></td><td></td><td></td><td></td><td><a href='Checkout' class='button2'>Check Out</a></td></tr></table>";
+            content += "<tr class='total'><td></td><td></td><td></td><td>Total</td><td>"+helper.formatCurrency(total)+"</td><td></td></tr>";
+            content += "<tr><td></td><td></td><td></td><td></td><td></td><td><a href='Checkout' class='button2'>Check Out</a></td></tr></table>";
         }
         content += "  </div>";
         content += "</section>";

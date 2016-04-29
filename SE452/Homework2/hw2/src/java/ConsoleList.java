@@ -35,8 +35,8 @@ public class ConsoleList extends HttpServlet {
             String item = itemtemp;
             item = item.replace("$itemname$", console.getName())
                        .replace("$image$", console.getImage())
-                       .replace("$oldprice$", String.valueOf(console.getPrice()))
-                       .replace("$newprice$", String.valueOf(console.getPrice()))
+                       .replace("$oldprice$", helper.formatCurrency(console.getPrice()))
+                       .replace("$newprice$", helper.formatCurrency(console.getDiscountedPrice()))
                        .replace("$id$", console.getKey())
                        .replace("$name$", console.getName())
                        .replace("$type$", "1")

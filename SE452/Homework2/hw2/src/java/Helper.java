@@ -4,10 +4,12 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -339,5 +341,10 @@ public class Helper {
 
     public HashMap<String, User> getUsers(){
         return UserHashMap.Users;
+    }
+    
+    public String formatCurrency(double price) {        
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
+        return formatter.format(price);
     }
 }

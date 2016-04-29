@@ -82,4 +82,8 @@ public class Accessory {
     public void setDiscount(double discount) {
         this.discount = discount;
     }
+    
+    public double getDiscountedPrice() {
+        return price * (100 - discount) / 100;
+    }
 }

@@ -56,26 +56,29 @@ public class PlaceOrder extends HttpServlet {
         if (!errmsg.isEmpty()) {
              content += "<h3 style='color:red'>"+errmsg+"</h3>";
         } else {
-            content += "<h5>Name: "+username+"</h5>";
-            content += "<h5>Address: "+address+"</h5>";
+            content += "<table class=\"order_table\">";
+            content += "<tr><td width=\"30%\"><h5><i>Order Id: </i></h5></td><td width=\"70%\">"+orderid+"</td></tr>";
+            content += "<tr><td><h5><i>Customer Name: </i></h5></td><td>"+username+"</td></tr>";
+            content += "<tr><td><h5><i>Address: </i></h5></td><td>"+address+"</td></tr>";
+            content += "<tr><td><h5><i>Confirmation Number: </i></h5></td><td>"+confirmation+"</td></tr>";
+            content += "</table>";
             content += "<table cellspacing='0'>";
             content += "<tr><th>No.</th><th>Product Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th></tr>"; 
             CartItem cartItem;
-            NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
             double total = 0;
             for(int i = 0; i < items.size(); i++) {
                 cartItem = items.get(i);
                 content += "<tr>" +
                    "  <td>" + (i + 1) + "</td>" +
                    "  <td>" + cartItem.getItemName() + "</td>" +
-                   "  <td>" + formatter.format(cartItem.getUnitPrice())+ "</td>" +
+                   "  <td>" + helper.formatCurrency(cartItem.getUnitPrice())+ "</td>" +
                    "  <td>" + cartItem.getQuantity()+ "</td>" +
-                   "  <td>" + formatter.format(cartItem.getTotalCost())+ "</td>";
+                   "  <td>" + helper.formatCurrency(cartItem.getTotalCost())+ "</td>";
                 content += "</tr>";
                 total = total +cartItem.getTotalCost();
             }
-            content += "<tr class='total'><td></td><td></td><td></td><td>Total</td><td>"+formatter.format(total)+"</td></tr>";
-            content += "<tr><td></td><td></td><td></td><td>Confirmation Number</td><td>"+confirmation+"</td></tr></table>";
+            content += "<tr class='total'><td></td><td></td><td></td><td>Total</td><td>"+helper.formatCurrency(total)+"</td></tr>";
+            content += "</table>";
         }
         content += "  </div>";
         content += "</section>";

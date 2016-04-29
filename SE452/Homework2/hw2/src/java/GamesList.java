@@ -38,8 +38,8 @@ public class GamesList extends HttpServlet {
             String item = itemtemp;
             item = item.replace("$itemname$", game.getName())
                        .replace("$image$", game.getImage())
-                       .replace("$oldprice$", String.valueOf(game.getPrice()))
-                       .replace("$newprice$", String.valueOf(game.getPrice()))
+                       .replace("$oldprice$", helper.formatCurrency(game.getPrice()))
+                       .replace("$newprice$", helper.formatCurrency(game.getDiscountedPrice()))
                        .replace("$id$", game.getKey())
                        .replace("$name$", game.getName())
                        .replace("$type$", "3")

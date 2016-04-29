@@ -54,25 +54,24 @@ public class MyOrder extends HttpServlet {
                    "       value=\"" + order.getId() + "\">" +
                    "<input type=\"submit\" value=\"Cancel Order\" class=\"formbutton\" onclick = \"return confirm('Are you sure to cancel this order?')\">"+      
                    "</form></td></tr>";
-                content += "<tr><td><h5><i>User Namer: </i></h5></td><td>"+order.getUserName()+"</td><td><td></tr>";
-                content += "<tr><td><h5><i>Address Number: </i></h5></td><td>"+order.getAddress()+"</td><td><td></tr>";
-                content += "<tr><td><h5><i>Confirmation Number: </i></h5></td><td>"+order.getConfirmation()+"</td><td><td></tr>";
+                content += "<tr><td><h5><i>Customer Name: </i></h5></td><td>"+order.getUserName()+"</td><td></td></tr>";
+                content += "<tr><td><h5><i>Address: </i></h5></td><td>"+order.getAddress()+"</td><td></td></tr>";
+                content += "<tr><td><h5><i>Confirmation Number: </i></h5></td><td>"+order.getConfirmation()+"</td><td></td></tr>";
                 content += "</table>";
                 content += "<table cellspacing='0'>";
                 content += "<tr><th>Item No.</th><th>Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th></tr>"; 
                 OrderItem orderItem;
-                NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
                 double total = 0;
                 for(int i = 0; i < order.getItems().size(); i++) {
                     orderItem = (OrderItem)order.getItems().get(i);
                     content += "<tr>";
-                    content += "<td>"+(i+1)+"</td><td>"+orderItem.getItemName()+"</td><td>"+formatter.format(orderItem.getUnitPrice())+"</td>";
+                    content += "<td>"+(i+1)+"</td><td>"+orderItem.getItemName()+"</td><td>"+helper.formatCurrency(orderItem.getUnitPrice())+"</td>";
                     content += "<td>" + orderItem.getQuantity()+"</td>";
-                    content += "<td>" +  formatter.format(orderItem.getTotalCost())+ "</td>";
+                    content += "<td>" +  helper.formatCurrency(orderItem.getTotalCost())+ "</td>";
                     content += "</tr>";
                     total = total +orderItem.getTotalCost();
                 }
-                content += "<tr class='total'><td></td><td></td><td></td><td>Total</td><td>"+formatter.format(total)+"</td></tr>";
+                content += "<tr class='total'><td></td><td></td><td></td><td>Total</td><td>"+helper.formatCurrency(total)+"</td></tr>";
                 content += "</table></div>";
             }
         }

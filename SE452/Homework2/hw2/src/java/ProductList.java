@@ -22,7 +22,7 @@ public class ProductList {
                 hmc.putAll(ConsoleHashMap.Nintendo);
                 for(Map.Entry<String, Console> entry : hmc.entrySet()){
                     Console cs = entry.getValue();
-                    items.add(new ProductItem(cs.getKey(),cs.getName(), 1, cs.getPrice(), cs.getImage(), cs.getManufacturer()));
+                    items.add(new ProductItem(cs.getKey(),cs.getName(), 1, cs.getDiscountedPrice(), cs.getImage(), cs.getManufacturer()));
                 }
                 break;
             case 2:
@@ -34,7 +34,7 @@ public class ProductList {
                     Console console = entry.getValue();
                     for (Map.Entry<String, Accessory> entry2 : console.getAccessories().entrySet()) {
                         Accessory ac = entry2.getValue();
-                        items.add(new ProductItem(ac.getKey(),ac.getName(), 2, ac.getPrice(), ac.getImage(), ac.getRetailer()));
+                        items.add(new ProductItem(ac.getKey(),ac.getName(), 2, ac.getDiscountedPrice(), ac.getImage(), ac.getRetailer()));
                     }
                 }
                 break;
@@ -45,7 +45,7 @@ public class ProductList {
                 hmg.putAll(GameHashMap.TakeTwoInteractive);
                 for(Map.Entry<String, Game> entry : hmg.entrySet()){
                     Game gm = entry.getValue();
-                    items.add(new ProductItem(gm.getKey(),gm.getName(), 3, gm.getPrice(), gm.getImage(), gm.getMaker()));
+                    items.add(new ProductItem(gm.getKey(),gm.getName(), 3, gm.getDiscountedPrice(), gm.getImage(), gm.getMaker()));
                 }
                 break;
             case 4:
@@ -81,6 +81,24 @@ public class ProductList {
             item = list.get(i);
             if (item.getName().toLowerCase().contains(keyword.toLowerCase())) {
                 res.add(item);
+            }
+        }
+        return res;
+    }
+    
+    public static ArrayList<String> autoCompleteProducts(String keyword) {
+        ArrayList<String> res = new ArrayList();
+        ArrayList<ProductItem> list = getItems();
+        
+        ProductItem item;
+        for(int i = 0; i < list.size(); i++) {
+            item = list.get(i);
+            if (keyword == null || keyword.isEmpty()) {
+                res.add(item.getName());
+            } else {
+                if (item.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                    res.add(item.getName());
+                }
             }
         }
         return res;
