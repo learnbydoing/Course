@@ -37,6 +37,10 @@
         <servlet-name>SearchProduct</servlet-name>
         <servlet-class>SearchProduct</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Review</servlet-name>
+        <servlet-class>Review</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -64,6 +68,10 @@
     <servlet-mapping>
         <servlet-name>SearchProduct</servlet-name>
         <url-pattern>/SearchProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Review</servlet-name>
+        <url-pattern>/Review</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

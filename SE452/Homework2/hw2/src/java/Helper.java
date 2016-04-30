@@ -296,12 +296,32 @@ public class Helper {
         hm.putAll(GameHashMap.TakeTwoInteractive);
         return hm;
     }
+    
+    public HashMap<String, Tablet> getTablets(String maker){
+        HashMap<String, Tablet> hm = new HashMap<String, Tablet>();
+        if (maker == null || maker.isEmpty()) {
+            hm = getTablets();
+        } else {
+            switch(maker.toLowerCase()) {
+                case TabletHashMap.CONST_APPLE_LOWER:
+                    hm = TabletHashMap.Apple;
+                    break;
+                case TabletHashMap.CONST_MICROSOFT_LOWER:
+                    hm = TabletHashMap.Microsoft;
+                    break;
+                case TabletHashMap.CONST_SAMSUNG_LOWER:
+                    hm = TabletHashMap.Samsung;
+                    break;
+            }
+        }
+        return hm;
+    }
 
     public HashMap<String, Tablet> getTablets(){
         HashMap<String, Tablet> hm = new HashMap<String, Tablet>();
-        hm.putAll(TabletHashMap.apple);
-        hm.putAll(TabletHashMap.microsoft);
-        hm.putAll(TabletHashMap.samsung);
+        hm.putAll(TabletHashMap.Apple);
+        hm.putAll(TabletHashMap.Microsoft);
+        hm.putAll(TabletHashMap.Samsung);
         return hm;
     }
 
@@ -329,6 +349,20 @@ public class Helper {
         }
         return ar;
     }
+    
+    public ArrayList<ProductReview> getReviews(String productkey){
+        if (productkey==null||productkey.isEmpty()) {
+            return new ArrayList<ProductReview>();
+        }
+        if (!ReviewHashMap.reviews.containsKey(productkey)) {
+            ProductItem product = ProductList.getProduct(productkey);
+            if (product != null) {
+                // create a new key for it
+                ReviewHashMap.reviews.put(productkey, new ArrayList<ProductReview>());
+            }
+        }
+        return ReviewHashMap.reviews.get(productkey);
+    }
 
     public User getUser(String name) {
         HashMap<String, User> hm = getUsers();
@@ -346,5 +380,16 @@ public class Helper {
     public String formatCurrency(double price) {        
         NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
         return formatter.format(price);
+    }
+    
+    public String formateDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return sdf.format(date);
+    }
+    
+    public String generateUniqueId() {
+        Date dNow = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyMMddhhmmssMs");
+        return ft.format(dNow);
     }
 }

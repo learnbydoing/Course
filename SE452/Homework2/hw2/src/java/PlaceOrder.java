@@ -47,7 +47,7 @@ public class PlaceOrder extends HttpServlet {
         }        
         
         
-        String orderid = uniqueId();
+        String orderid = helper.generateUniqueId();
         String confirmation = username + orderid.substring(orderid.length()-4) + creditcard.substring(creditcard.length() - 4);
         String content = "<section id='content'>";
         content += "  <div class='cart'>";
@@ -56,34 +56,6 @@ public class PlaceOrder extends HttpServlet {
         if (!errmsg.isEmpty()) {
              content += "<h3 style='color:red'>"+errmsg+"</h3>";
         } else {
-            content += "<table class=\"order_table\">";
-            content += "<tr><td width=\"30%\"><h5><i>Order Id: </i></h5></td><td width=\"70%\">"+orderid+"</td></tr>";
-            content += "<tr><td><h5><i>Customer Name: </i></h5></td><td>"+username+"</td></tr>";
-            content += "<tr><td><h5><i>Address: </i></h5></td><td>"+address+"</td></tr>";
-            content += "<tr><td><h5><i>Confirmation Number: </i></h5></td><td>"+confirmation+"</td></tr>";
-            content += "</table>";
-            content += "<table cellspacing='0'>";
-            content += "<tr><th>No.</th><th>Product Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th></tr>"; 
-            CartItem cartItem;
-            double total = 0;
-            for(int i = 0; i < items.size(); i++) {
-                cartItem = items.get(i);
-                content += "<tr>" +
-                   "  <td>" + (i + 1) + "</td>" +
-                   "  <td>" + cartItem.getItemName() + "</td>" +
-                   "  <td>" + helper.formatCurrency(cartItem.getUnitPrice())+ "</td>" +
-                   "  <td>" + cartItem.getQuantity()+ "</td>" +
-                   "  <td>" + helper.formatCurrency(cartItem.getTotalCost())+ "</td>";
-                content += "</tr>";
-                total = total +cartItem.getTotalCost();
-            }
-            content += "<tr class='total'><td></td><td></td><td></td><td>Total</td><td>"+helper.formatCurrency(total)+"</td></tr>";
-            content += "</table>";
-        }
-        content += "  </div>";
-        content += "</section>";
-
-        if (errmsg.isEmpty()) {
             Date now = new Date();
             Calendar c = Calendar.getInstance();
             c.setTime(now);
@@ -106,7 +78,33 @@ public class PlaceOrder extends HttpServlet {
             orders.addOrder(order);            
             // remove cart from session
             session.removeAttribute(helper.SESSION_CART); 
+            content += "<table class=\"order_table\">";
+            content += "<tr><td width=\"30%\"><h5><i>Order Id: </i></h5></td><td width=\"70%\">"+orderid+"</td></tr>";
+            content += "<tr><td><h5><i>Customer Name: </i></h5></td><td>"+username+"</td></tr>";
+            content += "<tr><td><h5><i>Address: </i></h5></td><td>"+address+"</td></tr>";
+            content += "<tr><td><h5><i>Confirmation Number: </i></h5></td><td>"+confirmation+"</td></tr>";            
+            content += "<tr><td><h5><i>Delivery Date: </i></h5></td><td>"+helper.formateDate(c.getTime())+"</td><td></td></tr>";
+            content += "</table>";
+            content += "<table cellspacing='0'>";
+            content += "<tr><th>No.</th><th>Product Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th></tr>"; 
+            CartItem cartItem;
+            double total = 0;
+            for(int i = 0; i < items.size(); i++) {
+                cartItem = items.get(i);
+                content += "<tr>" +
+                   "  <td>" + (i + 1) + "</td>" +
+                   "  <td>" + cartItem.getItemName() + "</td>" +
+                   "  <td>" + helper.formatCurrency(cartItem.getUnitPrice())+ "</td>" +
+                   "  <td>" + cartItem.getQuantity()+ "</td>" +
+                   "  <td>" + helper.formatCurrency(cartItem.getTotalCost())+ "</td>";
+                content += "</tr>";
+                total = total +cartItem.getTotalCost();
+            }
+            content += "<tr class='total'><td></td><td></td><td></td><td>Total</td><td>"+helper.formatCurrency(total)+"</td></tr>";
+            content += "</table>";
         }
+        content += "  </div>";
+        content += "</section>";
         
         helper.prepareLayout();
         helper.prepareHeader();
@@ -121,11 +119,5 @@ public class PlaceOrder extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request, response);
-    }
-
-    private String uniqueId() {
-        Date dNow = new Date();
-        SimpleDateFormat ft = new SimpleDateFormat("yyMMddhhmmssMs");
-        return ft.format(dNow);
-    }
+    }    
 }

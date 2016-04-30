@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 import javax.servlet.ServletException;
@@ -40,9 +41,30 @@ public class OrderAll extends HttpServlet {
                 orders = allorders.getOrders(); 
                 if (orders == null || orders.size() == 0) {
                     errmsg = "There is no order created yet!";
+                } else {
+                    String orderid = request.getParameter("orderid");
+                    String itemid = request.getParameter("itemid");
+                    String strtype = request.getParameter("type");
+                    String strQuantity = request.getParameter("quantity");
+                    if (orderid!=null && itemid != null && strtype != null && strQuantity != null) {
+                        int type = 0;
+                        try {
+                            type = Integer.parseInt(strtype);
+                        } catch (NumberFormatException nfe) {
+
+                        }            
+                        int quantity;
+                        try {
+                            quantity = Integer.parseInt(strQuantity);
+                        } catch(NumberFormatException nfe) {
+                            quantity = 1;
+                        }
+                        allorders.setItemQuantity(orderid, itemid, type, quantity);
+                    }
                 }
             }
         }
+        
         helper.prepareLayout();
         helper.prepareHeader();
         helper.prepareMenu();
@@ -59,24 +81,39 @@ public class OrderAll extends HttpServlet {
                    "       value=\"" + order.getId() + "\">" +
                    "<input type=\"submit\" value=\"Cancel Order\" class=\"formbutton\" onclick = \"return confirm('Are you sure to cancel this order?')\">"+      
                    "</form></td></tr>";
-                content += "<tr><td><h5><i>User Namer: </i></h5></td><td>"+order.getUserName()+"</td><td><td></tr>";
+                content += "<tr><td><h5><i>Customer Namer: </i></h5></td><td>"+order.getUserName()+"</td><td><td></tr>";
                 content += "<tr><td><h5><i>Address Number: </i></h5></td><td>"+order.getAddress()+"</td><td><td></tr>";
                 content += "<tr><td><h5><i>Confirmation Number: </i></h5></td><td>"+order.getConfirmation()+"</td><td><td></tr>";
+                content += "<tr><td><h5><i>Delivery Date: </i></h5></td><td>"+helper.formateDate(order.getDeliveryDate())+"</td><td></td></tr>";
                 content += "</table>";
                 content += "<table cellspacing='0'>";
-                content += "<tr><th>Item No.</th><th>Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th></tr>"; 
+                content += "<tr><th>No.</th><th>Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th><th>Management</th></tr>"; 
                 OrderItem orderItem;
                 double total = 0;
                 for(int i = 0; i < order.getItems().size(); i++) {
                     orderItem = (OrderItem)order.getItems().get(i);
                     content += "<tr>";
                     content += "<td>"+(i+1)+"</td><td>"+orderItem.getItemName()+"</td><td>"+helper.formatCurrency(orderItem.getUnitPrice())+"</td>";
-                    content += "<td>" + orderItem.getQuantity()+"</td>";
-                    content += "<td>" +  helper.formatCurrency(orderItem.getTotalCost())+ "</td>";
+                    content += "  <td>" +
+                        "<form>" +  // Submit to current URL
+                        "<input type=\"hidden\" name=\"orderid\"" +
+                        "       value=\"" + order.getId() + "\">" +
+                        "<input type=\"hidden\" name=\"itemid\"" +
+                        "       value=\"" + orderItem.getItemId() + "\">" +
+                        "<input type=\"hidden\" name=\"type\"" +
+                        "       value=\"" + orderItem.getItemType()+ "\">" +
+                        "<input type=\"text\" name=\"quantity\" size=3 value=\"" + 
+                        orderItem.getQuantity() + "\">\n" +
+                        "<input type=\"submit\" class=\"formbutton2\" value=\"Update\">"+      
+                        "</form></td>" +
+                        "  <td>" +  helper.formatCurrency(orderItem.getTotalCost())+ "</td>";
+                    content += "<td>";
+                    content += "  <span><a href='OrderAll?orderid="+order.getId()+"&itemid="+orderItem.getItemId()+"&type="+orderItem.getItemType()+"&quantity=0' class='button3' onclick = \"return confirm('Are you sure to delete this product?')\">Delete</a></span>";
+                    content += "</td>";
                     content += "</tr>";
                     total = total +orderItem.getTotalCost();
                 }
-                content += "<tr class='total'><td></td><td></td><td></td><td>Total</td><td>"+helper.formatCurrency(total)+"</td></tr>";
+                content += "<tr class='total'><td></td><td></td><td></td><td>Total</td><td>"+helper.formatCurrency(total)+"</td><td></td></tr>";
                 content += "</table></div>";
             }
         }

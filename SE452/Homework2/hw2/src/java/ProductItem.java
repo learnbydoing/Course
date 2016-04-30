@@ -5,14 +5,16 @@ public class ProductItem {
     private double price;
     private String image;
     private String maker;
+    private double discount;
 
-    public ProductItem(String id, String name, int type, double price, String image, String maker) {
+    public ProductItem(String id, String name, int type, double price, String image, String maker, double discount) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.price = price;
         this.image = image;
         this.maker = maker;
+        this.discount = discount;
     }
 
     public String getId() {
@@ -57,5 +59,17 @@ public class ProductItem {
     
     public void setMaker(String maker) {
         this.maker = maker;
-    }    
+    }
+    
+     public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+    
+    public double getDiscountedPrice() {
+        return price * (100 - discount) / 100;
+    }
 }

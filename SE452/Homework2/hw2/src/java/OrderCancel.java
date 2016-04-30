@@ -61,8 +61,7 @@ public class OrderCancel extends HttpServlet {
                                 Date now = new Date();
                                 int comparison = now.compareTo(c.getTime());
                                 if (comparison > 0) {
-                                    SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                                    errmsg = "The order can only be cancelled within 5 days before delivery date ["+dt1.format(order.getDeliveryDate())+"]"
+                                    errmsg = "The order can only be cancelled within 5 days before delivery date ["+helper.formateDate(order.getDeliveryDate())+"]"
                                             + "<br><h2 style=\"color:red;\">You can't cancel it now.</h2>";
                                 }
                             }

@@ -32,15 +32,38 @@ public class ConsoleHashMap{
             Microsoft.put("xbox360", xbox360);
         }
         if(Sony.isEmpty()){
-            //accessories = new HashMap<String, Accessory>();
-            //Console ps3 = new Console("ps3", CONST_SONY, "PS3",349.00,"consoles/PS4-console-bundle.jpg",CONST_SONY,"New",10,accessories);
-            //Sony.put("ps3", ps3);
+            Accessory ps3_wc = new Accessory("ps3_wc", "ps3", "Wireless Controller", 19.99, "accessories/ps3_controller.jpg", CONST_SONY,"New",10);
+            Accessory ps3_dc = new Accessory("ps3_dc", "ps3", "Media/Blu-ray Disc Remote Control", 24.99, "accessories/ps3_diskcontroller.jpg", CONST_SONY,"New",10);
             accessories = new HashMap<String, Accessory>();
+            accessories.put("ps3_wc", ps3_wc);
+            accessories.put("ps3_dc", ps3_dc);
+            Console ps3 = new Console("ps3", CONST_SONY, "PS3",219.00,"consoles/ps3-console.jpg",CONST_SONY,"New",10,accessories);
+            Sony.put("ps3", ps3);
+            
+            Accessory ps4_cb = new Accessory("ps4_cb", "ps4", "Chartboost - Black", 19.99, "accessories/chartboost.jpg", CONST_SONY,"New",10);
+            Accessory ps4_cc = new Accessory("ps4_cc", "ps4", "Dual Controller Charger", 24.99, "accessories/ps4_controllercharger.jpg", CONST_SONY,"New",10);
+            accessories = new HashMap<String, Accessory>();
+            accessories.put("ps4_cb", ps4_cb);
+            accessories.put("ps4_cc", ps4_cc);
             Console ps4 = new Console("ps4", CONST_SONY, "PS4",349.00,"consoles/PS4-console-bundle.jpg",CONST_SONY,"New",10,accessories);
             Sony.put("ps4", ps4);
         }
         if(Nintendo.isEmpty()){
+            Accessory wii_cs = new Accessory("wii_cs", "wii", "Charging System - Black", 21.99, "accessories/wii_chargingsystem.jpg", CONST_NINTENDO,"New",10);
+            Accessory wii_rp = new Accessory("wii_rp", "wii", "Wii Remote Plus", 39.99, "accessories/wii_remoteplus.jpg", CONST_NINTENDO,"New",10);            
+            accessories = new HashMap<String, Accessory>();
+            accessories.put("wii_cs", wii_cs);
+            accessories.put("wii_rp", wii_rp);
+            Console wii = new Console("wii", CONST_NINTENDO, "Wii",269.00,"consoles/wii.jpg",CONST_NINTENDO,"New",10,accessories);
+            Nintendo.put("wii", wii);
 
+            Accessory wiiu_fp = new Accessory("wiiu_fp", "wiiu", "Fight Pad", 16.99, "accessories/wiiu_fightingpad.jpg", CONST_NINTENDO,"New",10);
+            Accessory wiiu_gc = new Accessory("wiiu_gc", "wiiu", "GameCube Controller", 29.99, "accessories/wiiu_gamecube.jpg", CONST_NINTENDO,"New",10);            
+            accessories = new HashMap<String, Accessory>();
+            accessories.put("wiiu_fp", wiiu_fp);
+            accessories.put("wiiu_gc", wiiu_gc);
+            Console wiiu = new Console("wiiu", CONST_NINTENDO, "WiiU",299.99,"consoles/wiiu.jpg",CONST_NINTENDO,"New",10,accessories);
+            Nintendo.put("wiiu", wiiu);
         }
     }
 }

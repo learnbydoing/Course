@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 import javax.servlet.ServletException;
@@ -57,9 +58,10 @@ public class MyOrder extends HttpServlet {
                 content += "<tr><td><h5><i>Customer Name: </i></h5></td><td>"+order.getUserName()+"</td><td></td></tr>";
                 content += "<tr><td><h5><i>Address: </i></h5></td><td>"+order.getAddress()+"</td><td></td></tr>";
                 content += "<tr><td><h5><i>Confirmation Number: </i></h5></td><td>"+order.getConfirmation()+"</td><td></td></tr>";
+                content += "<tr><td><h5><i>Delivery Date: </i></h5></td><td>"+helper.formateDate(order.getDeliveryDate())+"</td><td></td></tr>";
                 content += "</table>";
                 content += "<table cellspacing='0'>";
-                content += "<tr><th>Item No.</th><th>Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th></tr>"; 
+                content += "<tr><th>No.</th><th>Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th></tr>"; 
                 OrderItem orderItem;
                 double total = 0;
                 for(int i = 0; i < order.getItems().size(); i++) {

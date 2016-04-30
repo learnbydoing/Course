@@ -53,4 +53,25 @@ public class OrderList {
             orders.remove(order);
         }
     }
+    
+    public synchronized void setItemQuantity(String orderid, String itemid, int type, int quantity) {
+        Order order;
+        for(int i = 0; i < orders.size(); i++) {
+            order = orders.get(i);
+            if (order.getId().equals(orderid)) {
+                List<OrderItem> items= order.getItems();
+                for (int j = 0; j < items.size(); j++) {
+                    OrderItem orderItem = items.get(j);
+                    if (orderItem.getItemId().equals(itemid)) {
+                        if (quantity <= 0) {
+                            items.remove(j);
+                        } else {
+                            orderItem.setQuantity(quantity);
+                        }
+                        return;
+                    }
+                }
+            }
+        }        
+    }
 }

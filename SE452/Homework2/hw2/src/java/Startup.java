@@ -11,5 +11,6 @@ public class Startup extends HttpServlet
         new GameHashMap();
         new UserHashMap();
         new TabletHashMap();
+        new ReviewHashMap();
     }
 }

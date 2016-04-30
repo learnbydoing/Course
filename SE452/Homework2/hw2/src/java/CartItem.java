@@ -28,7 +28,7 @@ public class CartItem {
     }
 
     public double getUnitPrice() {
-        return getItem().getPrice();
+        return getItem().getDiscountedPrice();
     }
 
     public int getQuantity() {

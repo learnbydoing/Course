@@ -39,8 +39,8 @@ public class SearchProduct extends HttpServlet {
                 String item = itemtemp;
                 item = item.replace("$itemname$", product.getName())
                            .replace("$image$", product.getImage())
-                           .replace("$oldprice$", String.valueOf(product.getPrice()))
-                           .replace("$newprice$", String.valueOf(product.getPrice()))
+                           .replace("$oldprice$", helper.formatCurrency(product.getPrice()))
+                           .replace("$newprice$", helper.formatCurrency(product.getDiscountedPrice()))
                            .replace("$id$", product.getId())
                            .replace("$name$", product.getName())
                            .replace("$type$", String.valueOf(product.getType()))
