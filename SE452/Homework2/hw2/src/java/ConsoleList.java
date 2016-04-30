@@ -21,7 +21,7 @@ public class ConsoleList extends HttpServlet {
         HashMap<String, Console> hm = helper.getConsoles(makerName);
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_CONSOLES);
         String itemtemp = helper.getTemplate("shopping_item.html");
         String content = "";
         content += "<section id='content'>";
@@ -47,7 +47,7 @@ public class ConsoleList extends HttpServlet {
             }
             i++;
         }
-        content += "    <div class='clear'></div>";
+        content += "    <div class='clear'>";
         content += "</section>";
         helper.prepareContent(content);
         helper.prepareSideBar();

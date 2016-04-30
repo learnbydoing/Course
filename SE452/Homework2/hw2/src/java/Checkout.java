@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class Checkout extends HttpServlet {    
-     String err_msg = "";
+    String err_msg = "";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -46,7 +46,7 @@ public class Checkout extends HttpServlet {
         Helper helper = new Helper(request,pw);
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_CART);
         String errmsg = "";
         if (error) {
             errmsg = "<h3 style='color:red'>"+err_msg+"</h3>";

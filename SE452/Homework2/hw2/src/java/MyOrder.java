@@ -41,7 +41,7 @@ public class MyOrder extends HttpServlet {
         }
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_MYORDER);
         String content = "<section id='content'>";
         content += "  <div class='cart'>";
         content += "  <h3>My Orders</h3>";

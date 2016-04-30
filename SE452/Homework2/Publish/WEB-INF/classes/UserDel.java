@@ -11,26 +11,25 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet("/UserDel")
 public class UserDel extends HttpServlet {
-	private String error_msg = "";
+    private String error_msg = "";
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		String errmsg = "";
-		String usertype = request.getParameter("usertype");
-		String name = request.getParameter("name");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        String usertype = request.getParameter("usertype");
+        String name = request.getParameter("name");
 
-		PrintWriter pw = response.getWriter();
-		Helper helper = new Helper(request,pw);
-		HashMap<String, User> userlist = helper.getUsers(usertype);
-		if (userlist==null||userlist.size() == 0) {
-			errmsg = "<h3 style='color:red'>No User found!</h3>";
-		} else {
-			userlist.remove(name);
-		}
-		response.sendRedirect("UserMgn");
-	}
+        PrintWriter pw = response.getWriter();
+        Helper helper = new Helper(request,pw);
+        HashMap<String, User> hm = helper.getUsers();
+        if (hm==null||hm.size() == 0) {
+            error_msg = "<h3 style='color:red'>No User found!</h3>";
+        } else {
+            hm.remove(name);
+        }
+        response.sendRedirect("UserMgn");
+    }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
 }

@@ -16,11 +16,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class Helper {
+    // Session
     public final String SESSION_USERNAME = "username";
     public final String SESSION_USERTYPE = "usertype";
     public final String SESSION_CART = "cart";
     public final String SESSION_ORDERS = "orders";
     public final String SESSION_LOGIN_MSG = "login_msg";
+    
+    // Page
+    public final String CURRENT_PAGE_HOME = "Home";
+    public final String CURRENT_PAGE_CONSOLES = "Consoles";
+    public final String CURRENT_PAGE_ACCESSORIES = "Accessories";
+    public final String CURRENT_PAGE_GAMES = "Games";
+    public final String CURRENT_PAGE_TABLETS = "Tablets";
+    public final String CURRENT_PAGE_ACCMNG = "Accessory Management";
+    public final String CURRENT_PAGE_GAMEMNG = "Game Management";
+    public final String CURRENT_PAGE_USERS = "Users";
+    public final String CURRENT_PAGE_ALLORDERS = "All Orders";
+    public final String CURRENT_PAGE_MYORDER = "My Order";
+    public final String CURRENT_PAGE_CART = "Cart";
+
     HttpServletRequest req;
     PrintWriter pw;
     String url;
@@ -65,24 +80,77 @@ public class Helper {
         }
         _header = _header.replace("$menuitem$", menuitem);
     }
-    public void prepareMenu() {
+    public void prepareMenu(String page) {
         _menu = HtmlToString("site_menu.html");
-        String menuitem = "<ul>";
+        String[][] sitemenus = new String[5][2];
+        sitemenus[0][0] = CURRENT_PAGE_HOME;
+        sitemenus[0][1] = "Home";
+        sitemenus[1][0] = CURRENT_PAGE_CONSOLES;
+        sitemenus[1][1] = "ConsoleList";
+        sitemenus[2][0] = CURRENT_PAGE_ACCESSORIES;
+        sitemenus[2][1] = "AccessoryList";
+        sitemenus[3][0] = CURRENT_PAGE_GAMES;
+        sitemenus[3][1] = "GameList";
+        sitemenus[4][0] = CURRENT_PAGE_TABLETS;
+        sitemenus[4][1] = "TabletList";
+        String sitemenu = "<ul>";
+        for (int i = 0; i < sitemenus.length; i++) {
+            if (sitemenus[i][0].equals(page)) {
+                sitemenu += "<li class=\"selected\">";
+            } else {
+                sitemenu += "<li>";
+            }
+            sitemenu += "<a href='"+sitemenus[i][1]+"'>"+sitemenus[i][0]+"</a></li>";
+        }
+        sitemenu += "</ul>";
+        
+        String usermenu = "<ul>";
         if (session.getAttribute(SESSION_USERTYPE)!=null){
             String usertype = session.getAttribute(SESSION_USERTYPE).toString();
             if (usertype.toLowerCase().equals(UserHashMap.CONST_TYPE_STOREMANAGER_LOWER)) {
-                menuitem += "  <li><a href='AccessoryMgn'>Accessory</a></li>"
-                          + "  <li><a href='GameMgn'>Game</a></li>";                          
+                if (CURRENT_PAGE_ACCMNG.equals(page)) {
+                    usermenu += "<li class=\"selected\">";
+                } else {
+                    usermenu += "<li>";
+                }
+                usermenu += "<a href='AccessoryMgn'>Accessory</a></li>";
+                if (CURRENT_PAGE_GAMEMNG.equals(page)) {
+                    usermenu += "<li class=\"selected\">";
+                } else {
+                    usermenu += "<li>";
+                }
+                usermenu += "<a href='GameMgn'>Game</a></li>";
             } else if (usertype.toLowerCase().equals(UserHashMap.CONST_TYPE_SALESMAN_LOWER)) {
-                menuitem += "  <li><a href='OrderAll'>All Order("+AllOrderCount()+")</a></li>";
-                menuitem += "  <li><a href='UserMgn'>User</a></li>";
+                if (CURRENT_PAGE_ALLORDERS.equals(page)) {
+                    usermenu += "<li class=\"selected\">";
+                } else {
+                    usermenu += "<li>";
+                }
+                usermenu += "<a href='OrderAll'>All Order("+AllOrderCount()+")</a></li>";
+                if (CURRENT_PAGE_USERS.equals(page)) {
+                    usermenu += "<li class=\"selected\">";
+                } else {
+                    usermenu += "<li>";
+                }
+                usermenu += "<a href='UserMgn'>User</a></li>";
             }
         }
-        menuitem += "  <li><a href='MyOrder'>My Order("+OrderCount()+")</a></li>"
-                  + "  <li><a href='Cart'>Cart("+CartCount()+")</a></li>"
-                  + "</ul>";
+        if (CURRENT_PAGE_MYORDER.equals(page)) {
+            usermenu += "<li class=\"selected\">";
+        } else {
+            usermenu += "<li>";
+        }
+        usermenu += "<a href='MyOrder'>My Order("+OrderCount()+")</a></li>";
+        if (CURRENT_PAGE_CART.equals(page)) {
+            usermenu += "<li class=\"selected\">";
+        } else {
+            usermenu += "<li>";
+        }
+        usermenu += "<a href='Cart'>Cart("+CartCount()+")</a></li>";
+        usermenu += "</ul>";
 
-        _menu = _menu.replace("$usermenu$", menuitem);
+        _menu = _menu.replace("$sitemenu$", sitemenu)
+                     .replace("$usermenu$", usermenu);
     }
     public void prepareContent(String content) {
         _content = content;
@@ -206,7 +274,7 @@ public class Helper {
         Date date = new Date();
         return dateFormat.format(date).toString();
     }
-
+    
     public Accessory getAccessory(String manufacturer, String console, String accessory){
         HashMap<String, Console> hm = getConsoles(manufacturer);
         if (hm == null) {

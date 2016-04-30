@@ -102,7 +102,7 @@ public class UserEdit extends HttpServlet {
         User userobj = helper.getUser(name);
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_USERS);
         if (error) {
             errmsg = "<h3 style='color:red'>"+error_msg+"</h3>";
         }

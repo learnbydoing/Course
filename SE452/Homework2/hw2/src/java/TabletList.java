@@ -23,7 +23,7 @@ public class TabletList extends HttpServlet {
         HashMap<String, Tablet> hm = helper.getTablets(makerName);
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_TABLETS);
         String itemtemp = helper.getTemplate("shopping_item2.html");
         String content = "";
         content += "<section id='content'>";
@@ -49,7 +49,7 @@ public class TabletList extends HttpServlet {
             }
             i++;
         }
-        content += "  <div class='clear'></div>";
+        content += "  <div class='clear'>";
         content += "</section>";
         helper.prepareContent(content);
         helper.prepareSideBar();

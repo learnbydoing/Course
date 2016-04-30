@@ -67,7 +67,7 @@ public class OrderAll extends HttpServlet {
         
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_ALLORDERS);
         String content = "<section id='content'>";
         content += "  <div class='cart'>";
         content += "  <h3>All Orders</h3>";

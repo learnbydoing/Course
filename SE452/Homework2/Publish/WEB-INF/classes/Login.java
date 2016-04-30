@@ -11,62 +11,61 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
+    protected void doPost(HttpServletRequest request,
+                    HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter pw = response.getWriter();
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		PrintWriter pw = response.getWriter();
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String usertype = request.getParameter("usertype");
 
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String usertype = request.getParameter("usertype");
+        Helper helper = new Helper(request,pw);
+        User user = helper.getUser(username);
+        if(user!=null){
+            String user_password = user.getPassword();
+            String user_usertype = user.getUsertype();
+            if (password.equals(user_password)&&usertype.equals(user_usertype)) {
+                HttpSession session = request.getSession(true);
+                session.setAttribute(helper.SESSION_USERNAME, user.getName());
+                session.setAttribute(helper.SESSION_USERTYPE, user.getUsertype());
+                response.sendRedirect("Home");
+                return;
+            }
+        }
+        displayLogin(request, response, pw, true);
+    }
 
-		Helper helper = new Helper(request,pw);
-		HashMap<String, User> hm = helper.getUsers(usertype);
-		User user = hm.get(username);
-		if(user!=null){
-			String user_password = user.getPassword();
-			if (password.equals(user_password)) {
-				HttpSession session = request.getSession(true);
-				session.setAttribute("username", user.getName());
-				session.setAttribute("usertype", user.getUsertype());
-				response.sendRedirect("Home");
-				return;
-			}
-		}
-		displayLogin(request, response, pw, true);
-	}
+    @Override
+    protected void doGet(HttpServletRequest request,
+                    HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter pw = response.getWriter();
+        displayLogin(request, response, pw, false);
+    }
 
-	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		PrintWriter pw = response.getWriter();
-		displayLogin(request, response, pw, false);
-	}
+    protected void displayLogin(HttpServletRequest request,
+                    HttpServletResponse response, PrintWriter pw, boolean error)
+                    throws ServletException, IOException {
 
-	protected void displayLogin(HttpServletRequest request,
-			HttpServletResponse response, PrintWriter pw, boolean error)
-			throws ServletException, IOException {
-
-		Helper helper = new Helper(request,pw);
-		helper.prepareLayout();
-		helper.prepareHeader();
-		helper.prepareMenu();
-		String errmsg = "";
-		if (error) {
-			errmsg = "<h3 style='color:red'>Please check your username, password and user type!</h3>";
-		}
-		HttpSession session = request.getSession(true);
-		if(session.getAttribute("login_msg")!=null){
-			errmsg = "<h3 style='color:red'>" + session.getAttribute("login_msg") + "</h3>";
-			session.removeAttribute("login_msg");
-		}
-		String template = helper.getTemplate("account_login.html");
-		template = template.replace("$errmsg$", errmsg);
-		helper.prepareContent(template);
-		//helper.prepareSideBar();
-		helper.prepareFooter();
-		helper.printHtml();
-	}
+        Helper helper = new Helper(request,pw);
+        helper.prepareLayout();
+        helper.prepareHeader();
+        helper.prepareMenu(helper.CURRENT_PAGE_HOME);
+        String errmsg = "";
+        if (error) {
+            errmsg = "<h3 style='color:red'>Login failed! <br>Please check your username, password and user type!</h3>";
+        }
+        HttpSession session = request.getSession(true);
+        if(session.getAttribute(helper.SESSION_LOGIN_MSG)!=null){
+            errmsg = "<h3 style='color:red'>" + session.getAttribute(helper.SESSION_LOGIN_MSG) + "</h3>";
+            session.removeAttribute(helper.SESSION_LOGIN_MSG);
+        }
+        String template = helper.getTemplate("account_login.html");
+        template = template.replace("$errmsg$", errmsg);
+        helper.prepareContent(template);
+        //helper.prepareSideBar();
+        helper.prepareFooter();
+        helper.printHtml();
+    }
 }

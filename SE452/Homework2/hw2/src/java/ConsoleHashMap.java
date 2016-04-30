@@ -33,7 +33,7 @@ public class ConsoleHashMap{
         }
         if(Sony.isEmpty()){
             Accessory ps3_wc = new Accessory("ps3_wc", "ps3", "Wireless Controller", 19.99, "accessories/ps3_controller.jpg", CONST_SONY,"New",10);
-            Accessory ps3_dc = new Accessory("ps3_dc", "ps3", "Media/Blu-ray Disc Remote Control", 24.99, "accessories/ps3_diskcontroller.jpg", CONST_SONY,"New",10);
+            Accessory ps3_dc = new Accessory("ps3_dc", "ps3", "Disc Remote Control", 24.99, "accessories/ps3_diskcontroller.jpg", CONST_SONY,"New",10);
             accessories = new HashMap<String, Accessory>();
             accessories.put("ps3_wc", ps3_wc);
             accessories.put("ps3_dc", ps3_dc);

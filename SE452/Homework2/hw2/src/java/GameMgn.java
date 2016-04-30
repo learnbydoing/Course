@@ -18,14 +18,6 @@ public class GameMgn extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter pw = response.getWriter();
-        Helper helper = new Helper(request, pw);
-
-        displayGame(request, response);
-    }
-
-    protected void displayGame(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        PrintWriter pw = response.getWriter();
         Helper helper = new Helper(request,pw);
         if(!helper.isLoggedin()){
             HttpSession session = request.getSession(true);
@@ -41,10 +33,10 @@ public class GameMgn extends HttpServlet {
 
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_GAMEMNG);
         String content = "<section id='content'>";
         content += "  <div class='cart'>";
-        content += "  <h3>Game List</h3>";
+        content += "  <h3>Game Management</h3>";
         content += "  <div style='padding:5px'><a href='GameAdd' class='button'>Create New Game</a></div>";
         if(errmsg.isEmpty()){
             content += "<table cellspacing='0'>";

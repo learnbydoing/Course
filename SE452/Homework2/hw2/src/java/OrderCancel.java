@@ -18,14 +18,6 @@ public class OrderCancel extends HttpServlet {
         doPost(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -78,7 +70,7 @@ public class OrderCancel extends HttpServlet {
         
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_ALLORDERS);
         String content = "<section id='content'>";
         content += "  <div class='cart'>";
         content += "  <h3>Cancel Order</h3>";

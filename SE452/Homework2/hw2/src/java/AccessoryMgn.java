@@ -18,14 +18,6 @@ public class AccessoryMgn extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter pw = response.getWriter();
-        Helper helper = new Helper(request, pw);
-
-        displayAccessory(request, response);
-    }
-
-    protected void displayAccessory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        PrintWriter pw = response.getWriter();
         Helper helper = new Helper(request,pw);
         if(!helper.isLoggedin()){
             HttpSession session = request.getSession(true);
@@ -41,10 +33,10 @@ public class AccessoryMgn extends HttpServlet {
 
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_ACCMNG);
         String content = "<section id='content'>";
         content += "  <div class='cart'>";
-        content += "    <h3>Accessory List</h3>";
+        content += "    <h3>Accessory Management</h3>";
         content += "    <div style='padding:5px'><a href='AccessoryAdd' class='button'>Create New Accessory</a></div>";
         if(errmsg.isEmpty()){
             content += "<table cellspacing='0'>";

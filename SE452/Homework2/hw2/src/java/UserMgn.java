@@ -18,14 +18,6 @@ public class UserMgn extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter pw = response.getWriter();
-        Helper helper = new Helper(request, pw);
-
-        displayUser(request, response);
-    }
-
-    protected void displayUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            response.setContentType("text/html");
-            PrintWriter pw = response.getWriter();
         Helper helper = new Helper(request,pw);
         if(!helper.isLoggedin()){
             HttpSession session = request.getSession(true);
@@ -41,7 +33,7 @@ public class UserMgn extends HttpServlet {
 
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_USERS);
         String content = "<section id='content'>";
         content += "  <div class='cart'>";
         content += "  <h3>User List</h3>";

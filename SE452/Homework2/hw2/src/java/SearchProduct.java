@@ -23,7 +23,7 @@ public class SearchProduct extends HttpServlet {
         ArrayList<ProductItem> items = ProductList.searchProduct(productName);
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_HOME);
         String itemtemp = helper.getTemplate("shopping_item2.html");
         String content = "";
         content += "<section id='content'>";

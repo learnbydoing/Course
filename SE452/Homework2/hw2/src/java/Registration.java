@@ -65,7 +65,7 @@ public class Registration extends HttpServlet {
         Helper helper = new Helper(request,pw);
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_HOME);
         String errmsg = "";
         if (error) {
             errmsg = "<h3 style='color:red'>"+error_msg+"</h3>";

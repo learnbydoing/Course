@@ -473,13 +473,12 @@ nav ul li a {
     color: #eee;
     display: block;
     font-family: 'Pontano Sans',Arial,sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     letter-spacing: 0;
-   margin: 0;
-    padding: 28px 20px 25px;
+    margin: 0;
+    padding: 25px 17px 23px;
     text-decoration: none;
-    text-transform: uppercase;
-	border-right:1px solid #668CB7;
+    border-right:1px solid #668CB7;
 }
 nav ul li.selected a,
 nav ul li.selected a:hover {

@@ -9,22 +9,21 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Trending")
 
 public class Trending extends HttpServlet {
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		PrintWriter pw = response.getWriter();
+    protected void doGet(HttpServletRequest request,
+                    HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter pw = response.getWriter();
 
-		Helper helper = new Helper(request, pw);
-		helper.printHtml("site_header.html");
-		helper.printHtml("site_sidebar.html");
+        Helper helper = new Helper(request, pw);
+        //helper.printHtml("site_header.html");
+        //helper.printHtml("site_sidebar.html");
 
 
-		helper.printHtml("site_footer.html");
-	}
+        //helper.printHtml("site_footer.html");
+    }
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request,
+                HttpServletResponse response) throws ServletException, IOException {
 
-	}
-
+    }
 }

@@ -14,7 +14,7 @@ public class Home extends HttpServlet {
         Helper helper = new Helper(request,pw);
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_HOME);
         helper.prepareContent(helper.getTemplate("site_home.html"));
         helper.prepareSideBar();
         helper.prepareFooter();

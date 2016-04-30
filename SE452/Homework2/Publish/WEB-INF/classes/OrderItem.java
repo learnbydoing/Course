@@ -1,47 +1,53 @@
-
-
 public class OrderItem {
-	private String name;
-	private double price;
-	private String image;
-	private String retailer;
-	
-	public OrderItem(String name, double price, String image, String retailer){
-		this.name=name;
-		this.price=price;
-		this.image=image;
-		this.retailer = retailer;
-	}
+    private ProductItem item;
+    private int quantity;
 
-	public String getName() {
-		return name;
-	}
+    public OrderItem(ProductItem item) {
+        setItem(item);
+        setQuantity(1);
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public ProductItem getItem() {
+        return item;
+    }
 
-	public double getPrice() {
-		return price;
-	}
+    protected void setItem(ProductItem item) {
+        this.item = item;
+    }
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
+    public String getItemId() {
+        return getItem().getId();
+    }
+    
+    public String getItemName() {
+        return getItem().getName();
+    }
 
-	public String getImage() {
-		return image;
-	}
+    public int getItemType() {
+        return getItem().getType();
+    }
 
-	public void setImage(String image) {
-		this.image = image;
-	}
+    public double getUnitPrice() {
+        return getItem().getDiscountedPrice();
+    }
 
-	public String getRetailer() {
-		return retailer;
-	}
+    public int getQuantity() {
+        return quantity;
+    }
 
-	public void setRetailer(String retailer) {
-		this.retailer = retailer;
-	}
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void incrementItemQuantity() {
+        setQuantity(getQuantity() + 1);
+    }
+
+    public void cancelOrder() {
+        setQuantity(0);
+    }
+
+    public double getTotalCost() {
+        return(getQuantity() * getUnitPrice());
+    }
 }

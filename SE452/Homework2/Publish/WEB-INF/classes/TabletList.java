@@ -1,5 +1,3 @@
-
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -13,67 +11,49 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/TabletList")
 public class TabletList extends HttpServlet {
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		PrintWriter pw = response.getWriter();
+    protected void doGet(HttpServletRequest request,
+                    HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter pw = response.getWriter();
 
-		String name = null;
-		String CategoryName = request.getParameter("maker");
-		HashMap<String, Tablet> hm = new HashMap<String, Tablet>();
+        String makerName = request.getParameter("maker");
+        makerName = makerName == null ? "" : makerName;
 
-		if (CategoryName == null) {
-			CategoryName = "";
-			hm.putAll(TabletHashMap.apple);
-			hm.putAll(TabletHashMap.microsoft);
-			hm.putAll(TabletHashMap.samsung);
-			name = "";
-		} else {
-			if (CategoryName.equals("apple")) {
-				hm.putAll(TabletHashMap.apple);
-				name = TabletHashMap.string_apple;
-			} else if (CategoryName.equals("microsoft")) {
-				hm.putAll(TabletHashMap.microsoft);
-				name = TabletHashMap.string_microsoft;
-			} else if (CategoryName.equals("samsung")) {
-				hm.putAll(TabletHashMap.samsung);
-				name = TabletHashMap.string_samsung;
-			}
-		}
-
-		Helper helper = new Helper(request,pw);
-		helper.prepareLayout();
-		helper.prepareHeader();
-		helper.prepareMenu();
-		String itemtemp = helper.getTemplate("shopping_item2.html");
-		String content = "";
-		content += "<section id='content'>";
-		content += "	<h3>"+name+" Tablets</h3>";
-		int i = 1; int size= hm.size();
-		for(Map.Entry<String, Tablet> entry : hm.entrySet()){
-			Tablet tablet = entry.getValue();
-			if(i%3==1) {
-				content += "<div class='special_grid_row'>";
-			}
-			String item = itemtemp;
-			item = item.replace("$itemname$", tablet.getName())
-								.replace("$image$", tablet.getImage())
-								.replace("$oldprice$", String.valueOf(tablet.getPrice()))
-								.replace("$newprice$", String.valueOf(tablet.getPrice()))
-								.replace("$name$", entry.getKey())
-								.replace("$type$", "tablets")
-								.replace("$maker$", CategoryName);
-			content += item;
-			if(i%3==0 || i == size) {
-				content += "</div>";
-			}
-			i++;
-		}
-		content += "	<div class='clear'></div>";
-		content += "</section>";
-		helper.prepareContent(content);
-		helper.prepareSideBar();
-		helper.prepareFooter();
-		helper.printHtml();
-	}
+        Helper helper = new Helper(request,pw);
+        HashMap<String, Tablet> hm = helper.getTablets(makerName);
+        helper.prepareLayout();
+        helper.prepareHeader();
+        helper.prepareMenu(helper.CURRENT_PAGE_TABLETS);
+        String itemtemp = helper.getTemplate("shopping_item2.html");
+        String content = "";
+        content += "<section id='content'>";
+        content += "  <h3>"+makerName+" Tablets</h3>";
+        int i = 1; int size= hm.size();
+        for(Map.Entry<String, Tablet> entry : hm.entrySet()){
+            Tablet tablet = entry.getValue();
+            if(i%3==1) {
+                content += "<div class='special_grid_row'>";
+            }
+            String item = itemtemp;
+            item = item.replace("$itemname$", tablet.getName())
+                       .replace("$image$", tablet.getImage())
+                       .replace("$oldprice$", helper.formatCurrency(tablet.getPrice()))
+                       .replace("$newprice$", helper.formatCurrency(tablet.getDiscountedPrice()))
+                       .replace("$id$", tablet.getKey())
+                       .replace("$name$", tablet.getName())
+                       .replace("$type$", "4")
+                       .replace("$maker$", makerName);
+            content += item;
+            if(i%3==0 || i == size) {
+                content += "</div>";
+            }
+            i++;
+        }
+        content += "  <div class='clear'>";
+        content += "</section>";
+        helper.prepareContent(content);
+        helper.prepareSideBar();
+        helper.prepareFooter();
+        helper.printHtml();
+    }
 }

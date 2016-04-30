@@ -29,7 +29,6 @@ public class AccessoryEdit extends HttpServlet {
         String manufacturer = request.getParameter("manufacturer");
         String console = request.getParameter("console");
         String accessory = request.getParameter("accessory");
-        //String facconsole = request.getParameter("facconsole");
         String name = request.getParameter("name");
         String price = request.getParameter("price");
         String image = request.getParameter("image");
@@ -153,7 +152,7 @@ public class AccessoryEdit extends HttpServlet {
         Accessory assobj = helper.getAccessory(manufacturer, console, accessory);
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_ACCMNG);
         if (error) {
             errmsg = "<h3 style='color:red'>"+error_msg+"</h3>";
         }

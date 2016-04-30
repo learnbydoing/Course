@@ -51,7 +51,7 @@ public class Login extends HttpServlet {
         Helper helper = new Helper(request,pw);
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_HOME);
         String errmsg = "";
         if (error) {
             errmsg = "<h3 style='color:red'>Login failed! <br>Please check your username, password and user type!</h3>";

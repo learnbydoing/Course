@@ -46,7 +46,6 @@ public class PlaceOrder extends HttpServlet {
             }
         }        
         
-        
         String orderid = helper.generateUniqueId();
         String confirmation = username + orderid.substring(orderid.length()-4) + creditcard.substring(creditcard.length() - 4);
         String content = "<section id='content'>";
@@ -108,7 +107,7 @@ public class PlaceOrder extends HttpServlet {
         
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_MYORDER);
         helper.prepareContent(content);
         helper.prepareSideBar();
         helper.prepareFooter();

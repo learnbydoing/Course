@@ -109,7 +109,7 @@ public class GameAdd extends HttpServlet {
         }
         helper.prepareLayout();
         helper.prepareHeader();
-        helper.prepareMenu();
+        helper.prepareMenu(helper.CURRENT_PAGE_GAMEMNG);
         if (error) {
             errmsg = "<h3 style='color:red'>"+error_msg+"</h3>";
         }
