@@ -1,5 +1,5 @@
 Part I
-Q1: E, Q2: C, Q3: A, Q4: B, Q5: D, Q6: C, Q7: C, Q8: C, Q9: A, Q10: D, Q11: C1, Q12: D
+Q1: E, Q2: C, Q3: B, Q4: B, Q5: D, Q6: C, Q7: C, Q8: C, Q9: A, Q10: D, Q11: C1, Q12: D
 
 Part II
 1)
@@ -7,19 +7,12 @@ ACCEPT p_1 PROMPT 'Please enter the Last Name:'
 DECLARE
   v_input_last_name  person.last_name%TYPE := '&p_1';
   v_n                NUMBER;
-  v_output           VARCHAR2(1000);
-  CURSOR c_person1 IS
+  v_output           VARCHAR2(200);
+  CURSOR c_person IS
         SELECT p.last_name, p.first_name, p.job_status, p.job_type, p.hire_date, pl.pilot_type
         FROM person p
         LEFT OUTER JOIN pilot pl
         ON p.person_id = pl.person_id
-        ORDER BY last_name, first_name, job_status ASC;
-  CURSOR c_person2 (p_last_name person.last_name%TYPE) IS
-        SELECT p.last_name, p.first_name, p.job_status, p.job_type, p.hire_date, pl.pilot_type
-        FROM person p
-        LEFT OUTER JOIN pilot pl
-        ON p.person_id = pl.person_id
-        WHERE UPPER(last_name) = UPPER(p_last_name)
         ORDER BY last_name, first_name, job_status ASC;
 BEGIN
   IF v_input_last_name IS NULL OR v_input_last_name = '' THEN
@@ -33,51 +26,33 @@ BEGIN
       FROM      person
       WHERE     UPPER(last_name) = UPPER(v_input_last_name);
   
-    IF v_n > 0 THEN
-      FOR idx2 IN c_person2(v_input_last_name) LOOP
-        v_output := '';
-        v_output := RPAD(idx2.last_name || ', ' || idx2.first_name, 20);
-        IF UPPER(idx2.job_status) = 'AC' THEN
-          v_output := v_output || RPAD('Active', 15);
-        ELSE
-          v_output := v_output || RPAD('Inactive', 15);
-        END IF;
-        IF UPPER(idx2.job_type) = 'FT' THEN
-          v_output := v_output || RPAD('Full-Time', 15);
-        ELSE
-          v_output := v_output || RPAD('Part-Time', 15);
-        END IF;
-        v_output := v_output || RPAD(idx2.hire_date, 15);
-        v_output := v_output || NVL(idx2.pilot_type, '------');
-        DBMS_OUTPUT.PUT_LINE(v_output);  
-      END LOOP;      
-    ELSE
-      FOR idx1 IN c_person1 LOOP
-        v_output := '';
-        v_output := RPAD(idx1.last_name || ', ' || idx1.first_name, 20);
-        IF UPPER(idx1.job_status) = 'AC' THEN
-          v_output := v_output || RPAD('Active', 15);
-        ELSE
-          v_output := v_output || RPAD('Inactive', 15);
-        END IF;
-        IF UPPER(idx1.job_type) = 'FT' THEN
-          v_output := v_output || RPAD('Full-Time', 15);
-        ELSE
-          v_output := v_output || RPAD('Part-Time', 15);
-        END IF;
-        v_output := v_output || RPAD(idx1.hire_date, 15);
-        v_output := v_output || NVL(idx1.pilot_type, '------');
-        DBMS_OUTPUT.PUT_LINE(v_output);  
-      END LOOP;
-    END IF;
+    FOR idx1 IN c_person LOOP
+      IF v_n > 0 AND UPPER(idx1.last_name) <> UPPER(v_input_last_name) THEN
+        CONTINUE;
+      END IF;
+      v_output := '';
+      v_output := RPAD(idx1.last_name || ', ' || idx1.first_name, 20);
+      IF UPPER(idx1.job_status) = 'AC' THEN
+        v_output := v_output || RPAD('Active', 15);
+      ELSE
+        v_output := v_output || RPAD('Inactive', 15);
+      END IF;
+      IF UPPER(idx1.job_type) = 'FT' THEN
+        v_output := v_output || RPAD('Full-Time', 15);
+      ELSE
+        v_output := v_output || RPAD('Part-Time', 15);
+      END IF;
+      v_output := v_output || RPAD(idx1.hire_date, 15);
+      v_output := v_output || NVL(idx1.pilot_type, '------');
+      DBMS_OUTPUT.PUT_LINE(v_output);  
+    END LOOP;
   END IF;
 END;
 
-2)
-1b)
+2b)
 ACCEPT p_1 PROMPT 'Please enter an integer between 1 and 5:'
 DECLARE
-  v_input_num   NUMBER := '&p_1';
+  v_input_num   NUMBER := &p_1;
   v_count       NUMBER;
   v_output1     VARCHAR2(100);
   v_output2     VARCHAR2(100);
@@ -110,8 +85,8 @@ BEGIN
       END LOOP;
       v_output2 := '';
       v_count := 0;
-      FOR idx1 IN c_least_pop(idx) LOOP     
-        v_output2 := v_output2 || RPAD('(' || idx1.day || '/' || idx1.rank || ')', 10);
+      FOR idx2 IN c_least_pop(idx) LOOP     
+        v_output2 := v_output2 || RPAD('(' || idx2.day || '/' || idx2.rank || ')', 10);
         v_count := v_count + 1;
         IF v_count = v_input_num THEN
           EXIT;
@@ -124,13 +99,13 @@ END;
 
 3b)
 DECLARE    
-  v_avg80        employee.salary%TYPE;
-  v_emp_num_dpt  NUMBER;
-  v_output     VARCHAR2(200);
-  CURSOR c_weekday IS
+  v_n       NUMBER;
+  v_output  VARCHAR2(200);
+  CURSOR c_weekday(p_count NUMBER) IS
         SELECT TO_CHAR(hire_date, 'D') AS weekd, TO_CHAR(hire_date, 'DAY') AS weekday, COUNT(employee_id) AS empcount
         FROM employee
         GROUP BY TO_CHAR(hire_date, 'D'), TO_CHAR(hire_date, 'DAY')
+        HAVING COUNT(*) = p_count
         ORDER BY weekd;
   CURSOR c_emp (p_weekd VARCHAR2) IS
         SELECT e.hire_date, e.employee_name, e.job, d.department_name, m.employee_name AS manager_name, m.salary
@@ -142,8 +117,13 @@ DECLARE
         WHERE TO_CHAR(e.hire_date, 'D') = p_weekd
         ORDER BY e.hire_date;
 BEGIN
-  FOR idx1 IN c_weekday LOOP
-    DBMS_OUTPUT.PUT_LINE(UPPER(idx1.weekday) || ' (' || TO_CHAR(idx1.empcount) || ' employees)');
+  SELECT MAX(COUNT(*))
+  INTO v_n
+  FROM employee
+  GROUP BY TO_CHAR(hire_date, 'D');
+
+  FOR idx1 IN c_weekday(v_n) LOOP
+    DBMS_OUTPUT.PUT_LINE(UPPER(idx1.weekday) || '(' || TO_CHAR(idx1.empcount) || ' employees)');
     DBMS_OUTPUT.PUT_LINE(RPAD('HIRE DATE', 12) || RPAD('NAME', 12) || RPAD('JOB', 25)
         || RPAD('DEPARTMENT NAME', 18) || RPAD('MANAGER NAME', 15)|| RPAD('MANAGER SALARY', 20));
     DBMS_OUTPUT.PUT_LINE(LPAD('-', 100, '-'));
@@ -161,3 +141,4 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE(LPAD('=', 100, '='));
   END LOOP;  
 END;
+
