@@ -76,6 +76,9 @@ public class ConsoleDao {
         if (maker==null || maker.isEmpty()) {
             return getConsoleList();
         }
+        if (consoles.size() == 0) {
+            getConsoleList();
+        }
         List<Console> res = new ArrayList<Console>();
         for(Console console : consoles) {
             if (console.getRetailer().toLowerCase().equals(maker.toLowerCase())) {

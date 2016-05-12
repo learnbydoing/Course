@@ -44,8 +44,8 @@
                           <input type='submit' class='formbutton' value='Add to Cart'>
                         </form>
                       </li>
-                      <li><a class='button' href='AccessoryList?maker=$maker$&console=$id$'>View Accessories</a></li>
-                      <li><a class='button' href='Review?productkey=$id$'>Reviews</a></li>
+                      <li><a class='button' href='AccessoryList.jsp?maker=<c:out value="${console.retailer}"/>&console=<c:out value="${console.key}"/>'>View Accessories</a></li>
+                      <li><a class='button' href='Review?productkey=<c:out value="${console.key}"/>'>Reviews</a></li>
                     </ul>
                   </div>
                 </div>
