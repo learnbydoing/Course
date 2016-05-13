@@ -17,12 +17,12 @@
             username = Character.toUpperCase(username.charAt(0)) + username.substring(1);
             menuitem += "<ul>"
                       + "  <li>Hello, "+username+"</li>"
-                      + "  <li><a href='Logout'>Logout</a></li>"
+                      + "  <li><a href='account_logout.jsp'>Logout</a></li>"
                       + "</ul>";
         } else {
             menuitem += "<ul>"
-                      + "  <li><a href='Registration'>Register</a></li>"
-                      + "  <li><a href='Login'>Login</a></li>"
+                      + "  <li><a href='account_register.jsp'>Register</a></li>"
+                      + "  <li><a href='account_login.jsp'>Login</a></li>"
                       + "</ul>";
         }
        %>

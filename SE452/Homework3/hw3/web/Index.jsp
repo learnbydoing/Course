@@ -1,6 +1,6 @@
-<jsp:include page="Layout_Top.jsp" />
-<jsp:include page="Layout_Header.jsp" />
-<jsp:include page="Layout_Menu.jsp" />
+<jsp:include page="layout_top.jsp" />
+<jsp:include page="layout_header.jsp" />
+<jsp:include page="layout_menu.jsp" />
 <img class="header-image" src="images/site/image.jpg" alt="Games" />
 <section id="content">
   <div class="post">
@@ -15,5 +15,5 @@
     </div>
   </div>
 </section>
-<jsp:include page="Layout_SideBar.jsp" />
-<jsp:include page="Layout_Footer.jsp" />
+<jsp:include page="layout_sidebar.jsp" />
+<jsp:include page="layout_footer.jsp" />

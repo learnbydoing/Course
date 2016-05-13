@@ -1,21 +1,24 @@
+<%@ page import="Johnny.Common.Constants" %>
+<%@ page import="Johnny.Common.Helper" %>
 <div>
-  <nav>
-    <%@ page import="Johnny.Common.Constants" %>
+  <nav>    
     <%
-     String[][] sitemenus = new String[5][2];
+        String uri = request.getRequestURI();
+        String pageName = uri.substring(uri.lastIndexOf("/")+1);
+        String[][] sitemenus = new String[5][2];
         sitemenus[0][0] = Constants.CURRENT_PAGE_HOME;
-        sitemenus[0][1] = "Home";
+        sitemenus[0][1] = "index.jsp";
         sitemenus[1][0] = Constants.CURRENT_PAGE_CONSOLES;
-        sitemenus[1][1] = "ConsoleList";
+        sitemenus[1][1] = "consolelist.jsp";
         sitemenus[2][0] = Constants.CURRENT_PAGE_ACCESSORIES;
-        sitemenus[2][1] = "AccessoryList";
+        sitemenus[2][1] = "accessorylist.jsp";
         sitemenus[3][0] = Constants.CURRENT_PAGE_GAMES;
-        sitemenus[3][1] = "GameList";
+        sitemenus[3][1] = "gamelist.jsp";
         sitemenus[4][0] = Constants.CURRENT_PAGE_TABLETS;
-        sitemenus[4][1] = "TabletList";
+        sitemenus[4][1] = "tabletlist.jsp";
         String sitemenu = "<ul>";
         for (int i = 0; i < sitemenus.length; i++) {
-            if (sitemenus[i][0].equals(Constants.CURRENT_PAGE_HOME)) {
+            if (sitemenus[i][1].equals(pageName)) {
                 sitemenu += "<li class=\"selected\">";
             } else {
                 sitemenu += "<li>";
@@ -24,6 +27,7 @@
         }
         sitemenu += "</ul>";
         
+        Helper helper = new Helper(request, null);
         String usermenu = "<ul>";
         if (session.getAttribute(Constants.SESSION_USERTYPE)!=null){
             String usertype = session.getAttribute(Constants.SESSION_USERTYPE).toString();
@@ -60,13 +64,13 @@
         } else {
             usermenu += "<li>";
         }
-        usermenu += "<a href='MyOrder'>My Order("+"OrderCount()"+")</a></li>";
+        usermenu += "<a href='MyOrder'>My Order("+helper.OrderCount()+")</a></li>";
         if (Constants.CURRENT_PAGE_CART.equals(Constants.CURRENT_PAGE_HOME)) {
             usermenu += "<li class=\"selected\">";
         } else {
             usermenu += "<li>";
         }
-        usermenu += "<a href='Cart'>Cart("+"CartCount()"+")</a></li>";
+        usermenu += "<a href='mycart.jsp'>Cart("+helper.CartCount()+")</a></li>";
         usermenu += "</ul>";
 
     %>

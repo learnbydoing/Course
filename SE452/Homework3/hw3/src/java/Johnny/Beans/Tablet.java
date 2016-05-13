@@ -7,10 +7,10 @@ package Johnny.Beans;
 
 /**
  *
- * @author RZHUANG
+ * @author Johnny
  */
-public class Game extends BaseBean {
-    public Game(String key, String maker, String name, double price, String image, String retailer, String condition,double discount){
+public class Tablet extends BaseBean {
+    public Tablet(String key, String maker, String name, double price, String image, String retailer, String condition,double discount){
         super.setKey(key);
         super.setMaker(maker);
         super.setName(name);

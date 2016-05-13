@@ -47,4 +47,20 @@ public class Constants {
     public static final String CONST_MICROSOFT_LOWER = "microsoft";
     public static final String CONST_SONY_LOWER = "sony";
     public static final String CONST_NINTENDO_LOWER = "nintendo";
+    
+    // Game
+    public static final String CONST_ELECTRONICARTS = "Electronic Arts";
+    public static final String CONST_ACTIVISION = "Activision";
+    public static final String CONST_TAKETWOINTERACTIVE = "Take-Two Interactive";
+    public static final String CONST_ELECTRONICARTS_LOWER = "electronicarts";
+    public static final String CONST_ACTIVISION_LOWER = "activision";
+    public static final String CONST_TAKETWOINTERACTIVE_LOWER = "taketwointeractive";
+    
+    // Tablet
+    public static final String CONST_TABLET_APPLE = "Apple";
+    public static final String CONST_TABLET_MICROSOFT = "Microsoft";
+    public static final String CONST_TABLET_SAMSUNG = "Samsung";
+    public static final String CONST_TABLET_APPLE_LOWER = "apple";
+    public static final String CONST_TABLET_MICROSOFT_LOWER = "microsoft";
+    public static final String CONST_TABLET_SAMSUNG_LOWER = "samsung";
 }

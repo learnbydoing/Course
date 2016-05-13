@@ -25,6 +25,17 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import Johnny.Beans.ShoppingCart;
+import Johnny.Beans.OrderList;
+import Johnny.Beans.Accessory;
+import Johnny.Beans.ProductItem;
+import Johnny.Beans.ProductList;
+import Johnny.Beans.Review;
+import Johnny.Beans.ShoppingCart;
+import Johnny.Beans.ShoppingCart;
+import Johnny.Beans.ShoppingCart;
+import Johnny.Beans.ShoppingCart;
+import Johnny.Dao.ReviewDao;
 
 public class Helper {
     // Session
@@ -175,8 +186,7 @@ public class Helper {
             return session.getAttribute(SESSION_USERTYPE).toString();
         return null;
     }
-
-    /*
+    
     public int CartCount(){
         if(!isLoggedin()) {
             return 0;
@@ -217,7 +227,7 @@ public class Helper {
         Date date = new Date();
         return dateFormat.format(date).toString();
     }
-    
+    /*
     public Accessory getAccessory(String manufacturer, String console, String accessory){
         HashMap<String, Console> hm = getConsoles(manufacturer);
         if (hm == null) {
@@ -360,33 +370,20 @@ public class Helper {
         }
         return ar;
     }
-    
-    public ArrayList<ProductReview> getReviews(String productkey){
+    */
+    public ArrayList<Review> getReviews(String productkey){
         if (productkey==null||productkey.isEmpty()) {
-            return new ArrayList<ProductReview>();
+            return new ArrayList<Review>();
         }
-        if (!ReviewHashMap.reviews.containsKey(productkey)) {
+        if (!ReviewDao.reviews.containsKey(productkey)) {
             ProductItem product = ProductList.getProduct(productkey);
             if (product != null) {
                 // create a new key for it
-                ReviewHashMap.reviews.put(productkey, new ArrayList<ProductReview>());
+                ReviewDao.reviews.put(productkey, new ArrayList<Review>());
             }
         }
-        return ReviewHashMap.reviews.get(productkey);
+        return ReviewDao.reviews.get(productkey);
     }
-
-    public User getUser(String name) {
-        HashMap<String, User> hm = getUsers();
-        if (hm==null||hm.size()==0){
-            return null;
-        } else {
-            return hm.get(name);
-        }
-    }
-
-    public HashMap<String, User> getUsers(){
-        return UserHashMap.Users;
-    }*/
     
     public String formatCurrency(double price) {        
         NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
