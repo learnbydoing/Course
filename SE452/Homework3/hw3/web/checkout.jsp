@@ -1,11 +1,9 @@
 <%@page import="Johnny.Common.Helper"%>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
-<jsp:include page="layout_menu.jsp" />
-<%@ page import="Johnny.Common.*" %>
 <%
     String err_msg = "";
-    Helper helper = new Helper(request, response.getWriter());
+    Helper helper = new Helper(request);
     
     if ("GET".equalsIgnoreCase(request.getMethod())) {
         
@@ -26,6 +24,7 @@
         }
     }
 %>
+<jsp:include page="layout_menu.jsp" />
 <section id="content">
   <div class="post">
     <h3>Provide your address and credit card</h3>

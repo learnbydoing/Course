@@ -6,9 +6,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
-<jsp:include page="layout_menu.jsp" />
 <%
-    Helper helper = new Helper(request,response.getWriter());
+    Helper helper = new Helper(request);
     if(!helper.isLoggedin()){
         session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
         response.sendRedirect("account_login.jsp");
@@ -16,7 +15,7 @@
     }
 
     String errmsg = "";
-    OrderDao dao = new OrderDao();
+    OrderDao dao = OrderDao.createInstance();
     List<Order> orders = dao.getOrders(helper.username());
     if (orders == null || orders.size() == 0) {
         errmsg = "You have no order yet!";
@@ -25,6 +24,7 @@
     pageContext.setAttribute("errmsg", errmsg);
     pageContext.setAttribute("orders", orders);
 %>
+<jsp:include page="layout_menu.jsp" />
 <section id='content'>
     <div class='cart'>
         <h3>My Orders</h3>

@@ -12,14 +12,16 @@ import java.util.Date;
  * @author Johnny
  */
 
-public class Review {
+public class Review implements java.io.Serializable {
     private String id;
+    private String productid;
     private String username;
     private int rating;    
     private Date reviewdate;
     private String reviewtext;
-    public Review(String id, String username, int rating, Date reviewdate, String reviewtext) {
+    public Review(String id, String productid, String username, int rating, Date reviewdate, String reviewtext) {
         this.id = id;
+        this.productid = productid;
         this.username = username;
         this.rating = rating;
         this.reviewdate = reviewdate;
@@ -28,6 +30,10 @@ public class Review {
     
     public String getId() {
         return id;
+    }
+    
+    public String getProductId() {
+        return productid;
     }
     
     public String getUserName() {

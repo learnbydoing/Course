@@ -7,6 +7,7 @@ package Johnny.Dao;
 
 import Johnny.Beans.User;
 import Johnny.Common.Constants;
+import Johnny.Common.SerializeHelper;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,27 +16,44 @@ import java.util.List;
  * @author Johnny
  */
 public class UserDao {
+    private static UserDao dao;
     private static List<User> users = new ArrayList<User>();
-    public UserDao() {
-        getUserList();
-    }
-    public List<User> getUserList() {
-        if (users!=null && users.size() > 0) {
-            return users;
+    private UserDao() {}
+    
+    public static UserDao createInstance() {
+        if (dao == null) {
+            dao = new UserDao();
+            init();
         }
-        User user = new User("customer","customer", Constants.CONST_TYPE_CUSTOMER_LOWER);
-        users.add(user);
-        user = new User("storemanager","storemanager", Constants.CONST_TYPE_STOREMANAGER_LOWER);
-        users.add(user);
-        user = new User("salesman","salesman", Constants.CONST_TYPE_SALESMAN_LOWER);
-        users.add(user);          
-        
+        return dao;
+    }
+    
+    private static void init() {
+        if (SerializeHelper.exsitDataFile(Constants.DATA_FILE_USER)) {
+            users = (List<User>)SerializeHelper.readFromFile(Constants.DATA_FILE_USER);
+        } else {
+            users = new ArrayList<User>();
+            User user = new User("customer","customer", Constants.CONST_TYPE_CUSTOMER_LOWER);
+            users.add(user);
+            user = new User("storemanager","storemanager", Constants.CONST_TYPE_STOREMANAGER_LOWER);
+            users.add(user);
+            user = new User("salesman","salesman", Constants.CONST_TYPE_SALESMAN_LOWER);
+            users.add(user);
+            SerializeHelper.writeToFile(Constants.DATA_FILE_USER, users);
+        }
+    }
+    
+    public List<User> getUserList() {        
         return users;        
+    }
+    
+    public int getUserCount() {
+        return users.size();
     }
     
     public User getUser(String username) {
         for (User user: users) {
-            if (user.getName().equals(username)) {
+            if (user.getName().equalsIgnoreCase(username)) {
                 return user;
             }
         }
@@ -48,6 +66,11 @@ public class UserDao {
     
     public void addUser(User user) {        
         users.add(user);
+        SerializeHelper.writeToFile(Constants.DATA_FILE_USER, users);
+    }
+    
+    public void updateUser() {
+        SerializeHelper.writeToFile(Constants.DATA_FILE_USER, users);
     }
     
     public void deleteUser(String username) {
@@ -61,5 +84,6 @@ public class UserDao {
         } else {
             users.remove(user);
         }
+        SerializeHelper.writeToFile(Constants.DATA_FILE_USER, users);
     }
 }

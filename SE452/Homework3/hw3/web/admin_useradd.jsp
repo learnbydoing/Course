@@ -4,9 +4,8 @@
 <%@page import="Johnny.Common.Helper"%>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
-<jsp:include page="layout_menu.jsp" />
 <%
-    Helper helper = new Helper(request,response.getWriter());
+    Helper helper = new Helper(request);
     if(!helper.isLoggedin()){
         session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
         response.sendRedirect("account_login.jsp");
@@ -40,7 +39,7 @@
             }
 
             if (errmsg.isEmpty()) {
-                UserDao dao = new UserDao();
+                UserDao dao = UserDao.createInstance();
                 if(dao.isExisted(name)) {
                     errmsg = "User ["+name+"] already exist!";
                 } else{
@@ -52,6 +51,7 @@
         }
     }
 %>
+<jsp:include page="layout_menu.jsp" />
 <section id="content">
   <div>
     <h3>Add User</h3>

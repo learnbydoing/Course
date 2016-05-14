@@ -6,9 +6,11 @@
 package Johnny.Dao;
 
 import Johnny.Beans.Game;
+import Johnny.Beans.Review;
 import Johnny.Common.Constants;
 import Johnny.Common.SerializeHelper;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +37,10 @@ public class GameDao {
             games = new ArrayList<Game>();
             Game ea_fifa = new Game("ea_fifa", Constants.CONST_ELECTRONICARTS_LOWER, "FIFA 2016",59.99,"games/ea_fifa.jpg",Constants.CONST_ELECTRONICARTS,"New",10);
             Game ea_nfs = new Game("ea_nfs", Constants.CONST_ELECTRONICARTS_LOWER,"Need for Speed",59.99,"games/ea_nfs.jpg",Constants.CONST_ELECTRONICARTS,"New",10);
+            ArrayList<Review> list = new ArrayList<Review>();
+            Review review = new Review("1", ea_nfs.getKey(), "customer", 5, new Date(), "Great game, I spent all weekend playing with it.");
+            list.add(review);
+            ea_nfs.setReviews(list);
             games.add(ea_fifa);
             games.add(ea_nfs);
             Game activision_cod = new Game("activision_cod", Constants.CONST_ACTIVISION_LOWER, "Call Of Duty",54.99,"games/activision_cod.jpg",Constants.CONST_ACTIVISION,"New",10);
@@ -56,7 +62,7 @@ public class GameDao {
 
         List<Game> res = new ArrayList<Game>();
         for(Game game : games) {
-            if (game.getMaker().toLowerCase().equals(maker.toLowerCase())) {
+            if (game.getMaker().equalsIgnoreCase(maker)) {
                 res.add(game);
             }
         }
@@ -65,18 +71,23 @@ public class GameDao {
     
     public Game getGame(String key) {
         for (Game game: games) {
-            if (game.getKey().equals(key)) {
+            if (game.getKey().equalsIgnoreCase(key)) {
                 return game;
             }
         }
         return null;
     }
+    
     public boolean isExisted(String key) {
         return getGame(key) == null ? false : true;
     }
     
-    public void addGame(Game game) {        
+    public void addGame(Game game) {
         games.add(game);
+        SerializeHelper.writeToFile(Constants.DATA_FILE_GAME, games);
+    }
+    
+    public void updateGame() {
         SerializeHelper.writeToFile(Constants.DATA_FILE_GAME, games);
     }
     
@@ -92,5 +103,13 @@ public class GameDao {
             games.remove(game);
         }        
         SerializeHelper.writeToFile(Constants.DATA_FILE_GAME, games);
+    }
+    
+    public void addGameReview(String key, Review review) {
+        Game game = getGame(key);
+        if (game != null) {
+            game.getReviews().add(0, review);
+            SerializeHelper.writeToFile(Constants.DATA_FILE_GAME, games);
+        }
     }
 }

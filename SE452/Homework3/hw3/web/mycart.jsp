@@ -6,12 +6,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
-<jsp:include page="layout_menu.jsp" />
 <%
-    Helper helper = new Helper(request,response.getWriter());
+    Helper helper = new Helper(request);
     if(!helper.isLoggedin()){
-        HttpSession session2 = request.getSession(true);
-        session2.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
+        session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
         response.sendRedirect("account_login.jsp");
         return;
     }
@@ -52,6 +50,7 @@
     List<CartItem> list = cart.getItems();
     pageContext.setAttribute("list", list);
 %>
+<jsp:include page="layout_menu.jsp" />
 <section id='content'>
     <div class='cart'>
         <h3>My Cart</h3>

@@ -5,19 +5,23 @@
 
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
-<jsp:include page="layout_menu.jsp" />
 <%
-    String error_msg = "";
-    Helper helper = new Helper(request, response.getWriter());
+    String errmsg = "";
+    
+    String username = "";
+    String password = "";
+    String usertype = "";
+        
+    Helper helper = new Helper(request);
     
     if ("GET".equalsIgnoreCase(request.getMethod())) {
         
     } else {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String usertype = request.getParameter("usertype");
+        username = request.getParameter("username");
+        password = request.getParameter("password");
+        usertype = request.getParameter("usertype");
 
-        UserDao dao = new UserDao();
+        UserDao dao = UserDao.createInstance();
         User user = dao.getUser(username);
         if(user!=null){
             String user_password = user.getPassword();
@@ -29,22 +33,24 @@
                 return;
             }
         } 
-        error_msg = "<h3 style='color:red'>Login failed! <br>Please check your username, password and user type!</h3>";        
+        errmsg = "Login failed! <br>Please check your username, password and user type!";
     }
     
-    String errmsg = error_msg;
-    if(session.getAttribute(helper.SESSION_LOGIN_MSG)!=null){
-        errmsg = "<h3 style='color:red'>" + session.getAttribute(helper.SESSION_LOGIN_MSG) + "</h3>";
-        session.removeAttribute(helper.SESSION_LOGIN_MSG);
+    if (errmsg.isEmpty()) {
+        if(session.getAttribute(helper.SESSION_LOGIN_MSG)!=null){
+            errmsg = session.getAttribute(helper.SESSION_LOGIN_MSG) + "";
+            session.removeAttribute(helper.SESSION_LOGIN_MSG);
+        }
     }
 %>
+<jsp:include page="layout_menu.jsp" />
 <section id="content">
   <div class="post">
-    <%=errmsg %>
+    <h3 style='color:red'><%=errmsg %></h3>   
     <form action="account_login.jsp" method="Post">
       <table style='width:50%'>
-        <tr><td><h5>User Name:</h5></td><td><input type='text' name='username' value='' class='input' required /></td></tr>
-        <tr><td><h5>Password:</h5></td><td><input type='password' name='password' value='' class='input' required /></td></tr>
+        <tr><td><h5>User Name:</h5></td><td><input type='text' name='username' value='<%=username%>' class='input' required /></td></tr>
+        <tr><td><h5>Password:</h5></td><td><input type='password' name='password' value='<%=password%>' class='input' required /></td></tr>
         <tr><td><h5>User Type</h5></td><td><select name='usertype' class='input'><option value='customer' selected>Customer</option><option value='storemanager'>Store Manager</option><option value='salesman'>Salesman</option></select></td></tr>
         <tr><td colspan="2"><input name="login" class="formbutton" value="Login" type="submit" /></td></tr>
         <tr><td colspan="2"><strong><a class='' href='account_register.jsp'>New User? Register here!</a></strong></td></tr>
@@ -52,5 +58,4 @@
     </form>
   </div>
 </section>
-
 <jsp:include page="layout_footer.jsp" />

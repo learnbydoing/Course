@@ -3,9 +3,8 @@
 <%@page import="Johnny.Common.Helper"%>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
-<jsp:include page="layout_menu.jsp" />
 <%
-    Helper helper = new Helper(request,response.getWriter());
+    Helper helper = new Helper(request);
     if(!helper.isLoggedin()){
         session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
         response.sendRedirect("account_login.jsp");
@@ -20,7 +19,7 @@
     if (errmsg.isEmpty()) {
         String username = request.getParameter("username");
 
-        UserDao dao = new UserDao();
+        UserDao dao = UserDao.createInstance();
         if (dao.isExisted(username)) {
             dao.deleteUser(username);
             response.sendRedirect("admin_userlist.jsp");
@@ -29,6 +28,7 @@
         }
     }
 %>
+<jsp:include page="layout_menu.jsp" />
 <section id="content">
   <div>
     <h3>Delete User</h3>

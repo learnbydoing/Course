@@ -1,5 +1,8 @@
-<%@ page import="Johnny.Common.Constants" %>
-<%@ page import="Johnny.Common.Helper" %>
+<%@page import="Johnny.Beans.ShoppingCart"%>
+<%@page import="Johnny.Dao.UserDao"%>
+<%@page import="Johnny.Dao.OrderDao"%>
+<%@page import="Johnny.Common.Constants" %>
+<%@page import="Johnny.Common.Helper" %>
 <div>
   <nav>    
     <%
@@ -27,7 +30,7 @@
         }
         sitemenu += "</ul>";
         
-        Helper helper = new Helper(request, null);
+        Helper helper = new Helper(request);
         String usermenu = "<ul>";
         if (session.getAttribute(Constants.SESSION_USERTYPE)!=null){
             String usertype = session.getAttribute(Constants.SESSION_USERTYPE).toString();
@@ -37,7 +40,7 @@
                 } else {
                     usermenu += "<li>";
                 }
-                usermenu += "<a href='admin_accessorylist'>Accessory</a></li>";
+                usermenu += "<a href='admin_accessorylist.jsp'>Accessory</a></li>";
                 if (Constants.CURRENT_PAGE_GAMEMNG.equals(Constants.CURRENT_PAGE_HOME)) {
                     usermenu += "<li class=\"selected\">";
                 } else {
@@ -50,13 +53,15 @@
                 } else {
                     usermenu += "<li>";
                 }
-                usermenu += "<a href='admin_orderlist.jsp'>All Order("+helper.AllOrderCount()+")</a></li>";
+                OrderDao dao = OrderDao.createInstance();
+                usermenu += "<a href='admin_orderlist.jsp'>All Order("+dao.getOrders().size()+")</a></li>";
                 if (Constants.CURRENT_PAGE_USERS.equals(Constants.CURRENT_PAGE_HOME)) {
                     usermenu += "<li class=\"selected\">";
                 } else {
                     usermenu += "<li>";
                 }
-                usermenu += "<a href='admin_userlist.jsp'>User</a></li>";
+                UserDao userdao = UserDao.createInstance();
+                usermenu += "<a href='admin_userlist.jsp'>User("+userdao.getUserCount()+")</a></li>";
             }
         }
         if (Constants.CURRENT_PAGE_MYORDER.equals(Constants.CURRENT_PAGE_HOME)) {
@@ -64,13 +69,25 @@
         } else {
             usermenu += "<li>";
         }
-        usermenu += "<a href='myorder.jsp'>My Order("+helper.OrderCount()+")</a></li>";
+        int ordercount = 0;
+        if (helper.isLoggedin()) {
+            OrderDao dao = OrderDao.createInstance();
+            ordercount = dao.getOrders(helper.username()).size();
+        }
+        usermenu += "<a href='myorder.jsp'>My Order("+ordercount+")</a></li>";
         if (Constants.CURRENT_PAGE_CART.equals(Constants.CURRENT_PAGE_HOME)) {
             usermenu += "<li class=\"selected\">";
         } else {
             usermenu += "<li>";
         }
-        usermenu += "<a href='mycart.jsp'>Cart("+helper.CartCount()+")</a></li>";
+        int cartcount = 0;
+        if (helper.isLoggedin()) {
+            ShoppingCart cart = (ShoppingCart)session.getAttribute(Constants.SESSION_CART);
+            if (cart != null) {
+                cartcount = cart.getItems().size();
+            }            
+        }
+        usermenu += "<a href='mycart.jsp'>Cart("+cartcount+")</a></li>";
         usermenu += "</ul>";
     %>
     <div style="float: left; ">

@@ -9,7 +9,7 @@ package Johnny.Beans;
  *
  * @author Johnny
  */
-public class User {
+public class User implements java.io.Serializable {
     private int id;
     private String name;
     private String password;

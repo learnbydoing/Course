@@ -5,6 +5,7 @@
  */
 package Johnny.Dao;
 
+import Johnny.Beans.Review;
 import Johnny.Beans.Tablet;
 import Johnny.Common.Constants;
 import Johnny.Common.SerializeHelper;
@@ -66,5 +67,22 @@ public class TabletDao {
             }
         }
         return res;
+    }
+    
+     public Tablet getTablet(String key) {
+        for (Tablet tablet: tablets) {
+            if (tablet.getKey().equalsIgnoreCase(key)) {
+                return tablet;
+            }
+        }
+        return null;
+    }
+    
+    public void addTabletReview(String key, Review review) {
+        Tablet tablet = getTablet(key);
+        if (tablet != null) {
+            tablet.getReviews().add(0, review);
+             SerializeHelper.writeToFile(Constants.DATA_FILE_TABLET, tablets);
+        }
     }
 }

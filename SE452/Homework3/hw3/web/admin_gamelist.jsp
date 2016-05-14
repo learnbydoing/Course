@@ -7,9 +7,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
-<jsp:include page="layout_menu.jsp" />
 <%
-    Helper helper = new Helper(request,response.getWriter());
+    Helper helper = new Helper(request);
     if(!helper.isLoggedin()){
         session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
         response.sendRedirect("account_login.jsp");
@@ -27,6 +26,7 @@
     }
     pageContext.setAttribute("errmsg", errmsg);
 %>
+<jsp:include page="layout_menu.jsp" />
 <section id='content'>
     <div class='cart'>
         <h3>Game Management</h3>
@@ -36,7 +36,6 @@
                 <h3 style='color:red'><%=errmsg%></h3>
             </c:when>
             <c:otherwise>
-                <c:set var="total" value="0" scope="page" />
                 <c:set var="counter" value="0" scope="page" />
                 <table cellspacing='0'>
                     <tr><th>No.</th><th>Maker</th><th>Game Name</th><th>Price</th><th>Management</th></tr>
@@ -48,7 +47,6 @@
                             <span><a href='admin_gamedel.jsp?gamekey=<c:out value="${game.key}"/>' class='button' onclick = "return confirm('Are you sure to delete this game?')">Delete</a></span>
                         </td>
                     </tr>
-                    <c:set var="total" value="${total + cartitem.totalCost}" scope="page"/>
                     <c:set var="counter" value="${counter + 1}" scope="page"/>
                 </c:forEach>               
                 </table>

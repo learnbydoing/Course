@@ -1,29 +1,34 @@
+<%@page import="Johnny.Dao.OrderDao"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.List"%>
-<%@page import="Johnny.Beans.OrderList"%>
 <%@page import="Johnny.Beans.Order"%>
 <%@page import="Johnny.Beans.OrderItem"%>
 <%@page import="Johnny.Common.Helper"%>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
-<jsp:include page="layout_menu.jsp" />
 <%
     String errmsg = "";
+    Helper helper = new Helper(request);
+    if(!helper.isLoggedin()){
+        session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
+        response.sendRedirect("account_login.jsp");
+        return;
+    }
+    
     String orderid = request.getParameter("orderid");
     if (orderid==null||orderid.isEmpty()) {
-        errmsg = "Order id is empty!";
+        errmsg = "Invalid parameter! Order id is empty!";
     }
 
     if (errmsg.isEmpty()) {
-        OrderList orderlist;
-        Helper helper = new Helper(request,response.getWriter());
+        OrderDao dao = OrderDao.createInstance();
+        List<Order> orders = dao.getOrders();
         synchronized(session) {
-            orderlist = (OrderList)session.getAttribute(helper.SESSION_ORDERS);
-            if (orderlist == null) {
+            if (orders == null || orders.size() == 0) {
                 errmsg = "You have no order!";
             } else {
-                Order order = orderlist.getOrder(orderid);
+                Order order = dao.getOrder(orderid);
                 if (order == null) {
                     errmsg = "Order ["+orderid+"] is not found!";
                 } else {                    
@@ -45,14 +50,13 @@
                 }
             }
             if (errmsg.isEmpty()) {
-                orderlist.removeOrder(orderid);
-                session.setAttribute(helper.SESSION_ORDERS, orderlist);
+                dao.deleteOrder(orderid);
                 errmsg = "Your order ["+orderid+"] has been removed!";
             }
         }
     }
 %>
-
+<jsp:include page="layout_menu.jsp" />
 <section id='content'>
     <div class='cart'>
         <h3>Cancel Order</h3>

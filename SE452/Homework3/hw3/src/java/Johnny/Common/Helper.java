@@ -29,14 +29,12 @@ import Johnny.Beans.ShoppingCart;
 import Johnny.Beans.Accessory;
 import Johnny.Beans.Order;
 import Johnny.Beans.ProductItem;
-import Johnny.Beans.ProductList;
 import Johnny.Beans.Review;
 import Johnny.Beans.ShoppingCart;
 import Johnny.Beans.ShoppingCart;
 import Johnny.Beans.ShoppingCart;
 import Johnny.Beans.ShoppingCart;
 import Johnny.Dao.OrderDao;
-import Johnny.Dao.ReviewDao;
 import java.util.List;
 
 public class Helper {
@@ -61,7 +59,7 @@ public class Helper {
     public final String CURRENT_PAGE_CART = "Cart";
 
     HttpServletRequest req;
-    PrintWriter pw;
+    //PrintWriter pw;
     String url;
     HttpSession session;
     String _layout;
@@ -71,13 +69,14 @@ public class Helper {
     String _sidebar;
     String _footer;
 
-    public Helper(HttpServletRequest req, PrintWriter pw) {
+    public Helper(HttpServletRequest req) {
         this.req = req;
-        this.pw = pw;
-        this.url = this.getFullURL();
+        //this.pw = pw;
+        //this.url = this.getFullURL();
         this.session = req.getSession(true);
     }
 
+    /*
     public void prepareLayout() {
         _layout = HtmlToString("_layout.html");
         _header = "";
@@ -163,13 +162,7 @@ public class Helper {
         }
         return result;
     }
-
-    public void logout(){
-        session.removeAttribute(SESSION_USERNAME);
-        session.removeAttribute(SESSION_USERTYPE);
-        session.removeAttribute(SESSION_CART);
-        //session.removeAttribute(SESSION_ORDERS);
-    }
+    */
 
     public boolean isLoggedin(){
         if (session.getAttribute(SESSION_USERNAME)==null)
@@ -188,7 +181,7 @@ public class Helper {
             return session.getAttribute(SESSION_USERTYPE).toString();
         return null;
     }
-    
+    /*
     public int CartCount(){
         if(!isLoggedin()) {
             return 0;
@@ -204,7 +197,7 @@ public class Helper {
         if(!isLoggedin()) {
             return 0;
         }
-        OrderDao dao = new OrderDao();
+        OrderDao dao = OrderDao.createInstance();
         return dao.getOrders().size();           
     } 
     
@@ -213,9 +206,9 @@ public class Helper {
             return 0;
         }
         
-        OrderDao dao = new OrderDao();
+        OrderDao dao = OrderDao.createInstance();
         return dao.getOrders(username()).size();           
-    } 
+    } */
 
     public String currentDate(){
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
@@ -366,19 +359,7 @@ public class Helper {
         return ar;
     }
     */
-    public ArrayList<Review> getReviews(String productkey){
-        if (productkey==null||productkey.isEmpty()) {
-            return new ArrayList<Review>();
-        }
-        if (!ReviewDao.reviews.containsKey(productkey)) {
-            ProductItem product = ProductList.getProduct(productkey);
-            if (product != null) {
-                // create a new key for it
-                ReviewDao.reviews.put(productkey, new ArrayList<Review>());
-            }
-        }
-        return ReviewDao.reviews.get(productkey);
-    }
+    
     
     public String formatCurrency(double price) {        
         NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "US"));

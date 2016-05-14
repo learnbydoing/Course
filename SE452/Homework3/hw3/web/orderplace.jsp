@@ -11,9 +11,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
-<jsp:include page="layout_menu.jsp" />
 <%
-    Helper helper = new Helper(request,response.getWriter());
+    Helper helper = new Helper(request);
     if(!helper.isLoggedin()){
         session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
         response.sendRedirect("account_login.jsp");
@@ -64,10 +63,9 @@
                 order.addItem(item);
             }
 
-            //OrderList orders = (OrderList)session.getAttribute(helper.SESSION_ORDERS);
-            OrderDao dao= new OrderDao();
+            OrderDao dao=  OrderDao.createInstance();
             // create 
-            dao.addOrder(order);            
+            dao.addOrder(order);
             // remove cart from session
             session.removeAttribute(helper.SESSION_CART); 
             pageContext.setAttribute("errmsg", errmsg);
@@ -75,6 +73,7 @@
         }
     }
 %>
+<jsp:include page="layout_menu.jsp" />
 <section id='content'>
     <div class='cart'>
         <h3>Order - Confirmation</h3>

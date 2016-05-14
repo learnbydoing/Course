@@ -5,6 +5,9 @@
  */
 package Johnny.Beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Johnny
@@ -18,6 +21,7 @@ public class BaseBean implements java.io.Serializable {
     private String retailer;
     private String condition;
     private double discount;
+    private List<Review> reviews = new ArrayList<Review>();
 
     public BaseBean(String key, String maker, String name, double price, String image, String retailer, String condition,double discount){
         this.key = key;
@@ -89,5 +93,13 @@ public class BaseBean implements java.io.Serializable {
     
     public double getDiscountedPrice() {
         return price * (100 - discount) / 100;
+    }
+    
+    public List<Review> getReviews() {
+        return reviews;
+    }
+    
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }

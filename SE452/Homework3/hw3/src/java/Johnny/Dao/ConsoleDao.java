@@ -7,9 +7,11 @@ package Johnny.Dao;
 
 import Johnny.Beans.Accessory;
 import Johnny.Beans.Console;
+import Johnny.Beans.Review;
 import Johnny.Common.Constants;
 import Johnny.Common.SerializeHelper;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,13 +43,23 @@ public class ConsoleDao {
             accessories.add(xboxone_sh);
             Console xboxone = new Console("xboxone", Constants.CONST_MICROSOFT, "XBox One",399.00,"consoles/xbox1.jpg",Constants.CONST_MICROSOFT,"New",10,accessories);
             consoles.add(xboxone);
-
-            Accessory xbox360_mr = new Accessory("xbox360_mr", "xbox360", "Speeding Wheel", 40.00, "accessories/XBOX360-SpeedWheel.jpg", "Microsoft","New",10);
-            Accessory xbox360_wa = new Accessory("xbox360_wa", "xbox360", "Wireless Adapter", 50.00, "accessories/xbox360_wa.png", "Microsoft","New",10);
+            
             accessories = new ArrayList<Accessory>();
+            Accessory xbox360_mr = new Accessory("xbox360_mr", "xbox360", "Speeding Wheel", 40.00, "accessories/XBOX360-SpeedWheel.jpg", "Microsoft","New",10);
             accessories.add(xbox360_mr);
+            Accessory xbox360_wa = new Accessory("xbox360_wa", "xbox360", "Wireless Adapter", 50.00, "accessories/xbox360_wa.png", "Microsoft","New",10);
+            ArrayList<Review> list = new ArrayList<Review>();
+            Review review = new Review("1", xbox360_wa.getKey(), "customer", 3, new Date(), "Too expensive, doesn't worth");
+            list.add(review);
+            xbox360_wa.setReviews(list);                     
             accessories.add(xbox360_wa);
             Console xbox360 = new Console("xbox360", Constants.CONST_MICROSOFT, "XBox 360",299.00,"consoles/xbox360.jpg", Constants.CONST_MICROSOFT,"New",10,accessories);
+            list = new ArrayList<Review>();
+            review = new Review("1", xbox360.getKey(), "customer", 5, new Date(), "Easy to use, funny!");
+            list.add(review);
+            review = new Review("2", xbox360.getKey(), "storemanager", 4, new Date(), "Like it!");
+            list.add(review);
+            xbox360_mr.setReviews(list);
             consoles.add(xbox360);
 
             Accessory ps3_wc = new Accessory("ps3_wc", "ps3", "Wireless Controller", 19.99, "accessories/ps3_controller.jpg", Constants.CONST_SONY,"New",10);
@@ -101,5 +113,84 @@ public class ConsoleDao {
             }
         }
         return res;
+    }
+    
+    public Console getConsole(String key) {
+        for (Console console: consoles) {
+            if (console.getKey().equalsIgnoreCase(key)) {
+                return console;
+            }
+        }
+        return null;
+    }
+    
+    public boolean isConsoleExisted(String key) {
+        return getConsole(key) == null ? false : true;
+    }
+    
+    public Accessory getAccessory(String key, String acckey) {
+        for (Console console: consoles) {
+            if (console.getKey().equalsIgnoreCase(key)) {
+                 for (Accessory accessory: console.getAccessories()) {
+                    if (accessory.getKey().equalsIgnoreCase(acckey)) {
+                        return accessory;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
+    public boolean isAccessoryExisted(String key, String acckey) {
+        return getAccessory(key, acckey) == null ? false : true;
+    }
+    
+    public void addAccessory(String key, Accessory acckey) {
+        Console console = getConsole(key);
+        if (console != null) {
+            console.getAccessories().add(acckey);
+            SerializeHelper.writeToFile(Constants.DATA_FILE_CONSOLE, consoles);
+        }
+    }
+    
+    public void updateAccessory() {
+        SerializeHelper.writeToFile(Constants.DATA_FILE_CONSOLE, consoles);
+    }
+    
+    public void deleteAccessory(String key, String acckey) {
+        Console console = getConsole(key);
+        if (console != null) {
+            List<Accessory> accessories = console.getAccessories();
+            if (accessories==null || accessories.isEmpty()) {
+                return;
+            } 
+
+            Accessory accessory = getAccessory(key, acckey);
+            if (accessory==null) {
+                return;
+            } else {
+                accessories.remove(accessory);
+            }        
+            SerializeHelper.writeToFile(Constants.DATA_FILE_CONSOLE, consoles);
+        }        
+    }
+    
+    public void addConsoleReview(String key, Review review) {
+        Console console = getConsole(key);
+        if (console != null) {
+            console.getReviews().add(0, review);
+            SerializeHelper.writeToFile(Constants.DATA_FILE_CONSOLE, consoles);
+        }
+    }
+    
+     public void addAccessoryReview(String key, String acckey, Review review) {
+        Console console = getConsole(key);
+        if (console != null) {
+            Accessory accessory = getAccessory(key, acckey);
+            if (accessory != null) {
+                accessory.getReviews().add(0, review);
+                SerializeHelper.writeToFile(Constants.DATA_FILE_CONSOLE, consoles);
+            }
+        }
     }
 }

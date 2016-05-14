@@ -16,6 +16,8 @@ public class Constants {
     public static final String DATA_FILE_CONSOLE = "Data_GameSpeed_Console";
     public static final String DATA_FILE_GAME = "Data_GameSpeed_Game";
     public static final String DATA_FILE_TABLET = "Data_GameSpeed_Tablet";
+    public static final String DATA_FILE_USER = "Data_GameSpeed_User";
+    public static final String DATA_FILE_ORDER = "Data_GameSpeed_Order";
     
     // Session
     public static final String SESSION_USERNAME = "username";

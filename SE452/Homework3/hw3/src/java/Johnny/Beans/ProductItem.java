@@ -5,6 +5,9 @@
  */
 package Johnny.Beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Johnny
@@ -17,8 +20,9 @@ public class ProductItem {
     private String image;
     private String maker;
     private double discount;
+    private static List<Review> reviews = new ArrayList<Review>();
 
-    public ProductItem(String id, String name, int type, double price, String image, String maker, double discount) {
+    public ProductItem(String id, String name, int type, double price, String image, String maker, double discount, List<Review> reviews) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -26,6 +30,7 @@ public class ProductItem {
         this.image = image;
         this.maker = maker;
         this.discount = discount;
+        this.reviews = reviews;
     }
 
     public String getId() {
@@ -82,6 +87,14 @@ public class ProductItem {
     
     public double getDiscountedPrice() {
         return price * (100 - discount) / 100;
+    }
+    
+    public List<Review> getReviews() {
+        return reviews;
+    }
+    
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
 

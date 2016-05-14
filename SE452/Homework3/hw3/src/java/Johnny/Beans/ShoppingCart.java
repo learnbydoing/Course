@@ -5,6 +5,7 @@
  */
 package Johnny.Beans;
 
+import Johnny.Dao.ProductDao;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,8 @@ public class ShoppingCart {
                 return;
             }
         }
-        CartItem newCartItem = new CartItem(ProductList.getItem(id, type));
+        ProductDao dao = ProductDao.createInstance();
+        CartItem newCartItem = new CartItem(dao.getProduct(id));
         items.add(newCartItem);
     }
     
@@ -47,7 +49,8 @@ public class ShoppingCart {
                 return;
             }
         }
-        CartItem newCartItem = new CartItem(ProductList.getItem(id, type));
+        ProductDao dao = ProductDao.createInstance();
+        CartItem newCartItem = new CartItem(dao.getProduct(id));
         items.add(newCartItem);
     }
 }

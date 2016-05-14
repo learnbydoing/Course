@@ -1,6 +1,7 @@
-<%@page import="Johnny.Common.Helper"%>
+<%@page import="Johnny.Common.Constants"%>
 <%
-    Helper helper = new Helper(request, null);
-    helper.logout();
+    session.removeAttribute(Constants.SESSION_USERNAME);
+    session.removeAttribute(Constants.SESSION_USERTYPE);
+    session.removeAttribute(Constants.SESSION_CART);
     response.sendRedirect("index.jsp");
 %>

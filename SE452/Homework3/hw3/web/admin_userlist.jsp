@@ -7,9 +7,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
-<jsp:include page="layout_menu.jsp" />
 <%
-    Helper helper = new Helper(request,response.getWriter());
+    Helper helper = new Helper(request);
     if(!helper.isLoggedin()){
         session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
         response.sendRedirect("account_login.jsp");
@@ -21,12 +20,13 @@
     if (usertype==null || !usertype.equals(Constants.CONST_TYPE_SALESMAN_LOWER)) {
         errmsg = "You have no authorization to manage user!";
     } else {    
-        UserDao dao = new UserDao();
+        UserDao dao = UserDao.createInstance();
         List<User> list = dao.getUserList();
         pageContext.setAttribute("list", list);
     }
     pageContext.setAttribute("errmsg", errmsg);
 %>
+<jsp:include page="layout_menu.jsp" />
 <section id='content'>
     <div class='cart'>
         <h3>User List</h3>

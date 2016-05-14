@@ -1,4 +1,4 @@
-<%@page import="Johnny.Dao.GameDao"%>
+<%@page import="Johnny.Dao.ConsoleDao"%>
 <%@page import="Johnny.Common.Constants"%>
 <%@page import="Johnny.Common.Helper"%>
 <jsp:include page="layout_top.jsp" />
@@ -13,25 +13,30 @@
     String usertype = helper.usertype();
     String errmsg = "";
     if (usertype==null || !usertype.equals(Constants.CONST_TYPE_STOREMANAGER_LOWER)) {
-        errmsg = "You have no authorization to manage game!";
+        errmsg = "You have no authorization to manage accessory!";
     }
     
     if (errmsg.isEmpty()) {
-        String gamekey = request.getParameter("gamekey");
+        String consolekey = request.getParameter("consolekey");
+        String accessorykey = request.getParameter("accessorykey");
 
-        GameDao dao = GameDao.createInstance();
-        if (dao.isExisted(gamekey)) {
-            dao.deleteGame(gamekey);
-            response.sendRedirect("admin_gamelist.jsp");
+        ConsoleDao dao = ConsoleDao.createInstance();
+        if (!dao.isConsoleExisted(consolekey)) {
+            errmsg = "No such console ["+consolekey+"] !";
         } else {
-            errmsg = "No game found!";
+            if (!dao.isAccessoryExisted(consolekey, accessorykey)) {
+                errmsg = "Accessory ["+accessorykey+"] does not exist!";
+            } else {
+                dao.deleteAccessory(consolekey, accessorykey);
+                response.sendRedirect("admin_accessorylist.jsp");
+            }            
         }
     }
 %>
 <jsp:include page="layout_menu.jsp" />
 <section id="content">
   <div>
-    <h3>Delete Game</h3>
+    <h3>Delete Accessory</h3>
     <h3 style='color:red'><%=errmsg%></h3>    
   </div>
 </section>
