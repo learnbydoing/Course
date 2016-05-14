@@ -3,21 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Johnny.Beans;
+package Johnny.Dao;
 
+import Johnny.Beans.Order;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  *
  * @author Johnny
  */
-public class OrderList {
-    private ArrayList<Order> orders;
-    public OrderList() {        
+public class OrderDao {
+    private static ArrayList<Order> orders;
+    public OrderDao() {        
         orders = new ArrayList();
     }    
   
-    public List getOrders() {
+    public List<Order> getOrders() {
       return orders;
     }
     
@@ -62,26 +64,4 @@ public class OrderList {
             orders.remove(order);
         }
     }
-    
-    public synchronized void setItemQuantity(String orderid, String itemid, int type, int quantity) {
-        Order order;
-        for(int i = 0; i < orders.size(); i++) {
-            order = orders.get(i);
-            if (order.getId().equals(orderid)) {
-                List<OrderItem> items= order.getItems();
-                for (int j = 0; j < items.size(); j++) {
-                    OrderItem orderItem = items.get(j);
-                    if (orderItem.getItemId().equals(itemid)) {
-                        if (quantity <= 0) {
-                            items.remove(j);
-                        } else {
-                            orderItem.setQuantity(quantity);
-                        }
-                        return;
-                    }
-                }
-            }
-        }        
-    }
 }
-

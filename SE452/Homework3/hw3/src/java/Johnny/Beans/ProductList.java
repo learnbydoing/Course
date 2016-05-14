@@ -27,7 +27,7 @@ public class ProductList {
         ArrayList<ProductItem> items = new ArrayList();
         switch(type) {
             case 1:
-                ConsoleDao dao = new ConsoleDao();
+                ConsoleDao dao = ConsoleDao.createInstance();
                 for(Console cs : dao.getConsoleList()){
                     items.add(new ProductItem(cs.getKey(),cs.getName(), 1, cs.getPrice(), cs.getImage(), cs.getMaker(), cs.getDiscount()));
                     for (Accessory ac : cs.getAccessories()) {
@@ -38,13 +38,13 @@ public class ProductList {
             case 2:                
                 break;
             case 3:
-                GameDao gmDao = new GameDao();
+                GameDao gmDao = GameDao.createInstance();
                 for(Game gm : gmDao.getGameList()){
                     items.add(new ProductItem(gm.getKey(),gm.getName(), 3, gm.getPrice(), gm.getImage(), gm.getMaker(), gm.getDiscount()));
                 }                
                 break;
             case 4:
-                TabletDao tbDao = new TabletDao();
+                TabletDao tbDao = TabletDao.createInstance();
                 for(Tablet tb : tbDao.getTabletList()){
                     items.add(new ProductItem(tb.getKey(),tb.getName(), 4, tb.getPrice(), tb.getImage(), tb.getMaker(), tb.getDiscount()));
                 }

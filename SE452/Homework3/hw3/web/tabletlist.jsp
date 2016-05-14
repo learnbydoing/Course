@@ -11,7 +11,7 @@
         String makerName = request.getParameter("maker");
         makerName = makerName == null ? "" : makerName;
 
-        TabletDao dao = new TabletDao();
+        TabletDao dao = TabletDao.createInstance();
         List<Tablet> list = dao.getTabletList(makerName);
         pageContext.setAttribute("list", list);
     %>    

@@ -11,7 +11,7 @@
         String makerName = request.getParameter("maker");
         makerName = makerName == null ? "" : makerName;
 
-        ConsoleDao dao = new ConsoleDao();
+        ConsoleDao dao = ConsoleDao.createInstance();
         List<Console> list = dao.getConsoleList(makerName); 
         pageContext.setAttribute("list", list);
     %>    

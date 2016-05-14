@@ -35,7 +35,7 @@ public class UserDao {
     
     public User getUser(String username) {
         for (User user: users) {
-            if (user.getName().toLowerCase().equals(username)) {
+            if (user.getName().equals(username)) {
                 return user;
             }
         }
@@ -48,5 +48,18 @@ public class UserDao {
     
     public void addUser(User user) {        
         users.add(user);
+    }
+    
+    public void deleteUser(String username) {
+        if (users==null || users.isEmpty()) {
+            return;
+        } 
+        
+        User user = getUser(username);
+        if (user==null) {
+            return;
+        } else {
+            users.remove(user);
+        }
     }
 }

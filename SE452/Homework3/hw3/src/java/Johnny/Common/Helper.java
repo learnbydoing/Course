@@ -26,8 +26,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import Johnny.Beans.ShoppingCart;
-import Johnny.Beans.OrderList;
 import Johnny.Beans.Accessory;
+import Johnny.Beans.Order;
 import Johnny.Beans.ProductItem;
 import Johnny.Beans.ProductList;
 import Johnny.Beans.Review;
@@ -35,7 +35,9 @@ import Johnny.Beans.ShoppingCart;
 import Johnny.Beans.ShoppingCart;
 import Johnny.Beans.ShoppingCart;
 import Johnny.Beans.ShoppingCart;
+import Johnny.Dao.OrderDao;
 import Johnny.Dao.ReviewDao;
+import java.util.List;
 
 public class Helper {
     // Session
@@ -202,12 +204,8 @@ public class Helper {
         if(!isLoggedin()) {
             return 0;
         }
-        
-        OrderList orders = (OrderList)session.getAttribute(SESSION_ORDERS);
-        if (orders == null) {
-            return 0;
-        }
-        return orders.getOrders().size();           
+        OrderDao dao = new OrderDao();
+        return dao.getOrders().size();           
     } 
     
     public int OrderCount(){
@@ -215,11 +213,8 @@ public class Helper {
             return 0;
         }
         
-        OrderList orders = (OrderList)session.getAttribute(SESSION_ORDERS);
-        if (orders == null) {
-            return 0;
-        }
-        return orders.getOrders(username()).size();           
+        OrderDao dao = new OrderDao();
+        return dao.getOrders(username()).size();           
     } 
 
     public String currentDate(){

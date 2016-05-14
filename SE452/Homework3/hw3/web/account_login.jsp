@@ -12,7 +12,7 @@
     
     if ("GET".equalsIgnoreCase(request.getMethod())) {
         
-    } else {         
+    } else {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String usertype = request.getParameter("usertype");
@@ -23,19 +23,16 @@
             String user_password = user.getPassword();
             String user_usertype = user.getUsertype();
             if (password.equals(user_password)&&usertype.equals(user_usertype)) {
-                HttpSession session2 = request.getSession(true);
-                session2.setAttribute(helper.SESSION_USERNAME, user.getName());
-                session2.setAttribute(helper.SESSION_USERTYPE, user.getUsertype());
+                session.setAttribute(helper.SESSION_USERNAME, user.getName());
+                session.setAttribute(helper.SESSION_USERTYPE, user.getUsertype());
                 response.sendRedirect("index.jsp");
                 return;
             }
-        } else {
-            error_msg = "<h3 style='color:red'>Login failed! <br>Please check your username, password and user type!</h3>";
-        }
+        } 
+        error_msg = "<h3 style='color:red'>Login failed! <br>Please check your username, password and user type!</h3>";        
     }
     
     String errmsg = error_msg;
-    HttpSession session2 = request.getSession(true);
     if(session.getAttribute(helper.SESSION_LOGIN_MSG)!=null){
         errmsg = "<h3 style='color:red'>" + session.getAttribute(helper.SESSION_LOGIN_MSG) + "</h3>";
         session.removeAttribute(helper.SESSION_LOGIN_MSG);

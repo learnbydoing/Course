@@ -5,6 +5,7 @@
  */
 package Johnny.Beans;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,7 +55,12 @@ public class Order {
     public Date getDeliveryDate() {
         return deliverydate;
     }
-   
+       
+    public String getFormatDeliveryDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return sdf.format(deliverydate);
+    }
+    
     public List getItems() {
       return items;
     }

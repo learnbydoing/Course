@@ -37,26 +37,26 @@
                 } else {
                     usermenu += "<li>";
                 }
-                usermenu += "<a href='AccessoryMgn'>Accessory</a></li>";
+                usermenu += "<a href='admin_accessorylist'>Accessory</a></li>";
                 if (Constants.CURRENT_PAGE_GAMEMNG.equals(Constants.CURRENT_PAGE_HOME)) {
                     usermenu += "<li class=\"selected\">";
                 } else {
                     usermenu += "<li>";
                 }
-                usermenu += "<a href='GameMgn'>Game</a></li>";
+                usermenu += "<a href='admin_gamelist.jsp'>Game</a></li>";
             } else if (usertype.toLowerCase().equals(Constants.CONST_TYPE_SALESMAN_LOWER)) {
                 if (Constants.CURRENT_PAGE_ALLORDERS.equals(Constants.CURRENT_PAGE_HOME)) {
                     usermenu += "<li class=\"selected\">";
                 } else {
                     usermenu += "<li>";
                 }
-                usermenu += "<a href='OrderAll'>All Order("+"AllOrderCount()"+")</a></li>";
+                usermenu += "<a href='admin_orderlist.jsp'>All Order("+helper.AllOrderCount()+")</a></li>";
                 if (Constants.CURRENT_PAGE_USERS.equals(Constants.CURRENT_PAGE_HOME)) {
                     usermenu += "<li class=\"selected\">";
                 } else {
                     usermenu += "<li>";
                 }
-                usermenu += "<a href='UserMgn'>User</a></li>";
+                usermenu += "<a href='admin_userlist.jsp'>User</a></li>";
             }
         }
         if (Constants.CURRENT_PAGE_MYORDER.equals(Constants.CURRENT_PAGE_HOME)) {
@@ -64,7 +64,7 @@
         } else {
             usermenu += "<li>";
         }
-        usermenu += "<a href='MyOrder'>My Order("+helper.OrderCount()+")</a></li>";
+        usermenu += "<a href='myorder.jsp'>My Order("+helper.OrderCount()+")</a></li>";
         if (Constants.CURRENT_PAGE_CART.equals(Constants.CURRENT_PAGE_HOME)) {
             usermenu += "<li class=\"selected\">";
         } else {
@@ -72,7 +72,6 @@
         }
         usermenu += "<a href='mycart.jsp'>Cart("+helper.CartCount()+")</a></li>";
         usermenu += "</ul>";
-
     %>
     <div style="float: left; ">
       <%= sitemenu %>

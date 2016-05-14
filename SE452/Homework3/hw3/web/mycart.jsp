@@ -1,4 +1,3 @@
-<%@page import="Johnny.Dao.GameDao"%>
 <%@page import="java.util.List"%>
 <%@page import="Johnny.Beans.ShoppingCart"%>
 <%@page import="Johnny.Beans.CartItem"%>
@@ -83,7 +82,7 @@
                     <c:set var="counter" value="${counter + 1}" scope="page"/>
                 </c:forEach>
                 <tr class='total'><td></td><td></td><td></td><td>Total</td><td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${total}" type="currency"/></td><td></td></tr>
-                <tr><td></td><td></td><td></td><td></td><td></td><td><a href='Checkout' class='button2'>Check Out</a></td></tr></table>
+                <tr><td></td><td></td><td></td><td></td><td></td><td><a href='checkout.jsp' class='button2'>Check Out</a></td></tr></table>
             </c:otherwise>
         </c:choose>
     </div>

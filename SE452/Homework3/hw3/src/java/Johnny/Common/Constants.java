@@ -12,6 +12,11 @@ package Johnny.Common;
 public class Constants {
     private Constants() { }  // Prevents instantiation
     
+    // Serialized Data File
+    public static final String DATA_FILE_CONSOLE = "Data_GameSpeed_Console";
+    public static final String DATA_FILE_GAME = "Data_GameSpeed_Game";
+    public static final String DATA_FILE_TABLET = "Data_GameSpeed_Tablet";
+    
     // Session
     public static final String SESSION_USERNAME = "username";
     public static final String SESSION_USERTYPE = "usertype";

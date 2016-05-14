@@ -11,7 +11,7 @@
         String makerName = request.getParameter("maker");
         makerName = makerName == null ? "" : makerName;
 
-        GameDao dao = new GameDao();
+        GameDao dao = GameDao.createInstance();
         List<Game> list = dao.getGameList(makerName);
         pageContext.setAttribute("list", list);
     %>    

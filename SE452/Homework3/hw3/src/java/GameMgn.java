@@ -48,7 +48,7 @@ public class GameMgn extends HttpServlet {
                 content += "<td>"+i+"</td><td>"+game.getMaker()+"</td><td>"+game.getName()+"</td><td>$"+game.getPrice()+"</td>";
                 content += "<td>";
                 content += "  <span style='padding-right:3px;'><a href='GameEdit?maker="+game.getMaker()+"&game="+game.getKey()+"' class='button'>Edit</a></span>";
-                content += "  <span><a href='GameDel?maker="+game.getMaker()+"&game="+game.getKey()+"'' class='button' onclick = \"return confirm('Are you sure you want to delete this game?')\">Delete</a></span>";
+                content += "  <span><a href='GameDel?maker="+game.getMaker()+"&game="+game.getKey()+"'' class='button' onclick = \"return confirm('Are you sure to delete this game?')\">Delete</a></span>";
                 content += "</td>";
                 content += "</tr>";
                 i++;
