@@ -1,86 +1,137 @@
-1b)
-DECLARE    
-  v_avg80        employee.salary%TYPE;
-  v_emp_num_dpt  NUMBER;
-  v_output       varchar2(1000);
-  CURSOR c_dept IS
-        SELECT   	d.department_id, d.department_name, e.avg_salary
-        FROM 	  	department d
-        INNER JOIN (SELECT department_id, COUNT(*), AVG(salary) AS avg_salary
-                    FROM employee
-                    GROUP BY department_id
-                    HAVING COUNT(*) > 2
-                    AND department_id IS NOT NULL) e
-        ON d.department_id = e.department_id
-        ORDER BY department_name;
-  CURSOR c_emp (p_dept_id NUMBER, p_avg_sal NUMBER) IS
-        SELECT employee_name, salary
-          FROM employee
-         WHERE department_id = p_dept_id
-           AND salary > p_avg_sal
-         ORDER BY employee_name;
-BEGIN 
-  FOR idx_1 IN c_dept LOOP
-    v_avg80 := idx_1.avg_salary * 0.8;
-    SELECT COUNT(*)
-      INTO v_emp_num_dpt
-      FROM employee
-     WHERE department_id = idx_1.department_id
-       AND salary > v_avg80;
-    IF v_emp_num_dpt > 0 THEN      
-      DBMS_OUTPUT.PUT_LINE(RPAD('DEPARTMENT NAME:', 26) || idx_1.department_name);
-      DBMS_OUTPUT.PUT_LINE(RPAD('AVERAGE SALARY:', 24) || TO_CHAR(idx_1.avg_salary, '$99,990.00'));  
-      DBMS_OUTPUT.PUT_LINE(RPAD('80% OF AVERAGE SALARY:', 24) || TO_CHAR(v_avg80, '$99,990.00'));
-      DBMS_OUTPUT.PUT_LINE('There are ' || TO_CHAR(v_emp_num_dpt) || ' employees whose salaries are above ' || TRIM(TO_CHAR(v_avg80, '$99,990.00')) || '.');
-      v_output := '';
-      FOR idx_2 IN c_emp(idx_1.department_id, v_avg80) LOOP
-        v_output := v_output || idx_2.employee_name || ' ' ||	TRIM(TO_CHAR(ROUND(idx_2.salary, 2), '$99,990.00')) || '; ';	        
-      END LOOP;
-      DBMS_OUTPUT.PUT_LINE('EMPLOYEE NAME AND SALARY: ' || v_output);
-      DBMS_OUTPUT.PUT_LINE('');
+2)
+create or replace PROCEDURE check_user_login
+(	
+  in_user_id   NUMBER,
+  in_password  VARCHAR2,
+  out_code     OUT NUMBER
+)
+AS
+  v_count NUMBER;
+BEGIN
+  SELECT COUNT(*)
+    INTO v_count
+    FROM dpu_user
+   WHERE user_id = in_user_id;
+  IF v_count = 0 THEN
+    out_code := -1;
+    RETURN;
+  END IF;
+  
+  SELECT COUNT(*)
+    INTO v_count
+    FROM dpu_user
+   WHERE user_id = in_user_id AND UPPER(is_locked_out) = 'Y';
+  IF v_count = 1 THEN
+    out_code := -2;
+    RETURN;
+  END IF;
+  
+  SELECT COUNT(*)
+    INTO v_count
+    FROM dpu_user
+   WHERE user_id = in_user_id AND password = in_password;
+  IF v_count = 1 THEN
+    UPDATE dpu_user
+    SET last_successful_login_time = SYSDATE, 
+        failed_password_attempt_count = 0,
+        last_failed_login_time = NULL
+    WHERE user_id = in_user_id;
+    out_code := 1;
+    RETURN;
+  ELSE
+    UPDATE dpu_user
+    SET failed_password_attempt_count = failed_password_attempt_count + 1, 
+        last_failed_login_time = SYSDATE
+    WHERE user_id = in_user_id;
+    SELECT failed_password_attempt_count
+      INTO v_count
+      FROM dpu_user
+     WHERE user_id = in_user_id;
+    IF v_count != 5 THEN
+      out_code := -3;
+    ELSE
+      UPDATE dpu_user
+      SET is_locked_out = 'Y',
+          last_locked_out_time = SYSDATE
+      WHERE user_id = in_user_id;
+      out_code := -4;
     END IF;
-  END LOOP;  
+    RETURN;
+  END IF;
+END check_user_login;
+
+3)
+create or replace PROCEDURE reset_user_password
+(
+  in_user_id           NUMBER,
+  in_current_password  VARCHAR2,
+  in_new_password      VARCHAR2,
+  out_code             OUT NUMBER 
+)
+AS
+  v_n NUMBER;
+BEGIN
+  SELECT COUNT(*)
+    INTO v_n
+    FROM dpu_user
+   WHERE user_id = in_user_id;
+  IF v_n = 0 THEN
+    out_code := -1;
+    RETURN;
+  END IF;
+  
+  SELECT COUNT(*)
+    INTO v_n
+    FROM dpu_user
+   WHERE user_id = in_user_id AND password = in_current_password;
+  IF v_n = 0 THEN
+    out_code := -2;
+    RETURN;
+  END IF;
+  
+  IF in_current_password = in_new_password THEN
+    out_code := -3;
+    RETURN;
+  END IF;
+  
+  v_n := LENGTH(in_new_password);
+  IF v_n < 10 OR v_n > 20 THEN
+    out_code := -4;
+    RETURN;
+  END IF;
+  
+  SELECT COUNT(*)
+    INTO v_n
+    FROM DUAL
+   WHERE REGEXP_LIKE(in_new_password, '[A-Z]');
+  IF v_n = 0 THEN
+    out_code := -5;
+    RETURN;
+  END IF;
+  
+  SELECT COUNT(*)
+    INTO v_n
+    FROM DUAL
+  WHERE REGEXP_LIKE(in_new_password, '[a-z]');
+  IF v_n = 0 THEN
+    out_code := -6;
+    RETURN;
+  END IF;
+  
+  SELECT COUNT(*)
+    INTO v_n
+    FROM DUAL
+   WHERE REGEXP_LIKE(in_new_password, '[0-9]');
+  IF v_n = 0 THEN
+    out_code := -7;
+    RETURN;
+  END IF;
+  
+  UPDATE dpu_user
+     SET password = in_new_password,
+         last_password_changed_time = SYSDATE
+   WHERE user_id = in_user_id;
+  out_code := 1;
+  RETURN;
 END;
 
-2b)
-ACCEPT p_1 PROMPT 'Please enter the region name(CHILD_NAME):'
-DECLARE    
-  v_child_name	  region.child_name%TYPE := '&p_1';
-  v_parent_name	  region.parent_name%TYPE;
-  v_output        VARCHAR2(1000);
-  v_parent_count  NUMBER := 0;
-  CURSOR c_region (p_child region.child_name%TYPE) IS 
-      SELECT parent_name
-        FROM region
-       WHERE UPPER(child_name) = UPPER(p_child);
-BEGIN
-  DBMS_OUTPUT.PUT_LINE('USER INPUT:');
-  DBMS_OUTPUT.PUT_LINE(v_child_name);
-  DBMS_OUTPUT.PUT_LINE('');
-  DBMS_OUTPUT.PUT_LINE('MY OUTPUT:'); 
-  LOOP      
-    OPEN c_region(v_child_name);
-    FETCH c_region INTO v_parent_name;
-    IF c_region%FOUND THEN
-      IF v_parent_count = 0 THEN
-        v_output := '(1)' || ' [' || v_child_name || ']';
-      END IF;
-      v_parent_count := v_parent_count + 1;
-      IF v_parent_name IS NOT NULL THEN
-        v_output := ' <-- ' || v_output;
-        v_output := '(' || TO_CHAR(v_parent_count + 1) || ')' || ' [' || v_parent_name || ']' || v_output; 
-      END IF;
-      v_child_name := v_parent_name;
-    ELSE
-      IF v_parent_count = 0 THEN
-        DBMS_OUTPUT.PUT_LINE(UPPER(v_child_name) || ' is not in the table.');
-      END IF;
-      EXIT;
-    END IF;
-    CLOSE c_region;
-  END LOOP;
-  IF v_parent_count > 0 THEN
-    DBMS_OUTPUT.PUT_LINE('NUMBER OF REGION NAMES: ' || TO_CHAR(v_parent_count));
-    DBMS_OUTPUT.PUT_LINE(UPPER(v_output));
-  END IF;
-END;
