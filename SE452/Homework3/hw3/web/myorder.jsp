@@ -70,7 +70,7 @@
                 </c:forEach>
             </c:otherwise>
         </c:choose>
-    </div>
+    <div class='clear'></div>
 </section>    
 <jsp:include page="layout_sidebar.jsp" />
 <jsp:include page="layout_footer.jsp" />

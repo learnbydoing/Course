@@ -3,7 +3,7 @@ $(document).ready(function() {
         $("#search").autocomplete({     
             source : function(request, response) {
                 $.ajax({
-                    url : "AutoComplete",
+                    url : "autocompleter.jsp",
                     type : "GET",
                     data : {
                         term : request.term

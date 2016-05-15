@@ -30,7 +30,7 @@
     </div>
     <div class="clear"></div>
     <div class="header_search">
-      <form action="SearchProduct" method="Post">
+      <form action="searchproduct.jsp" method="Post">
         <input type="text" id="search" name="productname" value="" placeholder="search...">
         <input type="submit" value="">
       </form>

@@ -12,10 +12,5 @@ public class Startup extends HttpServlet
         ServletContext sc = this.getServletContext();
         String path = sc.getRealPath("/WEB-INF/");
         SerializeHelper.root_directory = path;
-        new ConsoleHashMap();
-        new GameHashMap();
-        new UserHashMap();
-        new TabletHashMap();
-        new ReviewHashMap();
     }
 }

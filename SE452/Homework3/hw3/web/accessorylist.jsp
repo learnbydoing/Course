@@ -47,7 +47,7 @@
                               <input type='submit' class='formbutton' value='Add to Cart'>
                             </form>
                           </li>
-                          <li><a class='button' href='review.jsp?productkey=$id$'>Reviews</a></li>
+                          <li><a class='button' href='review.jsp?productkey=<c:out value="${accessory.key}"/>'>Reviews</a></li>
                         </ul>
                       </div>
                     </div>

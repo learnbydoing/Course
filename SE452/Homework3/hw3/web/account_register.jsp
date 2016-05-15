@@ -7,37 +7,42 @@
 <jsp:include page="layout_header.jsp" />
 <%
     String errmsg = "";
-
     String username = "";
     String password = "";
     String repassword = "";
-    String usertype = Constants.CONST_TYPE_CUSTOMER;
-    if ("GET".equalsIgnoreCase(request.getMethod())) {
+    
+    Helper helper = new Helper(request);
+    if(helper.isLoggedin()){
+        errmsg = "Please logout first!";
+    } else {    
+        String usertype = Constants.CONST_TYPE_CUSTOMER;
+        if ("GET".equalsIgnoreCase(request.getMethod())) {
 
-    } else { 
-        Helper helper = new Helper(request);
-        username = request.getParameter("username");
-        password = request.getParameter("password");
-        repassword = request.getParameter("repassword");            
-        if(!helper.isLoggedin()) {
-            usertype = request.getParameter("usertype");
-        }
+        } else { 
 
-        if(!password.equals(repassword)){
-            errmsg = "Password and Re-Password doesn't match!";
-        } else {
-            UserDao dao = UserDao.createInstance();
-            User user = dao.getUser(username);
-            if(user!=null) {
-                errmsg = "User ["+user.getName()+"] already exists as " + user.getUsertype();
+            username = request.getParameter("username");
+            password = request.getParameter("password");
+            repassword = request.getParameter("repassword");            
+            if(!helper.isLoggedin()) {
+                usertype = request.getParameter("usertype");
+            }
+
+            if(!password.equals(repassword)){
+                errmsg = "Password and Re-Password doesn't match!";
             } else {
-                User newuser = new User(username,password,usertype);
-                dao.addUser(newuser);
-                session.setAttribute(helper.SESSION_LOGIN_MSG, "Your "+usertype+" account has been created. Please login");
-                if(!helper.isLoggedin()){
-                    response.sendRedirect("account_login.jsp"); return;
+                UserDao dao = UserDao.createInstance();
+                User user = dao.getUser(username);
+                if(user!=null) {
+                    errmsg = "User ["+user.getName()+"] already exists as " + user.getUsertype();
                 } else {
-                    response.sendRedirect("index.jsp"); return;
+                    User newuser = new User(username,password,usertype);
+                    dao.addUser(newuser);
+                    session.setAttribute(helper.SESSION_LOGIN_MSG, "Your "+usertype+" account has been created. Please login");
+                    if(!helper.isLoggedin()){
+                        response.sendRedirect("account_login.jsp"); return;
+                    } else {
+                        response.sendRedirect("index.jsp"); return;
+                    }
                 }
             }
         }
