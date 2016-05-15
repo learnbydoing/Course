@@ -1,0 +1,59 @@
+﻿@model Assignment4.Models.DTO.CategoryDTO
+@{
+    ViewBag.Title = "Category Management";
+}
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    <h3>Add Category</h3>
+    @using (Ajax.BeginForm("", "api/Category/", new AjaxOptions { HttpMethod = "Post", OnSuccess = "loadList", OnFailure = "alert('An error occurred, please try again.')" }))
+     {
+        @Html.Label("Category Name:") @Html.TextBoxFor(o => o.CategoryName) <br />
+        <input type="submit" value="Save" />
+     }
+    <hr />
+    <table class="table table-striped" id="categoryList">
+        <thead>
+            <tr>
+                <th>Category Id</th>
+                <th>Category Name</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>            
+        </tbody>
+    </table>    
+</div>
+
+
+@section Scripts
+{
+    <script>
+        $().ready(function () {
+            loadList();
+        });
+
+        function loadList() {
+            $("#categoryList").find('tbody').empty();
+            $.getJSON("/api/Category/", function (data) {
+                $.each(data, function (i, category) {
+                    $('#categoryList tbody').append("<tr><td>" + category.CategoryId + "</td><td>" + category.CategoryName + "</td><td><a href='javascript:deleteCategory(" + category.CategoryId + ");'> Delete </a></td>");
+                });
+            });
+        }
+
+        function deleteCategory(id) {
+            $.ajax({
+                url: '/api/Category/' + id,
+                type: 'DELETE',
+                success: function (result) {
+                    loadList();
+                },
+                error: function (result) {
+                    alert("Unable to delete category.")
+                }
+            });
+        }
+    </script>
+}
+

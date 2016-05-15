@@ -1,0 +1,73 @@
+﻿@model Assignment4.Models.DTO.ProductDTO
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Game Storer</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Product List</h2>
+
+
+        <ul id="productList"></ul>
+        <ul id="filterproductList"></ul>
+
+        <h2>Add Product</h2>
+
+        @using (Ajax.BeginForm("", "api/Product/", new AjaxOptions { HttpMethod = "Post", OnSuccess = "loadProducts", OnFailure = "alert('An error occurred, please try again.')" }))
+        {
+            @Html.Label("Product Name:") @Html.TextBoxFor(o => o.ProductName) <br />
+            @Html.Label("Category Id:")  @Html.TextBoxFor(o => o.CategoryId) <br />
+            @Html.Label("Price:")  @Html.TextBoxFor(o => o.Price) <br />
+            @Html.Label("Image:")  @Html.TextBoxFor(o => o.Image) <br />
+            @Html.Label("Condition:")  @Html.TextBoxFor(o => o.Condition) <br />
+            @Html.Label("Discount:")  @Html.TextBoxFor(o => o.Discount) <br />
+            <input type="submit" value="Add Product" />
+        }
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+    $().ready(function () {
+        loadProducts();
+    });
+
+    function loadProducts()
+    {
+        $("#productList").empty();
+        $.getJSON("/api/Product/?CategoryId=0&CategoryName=AAA", function (data) {
+            $.each(data, function (i, product)
+            {
+                $("#productList").append("<li>" + product.ProductName + " " + product.CategoryId + " " + product.Price + " " + product.Condition + "<a href='javascript:deleteProduct(" + product.ProductId + ");'> Delete </li>");
+            });
+        });
+        $("#filterproductList").empty();
+        $.getJSON("/api/Product/?CategoryId=1&CategoryName=BBB", function (data) {
+            $.each(data, function (i, product) {
+                $("#filterproductList").append("<li>" + product.ProductName + " " + product.CategoryId + " " + product.Price + " " + product.Condition + "<a href='javascript:deleteProduct(" + product.ProductId + ");'> Delete </li>");
+            });
+        });
+    }
+
+    function deleteProduct(id)
+    {
+        $.ajax({
+            url: '/api/Product/' + id,
+            type: 'DELETE',
+            success: function (result) {
+                loadProducts();
+            },
+            error: function (result) {
+                alert("Unable to delete product.")
+            }
+        });
+    }
+    </script>
+}
+

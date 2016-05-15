@@ -1,0 +1,114 @@
+﻿@model Assignment4.Models.DTO.ProductDTO
+@{
+    ViewBag.Title = "Product Management";
+}
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    @using (Ajax.BeginForm("", new { controller = "api/Product/" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "loadList", OnFailure = "alert('An error occurred, please try again.')"}, new { @class = "form-horizontal" }))
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        <div class="panel panel-info">
+            <div class="panel-heading">Add Product</div>
+            <div class="panel-body">
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.ProductName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(o => o.ProductName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.CategoryId, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.Categories, "CategoryId", "CategoryName"), new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.Price, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(o => o.Price, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.Image, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(o => o.Image, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.Condition, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(o => o.Condition, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.Discount, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(o => o.Discount, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-success" value="Save" />
+    }
+    <hr />
+    Category: @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.CategoryFilter, "CategoryId", "CategoryName"), new { @id = "categoryFilter", @name = "categoryFilter", @class = "form-control" })
+    <table class="table table-striped" id="productList">
+        <thead>
+            <tr>
+                <th>Product Id</th>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Image</th>
+                <th>Condition</th>
+                <th>Discount</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+@section Scripts
+{
+    <script>
+        $().ready(function () {
+            loadList();
+        });
+
+        $("#categoryFilter").on('change', function (e) {
+            //var optionSelected = $("option:selected", this);
+            var valueSelected = this.value;
+            loadListWithParam(this.value);
+        });
+        function loadList() {
+            $('.validation-summary-errors ul').children().remove();            
+            loadListWithParam(0);
+        }
+        function loadListWithParam(categoryid) {
+            $("#productList").find('tbody').empty();
+            var url = '/api/Product/?CategoryId=' + categoryid + '&CategoryName=AAA';
+            console.log(url);
+            $.getJSON(url, function (data) {
+                $.each(data, function (i, product) {
+                    $('#productList tbody').append("<tr><td>" + product.ProductId + "</td><td>" + product.ProductName + "</td><td>" + product.CategoryId + "</td><td>" + product.Price + "</td><td>" + product.Image + "</td><td>" + product.Condition + "</td><td>" + product.Discount + "</td><td><a href='javascript:deleteProduct(" + product.ProductId + ");'> Delete </a></td>");
+                });
+            });
+        }
+
+        function deleteProduct(id) {
+            $.ajax({
+                url: '/api/Product/' + id,
+                type: 'DELETE',
+                success: function (result) {
+                    loadList();
+                },
+                error: function (result) {
+                    alert("Unable to delete product.")
+                }
+            });
+        }
+    </script>
+}
+
