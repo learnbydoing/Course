@@ -1,16 +1,16 @@
 DECLARE
-  v_ret NUMBER;
+  v_n NUMBER;
 BEGIN
-  --check_user_login(123, 'sdfsdf', v_ret);
-  --DBMS_OUTPUT.PUT_LINE(v_ret);
-  --check_user_login(82004, 'KcxweSYg5551', v_ret);
-  --DBMS_OUTPUT.PUT_LINE(v_ret);
-  --check_user_login(82004, 'qweewq', v_ret);
-  --DBMS_OUTPUT.PUT_LINE(v_ret);
-  --check_user_login(82006, 'vhSDHMDg6661', v_ret);
-  --DBMS_OUTPUT.PUT_LINE(v_ret);
-  check_user_login(82001, 'invalidpassword', v_ret);
-  DBMS_OUTPUT.PUT_LINE(v_ret);
+  --check_user_login(123, 'sdfsdf', v_n);
+  --DBMS_OUTPUT.PUT_LINE(v_n);
+  --check_user_login(82004, 'KcxweSYg5551', v_n);
+  --DBMS_OUTPUT.PUT_LINE(v_n);
+  --check_user_login(82004, 'qweewq', v_n);
+  --DBMS_OUTPUT.PUT_LINE(v_n);
+  --check_user_login(82006, 'vhSDHMDg6661', v_n);
+  --DBMS_OUTPUT.PUT_LINE(v_n);
+  check_user_login(82001, 'invalidpassword', v_n);
+  DBMS_OUTPUT.PUT_LINE(v_n);
 END;
 
 DECLARE
