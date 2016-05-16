@@ -45,8 +45,21 @@ namespace Assignment4.ControllerApis
         // POST api/<controller>
         public HttpResponseMessage Post([FromBody]CategoryDTO value)
         {
+            if (value==null || String.IsNullOrEmpty(value.CategoryName))
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, "Category Name can't be empty!");
+            }            
+
             using (ECTDBContext context = new ECTDBContext())
             {
+                bool exist = context.Categories.Any(c => c.CategoryName.Equals(value.CategoryName, StringComparison.OrdinalIgnoreCase));
+                if (exist)
+                {
+                    //var response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                    //response.Content = new StringContent("Category is already existed, please try another name!");
+                    //return Request.CreateResponse(response);
+                    return Request.CreateResponse(HttpStatusCode.OK, "Category is already existed, please try another name!");
+                }
                 Category newCategory = context.Categories.Create();
                 newCategory.CategoryName = value.CategoryName;
                 context.Categories.Add(newCategory);
@@ -56,6 +69,27 @@ namespace Assignment4.ControllerApis
         }
 
         //PUT REMOVED
+        // POST api/<controller>
+        public HttpResponseMessage Put([FromBody]CategoryDTO value)
+        {
+            if (value == null || String.IsNullOrEmpty(value.CategoryName))
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, "Category Name can't be empty!");
+            }
+
+            using (ECTDBContext context = new ECTDBContext())
+            {
+                bool exist = context.Categories.Any(c => c.CategoryId == value.CategoryId);
+                if (!exist)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "Category["+value.CategoryId+"] does not exist!");
+                }
+                var category = context.Categories.Find(value.CategoryId);
+                category.CategoryName = value.CategoryName;
+                context.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, "Okay");
+            }
+        }
 
         // DELETE api/<controller>/5
         public HttpResponseMessage Delete(int id)

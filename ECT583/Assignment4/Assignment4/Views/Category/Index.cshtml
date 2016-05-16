@@ -5,12 +5,22 @@
 <div class="container">
     <h2>@ViewBag.Title</h2>
     <hr />
-    <h3>Add Category</h3>
-    @using (Ajax.BeginForm("", "api/Category/", new AjaxOptions { HttpMethod = "Post", OnSuccess = "loadList", OnFailure = "alert('An error occurred, please try again.')" }))
-     {
-        @Html.Label("Category Name:") @Html.TextBoxFor(o => o.CategoryName) <br />
-        <input type="submit" value="Save" />
-     }
+    @using (Ajax.BeginForm("", new { controller = "api/Category/" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }, new { @class = "form-horizontal" }))
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        <div class="panel panel-info">
+            <div class="panel-heading">Add Category</div>
+            <div class="panel-body">
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.CategoryName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(o => o.CategoryName, new { @class = "form-control" })
+                    </div>
+                </div>                
+            </div>
+        </div>
+        <input type="submit" class="btn btn-success" value="Save" />
+    }
     <hr />
     <table class="table table-striped" id="categoryList">
         <thead>
@@ -20,8 +30,7 @@
                 <th>Operations</th>
             </tr>
         </thead>
-        <tbody>            
-        </tbody>
+        <tbody></tbody>
     </table>    
 </div>
 
@@ -30,14 +39,37 @@
 {
     <script>
         $().ready(function () {
+            $(".fancybox").fancybox({
+                fitToView: false,
+                autoSize: false,
+                autoDimensions: false,
+                width: 520,
+                height: 310,
+                afterClose: function () { window.location.reload(); }
+            });
             loadList();
         });
 
+        function onSuccess(data) {
+            if (data == "Okay") {
+                loadList();
+            } else {
+                $(".text-danger").addClass("validation-summary-errors");
+                $(".text-danger").removeClass("validation-summary-valid");
+                $('.text-danger ul').children().remove();
+                $('.text-danger ul').append("<li>" + data + "</li>")
+            }
+        }
+        function onFailure(data) {
+            alert('An error occurred, please try again.')
+        }
         function loadList() {
+            $('#CategoryName').val("");
+            $('.validation-summary-errors ul').children().remove();
             $("#categoryList").find('tbody').empty();
             $.getJSON("/api/Category/", function (data) {
                 $.each(data, function (i, category) {
-                    $('#categoryList tbody').append("<tr><td>" + category.CategoryId + "</td><td>" + category.CategoryName + "</td><td><a href='javascript:deleteCategory(" + category.CategoryId + ");'> Delete </a></td>");
+                    $('#categoryList tbody').append("<tr><td>" + category.CategoryId + "</td><td>" + category.CategoryName + "</td><td><span style='padding-right:3px;'><a class='fancybox fancybox.iframe' href='/Category/Edit/"+category.CategoryId+"'>Edit</a> </span><a href='javascript:deleteCategory(" + category.CategoryId + ");'> Delete </a></td>");
                 });
             });
         }

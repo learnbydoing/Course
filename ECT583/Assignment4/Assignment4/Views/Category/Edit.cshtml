@@ -1,0 +1,33 @@
+﻿@model Assignment4.Models.CategoryEditViewModel
+@{
+    ViewBag.Title = @Model.Title;
+    Layout = "~/Views/Shared/_LayoutEdit.cshtml";
+}
+@if (Model.IsErrorStatusMessage == false)
+{
+    using (Html.BeginForm("Update", "Category", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        @Html.Hidden("CategoryId", @Model.EditableCategory.CategoryId)
+        <div class="panel panel-info">
+            <div class="panel-heading">Edit Category</div>
+            <div class="panel-body">
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.EditableCategory.CategoryName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBox("CategoryName", @Model.EditableCategory.CategoryName)
+                    </div>
+                </div>
+                <div class="form-group required">
+                    <div class="col-md-10">
+                        <input type="submit" class="btn btn-success" value="Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    }
+}
+else
+{
+    <strong>@Model.StatusMessage</strong>
+}

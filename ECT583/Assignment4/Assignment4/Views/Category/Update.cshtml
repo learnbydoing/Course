@@ -1,0 +1,28 @@
+﻿@model Assignment4.Models.OperationViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Update</title>
+</head>
+<body>
+    <div>
+
+        @if (Model.IsError)
+        {
+            <h3>Error</h3>
+            <h3>@Model.Message</h3>
+        }
+        else
+        {
+            <h3>Success</h3>
+            <h3>@Model.Message</h3>
+        }
+    </div>
+</body>
+</html>
