@@ -9,10 +9,13 @@ namespace Assignment4.Models.DTO
     public class ProductDTO
     {
         public int ProductId { get; set; }
+        [Display(Name = "Product Name")]
         [Required]
         public string ProductName { get; set; }
+        [Display(Name = "Category")]
         [Required]
         public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
         [Required]
         public double Price { get; set; }
         [Required]

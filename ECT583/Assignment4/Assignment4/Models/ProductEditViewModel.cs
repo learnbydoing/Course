@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Assignment4.Models
 {
-    public class CategoryEditViewModel: Category
+    public class ProductEditViewModel : Product
     {
         public String Title { get; set; }
         public String StatusMessage { get; set; }

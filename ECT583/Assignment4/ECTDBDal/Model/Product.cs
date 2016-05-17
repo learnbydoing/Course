@@ -19,10 +19,14 @@ namespace ECTDBDal.Model
         [Required]
         public string ProductName { get; set; }
         [Display(Name = "Category")]
-        public int CategoryId { get; set; }        
+        public int CategoryId { get; set; }
+        [Required]
         public double Price { get; set; }
+        [Required]
         public string Image { get; set; }
+        [Required]
         public string Condition { get; set; }
+        [Required]
         public int Discount { get; set; }
     }
 }

@@ -25,13 +25,15 @@ namespace Assignment4.Controllers
             {
 
                 model.Title = "Edit Category";
-                using (ECTDBContext entities = new ECTDBContext())
+                using (ECTDBContext context = new ECTDBContext())
                 {
 
-                    var category = from c in entities.Categories
+                    var category = from c in context.Categories
                                   where c.CategoryId == id
                                   select c;
-                    model.EditableCategory = category.FirstOrDefault();
+                    var cat = category.FirstOrDefault();
+                    model.CategoryId = cat.CategoryId;
+                    model.CategoryName = cat.CategoryName;
                 }
                 return View(model);
             }
@@ -43,31 +45,38 @@ namespace Assignment4.Controllers
             }
         }
 
-        public ActionResult Update(Category pCategory)
+        public ActionResult Update(Category value)
         {
             OperationViewModel model = new OperationViewModel();
             try
-            {
-                using (ECTDBContext entities = new ECTDBContext())
+            {               
+                using (ECTDBContext context = new ECTDBContext())
                 {
-
-                    Category original = entities.Categories.Find(pCategory.CategoryId);
-                    entities.Entry(original).CurrentValues.SetValues(pCategory);
-                    entities.SaveChanges();
-                }
-                model.Message = "Category Updated.";
-                model.IsError = false;
-                model.Id = pCategory.CategoryId;
+                    bool exist = context.Categories.Where(c => c.CategoryId != value.CategoryId).Any(c => c.CategoryName.Equals(value.CategoryName, StringComparison.OrdinalIgnoreCase));
+                    if (exist)
+                    {
+                        model.Message = "Category [" + value.CategoryName + "] is already existed, please try another name!";
+                        model.IsError = true;
+                        model.Id = value.CategoryId;
+                    }
+                    else
+                    {
+                        Category original = context.Categories.Find(value.CategoryId);
+                        context.Entry(original).CurrentValues.SetValues(value);
+                        context.SaveChanges();
+                        model.Message = "Category Updated.";
+                        model.IsError = false;
+                        model.Id = value.CategoryId;
+                    }                    
+                }                
             }
-
             catch (Exception e)
             {
                 model.Message = "Category not updated. Error:" + e.Message;
                 model.IsError = true;
-                model.Id = pCategory.CategoryId;
+                model.Id = value.CategoryId;
             }
             return View(model);
         }
-
     }
 }

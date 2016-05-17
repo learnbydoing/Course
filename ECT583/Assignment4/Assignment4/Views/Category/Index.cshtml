@@ -9,19 +9,22 @@
     {
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         <div class="panel panel-info">
-            <div class="panel-heading">Add Category</div>
+            <div class="panel-heading">New Category</div>
             <div class="panel-body">
                 <div class="form-group required">
-                    @Html.LabelFor(o => o.CategoryName, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(o => o.CategoryName, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
                         @Html.TextBoxFor(o => o.CategoryName, new { @class = "form-control" })
                     </div>
-                </div>                
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" class="btn btn-success" value="Create" />
+                    </div>
+                </div>              
             </div>
         </div>
-        <input type="submit" class="btn btn-success" value="Save" />
     }
-    <hr />
     <table class="table table-striped" id="categoryList">
         <thead>
             <tr>
@@ -34,7 +37,6 @@
     </table>    
 </div>
 
-
 @section Scripts
 {
     <script>
@@ -43,8 +45,8 @@
                 fitToView: false,
                 autoSize: false,
                 autoDimensions: false,
-                width: 520,
-                height: 310,
+                width: 370,
+                height: 260,
                 afterClose: function () { window.location.reload(); }
             });
             loadList();
@@ -61,7 +63,8 @@
             }
         }
         function onFailure(data) {
-            alert('An error occurred, please try again.')
+            alert('An error occurred, please try again.');
+            //alert('Error:' + data.responseText);
         }
         function loadList() {
             $('#CategoryName').val("");
@@ -75,16 +78,26 @@
         }
 
         function deleteCategory(id) {
-            $.ajax({
-                url: '/api/Category/' + id,
-                type: 'DELETE',
-                success: function (result) {
-                    loadList();
-                },
-                error: function (result) {
-                    alert("Unable to delete category.")
-                }
-            });
+            var result = confirm("Are you sure to delete?");
+            if (result) {
+                $.ajax({
+                    url: '/api/Category/' + id,
+                    type: 'DELETE',
+                    success: function (data) {
+                        if (data == "Okay") {
+                            loadList();
+                        } else {
+                            $(".text-danger").addClass("validation-summary-errors");
+                            $(".text-danger").removeClass("validation-summary-valid");
+                            $('.text-danger ul').children().remove();
+                            $('.text-danger ul').append("<li>" + data + "</li>")
+                        }
+                    },
+                    error: function (data) {
+                        alert("Unable to delete category. " + data);
+                    }
+                });
+            }            
         }
     </script>
 }

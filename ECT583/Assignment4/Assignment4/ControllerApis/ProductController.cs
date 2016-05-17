@@ -23,21 +23,26 @@ namespace Assignment4.ControllerApis
         //}
 
         // GET api/<controller>
-        public List<ProductDTO> Get([FromUri] Category category)
+        public List<ProductDTO> Get([FromUri] Category value)
         {
             using (ECTDBContext context = new ECTDBContext())
             {
-                if (category.CategoryId == 0)
+                if (value.CategoryId == 0)
                 {
-                    return context.Products
-                    .Select(s => new ProductDTO { ProductId = s.ProductId, ProductName = s.ProductName, CategoryId = s.CategoryId, Price = s.Price, Image = s.Image, Condition = s.Condition, Discount = s.Discount })
-                    .ToList();
+                    var query = from product in context.Products
+                                join category in context.Categories
+                                  on product.CategoryId equals category.CategoryId
+                      select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount };
+                    return query.ToList();
                 }
                 else
                 {
-                    return context.Products.Where(c => c.CategoryId == category.CategoryId)
-                        .Select(s => new ProductDTO { ProductId = s.ProductId, ProductName = s.ProductName, CategoryId = s.CategoryId, Price = s.Price, Image = s.Image, Condition = s.Condition, Discount = s.Discount })
-                        .ToList();
+                    var query = from product in context.Products
+                                where product.CategoryId == value.CategoryId
+                                join category in context.Categories
+                                  on product.CategoryId equals category.CategoryId
+                                select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount };
+                    return query.ToList();                   
                 }
             }
         }
@@ -60,11 +65,30 @@ namespace Assignment4.ControllerApis
 
         }
 
-        // POST api/<controller>
-        public HttpResponseMessage Post([FromBody]ProductDTO value)
+        // GET: api/Product/GetCount/
+        [Route("api/Product/GetCount")]
+        public int GetCount()
         {
             using (ECTDBContext context = new ECTDBContext())
             {
+                return context.Products.Count();
+            }
+        }
+
+        // POST api/<controller>
+        public HttpResponseMessage Post([FromBody]ProductDTO value)
+        {
+            if (value.Discount < 0 || value.Discount > 100)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, "Discount must between 0 ~ 100.");
+            }
+            using (ECTDBContext context = new ECTDBContext())
+            {
+                bool exist = context.Products.Any(c => c.ProductName.Equals(value.ProductName, StringComparison.OrdinalIgnoreCase));
+                if (exist)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "Product [" + value.ProductName + "] is already existed, please try another name!");
+                }
                 Product newProduct = context.Products.Create();
                 newProduct.ProductName = value.ProductName;
                 newProduct.CategoryId = value.CategoryId;

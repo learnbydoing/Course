@@ -1,0 +1,63 @@
+﻿@model Assignment4.Models.ProductEditViewModel
+@{
+    ViewBag.Title = @Model.Title;
+    Layout = "~/Views/Shared/_LayoutEdit.cshtml";
+}
+@if (Model.IsErrorStatusMessage == false)
+{
+    <div class="panel panel-info">
+        <div class="panel-heading">Edit Product</div>
+        <div class="panel-body">
+            @using (Html.BeginForm("Update", "Product", FormMethod.Post, new { @class = "form-horizontal", @role = "form" }))
+            {
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                @Html.Hidden("ProductId", @Model.ProductId)
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.ProductName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(o => o.ProductName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.CategoryId, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.Categories, "CategoryId", "CategoryName"), new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.Price, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(o => o.Price, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.Image, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(o => o.Image, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.Condition, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(o => o.Condition, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group required">
+                    @Html.LabelFor(o => o.Discount, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(o => o.Discount, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" class="btn btn-success" value="Save" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <strong>@Model.StatusMessage</strong>
+}

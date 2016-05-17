@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
+
 using System.Web.Http;
 using Assignment4.Models.DTO;
 using Assignment4;
@@ -13,7 +13,7 @@ using System.Net;
 
 namespace Assignment4.ControllerApis
 {
-    public class CategoryController : ApiController
+     public class CategoryController : ApiController
     {
         // GET api/<controller>
         public List<CategoryDTO> Get()
@@ -39,7 +39,16 @@ namespace Assignment4.ControllerApis
                     return new CategoryDTO { CategoryId = category.CategoryId, CategoryName = category.CategoryName };
                 }
             }
+        }
 
+        // GET: api/Category/GetCount/
+        [Route("api/Category/GetCount")]
+        public int GetCount()
+        {
+            using (ECTDBContext context = new ECTDBContext())
+            {
+                return context.Categories.Count();
+            }
         }
 
         // POST api/<controller>
@@ -55,10 +64,7 @@ namespace Assignment4.ControllerApis
                 bool exist = context.Categories.Any(c => c.CategoryName.Equals(value.CategoryName, StringComparison.OrdinalIgnoreCase));
                 if (exist)
                 {
-                    //var response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
-                    //response.Content = new StringContent("Category is already existed, please try another name!");
-                    //return Request.CreateResponse(response);
-                    return Request.CreateResponse(HttpStatusCode.OK, "Category is already existed, please try another name!");
+                    return Request.CreateResponse(HttpStatusCode.OK, "Category ["+ value.CategoryName + "] is already existed, please try another name!");
                 }
                 Category newCategory = context.Categories.Create();
                 newCategory.CategoryName = value.CategoryName;
@@ -69,7 +75,7 @@ namespace Assignment4.ControllerApis
         }
 
         //PUT REMOVED
-        // POST api/<controller>
+        // Ajax.htmlForm does not support put and delete, only supports get and post.
         public HttpResponseMessage Put([FromBody]CategoryDTO value)
         {
             if (value == null || String.IsNullOrEmpty(value.CategoryName))
@@ -82,7 +88,7 @@ namespace Assignment4.ControllerApis
                 bool exist = context.Categories.Any(c => c.CategoryId == value.CategoryId);
                 if (!exist)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Category["+value.CategoryId+"] does not exist!");
+                    return Request.CreateResponse(HttpStatusCode.OK, "Category ["+value.CategoryId+"] does not exist!");
                 }
                 var category = context.Categories.Find(value.CategoryId);
                 category.CategoryName = value.CategoryName;
@@ -96,6 +102,11 @@ namespace Assignment4.ControllerApis
         {
             using (ECTDBContext context = new ECTDBContext())
             {
+                bool exist = context.Products.Any(p => p.CategoryId == id);
+                if (exist)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "There are products belong to Category [" + id + "], delete them first!");
+                }
                 var category = context.Categories.Find(id);
                 context.Categories.Remove(category);
                 context.SaveChanges();
