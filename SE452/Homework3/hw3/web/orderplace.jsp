@@ -1,3 +1,4 @@
+<%@page import="Johnny.Common.Constants"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.List"%>
@@ -13,8 +14,9 @@
 <jsp:include page="layout_header.jsp" />
 <%
     Helper helper = new Helper(request);
+    helper.setCurrentPage(Constants.CURRENT_PAGE_CART);
     if(!helper.isLoggedin()){
-        session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
+        session.setAttribute(Constants.SESSION_LOGIN_MSG, "Please login first!");
         response.sendRedirect("account_login.jsp");
         return;
     }
@@ -36,7 +38,7 @@
     
     if (errmsg.isEmpty()) {
         synchronized(session) {
-            cart = (ShoppingCart)session.getAttribute(helper.SESSION_CART);
+            cart = (ShoppingCart)session.getAttribute(Constants.SESSION_CART);
             if (cart == null) {
                 errmsg = "No item in shopping cart, can't place order!";
             } else {
@@ -67,7 +69,7 @@
             // create 
             dao.addOrder(order);
             // remove cart from session
-            session.removeAttribute(helper.SESSION_CART); 
+            session.removeAttribute(Constants.SESSION_CART); 
             pageContext.setAttribute("errmsg", errmsg);
             pageContext.setAttribute("list", list);
         }

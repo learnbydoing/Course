@@ -1,9 +1,11 @@
+<%@page import="Johnny.Common.Constants"%>
 <%@page import="Johnny.Common.Helper"%>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
 <%
     String err_msg = "";
     Helper helper = new Helper(request);
+    helper.setCurrentPage(Constants.CURRENT_PAGE_CART);
     
     if ("GET".equalsIgnoreCase(request.getMethod())) {
         

@@ -6,8 +6,10 @@
 <div>
   <nav>    
     <%
-        String uri = request.getRequestURI();
-        String pageName = uri.substring(uri.lastIndexOf("/")+1);
+        Helper helper = new Helper(request);
+        String currentPage = helper.getCurrentPage();
+        //String uri = request.getRequestURI();
+        //String pageName = uri.substring(uri.lastIndexOf("/")+1);
         String[][] sitemenus = new String[5][2];
         sitemenus[0][0] = Constants.CURRENT_PAGE_HOME;
         sitemenus[0][1] = "index.jsp";
@@ -21,7 +23,7 @@
         sitemenus[4][1] = "tabletlist.jsp";
         String sitemenu = "<ul>";
         for (int i = 0; i < sitemenus.length; i++) {
-            if (sitemenus[i][1].equals(pageName)) {
+            if (sitemenus[i][0].equals(currentPage)) {
                 sitemenu += "<li class=\"selected\">";
             } else {
                 sitemenu += "<li>";
@@ -30,32 +32,32 @@
         }
         sitemenu += "</ul>";
         
-        Helper helper = new Helper(request);
+        
         String usermenu = "<ul>";
         if (session.getAttribute(Constants.SESSION_USERTYPE)!=null){
             String usertype = session.getAttribute(Constants.SESSION_USERTYPE).toString();
             if (usertype.toLowerCase().equals(Constants.CONST_TYPE_STOREMANAGER_LOWER)) {
-                if (Constants.CURRENT_PAGE_ACCMNG.equals(Constants.CURRENT_PAGE_HOME)) {
+                if (Constants.CURRENT_PAGE_ACCMNG.equals(currentPage)) {
                     usermenu += "<li class=\"selected\">";
                 } else {
                     usermenu += "<li>";
                 }
                 usermenu += "<a href='admin_accessorylist.jsp'>Accessory</a></li>";
-                if (Constants.CURRENT_PAGE_GAMEMNG.equals(Constants.CURRENT_PAGE_HOME)) {
+                if (Constants.CURRENT_PAGE_GAMEMNG.equals(currentPage)) {
                     usermenu += "<li class=\"selected\">";
                 } else {
                     usermenu += "<li>";
                 }
                 usermenu += "<a href='admin_gamelist.jsp'>Game</a></li>";
             } else if (usertype.toLowerCase().equals(Constants.CONST_TYPE_SALESMAN_LOWER)) {
-                if (Constants.CURRENT_PAGE_ALLORDERS.equals(Constants.CURRENT_PAGE_HOME)) {
+                if (Constants.CURRENT_PAGE_ALLORDERS.equals(currentPage)) {
                     usermenu += "<li class=\"selected\">";
                 } else {
                     usermenu += "<li>";
                 }
                 OrderDao dao = OrderDao.createInstance();
                 usermenu += "<a href='admin_orderlist.jsp'>All Order("+dao.getOrders().size()+")</a></li>";
-                if (Constants.CURRENT_PAGE_USERS.equals(Constants.CURRENT_PAGE_HOME)) {
+                if (Constants.CURRENT_PAGE_USERMNG.equals(currentPage)) {
                     usermenu += "<li class=\"selected\">";
                 } else {
                     usermenu += "<li>";
@@ -64,7 +66,7 @@
                 usermenu += "<a href='admin_userlist.jsp'>User("+userdao.getUserCount()+")</a></li>";
             }
         }
-        if (Constants.CURRENT_PAGE_MYORDER.equals(Constants.CURRENT_PAGE_HOME)) {
+        if (Constants.CURRENT_PAGE_MYORDER.equals(currentPage)) {
             usermenu += "<li class=\"selected\">";
         } else {
             usermenu += "<li>";
@@ -75,7 +77,7 @@
             ordercount = dao.getOrders(helper.username()).size();
         }
         usermenu += "<a href='myorder.jsp'>My Order("+ordercount+")</a></li>";
-        if (Constants.CURRENT_PAGE_CART.equals(Constants.CURRENT_PAGE_HOME)) {
+        if (Constants.CURRENT_PAGE_CART.equals(currentPage)) {
             usermenu += "<li class=\"selected\">";
         } else {
             usermenu += "<li>";

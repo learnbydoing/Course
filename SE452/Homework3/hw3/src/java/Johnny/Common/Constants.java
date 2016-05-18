@@ -25,6 +25,7 @@ public class Constants {
     public static final String SESSION_CART = "cart";
     public static final String SESSION_ORDERS = "orders";
     public static final String SESSION_LOGIN_MSG = "login_msg";
+    public static final String SESSION_CURRENTPAGE = "currentpage";
     
     // Page
     public static final String CURRENT_PAGE_HOME = "Home";
@@ -34,7 +35,7 @@ public class Constants {
     public static final String CURRENT_PAGE_TABLETS = "Tablets";
     public static final String CURRENT_PAGE_ACCMNG = "Accessory Management";
     public static final String CURRENT_PAGE_GAMEMNG = "Game Management";
-    public static final String CURRENT_PAGE_USERS = "Users";
+    public static final String CURRENT_PAGE_USERMNG = "Users";
     public static final String CURRENT_PAGE_ALLORDERS = "All Orders";
     public static final String CURRENT_PAGE_MYORDER = "My Order";
     public static final String CURRENT_PAGE_CART = "Cart";

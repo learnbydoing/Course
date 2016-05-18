@@ -6,7 +6,7 @@
     </welcome-file-list>
     <servlet>
         <servlet-name>Startup</servlet-name>
-        <servlet-class>Startup</servlet-class>
+        <servlet-class>Johnny.Common.Startup</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>    
     <session-config>

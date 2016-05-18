@@ -1,3 +1,5 @@
+<%@page import="Johnny.Common.Constants"%>
+<%@page import="Johnny.Common.Helper"%>
 <%@page import="java.util.List"%>
 <%@page import="Johnny.Dao.ConsoleDao"%>
 <%@page import="java.util.Map"%>
@@ -8,6 +10,8 @@
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
 <%
+    Helper helper = new Helper(request);
+    helper.setCurrentPage(Constants.CURRENT_PAGE_ACCESSORIES);
     String makerName = request.getParameter("maker");
     makerName = makerName == null ? "" : makerName;
     String consoleid = request.getParameter("console");

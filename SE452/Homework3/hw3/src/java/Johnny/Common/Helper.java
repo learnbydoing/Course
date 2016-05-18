@@ -18,26 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class Helper {
-    // Session
-    public final String SESSION_USERNAME = "username";
-    public final String SESSION_USERTYPE = "usertype";
-    public final String SESSION_CART = "cart";
-    public final String SESSION_ORDERS = "orders";
-    public final String SESSION_LOGIN_MSG = "login_msg";
-    
-    // Page
-    public final String CURRENT_PAGE_HOME = "Home";
-    public final String CURRENT_PAGE_CONSOLES = "Consoles";
-    public final String CURRENT_PAGE_ACCESSORIES = "Accessories";
-    public final String CURRENT_PAGE_GAMES = "Games";
-    public final String CURRENT_PAGE_TABLETS = "Tablets";
-    public final String CURRENT_PAGE_ACCMNG = "Accessory Management";
-    public final String CURRENT_PAGE_GAMEMNG = "Game Management";
-    public final String CURRENT_PAGE_USERS = "Users";
-    public final String CURRENT_PAGE_ALLORDERS = "All Orders";
-    public final String CURRENT_PAGE_MYORDER = "My Order";
-    public final String CURRENT_PAGE_CART = "Cart";
-
     HttpServletRequest req;
     HttpSession session;
 
@@ -47,22 +27,32 @@ public class Helper {
     }
 
     public boolean isLoggedin(){
-        if (session.getAttribute(SESSION_USERNAME)==null)
+        if (session.getAttribute(Constants.SESSION_USERNAME)==null)
             return false;
         return true;
     }
 
     public String username(){
-        if (session.getAttribute(SESSION_USERNAME)!=null)
-            return session.getAttribute(SESSION_USERNAME).toString();
+        if (session.getAttribute(Constants.SESSION_USERNAME)!=null)
+            return session.getAttribute(Constants.SESSION_USERNAME).toString();
         return "";
     }
 
     public String usertype(){
-        if (session.getAttribute(SESSION_USERTYPE)!=null)
-            return session.getAttribute(SESSION_USERTYPE).toString();
+        if (session.getAttribute(Constants.SESSION_USERTYPE)!=null)
+            return session.getAttribute(Constants.SESSION_USERTYPE).toString();
         return null;
-    }   
+    }
+    
+    public String getCurrentPage() {
+        if (session.getAttribute(Constants.SESSION_CURRENTPAGE)!=null)
+            return session.getAttribute(Constants.SESSION_CURRENTPAGE).toString();
+        return null;
+    }
+    
+    public void setCurrentPage(String page) {
+        session.setAttribute(Constants.SESSION_CURRENTPAGE, page);
+    }
 
     public String currentDate(){
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");

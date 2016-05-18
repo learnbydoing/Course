@@ -9,8 +9,9 @@
 <jsp:include page="layout_header.jsp" />
 <%
     Helper helper = new Helper(request);
+    helper.setCurrentPage(Constants.CURRENT_PAGE_GAMEMNG);
     if(!helper.isLoggedin()){
-        session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
+        session.setAttribute(Constants.SESSION_LOGIN_MSG, "Please login first!");
         response.sendRedirect("account_login.jsp");
         return;
     }

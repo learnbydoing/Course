@@ -1,3 +1,4 @@
+<%@page import="Johnny.Common.Constants"%>
 <%@page import="java.util.List"%>
 <%@page import="Johnny.Beans.ShoppingCart"%>
 <%@page import="Johnny.Beans.CartItem"%>
@@ -8,18 +9,19 @@
 <jsp:include page="layout_header.jsp" />
 <%
     Helper helper = new Helper(request);
+    helper.setCurrentPage(Constants.CURRENT_PAGE_CART);
     if(!helper.isLoggedin()){
-        session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
+        session.setAttribute(Constants.SESSION_LOGIN_MSG, "Please login first!");
         response.sendRedirect("account_login.jsp");
         return;
     }
 
     ShoppingCart cart;
     synchronized(session) {
-        cart = (ShoppingCart)session.getAttribute(helper.SESSION_CART);
+        cart = (ShoppingCart)session.getAttribute(Constants.SESSION_CART);
         if (cart == null) {
             cart = new ShoppingCart();
-            session.setAttribute(helper.SESSION_CART, cart);
+            session.setAttribute(Constants.SESSION_CART, cart);
         }
         String id = request.getParameter("id");
         String strtype = request.getParameter("type");

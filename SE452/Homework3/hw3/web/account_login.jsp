@@ -6,14 +6,15 @@
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
 <%
+    Helper helper = new Helper(request);
+    helper.setCurrentPage(Constants.CURRENT_PAGE_HOME);
+    
     String errmsg = "";
     
     String username = "";
     String password = "";
     String usertype = "";
-        
-    Helper helper = new Helper(request);
-    
+
     if ("GET".equalsIgnoreCase(request.getMethod())) {
         
     } else {
@@ -27,8 +28,8 @@
             String user_password = user.getPassword();
             String user_usertype = user.getUsertype();
             if (password.equals(user_password)&&usertype.equals(user_usertype)) {
-                session.setAttribute(helper.SESSION_USERNAME, user.getName());
-                session.setAttribute(helper.SESSION_USERTYPE, user.getUsertype());
+                session.setAttribute(Constants.SESSION_USERNAME, user.getName());
+                session.setAttribute(Constants.SESSION_USERTYPE, user.getUsertype());
                 response.sendRedirect("index.jsp");
                 return;
             }
@@ -37,9 +38,9 @@
     }
     
     if (errmsg.isEmpty()) {
-        if(session.getAttribute(helper.SESSION_LOGIN_MSG)!=null){
-            errmsg = session.getAttribute(helper.SESSION_LOGIN_MSG) + "";
-            session.removeAttribute(helper.SESSION_LOGIN_MSG);
+        if(session.getAttribute(Constants.SESSION_LOGIN_MSG)!=null){
+            errmsg = session.getAttribute(Constants.SESSION_LOGIN_MSG) + "";
+            session.removeAttribute(Constants.SESSION_LOGIN_MSG);
         }
     }
 %>

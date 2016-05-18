@@ -1,3 +1,5 @@
+<%@page import="Johnny.Common.Constants"%>
+<%@page import="Johnny.Common.Helper"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Johnny.Dao.ProductDao"%>
 <%@page import="java.util.List"%>
@@ -7,6 +9,8 @@
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
 <%
+    Helper helper = new Helper(request);
+    helper.setCurrentPage(Constants.CURRENT_PAGE_HOME);
     String productName = request.getParameter("productname");
     productName = productName == null ? "" : productName;
     

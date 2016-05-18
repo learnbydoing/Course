@@ -1,3 +1,4 @@
+<%@page import="Johnny.Common.Constants"%>
 <%@page import="Johnny.Dao.ProductDao"%>
 <%@page import="Johnny.Dao.ConsoleDao"%>
 <%@page import="Johnny.Dao.GameDao"%>
@@ -19,6 +20,7 @@
 <%
     String errmsg = "";
     Helper helper = new Helper(request);
+    helper.setCurrentPage(Constants.CURRENT_PAGE_HOME);
     
     String productkey = request.getParameter("productkey");
     String productname = "";
@@ -35,7 +37,7 @@
 
         } else {
             if(!helper.isLoggedin()){
-                session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
+                session.setAttribute(Constants.SESSION_LOGIN_MSG, "Please login first!");
                 response.sendRedirect("account_login.jsp");
                 return;
             }

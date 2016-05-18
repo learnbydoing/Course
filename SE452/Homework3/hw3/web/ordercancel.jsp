@@ -1,3 +1,4 @@
+<%@page import="Johnny.Common.Constants"%>
 <%@page import="Johnny.Dao.OrderDao"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
@@ -10,8 +11,9 @@
 <%
     String errmsg = "";
     Helper helper = new Helper(request);
+    helper.setCurrentPage(Constants.CURRENT_PAGE_MYORDER);
     if(!helper.isLoggedin()){
-        session.setAttribute(helper.SESSION_LOGIN_MSG, "Please login first!");
+        session.setAttribute(Constants.SESSION_LOGIN_MSG, "Please login first!");
         response.sendRedirect("account_login.jsp");
         return;
     }

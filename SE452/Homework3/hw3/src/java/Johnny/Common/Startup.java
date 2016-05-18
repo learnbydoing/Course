@@ -1,10 +1,18 @@
-import Johnny.Common.SerializeHelper;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Johnny.Common;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
-@WebServlet("/Startup")
+/**
+ *
+ * @author Johnny
+ */
 public class Startup extends HttpServlet
 {
     public void init() throws ServletException

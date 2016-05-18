@@ -6,12 +6,14 @@
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
 <%
+    Helper helper = new Helper(request);
+    helper.setCurrentPage(Constants.CURRENT_PAGE_HOME);
+    
     String errmsg = "";
     String username = "";
     String password = "";
     String repassword = "";
     
-    Helper helper = new Helper(request);
     if(helper.isLoggedin()){
         errmsg = "Please logout first!";
     } else {    
@@ -37,7 +39,7 @@
                 } else {
                     User newuser = new User(username,password,usertype);
                     dao.addUser(newuser);
-                    session.setAttribute(helper.SESSION_LOGIN_MSG, "Your "+usertype+" account has been created. Please login");
+                    session.setAttribute(Constants.SESSION_LOGIN_MSG, "Your "+usertype+" account has been created. Please login");
                     if(!helper.isLoggedin()){
                         response.sendRedirect("account_login.jsp"); return;
                     } else {

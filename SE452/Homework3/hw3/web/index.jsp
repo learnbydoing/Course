@@ -1,5 +1,11 @@
+<%@page import="Johnny.Common.Helper"%>
+<%@page import="Johnny.Common.Constants"%>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
+<%
+    Helper helper = new Helper(request);
+    helper.setCurrentPage(Constants.CURRENT_PAGE_HOME);
+%>
 <jsp:include page="layout_menu.jsp" />
 <img class="header-image" src="images/site/image.jpg" alt="Games" />
 <section id="content">
