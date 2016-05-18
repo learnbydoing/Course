@@ -22,7 +22,7 @@ public class GameDao {
     private static List<Game> games = new ArrayList<Game>();
     private GameDao() {}
     
-    public static GameDao createInstance() {
+    public static synchronized GameDao createInstance() {
         if (dao == null) {
             dao = new GameDao();
             init();

@@ -28,12 +28,13 @@
             errmsg = "No User found!";
         }
     }
+    pageContext.setAttribute("errmsg", errmsg);
 %>
 <jsp:include page="layout_menu.jsp" />
 <section id="content">
   <div>
     <h3>Delete User</h3>
-    <h3 style='color:red'><%=errmsg%></h3>    
+    <h3 style='color:red'>${errmsg}</h3>    
   </div>
 </section>
 <jsp:include page="layout_sidebar.jsp" />

@@ -18,9 +18,10 @@ public class ProductItem {
     private int type; //  1.Console 2.Accessory, 3.Game, 4.Tablet
     private double price;
     private String image;
-    private String maker;
+    private String maker;    
     private double discount;
-    private static List<Review> reviews = new ArrayList<Review>();
+    private String console; // only for accessory
+    private List<Review> reviews = new ArrayList<Review>();
 
     public ProductItem(String id, String name, int type, double price, String image, String maker, double discount, List<Review> reviews) {
         this.id = id;
@@ -30,6 +31,18 @@ public class ProductItem {
         this.image = image;
         this.maker = maker;
         this.discount = discount;
+        this.reviews = reviews;
+    }
+    
+    public ProductItem(String id, String name, int type, double price, String image, String maker, double discount, String console, List<Review> reviews) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.price = price;
+        this.image = image;
+        this.maker = maker;
+        this.discount = discount;
+        this.console = console;
         this.reviews = reviews;
     }
 
@@ -89,11 +102,19 @@ public class ProductItem {
         return price * (100 - discount) / 100;
     }
     
+    public String getConsole() {
+        return console;
+    }
+    
+    public void setConsole(String console) {
+        this.console = console;
+    }
+    
     public List<Review> getReviews() {
         return reviews;
     }
     
-    public void setReviews(List<Review> reviews) {
+    public void setReviews(List<Review> reviews) {        
         this.reviews = reviews;
     }
 }

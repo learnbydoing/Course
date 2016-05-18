@@ -1,7 +1,11 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="Johnny.Beans.SelectorOption"%>
+<%@page import="java.util.List"%>
 <%@page import="Johnny.Common.Constants"%>
 <%@page import="Johnny.Dao.UserDao"%>
 <%@page import="Johnny.Beans.User"%>
 <%@page import="Johnny.Common.Helper"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
 <%
@@ -12,71 +16,71 @@
         response.sendRedirect("account_login.jsp");
         return;
     }
-    String currentusertype = helper.usertype();
+    String usertype = helper.usertype();
     String errmsg = "";
-    if (currentusertype==null || !currentusertype.equals(Constants.CONST_TYPE_SALESMAN_LOWER)) {
+    if (usertype==null || !usertype.equals(Constants.CONST_TYPE_SALESMAN_LOWER)) {
         errmsg = "You have no authorization to manage user!";
     }
-    
+        
     String name = request.getParameter("name");
-    String usertype = "";
-    String password = "";
-    
     if (name==null||name.isEmpty()) {
         errmsg = "<h3 style='color:red'>Invalid Paramters!</h3>";
     }
     
-    String[][] arr = new String[3][2];
-    arr[0][0] = Constants.CONST_TYPE_CUSTOMER_LOWER;
-    arr[0][1] = Constants.CONST_TYPE_CUSTOMER;;
-    arr[1][0] = Constants.CONST_TYPE_STOREMANAGER_LOWER;
-    arr[1][1] = Constants.CONST_TYPE_STOREMANAGER;
-    arr[2][0] = Constants.CONST_TYPE_SALESMAN_LOWER;
-    arr[2][1] = Constants.CONST_TYPE_SALESMAN;
-    String selector = "<select name='usertype' class='input' disabled>";
-    for (int i = 0; i < arr.length; i++) {
-        if (usertype != null && arr[i][0].equals(usertype.toLowerCase())) {
-            selector += "<option value='"+arr[i][0]+"' selected>"+arr[i][1]+"</option>";
-        } else {
-            selector += "<option value='"+arr[i][0]+"'>"+arr[i][1]+"</option>";
-        }
-    }
-    selector += "</select>";
     
+    
+    User user = null;
     if (errmsg.isEmpty()) {
         UserDao dao = UserDao.createInstance();
-        User userobj = dao.getUser(name);        
-        if (userobj == null) {
+        user = dao.getUser(name);
+        if (user == null) {
             errmsg = "User ["+name+"] does not exist!";
         } else {
-            usertype = userobj.getUsertype();
             if ("GET".equalsIgnoreCase(request.getMethod())) {                
-                password = userobj.getPassword();
+
             } else {
-                password = request.getParameter("password");
+                String password = request.getParameter("password");
                 if(password == null||password.isEmpty()){
                     errmsg = "Password can't be empty!";
                 }
                 if (errmsg.isEmpty()) {
-                    userobj.setPassword(password);
+                    user.setPassword(password);
                     errmsg = "User ["+name+"] is updated!";
                 }
             }
         }
     }
+    pageContext.setAttribute("errmsg", errmsg);
+    pageContext.setAttribute("list", helper.getUserTypeList());
+    pageContext.setAttribute("user", user);
 %>
 <jsp:include page="layout_menu.jsp" />
 <section id="content">
   <div>
     <h3>Edit User</h3>
-    <h3 style='color:red'><%=errmsg%></h3>
+    <h3 style='color:red'>${errmsg}</h3>
     <form action="admin_useredit.jsp" method="Post">
-      <input type='hidden' name='usertype' value='<%=usertype%>'>
-      <input type='hidden' name='name' value='<%=name%>'>
+      <input type='hidden' name='usertype' value='${user.usertype}'>
+      <input type='hidden' name='name' value='${user.name}'>
       <table style='width:50%'>
-        <tr><td><h5>User Type:</h5></td><td><%=selector%></td></tr>
-        <tr><td><h5>Name:</h5></td><td><input type='text' name='name' value='<%=name%>' class='input' required disabled/></td></tr>
-        <tr><td><h5>Password:</h5></td><td><input type='text' name='password' value='<%=password%>' class='input' required /></td></tr>
+        <tr><td><h5>User Type:</h5></td>
+            <td>
+                <select name='usertype' class='input' disabled>
+                <c:forEach var="option" items="${list}">
+                    <c:choose>
+                        <c:when test="${option.key == user.usertype.toLowerCase()}">
+                            <option value=${option.key} selected>${option.text}</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value=${option.key}>${option.text}</option>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>  
+                </select>
+            </td>
+        </tr>
+        <tr><td><h5>Name:</h5></td><td><input type='text' name='name' value='${user.name}' class='input' required disabled/></td></tr>
+        <tr><td><h5>Password:</h5></td><td><input type='text' name='password' value='${user.password}' class='input' required /></td></tr>
         <tr><td colspan="2"><input name="create" class="formbutton" value="Save" type="submit" /></td></tr>
       </table>
     </form>

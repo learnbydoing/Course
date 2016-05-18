@@ -57,12 +57,13 @@
             }
         }
     }
+    pageContext.setAttribute("errmsg", errmsg);
 %>
 <jsp:include page="layout_menu.jsp" />
 <section id='content'>
     <div class='cart'>
         <h3>Cancel Order</h3>
-        <h3 style='color:red'><%=errmsg%></h3>
+        <h3 style='color:red'>${errmsg}</h3>
     </div>
 </section>
 <jsp:include page="layout_sidebar.jsp" />

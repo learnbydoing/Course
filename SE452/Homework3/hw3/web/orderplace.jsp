@@ -69,11 +69,12 @@
             // create 
             dao.addOrder(order);
             // remove cart from session
-            session.removeAttribute(Constants.SESSION_CART); 
-            pageContext.setAttribute("errmsg", errmsg);
+            session.removeAttribute(Constants.SESSION_CART);
+            pageContext.setAttribute("order", order);
             pageContext.setAttribute("list", list);
         }
     }
+    pageContext.setAttribute("errmsg", errmsg);
 %>
 <jsp:include page="layout_menu.jsp" />
 <section id='content'>
@@ -81,17 +82,17 @@
         <h3>Order - Confirmation</h3>
         <c:choose>
             <c:when test="${not empty errmsg}">
-                <h3 style='color:red'><%=errmsg%></h3>    
+                <h3 style='color:red'>${errmsg}</h3>    
             </c:when>
             <c:otherwise>
                 <c:set var="total" value="0" scope="page" />
                 <c:set var="counter" value="0" scope="page" />
                 <table class="order_table">
-                    <tr><td width="30%"><h5><i>Order Id: </i></h5></td><td width="70%"><%=orderid%></td></tr>
-                    <tr><td><h5><i>Customer Name: </i></h5></td><td><%=username%></td></tr>
-                    <tr><td><h5><i>Address: </i></h5></td><td><%=address%></td></tr>
-                    <tr><td><h5><i>Confirmation Number: </i></h5></td><td><%=confirmation%></td></tr>    
-                    <tr><td><h5><i>Delivery Date: </i></h5></td><td><%=helper.formateDate(c.getTime())%></td><td></td></tr>
+                    <tr><td width="30%"><h5><i>Order Id: </i></h5></td><td width="70%">${order.id}</td></tr>
+                    <tr><td><h5><i>Customer Name: </i></h5></td><td>${order.userName}</td></tr>
+                    <tr><td><h5><i>Address: </i></h5></td><td>${order.address}</td></tr>
+                    <tr><td><h5><i>Confirmation Number: </i></h5></td><td>${order.confirmation}</td></tr>    
+                    <tr><td><h5><i>Delivery Date: </i></h5></td><td>${order.formatDeliveryDate}</td><td></td></tr>
                 </table>
                 <table cellspacing='0'>
                     <tr><th>No.</th><th>Product Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th></tr>                

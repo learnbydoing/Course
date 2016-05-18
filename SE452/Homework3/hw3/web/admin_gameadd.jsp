@@ -2,6 +2,7 @@
 <%@page import="Johnny.Dao.GameDao"%>
 <%@page import="Johnny.Beans.Game"%>
 <%@page import="Johnny.Common.Helper"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
 <%
@@ -18,30 +19,19 @@
         errmsg = "You have no authorization to manage game!";
     }
     
-    String maker = "";
-    String name = "";
-    String price = "";
-    String image = "";
-    String retailer = "";
-    String condition = "";
-    String discount = "";
+    Game game = null;
     
     if (errmsg.isEmpty()) {
         if ("GET".equalsIgnoreCase(request.getMethod())) {
-            name = "Game1";
-            price = "59.99";
-            image = "games/activision_cod.jpg";
-            retailer = "Activision";
-            condition = "New";
-            discount = "15";
+            game = new Game("game1", "electronicarts", "Game1", 59.99,"games/activision_cod.jpg", "Activision", "New", 15);
         } else {
-            maker = request.getParameter("maker");
-            name = request.getParameter("name");
-            price = request.getParameter("price");
-            image = request.getParameter("image");
-            retailer = request.getParameter("retailer");
-            condition = request.getParameter("condition");
-            discount = request.getParameter("discount");
+            String maker = request.getParameter("maker");
+            String name = request.getParameter("name");
+            String price = request.getParameter("price");
+            String image = request.getParameter("image");
+            String retailer = request.getParameter("retailer");
+            String condition = request.getParameter("condition");
+            String discount = request.getParameter("discount");
 
             if(maker == null){
                 errmsg = "Maker can't be empty!";
@@ -79,34 +69,53 @@
                 }
             }
 
-            if (errmsg.isEmpty()) {
-                String key = name.trim().toLowerCase();
+            String key = name.trim().toLowerCase();
+            game = new Game(key, maker, name, dprice, image, retailer,condition,ddiscount);
+            
+            if (errmsg.isEmpty()) {                
                 GameDao dao = GameDao.createInstance();
                 if(dao.isExisted(key)) {
                     errmsg = "Game ["+name+"] already exist!";
-                } else{                   
-                    Game gm = new Game(key, maker, name, dprice, image, retailer,condition,ddiscount);
-                    dao.addGame(gm);
+                } else{                    
+                    dao.addGame(game);
                     errmsg = "Game ["+name+"] is created!";
                 }
             }
         }
     }
+    pageContext.setAttribute("errmsg", errmsg);
+    pageContext.setAttribute("list", helper.getMakerList());
+    pageContext.setAttribute("game", game);
 %>
 <jsp:include page="layout_menu.jsp" />
 <section id="content">
   <div>
     <h3>Add Game</h3>
-    <h3 style='color:red'><%=errmsg%></h3>
+    <h3 style='color:red'>${errmsg}</h3>
     <form action="admin_gameadd.jsp" method="Post">
       <table style='width:50%'>
-        <tr><td><h5>Maker:</h5></td><td><select name='maker' class='input'><option value='electronicarts' selected>Electronic Arts</option><option value='activision'>Activision</option><option value='taketwointeractive'>Take-Two Interactive</option></select></td></tr>
-        <tr><td><h5>Name:</h5></td><td><input type='text' name='name' value='<%=name%>' class='input' required /></td></tr>
-        <tr><td><h5>Price:</h5></td><td><input type='text' name='price' value='<%=price%>' class='input' required /></td></tr>
-        <tr><td><h5>Image:</h5></td><td><input type='text' name='image' value='<%=image%>' class='input' required /></td></tr>
-        <tr><td><h5>Retailer:</h5></td><td><input type='text' name='retailer' value='<%=retailer%>' class='input' required /></td></tr>
-        <tr><td><h5>Condition:</h5></td><td><input type='text' name='condition' value='<%=condition%>' class='input' required /></td></tr>
-        <tr><td><h5>Discount:</h5></td><td><input type='text' name='discount' value='<%=discount%>' class='input' required /></td></tr>
+        <tr><td><h5>Maker:</h5></td>
+            <td>
+                <select name='maker' class='input'>
+                <c:forEach var="option" items="${list}">
+                    <c:choose>
+                        <c:when test="${option.key == game.maker.toLowerCase()}">
+                            <option value=${option.key} selected>${option.text}</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value=${option.key}>${option.text}</option>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>  
+                </select>
+            </td>
+        </tr>
+        <tr><td><h5>Name:</h5></td><td><input type='text' name='name' value='${game.name}' class='input' required /></td></tr>
+        <tr><td><h5>Price:</h5></td><td><input type='text' name='price' value='${game.price}' class='input' required /></td></tr>
+        <tr><td><h5>Image:</h5></td><td><input type='text' name='image' value='${game.image}' class='input' required /></td></tr>
+        <tr><td><h5>Retailer:</h5></td><td><input type='text' name='retailer' value='${game.retailer}' class='input' required /></td></tr>
+        <tr><td><h5>Condition:</h5></td><td><input type='text' name='condition' value='${game.condition}' class='input' required /></td></tr>
+        <tr><td><h5>Discount:</h5></td><td><input type='text' name='discount' value='${game.discount}' class='input' required /></td></tr>
         <tr><td colspan="2"><input name="create" class="formbutton" value="Create" type="submit" /></td></tr>
       </table>
     </form>

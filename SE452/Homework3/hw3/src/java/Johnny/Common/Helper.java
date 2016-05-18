@@ -13,9 +13,12 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import Johnny.Beans.SelectorOption;
+import java.util.ArrayList;
 
 public class Helper {
     HttpServletRequest req;
@@ -41,19 +44,35 @@ public class Helper {
     public String usertype(){
         if (session.getAttribute(Constants.SESSION_USERTYPE)!=null)
             return session.getAttribute(Constants.SESSION_USERTYPE).toString();
-        return null;
+        return "";
     }
     
     public String getCurrentPage() {
         if (session.getAttribute(Constants.SESSION_CURRENTPAGE)!=null)
             return session.getAttribute(Constants.SESSION_CURRENTPAGE).toString();
-        return null;
+        return "";
     }
     
     public void setCurrentPage(String page) {
         session.setAttribute(Constants.SESSION_CURRENTPAGE, page);
     }
-
+    
+    public List<SelectorOption> getUserTypeList() {
+        List<SelectorOption> list = new ArrayList<SelectorOption>();
+        list.add(new SelectorOption(Constants.CONST_TYPE_CUSTOMER_LOWER, Constants.CONST_TYPE_CUSTOMER));
+        list.add(new SelectorOption(Constants.CONST_TYPE_STOREMANAGER_LOWER, Constants.CONST_TYPE_STOREMANAGER));
+        list.add(new SelectorOption(Constants.CONST_TYPE_SALESMAN_LOWER, Constants.CONST_TYPE_SALESMAN));
+        return list;
+    }
+    
+    public List<SelectorOption> getMakerList() {
+        List<SelectorOption> list = new ArrayList<SelectorOption>();
+        list.add(new SelectorOption(Constants.CONST_ELECTRONICARTS_LOWER, Constants.CONST_ELECTRONICARTS));
+        list.add(new SelectorOption(Constants.CONST_ACTIVISION_LOWER, Constants.CONST_ACTIVISION));
+        list.add(new SelectorOption(Constants.CONST_TAKETWOINTERACTIVE_LOWER, Constants.CONST_TAKETWOINTERACTIVE));
+        return list;
+    }
+   
     public String currentDate(){
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
         Date date = new Date();

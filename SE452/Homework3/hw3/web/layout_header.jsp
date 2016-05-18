@@ -1,3 +1,13 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="Johnny.Common.Constants" %>
+<%
+  String username = "";
+  if (session.getAttribute(Constants.SESSION_USERNAME)!=null){
+      username = session.getAttribute(Constants.SESSION_USERNAME).toString();
+      username = Character.toUpperCase(username.charAt(0)) + username.substring(1);      
+  } 
+  request.setAttribute("username", username);
+%>
 <header>
   <div class="header_logo">
     <table>
@@ -9,24 +19,18 @@
   </div>
   <div class="header_right">
     <div class="account">
-      <%@ page import="Johnny.Common.Constants" %>
-      <%
-        String menuitem = "";
-        if (session.getAttribute(Constants.SESSION_USERNAME)!=null){
-            String username = session.getAttribute(Constants.SESSION_USERNAME).toString();
-            username = Character.toUpperCase(username.charAt(0)) + username.substring(1);
-            menuitem += "<ul>"
-                      + "  <li>Hello, "+username+"</li>"
-                      + "  <li><a href='account_logout.jsp'>Logout</a></li>"
-                      + "</ul>";
-        } else {
-            menuitem += "<ul>"
-                      + "  <li><a href='account_register.jsp'>Register</a></li>"
-                      + "  <li><a href='account_login.jsp'>Login</a></li>"
-                      + "</ul>";
-        }
-       %>
-       <%= menuitem %>
+        <ul>
+        <c:choose>
+            <c:when test="${not empty username}">
+                <li>Hello, ${username}</li>
+                <li><a href='account_logout.jsp'>Logout</a></li>
+            </c:when>
+            <c:otherwise>
+                <li><a href='account_register.jsp'>Register</a></li>
+                <li><a href='account_login.jsp'>Login</a></li>
+            </c:otherwise>
+        </c:choose>
+        </ul>
     </div>
     <div class="clear"></div>
     <div class="header_search">

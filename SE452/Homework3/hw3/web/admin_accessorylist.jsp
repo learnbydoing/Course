@@ -31,13 +31,13 @@
 <jsp:include page="layout_menu.jsp" />
 <section id='content'>
     <div class='cart'>
-        <h3>Accessory Management</h3>
-        <div style='padding:5px'><a href='admin_accessoryadd.jsp' class='button'>Create New Accessory</a></div>
+        <h3>Accessory Management</h3>        
         <c:choose>
             <c:when test="${not empty errmsg}">
                 <h3 style='color:red'><%=errmsg%></h3>
             </c:when>
             <c:otherwise>
+                <div style='padding:5px'><a href='admin_accessoryadd.jsp' class='button'>Create New Accessory</a></div>
                 <c:set var="counter" value="0" scope="page" />
                 <table cellspacing='0'>
                     <tr><th>No.</th><th>Accessory Name</th><th>Console</th><th>Price</th><th>Management</th></tr>

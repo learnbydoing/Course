@@ -11,6 +11,7 @@ import Johnny.Beans.Game;
 import Johnny.Beans.ProductItem;
 import Johnny.Beans.Tablet;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -20,7 +21,7 @@ public class ProductDao {
     private static ProductDao dao;
     private ProductDao() {}
     
-    public static ProductDao createInstance() {
+    public static synchronized ProductDao createInstance() {
         if (dao == null) {
             dao = new ProductDao();
         }
@@ -30,12 +31,13 @@ public class ProductDao {
     public ArrayList<ProductItem> getProductList() {
         ArrayList<ProductItem> items = new ArrayList();        
         ConsoleDao consoleDao = ConsoleDao.createInstance();
-        for (Console cs : consoleDao.getConsoleList()) {
+        List<Console> consoles = consoleDao.getConsoleList();
+        for (Console cs : consoles) {
             items.add(new ProductItem(cs.getKey(),cs.getName(), 1, cs.getPrice(), cs.getImage(), cs.getMaker(), cs.getDiscount(), cs.getReviews()));
         }
-        for (Console cs : consoleDao.getConsoleList()) {
+        for (Console cs : consoles) {
             for (Accessory ac : cs.getAccessories()) {
-                items.add(new ProductItem(ac.getKey(),ac.getName(), 2, ac.getPrice(), ac.getImage(), ac.getRetailer(), ac.getDiscount(), ac.getReviews()));
+                items.add(new ProductItem(ac.getKey(),ac.getName(), 2, ac.getPrice(), ac.getImage(), ac.getRetailer(), ac.getDiscount(), cs.getKey(), ac.getReviews()));
             }
         }
         GameDao gameDao = GameDao.createInstance();

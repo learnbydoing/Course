@@ -23,8 +23,6 @@
     helper.setCurrentPage(Constants.CURRENT_PAGE_HOME);
     
     String productkey = request.getParameter("productkey");
-    String productname = "";
-    String image = "";
     String rating = "";
     String reviewtext = "";
     
@@ -50,7 +48,7 @@
                 reviewtext = request.getParameter("reviewtext");
                 if (rating!=null&&reviewtext!=null) {
                     Review newreview = new Review(helper.generateUniqueId(), productkey, helper.username(), Integer.parseInt(rating), new Date(), reviewtext);
-                    product.getReviews().add(0, newreview);
+                    //product.getReviews().add(0, newreview);
                     switch(product.getType()) {
                         case 1:
                             ConsoleDao consoleDao = ConsoleDao.createInstance();
@@ -58,7 +56,7 @@
                             break;
                         case 2:
                             ConsoleDao consoleDao2 = ConsoleDao.createInstance();
-                            consoleDao2.addAccessoryReview(product.getMaker(), product.getId(), newreview);
+                            consoleDao2.addAccessoryReview(product.getConsole(), product.getId(), newreview);
                             break;
                         case 3:
                             GameDao gameDao = GameDao.createInstance();
@@ -74,25 +72,25 @@
         }
         
         ProductItem product = dao.getProduct(productkey);
-        productname = product.getName();
-        image = product.getImage();
         List<Review> list = product.getReviews();
-        pageContext.setAttribute("list", list);        
+        pageContext.setAttribute("list", list);
+        pageContext.setAttribute("product", product);
+        pageContext.setAttribute("errmsg", errmsg);
     }
 %>
 <jsp:include page="layout_menu.jsp" />
 <section id="content">
   <div class="post">
     <h3 class="title">Product Review</h3>
-    <h3 style='color:red'><%=errmsg%></h3>
+    <h3 style='color:red'>${errmsg}</h3>
     <div class="entry">
-      <h2><%=productname%></h2>
-      <img src="images/<%=image%>" style="width: 300px;" />
+      <h2>${product.name}</h2>
+      <img src="images/${product.image}" style="width: 300px;" />
       <br>
       <hr>
       <h5>Submit Your Review</h5>
       <form action='review.jsp' method='POST'>
-          <input type='hidden' name='productkey' value='<%=productkey%>'>
+          <input type='hidden' name='productkey' value='${product.id}'>
         <table>
             <tr><td>Rating:</td><td><select name='rating' class='input'><option value='5' selected>5</option><option value='4'>4</option><option value='3'>3</option><option value='2'>2</option><option value='1'>1</option></select></td></tr>
             <tr><td>Comments:</td><td><textarea name="reviewtext" rows="5" cols="50"></textarea></td></tr>
@@ -110,7 +108,7 @@
                 <hr style="border-top: dotted 1px;" />
                 <c:forEach var="review" items="${list}">
                     <table cellspacing='0'>
-                        <tr><td><c:out value="${review.userName}"/></td><td><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${reiew.reviewDate}" /></td></tr>
+                        <tr><td><b><c:out value="${review.userName}"/></b></td><td><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${review.reviewDate}" /></td></tr>
                         <tr><td>Rating:</td><td><c:out value="${review.rating}"/></td></tr>
                         <tr><td>Comment:</td><td><c:out value="${review.reviewText}"/></td></tr>
                         <tr><td colspan="2"></td></tr>

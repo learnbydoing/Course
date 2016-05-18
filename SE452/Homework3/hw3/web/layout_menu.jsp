@@ -1,102 +1,87 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="Johnny.Beans.Menu"%>
 <%@page import="Johnny.Beans.ShoppingCart"%>
 <%@page import="Johnny.Dao.UserDao"%>
 <%@page import="Johnny.Dao.OrderDao"%>
 <%@page import="Johnny.Common.Constants" %>
 <%@page import="Johnny.Common.Helper" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    Helper helper = new Helper(request);
+    String currentPage = helper.getCurrentPage();
+    
+    List<Menu> list = new ArrayList<Menu>();
+    list.add(new Menu(Constants.CURRENT_PAGE_HOME, "index.jsp"));
+    list.add(new Menu(Constants.CURRENT_PAGE_CONSOLES, "consolelist.jsp"));
+    list.add(new Menu(Constants.CURRENT_PAGE_ACCESSORIES, "accessorylist.jsp"));
+    list.add(new Menu(Constants.CURRENT_PAGE_GAMES, "gamelist.jsp"));
+    list.add(new Menu(Constants.CURRENT_PAGE_TABLETS, "tabletlist.jsp"));
+    
+    List<Menu> userlist = new ArrayList<Menu>();
+    String usertype = helper.usertype();
+    if (usertype.toLowerCase().equals(Constants.CONST_TYPE_STOREMANAGER_LOWER)) {
+        userlist.add(new Menu(Constants.CURRENT_PAGE_ACCMNG, "admin_accessorylist.jsp"));
+        userlist.add(new Menu(Constants.CURRENT_PAGE_GAMEMNG, "admin_gamelist.jsp"));
+    } else if (usertype.toLowerCase().equals(Constants.CONST_TYPE_SALESMAN_LOWER)) {
+        OrderDao dao = OrderDao.createInstance();
+        userlist.add(new Menu(Constants.CURRENT_PAGE_ALLORDERS, "All Order("+dao.getOrders().size()+")", "admin_orderlist.jsp"));
+        UserDao userdao = UserDao.createInstance();
+        userlist.add(new Menu(Constants.CURRENT_PAGE_USERMNG, "User("+userdao.getUserCount()+")", "admin_userlist.jsp"));
+    }
+    // My Order
+    int ordercount = 0;
+    if (helper.isLoggedin()) {
+        OrderDao dao = OrderDao.createInstance();
+        ordercount = dao.getOrders(helper.username()).size();
+    }
+    userlist.add(new Menu(Constants.CURRENT_PAGE_MYORDER, "My Order("+ordercount+")","myorder.jsp"));
+    
+    // Cart
+    int cartcount = 0;
+    if (helper.isLoggedin()) {
+        ShoppingCart cart = (ShoppingCart)session.getAttribute(Constants.SESSION_CART);
+        if (cart != null) {
+            cartcount = cart.getItems().size();
+        }            
+    }
+    userlist.add(new Menu(Constants.CURRENT_PAGE_CART, "Cart("+cartcount+")", "mycart.jsp"));    
+    
+    pageContext.setAttribute("currentPage", currentPage);
+    pageContext.setAttribute("list", list);
+    pageContext.setAttribute("userlist", userlist);
+%>
 <div>
   <nav>    
-    <%
-        Helper helper = new Helper(request);
-        String currentPage = helper.getCurrentPage();
-        //String uri = request.getRequestURI();
-        //String pageName = uri.substring(uri.lastIndexOf("/")+1);
-        String[][] sitemenus = new String[5][2];
-        sitemenus[0][0] = Constants.CURRENT_PAGE_HOME;
-        sitemenus[0][1] = "index.jsp";
-        sitemenus[1][0] = Constants.CURRENT_PAGE_CONSOLES;
-        sitemenus[1][1] = "consolelist.jsp";
-        sitemenus[2][0] = Constants.CURRENT_PAGE_ACCESSORIES;
-        sitemenus[2][1] = "accessorylist.jsp";
-        sitemenus[3][0] = Constants.CURRENT_PAGE_GAMES;
-        sitemenus[3][1] = "gamelist.jsp";
-        sitemenus[4][0] = Constants.CURRENT_PAGE_TABLETS;
-        sitemenus[4][1] = "tabletlist.jsp";
-        String sitemenu = "<ul>";
-        for (int i = 0; i < sitemenus.length; i++) {
-            if (sitemenus[i][0].equals(currentPage)) {
-                sitemenu += "<li class=\"selected\">";
-            } else {
-                sitemenu += "<li>";
-            }
-            sitemenu += "<a href='"+sitemenus[i][1]+"'>"+sitemenus[i][0]+"</a></li>";
-        }
-        sitemenu += "</ul>";
-        
-        
-        String usermenu = "<ul>";
-        if (session.getAttribute(Constants.SESSION_USERTYPE)!=null){
-            String usertype = session.getAttribute(Constants.SESSION_USERTYPE).toString();
-            if (usertype.toLowerCase().equals(Constants.CONST_TYPE_STOREMANAGER_LOWER)) {
-                if (Constants.CURRENT_PAGE_ACCMNG.equals(currentPage)) {
-                    usermenu += "<li class=\"selected\">";
-                } else {
-                    usermenu += "<li>";
-                }
-                usermenu += "<a href='admin_accessorylist.jsp'>Accessory</a></li>";
-                if (Constants.CURRENT_PAGE_GAMEMNG.equals(currentPage)) {
-                    usermenu += "<li class=\"selected\">";
-                } else {
-                    usermenu += "<li>";
-                }
-                usermenu += "<a href='admin_gamelist.jsp'>Game</a></li>";
-            } else if (usertype.toLowerCase().equals(Constants.CONST_TYPE_SALESMAN_LOWER)) {
-                if (Constants.CURRENT_PAGE_ALLORDERS.equals(currentPage)) {
-                    usermenu += "<li class=\"selected\">";
-                } else {
-                    usermenu += "<li>";
-                }
-                OrderDao dao = OrderDao.createInstance();
-                usermenu += "<a href='admin_orderlist.jsp'>All Order("+dao.getOrders().size()+")</a></li>";
-                if (Constants.CURRENT_PAGE_USERMNG.equals(currentPage)) {
-                    usermenu += "<li class=\"selected\">";
-                } else {
-                    usermenu += "<li>";
-                }
-                UserDao userdao = UserDao.createInstance();
-                usermenu += "<a href='admin_userlist.jsp'>User("+userdao.getUserCount()+")</a></li>";
-            }
-        }
-        if (Constants.CURRENT_PAGE_MYORDER.equals(currentPage)) {
-            usermenu += "<li class=\"selected\">";
-        } else {
-            usermenu += "<li>";
-        }
-        int ordercount = 0;
-        if (helper.isLoggedin()) {
-            OrderDao dao = OrderDao.createInstance();
-            ordercount = dao.getOrders(helper.username()).size();
-        }
-        usermenu += "<a href='myorder.jsp'>My Order("+ordercount+")</a></li>";
-        if (Constants.CURRENT_PAGE_CART.equals(currentPage)) {
-            usermenu += "<li class=\"selected\">";
-        } else {
-            usermenu += "<li>";
-        }
-        int cartcount = 0;
-        if (helper.isLoggedin()) {
-            ShoppingCart cart = (ShoppingCart)session.getAttribute(Constants.SESSION_CART);
-            if (cart != null) {
-                cartcount = cart.getItems().size();
-            }            
-        }
-        usermenu += "<a href='mycart.jsp'>Cart("+cartcount+")</a></li>";
-        usermenu += "</ul>";
-    %>
     <div style="float: left; ">
-      <%= sitemenu %>
+        <ul>
+        <c:forEach var="siteitem" items="${list}">
+            <c:choose>
+                <c:when test="${siteitem.name == currentPage}">
+                    <li class="selected">
+                </c:when>
+                <c:otherwise>
+                    <li>
+                </c:otherwise>
+            </c:choose>
+            <a href='${siteitem.url}'>${siteitem.title}</a></li>
+        </c:forEach>
+        </ul>
     </div>
     <div id="menu" style="float: right;">
-      <%= usermenu %>
+      <ul>
+        <c:forEach var="useritem" items="${userlist}">
+            <c:choose>
+                <c:when test="${useritem.name == currentPage}">
+                    <li class="selected">
+                </c:when>
+                <c:otherwise>
+                    <li>
+                </c:otherwise>
+            </c:choose>
+            <a href='${useritem.url}'>${useritem.title}</a></li>
+        </c:forEach>
+        </ul>
     </div>
   </nav>
 </div>

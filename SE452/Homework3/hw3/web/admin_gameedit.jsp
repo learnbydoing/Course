@@ -2,6 +2,7 @@
 <%@page import="Johnny.Dao.GameDao"%>
 <%@page import="Johnny.Beans.Game"%>
 <%@page import="Johnny.Common.Helper"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
 <%
@@ -124,6 +125,8 @@
         }
     }
     selector += "</select>";
+    pageContext.setAttribute("errmsg", errmsg);
+    pageContext.setAttribute("list", helper.getMakerList());
 %>
 <jsp:include page="layout_menu.jsp" />
 <section id="content">
@@ -134,7 +137,22 @@
       <input type='hidden' name='gamekey' value='<%=gamekey%>'>
       <input type='hidden' name='name' value='<%=name%>'>
       <table style='width:50%'>
-        <tr><td><h5>Maker:</h5></td><td><%=selector%></td></tr>
+        <tr><td><h5>Maker:</h5></td>
+            <td>
+                <select name='maker' class='input'>
+                <c:forEach var="option" items="${list}">
+                    <c:choose>
+                        <c:when test="${option.key == maker.toLowerCase()}">
+                            <option value=${option.key} selected>${option.text}</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value=${option.key}>${option.text}</option>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>  
+                </select>
+            </td>
+        </tr>
         <tr><td><h5>Name:</h5></td><td><input type='text' name='name' value='<%=name%>' class='input' required disabled/></td></tr>
         <tr><td><h5>Price:</h5></td><td><input type='text' name='price' value='<%=price%>' class='input' required /></td></tr>
         <tr><td><h5>Image:</h5></td><td><input type='text' name='image' value='<%=image%>' class='input' required /></td></tr>

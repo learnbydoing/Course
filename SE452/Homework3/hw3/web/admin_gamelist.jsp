@@ -30,13 +30,13 @@
 <jsp:include page="layout_menu.jsp" />
 <section id='content'>
     <div class='cart'>
-        <h3>Game Management</h3>
-        <div style='padding:5px'><a href='admin_gameadd.jsp' class='button'>Create New Game</a></div>
+        <h3>Game Management</h3>        
         <c:choose>
             <c:when test="${not empty errmsg}">
-                <h3 style='color:red'><%=errmsg%></h3>
+                <h3 style='color:red'>${errmsg}</h3>
             </c:when>
             <c:otherwise>
+                <div style='padding:5px'><a href='admin_gameadd.jsp' class='button'>Create New Game</a></div>
                 <c:set var="counter" value="0" scope="page" />
                 <table cellspacing='0'>
                     <tr><th>No.</th><th>Maker</th><th>Game Name</th><th>Price</th><th>Management</th></tr>

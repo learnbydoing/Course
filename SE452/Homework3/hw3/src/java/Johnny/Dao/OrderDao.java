@@ -21,7 +21,7 @@ public class OrderDao {
     private static List<Order> orders = new ArrayList<Order>();
     private OrderDao() {}
     
-    public static OrderDao createInstance() {
+    public static synchronized OrderDao createInstance() {
         if (dao == null) {
             dao = new OrderDao();
             init();

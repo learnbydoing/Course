@@ -33,8 +33,8 @@ public class Constants {
     public static final String CURRENT_PAGE_ACCESSORIES = "Accessories";
     public static final String CURRENT_PAGE_GAMES = "Games";
     public static final String CURRENT_PAGE_TABLETS = "Tablets";
-    public static final String CURRENT_PAGE_ACCMNG = "Accessory Management";
-    public static final String CURRENT_PAGE_GAMEMNG = "Game Management";
+    public static final String CURRENT_PAGE_ACCMNG = "Accessory";
+    public static final String CURRENT_PAGE_GAMEMNG = "Game";
     public static final String CURRENT_PAGE_USERMNG = "Users";
     public static final String CURRENT_PAGE_ALLORDERS = "All Orders";
     public static final String CURRENT_PAGE_MYORDER = "My Order";

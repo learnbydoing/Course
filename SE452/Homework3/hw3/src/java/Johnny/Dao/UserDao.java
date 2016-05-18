@@ -20,7 +20,7 @@ public class UserDao {
     private static List<User> users = new ArrayList<User>();
     private UserDao() {}
     
-    public static UserDao createInstance() {
+    public static synchronized UserDao createInstance() {
         if (dao == null) {
             dao = new UserDao();
             init();

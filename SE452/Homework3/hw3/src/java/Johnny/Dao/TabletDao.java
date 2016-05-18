@@ -21,7 +21,7 @@ public class TabletDao {
     private static List<Tablet> tablets = new ArrayList<Tablet>();
     private TabletDao() {}
     
-    public static TabletDao createInstance() {
+    public static synchronized TabletDao createInstance() {
         if (dao == null) {
             dao = new TabletDao();
             init();

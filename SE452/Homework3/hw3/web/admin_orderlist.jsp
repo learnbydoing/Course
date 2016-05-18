@@ -56,7 +56,7 @@
         <h3>All Orders</h3>
         <c:choose>
             <c:when test="${not empty errmsg}">
-                <h3 style='color:red'><%=errmsg%></h3>    
+                <h3 style='color:red'>${errmsg}</h3>    
             </c:when>
             <c:otherwise>
                 <c:forEach var="order" items="${orders}">

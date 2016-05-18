@@ -23,7 +23,7 @@ public class ConsoleDao {
     private static List<Console> consoles = new ArrayList<Console>();
     private ConsoleDao() {}
     
-    public static ConsoleDao createInstance() {
+    public static synchronized ConsoleDao createInstance() {
         if (dao == null) {
             dao = new ConsoleDao();
             init();
@@ -42,16 +42,16 @@ public class ConsoleDao {
             accessories.add(xboxone_wc);
             accessories.add(xboxone_sh);
             Console xboxone = new Console("xboxone", Constants.CONST_MICROSOFT, "XBox One",399.00,"consoles/xbox1.jpg",Constants.CONST_MICROSOFT,"New",10,accessories);
+            ArrayList<Review> list = new ArrayList<Review>();
+            Review review = new Review("1", xboxone.getKey(), "customer", 3, new Date(), "Too expensive, doesn't worth");
+            list.add(review);
+            xboxone.setReviews(list);
             consoles.add(xboxone);
             
             accessories = new ArrayList<Accessory>();
             Accessory xbox360_mr = new Accessory("xbox360_mr", "xbox360", "Speeding Wheel", 40.00, "accessories/XBOX360-SpeedWheel.jpg", "Microsoft","New",10);
             accessories.add(xbox360_mr);
             Accessory xbox360_wa = new Accessory("xbox360_wa", "xbox360", "Wireless Adapter", 50.00, "accessories/xbox360_wa.png", "Microsoft","New",10);
-            ArrayList<Review> list = new ArrayList<Review>();
-            Review review = new Review("1", xbox360_wa.getKey(), "customer", 3, new Date(), "Too expensive, doesn't worth");
-            list.add(review);
-            xbox360_wa.setReviews(list);                     
             accessories.add(xbox360_wa);
             Console xbox360 = new Console("xbox360", Constants.CONST_MICROSOFT, "XBox 360",299.00,"consoles/xbox360.jpg", Constants.CONST_MICROSOFT,"New",10,accessories);
             list = new ArrayList<Review>();
@@ -59,7 +59,7 @@ public class ConsoleDao {
             list.add(review);
             review = new Review("2", xbox360.getKey(), "storemanager", 4, new Date(), "Like it!");
             list.add(review);
-            xbox360_mr.setReviews(list);
+            xbox360.setReviews(list);
             consoles.add(xbox360);
 
             Accessory ps3_wc = new Accessory("ps3_wc", "ps3", "Wireless Controller", 19.99, "accessories/ps3_controller.jpg", Constants.CONST_SONY,"New",10);

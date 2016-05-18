@@ -6,7 +6,6 @@
     response.setContentType("application/json");
     try {
         String term = request.getParameter("term");
-        //System.out.println("Data from ajax call " + term);
 
         ProductDao dao = ProductDao.createInstance();
         ArrayList<String> list = dao.autoCompleteProducts(term);

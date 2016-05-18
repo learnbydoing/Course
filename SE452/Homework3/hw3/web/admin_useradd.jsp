@@ -2,6 +2,7 @@
 <%@page import="Johnny.Dao.UserDao"%>
 <%@page import="Johnny.Beans.User"%>
 <%@page import="Johnny.Common.Helper"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="layout_top.jsp" />
 <jsp:include page="layout_header.jsp" />
 <%
@@ -18,18 +19,15 @@
         errmsg = "You have no authorization to manage user!";
     }
     
-    String name = "";
-    String password = "";
-    String usertype = "";
-    
+    User user = null;
+            
     if (errmsg.isEmpty()) {
         if ("GET".equalsIgnoreCase(request.getMethod())) {
-            name = "Name1";
-            password = "123456";
+            user = new User("Name1", "123456", "customer");
         } else {
-            name = request.getParameter("name");
-            password = request.getParameter("password");
-            usertype = request.getParameter("usertype");
+            String name = request.getParameter("name");
+            String password = request.getParameter("password");
+            String usertype = request.getParameter("usertype");
 
             if(name == null){
                 errmsg = "Name can't be empty!";
@@ -39,29 +37,47 @@
                 errmsg = "User Type can't be empty!";
             }
 
+            user = new User(name, password, usertype);
             if (errmsg.isEmpty()) {
                 UserDao dao = UserDao.createInstance();
                 if(dao.isExisted(name)) {
                     errmsg = "User ["+name+"] already exist!";
-                } else{
-                    User user = new User(name, password, usertype);
+                } else{                    
                     dao.addUser(user);
                     errmsg = "User ["+name+"] is created!";
                 }
             }
         }
     }
+    pageContext.setAttribute("errmsg", errmsg);
+    pageContext.setAttribute("list", helper.getUserTypeList());
+    pageContext.setAttribute("user", user);
 %>
 <jsp:include page="layout_menu.jsp" />
 <section id="content">
   <div>
     <h3>Add User</h3>
-    <h3 style='color:red'><%=errmsg%></h3>
+    <h3 style='color:red'>${errmsg}</h3>
     <form action="admin_useradd.jsp" method="Post">
       <table style='width:50%'>
-        <tr><td><h5>Maker:</h5></td><td><select name='usertype' class='input'><option value='customer' selected>Customer</option><option value='storemanager'>Store Manager</option><option value='salesman'>Salesman</option></select></td></tr>
-        <tr><td><h5>Name:</h5></td><td><input type='text' name='name' value='<%=name%>' class='input' required /></td></tr>
-        <tr><td><h5>Password:</h5></td><td><input type='text' name='password' value='<%=password%>' class='input' required /></td></tr>
+        <tr><td><h5>User Type:</h5></td>
+            <td>
+                <select name='usertype' class='input'>
+                <c:forEach var="option" items="${list}">
+                    <c:choose>
+                        <c:when test="${option.key == user.usertype.toLowerCase()}">
+                            <option value=${option.key} selected>${option.text}</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value=${option.key}>${option.text}</option>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>  
+                </select>
+            </td>
+        </tr>
+        <tr><td><h5>Name:</h5></td><td><input type='text' name='name' value='${user.name}' class='input' required /></td></tr>
+        <tr><td><h5>Password:</h5></td><td><input type='text' name='password' value='${user.password}' class='input' required /></td></tr>
         <tr><td colspan="2"><input name="create" class="formbutton" value="Create" type="submit" /></td></tr>
       </table>
     </form>

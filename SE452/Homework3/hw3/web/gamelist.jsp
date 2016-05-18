@@ -16,11 +16,12 @@
 
     GameDao dao = GameDao.createInstance();
     List<Game> list = dao.getGameList(makerName);
+    pageContext.setAttribute("makerName", makerName);
     pageContext.setAttribute("list", list);
 %>
 <jsp:include page="layout_menu.jsp" />
 <section id='content'>
-    <h3><%= makerName %> Games</h3>
+    <h3>${makerName} Games</h3>
     <c:set var="counter" value="0" scope="page" />
     <c:forEach var="game" items="${list}">   
         <c:if test="${(counter + 1)%3 == 1}">
