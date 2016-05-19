@@ -33,6 +33,22 @@ public class Order {
         this.deliverydate = deliverydate;
     }
     
+    public Order Clone() {
+        Order clone = new Order();
+        clone.setId(id);
+        clone.setUserName(username);
+        clone.setAddress(address);
+        clone.setCreditCard(creditcard);
+        clone.setConfirmation(confirmation);
+        clone.setDeliveryDate(deliverydate);
+        ArrayList<OrderItem> cloneItems = new ArrayList<OrderItem>();
+        for (OrderItem oit : items) {
+            cloneItems.add(oit.Clone());
+        }
+        clone.setItems(cloneItems);
+        return clone;
+    }
+    
     public String getId() {
         return id;
     }
@@ -90,9 +106,14 @@ public class Order {
         }
     }
     
-    public List getItems() {
-      return items;
+    public ArrayList<OrderItem> getItems() {
+        return items;
     }
+    
+    public void setItems(ArrayList<OrderItem> items) {
+        this.items = new ArrayList<OrderItem>(items);
+    }
+    
     
     public synchronized void addItem(OrderItem item) {
         items.add(item);

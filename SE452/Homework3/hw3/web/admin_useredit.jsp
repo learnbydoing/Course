@@ -24,7 +24,7 @@
         
     String name = request.getParameter("name");
     if (name==null||name.isEmpty()) {
-        errmsg = "<h3 style='color:red'>Invalid Paramters!</h3>";
+        errmsg = "Invalid Paramters!";
     }
     
     User user = null;

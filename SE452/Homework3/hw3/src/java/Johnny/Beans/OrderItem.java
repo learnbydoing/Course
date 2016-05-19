@@ -17,6 +17,13 @@ public class OrderItem {
         setItem(item);
         setQuantity(1);
     }
+    
+    public OrderItem Clone() {
+        ProductItem prod = new ProductItem(item.getId(), item.getName(), item.getType(), item.getPrice(), item.getImage(), item.getMaker(), item.getDiscount(), null);
+        OrderItem clone = new OrderItem(prod);
+        clone.setQuantity(quantity);
+        return clone;        
+    }
 
     public ProductItem getItem() {
         return item;

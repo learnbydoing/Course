@@ -32,58 +32,74 @@
     String username = request.getParameter("username");
     String address = request.getParameter("address");
     String creditcard = request.getParameter("creditcard");
+    String actiontype = request.getParameter("actiontype");
+    
+    order = (Order)session.getAttribute(Constants.SESSION_ORDERITEM);
+    
     if ("GET".equalsIgnoreCase(request.getMethod())) {
-        order = (Order)session.getAttribute(Constants.SESSION_ORDERITEM);
-        String actiontype = request.getParameter("actiontype");
-        if (actiontype==null) {
-            if (order == null) {
-                order = new Order();
-                order.setId(helper.generateUniqueId());
-                order.setUserName(username);
-                order.setAddress(address);
-                order.setCreditCard(creditcard);
-                session.setAttribute(Constants.SESSION_ORDERITEM, order);
-            }            
-        } else if (actiontype.equals("updatequantity")){            
-            if (order != null) {  
-                String id = request.getParameter("itemid");
-                if (id != null && !id.isEmpty()) {
-                    String strQuantity = request.getParameter("quantity");
-                    int quantity;
-                    if (strQuantity == null || strQuantity.isEmpty()) {
-                        quantity = 0;
-                    } else {
-                        try {
-                            quantity = Integer.parseInt(strQuantity);
-                        } catch(NumberFormatException nfe) {
-                            quantity = 1;
-                        }
-                    }
-                    order.setItemQuantity(id, quantity);
-                }
-            }
-        }
-    } else {        
-        order = (Order)session.getAttribute(Constants.SESSION_ORDERITEM);                 
-        if (order != null) {            
-            String confirmation = username + order.getId().substring(order.getId().length()-4) + creditcard.substring(creditcard.length() - 4);
-            Date now = new Date();
-            Calendar c = Calendar.getInstance();
-            c.setTime(now);
-            c.add(Calendar.DATE, 14); // 2 weeks
-            //set order
+        if (order == null) {
+            order = new Order();
+            order.setId(helper.generateUniqueId());
             order.setUserName(username);
             order.setAddress(address);
             order.setCreditCard(creditcard);
-            order.setConfirmation(confirmation);
-            order.setDeliveryDate(c.getTime());
-            OrderDao orderDao =  OrderDao.createInstance();
-            // create 
-            orderDao.addOrder(order);
-            session.removeAttribute(Constants.SESSION_ORDERITEM);
-            response.sendRedirect("admin_orderlist.jsp");
-        }        
+            session.setAttribute(Constants.SESSION_ORDERITEM, order);
+        }
+    } else {
+        if (actiontype != null && actiontype.equals("save")){
+            order.setUserName(username);
+            order.setAddress(address);
+            order.setCreditCard(creditcard);
+            if (address == null || address.isEmpty()) {
+                errmsg = "Address can't be empty!";
+            } else if (creditcard == null || creditcard.length() != 16) {
+                errmsg = "Credit card can't be empty and must be 16 numbers length!";
+            } else {
+                if (order != null) {
+                    if (order.getItems().size() == 0) {
+                        errmsg = "The order contains nothing. You must choose at least one product!";
+                    } else {
+                        String confirmation = username + order.getId().substring(order.getId().length()-4) + creditcard.substring(creditcard.length() - 4);
+                        Date now = new Date();
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(now);
+                        c.add(Calendar.DATE, 14); // 2 weeks
+                        //set order
+                        order.setUserName(username);
+                        order.setAddress(address);
+                        order.setCreditCard(creditcard);
+                        order.setConfirmation(confirmation);
+                        order.setDeliveryDate(c.getTime());
+                        OrderDao orderDao =  OrderDao.createInstance();
+                        // create 
+                        orderDao.addOrder(order);
+                        session.removeAttribute(Constants.SESSION_ORDERITEM);
+                        response.sendRedirect("admin_orderlist.jsp");
+                    }
+                }
+            }
+        }
     }    
+    
+    if (actiontype != null && actiontype.equals("updatequantity")){
+        if (order != null) {  
+            String id = request.getParameter("itemid");
+            if (id != null && !id.isEmpty()) {
+                String strQuantity = request.getParameter("quantity");
+                int quantity;
+                if (strQuantity == null || strQuantity.isEmpty()) {
+                    quantity = 0;
+                } else {
+                    try {
+                        quantity = Integer.parseInt(strQuantity);
+                    } catch(NumberFormatException nfe) {
+                        quantity = 1;
+                    }
+                }
+                order.setItemQuantity(id, quantity);
+            }
+        }
+    } 
     
     UserDao dao = UserDao.createInstance();
     List<User> userlist = dao.getUserList();
@@ -99,7 +115,8 @@
 <jsp:include page="layout_menu.jsp" />
 <section id='content'>
     <div class='cart'>
-        <h3>Create Order</h3>        
+        <h3>Create Order</h3>   
+        <h3 style='color:red'>${errmsg}</h3>
         <div class="order_box">
             <form action="admin_orderadd.jsp?actiontype=save" method="Post">
             <table class="order_table">               
@@ -118,7 +135,7 @@
                         </c:forEach>
                         </select>
                     </td>
-                    <td><input name="save" class="formbutton" value="Save" type="submit" /></td>
+                    <td><input name="save" class="formbutton" value="Place Order" type="submit" /></td>
                 </tr>
                 <tr><td><h5><i>Address: </i></h5></td><td><input type='text' name='address' id='address' value='${order.address}' required /></td><td></td></tr>
                 <tr><td><h5><i>Credit Card Number: </i></h5></td><td><input type='text' name='creditcard' id='creditcard' value='${order.creditCard}' required /></td><td></td></tr>
@@ -136,7 +153,7 @@
                         <td><c:out value="${orderitem.itemName}"/></td>
                         <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${orderitem.unitPrice}" type="currency"/></td>
                         <td>
-                            <form action="admin_orderadd.jsp?actiontype=updatequantity" method="Get">
+                            <form action="admin_orderadd.jsp?actiontype=updatequantity" method="Post">
                                 <input type="hidden" name="orderid" value="<c:out value="${order.id}"/>">
                                 <input type="hidden" name="itemid" value="<c:out value="${orderitem.itemId}"/>">
                                 <input type="text" name="quantity" size=3 value="<c:out value="${orderitem.quantity}"/>">
@@ -175,8 +192,11 @@
             autoDimensions: false,
             width: 370,
             height: 260,
-            afterClose: function () { window.location.reload(); }
+            afterClose: function () { 
+                location.href = 'admin_orderadd.jsp' + '?' + Math.random();
+            } //window.location.reload(); }
         });
+        sethref();
         function sethref() {
             var username = $('#username').val();
             var address = $('#address').val();

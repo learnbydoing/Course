@@ -23,8 +23,8 @@
     }
 
     OrderDao dao = OrderDao.createInstance();
-    List<Order> orders = dao.getOrders();
-    if (orders == null || orders.size() == 0) {
+    List<Order> list = dao.getOrders();
+    if (list == null || list.size() == 0) {
         errmsg = "There is no order yet!";
     } else {
         String orderid = request.getParameter("orderid");
@@ -47,65 +47,39 @@
             dao.setItemQuantity(orderid, itemid, type, quantity);
         }
     }
+    
+    if ("GET".equalsIgnoreCase(request.getMethod())) {
+        if (list != null) {
+            for (Order ord: list) {
+                session.removeAttribute("OrderItem"+ord.getId());                
+            }
+        }
+    }
     pageContext.setAttribute("errmsg", errmsg);
-    pageContext.setAttribute("orders", orders);
+    pageContext.setAttribute("list", list);
 %>
 <jsp:include page="layout_menu.jsp" />
 <section id='content'>
     <div class='cart'>
         <h3>All Orders</h3>
-        <div style='padding:5px'><a href='admin_orderadd.jsp' class='button'>Create New Order</a></div>
         <c:choose>
             <c:when test="${not empty errmsg}">
-                <h3 style='color:red'>${errmsg}</h3>    
+                <h3 style='color:red'>${errmsg}</h3>
             </c:when>
             <c:otherwise>
-                <c:forEach var="order" items="${orders}">
-                    <div class="order_box">
-                        <table class="order_table">
-                            <tr><td><h5><i>Order Id: </i></h5></td><td><c:out value="${order.id}"/></td>
-                                <td>
-                                    <form action="ordercancel.jsp" method="Post"> 
-                                        <input type="hidden" name="orderid" value="<c:out value="${order.id}"/>">
-                                        <input type="submit" value="Cancel Order" class="formbutton" onclick = "return confirm('Are you sure to cancel this order?')">     
-                                    </form>
-                                </td>
-                            </tr>
-                            <tr><td><h5><i>Customer Name: </i></h5></td><td><c:out value="${order.userName}"/></td><td></td></tr>
-                            <tr><td><h5><i>Address: </i></h5></td><td><c:out value="${order.address}"/></td><td></td></tr>
-                            <tr><td><h5><i>Confirmation Number: </i></h5></td><td><c:out value="${order.confirmation}"/></td><td></td></tr>
-                            <tr><td><h5><i>Delivery Date: </i></h5></td><td><c:out value="${order.formatDeliveryDate}"/></td><td></td></tr>
-                        </table>
-                        <table cellspacing='0'>
-                            <tr><th>No.</th><th>Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th><th>Management</th></tr>
-                            <c:set var="total" value="0" scope="page" />
-                            <c:set var="counter" value="0" scope="page" />
-                            <c:forEach var="orderitem" items="${order.getItems()}">                                
-                                <tr>
-                                    <td><c:out value="${counter + 1}"/></td>
-                                    <td><c:out value="${orderitem.itemName}"/></td>
-                                    <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${orderitem.unitPrice}" type="currency"/></td>
-                                    <td>
-                                        <form>
-                                            <input type="hidden" name="orderid" value="<c:out value="${order.id}"/>">
-                                            <input type="hidden" name="itemid" value="<c:out value="${orderitem.itemId}"/>">
-                                            <input type="hidden" name="type" value="<c:out value="${orderitem.itemType}"/>">
-                                            <input type="text" name="quantity" size=3 value="<c:out value="${orderitem.quantity}"/>">
-                                        <input type="submit" class="formbutton2" value="Update">      
-                                        </form>
-                                    </td>
-                                    <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${orderitem.totalCost}" type="currency"/></td>
-                                    <td>
-                                        <span><a href='admin_orderlist.jsp?orderid=<c:out value="${order.id}"/>&itemid=<c:out value="${orderitem.itemId}"/>&type=<c:out value="${orderitem.itemType}"/>&quantity=0' class='button3' onclick = "return confirm('Are you sure to delete this product?')">Delete</a></span>
-                                    </td>
-                                </tr>
-                                <c:set var="total" value="${total + orderitem.getTotalCost()}" scope="page"/>
-                                <c:set var="counter" value="${counter + 1}" scope="page"/>
-                            </c:forEach>
-                            <tr class='total'><td></td><td></td><td></td><td>Total</td><td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${total}" type="currency"/></td><td></td></tr>
-                        </table>
-                    </div>
-                </c:forEach>
+                <div style='padding:5px'><a href='admin_orderadd.jsp' class='button'>Create New Order</a></div>
+                <table cellspacing='0'>
+                    <tr><th>Order Id</th><th>Customer Name</th><th>Delivery Date</th><th>Management</th></tr>
+                <c:forEach var="order" items="${list}">
+                    <tr>
+                        <td><c:out value="${order.id}"/></td><td><c:out value="${order.userName}"/></td><td><c:out value="${order.formatDeliveryDate}"/></td>
+                        <td>
+                            <span style='padding-right:3px;'><a href='admin_orderedit.jsp?orderid=<c:out value="${order.id}"/>' class='button'>Edit</a></span>
+                            <span><a href='admin_orderdel.jsp?orderid=<c:out value="${order.id}"/>' class='button' onclick = "return confirm('Are you sure to delete this order?')">Delete</a></span>
+                        </td>
+                    </tr>
+                </c:forEach>               
+                </table>
             </c:otherwise>
         </c:choose>
     </div>

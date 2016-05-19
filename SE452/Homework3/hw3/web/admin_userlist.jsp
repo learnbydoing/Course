@@ -36,7 +36,6 @@
                 <h3 style='color:red'>${errmsg}</h3>
             </c:when>
             <c:otherwise>
-                <c:set var="total" value="0" scope="page" />
                 <c:set var="counter" value="0" scope="page" />
                 <div style='padding:5px'><a href='admin_useradd.jsp' class='button'>Create New User</a></div>
                 <table cellspacing='0'>
@@ -49,7 +48,6 @@
                             <span><a href='admin_userdel.jsp?username=<c:out value="${user.name}"/>' class='button' onclick = "return confirm('Are you sure to delete this user?')">Delete</a></span>
                         </td>
                     </tr>
-                    <c:set var="total" value="${total + cartitem.totalCost}" scope="page"/>
                     <c:set var="counter" value="${counter + 1}" scope="page"/>
                 </c:forEach>               
                 </table>

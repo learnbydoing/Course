@@ -67,8 +67,16 @@ public class OrderDao {
         return null;
     }
             
+    public boolean isExisted(String id) {
+        return getOrder(id) == null ? false : true;
+    }
+    
     public synchronized void addOrder(Order order) {
-        orders.add(order);
+        orders.add(0, order);
+        SerializeHelper.writeToFile(Constants.DATA_FILE_ORDER, orders);
+    }
+
+    public synchronized void updateOrder() {
         SerializeHelper.writeToFile(Constants.DATA_FILE_ORDER, orders);
     }
     
