@@ -54,6 +54,7 @@
 <section id='content'>
     <div class='cart'>
         <h3>All Orders</h3>
+        <div style='padding:5px'><a href='admin_orderadd.jsp' class='button'>Create New Order</a></div>
         <c:choose>
             <c:when test="${not empty errmsg}">
                 <h3 style='color:red'>${errmsg}</h3>    

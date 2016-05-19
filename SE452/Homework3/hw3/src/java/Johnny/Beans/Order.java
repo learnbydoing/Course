@@ -20,8 +20,10 @@ public class Order {
     private String creditcard;
     private String confirmation;
     private Date deliverydate;
-    private ArrayList<OrderItem> items;
+    private ArrayList<OrderItem> items = new ArrayList();
     
+    public Order() {
+    }
     public Order(String id, String username, String address, String creditcard, String confirmation, Date deliverydate) {
         this.id = id;
         this.username = username;
@@ -29,36 +31,63 @@ public class Order {
         this.creditcard = creditcard;
         this.confirmation = confirmation;
         this.deliverydate = deliverydate;
-        items = new ArrayList();
     }
     
     public String getId() {
         return id;
     }
     
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     public String getUserName() {
         return username;
+    }
+    
+    public void setUserName(String username) {
+        this.username = username;
     }
     
     public String getAddress() {
         return address;
     }
     
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
     public String getCreditCard() {
         return creditcard;
+    }
+    
+    public void setCreditCard(String creditcard) {
+        this.creditcard = creditcard;
     }
     
     public String getConfirmation() {
         return confirmation;
     }
     
+    public void setConfirmation(String confirmation) {
+        this.confirmation = confirmation;
+    }
+    
     public Date getDeliveryDate() {
         return deliverydate;
     }
+    
+    public void setDeliveryDate(Date deliverydate) {
+        this.deliverydate = deliverydate;
+    }
        
     public String getFormatDeliveryDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        return sdf.format(deliverydate);
+        if (deliverydate == null) {
+            return "";
+        } else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            return sdf.format(deliverydate);
+        }
     }
     
     public List getItems() {

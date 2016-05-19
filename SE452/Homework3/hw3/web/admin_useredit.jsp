@@ -27,8 +27,6 @@
         errmsg = "<h3 style='color:red'>Invalid Paramters!</h3>";
     }
     
-    
-    
     User user = null;
     if (errmsg.isEmpty()) {
         UserDao dao = UserDao.createInstance();

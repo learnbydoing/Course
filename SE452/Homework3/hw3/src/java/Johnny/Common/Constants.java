@@ -26,6 +26,7 @@ public class Constants {
     public static final String SESSION_ORDERS = "orders";
     public static final String SESSION_LOGIN_MSG = "login_msg";
     public static final String SESSION_CURRENTPAGE = "currentpage";
+    public static final String SESSION_ORDERITEM = "orderitem";
     
     // Page
     public static final String CURRENT_PAGE_HOME = "Home";

@@ -103,6 +103,7 @@ public class OrderDao {
                         return;
                     }
                 }
+                break;
             }
         }
         SerializeHelper.writeToFile(Constants.DATA_FILE_ORDER, orders);

@@ -72,6 +72,17 @@ public class Helper {
         list.add(new SelectorOption(Constants.CONST_TAKETWOINTERACTIVE_LOWER, Constants.CONST_TAKETWOINTERACTIVE));
         return list;
     }
+    
+    public List<SelectorOption> getConsoleList() {
+        List<SelectorOption> list = new ArrayList<SelectorOption>();
+        list.add(new SelectorOption("xboxone", "Microsoft-Xbox One"));
+        list.add(new SelectorOption("xbox360", "Microsoft-Xbox 360"));
+        list.add(new SelectorOption("ps3", "Sony-PS3"));
+        list.add(new SelectorOption("ps4", "Sony-PS4"));
+        list.add(new SelectorOption("wii", "Nintendo-Wii"));
+        list.add(new SelectorOption("wiiu", "Nintendo-WiiU"));
+        return list;
+    }
    
     public String currentDate(){
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");

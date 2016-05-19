@@ -20,38 +20,24 @@
         errmsg = "You have no authorization to manage game!";
     }
     
-    String gamekey = "";
-    String maker = "";
-    String name = "";
-    String price = "";
-    String image = "";
-    String retailer = "";
-    String condition = "";
-    String discount = "";
-    
+    Game game = null;
+       
     if (errmsg.isEmpty()) {
-        gamekey = request.getParameter("gamekey");
+        String gamekey = request.getParameter("gamekey");
         if (gamekey == null || gamekey.isEmpty()) {
             errmsg = "Invalida parameter. Cannot find the product with key: " + gamekey;
         } else {
             if ("GET".equalsIgnoreCase(request.getMethod())) {            
                 GameDao dao = GameDao.createInstance();
-                Game game = dao.getGame(gamekey);
-                maker = game.getMaker();
-                name = game.getName();
-                price = String.valueOf(game.getPrice());
-                image = game.getImage();
-                retailer = game.getRetailer();
-                condition = game.getCondition();
-                discount = String.valueOf(game.getDiscount());
+                game = dao.getGame(gamekey);               
             } else {
-                maker = request.getParameter("maker");
-                name = request.getParameter("name");
-                price = request.getParameter("price");
-                image = request.getParameter("image");
-                retailer = request.getParameter("retailer");
-                condition = request.getParameter("condition");
-                discount = request.getParameter("discount");
+                String maker = request.getParameter("maker");
+                String name = request.getParameter("name");
+                String price = request.getParameter("price");
+                String image = request.getParameter("image");
+                String retailer = request.getParameter("retailer");
+                String condition = request.getParameter("condition");
+                String discount = request.getParameter("discount");
 
                 if(maker == null){
                     errmsg = "Maker can't be empty!";
@@ -88,61 +74,46 @@
                         errmsg = "Discount must be between 0 and 100!";
                     }
                 }
-
-                if (errmsg.isEmpty()) {
-                    GameDao dao = GameDao.createInstance();
+                
+                GameDao dao = GameDao.createInstance();
+                game = dao.getGame(gamekey);
+                game.setMaker(maker);
+                game.setPrice(dprice);
+                game.setImage(image);
+                game.setRetailer(retailer);
+                game.setCondition(condition);
+                game.setDiscount(ddiscount);
+                if (errmsg.isEmpty()) {                    
                     if(!dao.isExisted(gamekey)) {
                         errmsg = "Game ["+gamekey+"] does not exist!";
-                    } else{
-                        Game game = dao.getGame(gamekey);
-                        game.setMaker(maker);
-                        game.setPrice(dprice);
-                        game.setImage(image);
-                        game.setRetailer(retailer);
-                        game.setCondition(condition);
-                        game.setDiscount(ddiscount);
+                    } else{                        
                         dao.updateGame();
                         errmsg = "Game ["+game.getName()+"] is updated!";
                     }
                 }
             }
         }
-    }
+    }    
     
-    String[][] arr = new String[3][2];
-    arr[0][0] = Constants.CONST_ELECTRONICARTS_LOWER;
-    arr[0][1] = Constants.CONST_ELECTRONICARTS;
-    arr[1][0] = Constants.CONST_ACTIVISION_LOWER;
-    arr[1][1] = Constants.CONST_ACTIVISION;
-    arr[2][0] = Constants.CONST_TAKETWOINTERACTIVE_LOWER;
-    arr[2][1] = Constants.CONST_TAKETWOINTERACTIVE;
-    String selector = "<select name='maker' class='input'>";
-    for (int i = 0; i < arr.length; i++) {
-        if (arr[i][0].equals(maker.toLowerCase())) {
-            selector += "<option value='"+arr[i][0]+"' selected>"+arr[i][1]+"</option>";
-        } else {
-            selector += "<option value='"+arr[i][0]+"'>"+arr[i][1]+"</option>";
-        }
-    }
-    selector += "</select>";
     pageContext.setAttribute("errmsg", errmsg);
     pageContext.setAttribute("list", helper.getMakerList());
+    pageContext.setAttribute("game", game);
 %>
 <jsp:include page="layout_menu.jsp" />
 <section id="content">
   <div>
     <h3>Edit Game</h3>
-    <h3 style='color:red'><%=errmsg%></h3>
+    <h3 style='color:red'>${errmsg}</h3>
     <form action="admin_gameedit.jsp" method="Post">
-      <input type='hidden' name='gamekey' value='<%=gamekey%>'>
-      <input type='hidden' name='name' value='<%=name%>'>
+      <input type='hidden' name='gamekey' value='${game.key}'>
+      <input type='hidden' name='name' value='${game.name}'>
       <table style='width:50%'>
         <tr><td><h5>Maker:</h5></td>
             <td>
                 <select name='maker' class='input'>
                 <c:forEach var="option" items="${list}">
                     <c:choose>
-                        <c:when test="${option.key == maker.toLowerCase()}">
+                        <c:when test="${option.key == game.maker.toLowerCase()}">
                             <option value=${option.key} selected>${option.text}</option>
                         </c:when>
                         <c:otherwise>
@@ -153,12 +124,12 @@
                 </select>
             </td>
         </tr>
-        <tr><td><h5>Name:</h5></td><td><input type='text' name='name' value='<%=name%>' class='input' required disabled/></td></tr>
-        <tr><td><h5>Price:</h5></td><td><input type='text' name='price' value='<%=price%>' class='input' required /></td></tr>
-        <tr><td><h5>Image:</h5></td><td><input type='text' name='image' value='<%=image%>' class='input' required /></td></tr>
-        <tr><td><h5>Retailer:</h5></td><td><input type='text' name='retailer' value='<%=retailer%>' class='input' required /></td></tr>
-        <tr><td><h5>Condition:</h5></td><td><input type='text' name='condition' value='<%=condition%>' class='input' required /></td></tr>
-        <tr><td><h5>Discount:</h5></td><td><input type='text' name='discount' value='<%=discount%>' class='input' required /></td></tr>
+        <tr><td><h5>Name:</h5></td><td><input type='text' name='name' value='${game.name}' class='input' required disabled/></td></tr>
+        <tr><td><h5>Price:</h5></td><td><input type='text' name='price' value='${game.price}' class='input' required /></td></tr>
+        <tr><td><h5>Image:</h5></td><td><input type='text' name='image' value='${game.image}' class='input' required /></td></tr>
+        <tr><td><h5>Retailer:</h5></td><td><input type='text' name='retailer' value='${game.retailer}' class='input' required /></td></tr>
+        <tr><td><h5>Condition:</h5></td><td><input type='text' name='condition' value='${game.condition}' class='input' required /></td></tr>
+        <tr><td><h5>Discount:</h5></td><td><input type='text' name='discount' value='${game.discount}' class='input' required /></td></tr>
         <tr><td colspan="2"><input name="create" class="formbutton" value="Save" type="submit" /></td></tr>
       </table>
     </form>

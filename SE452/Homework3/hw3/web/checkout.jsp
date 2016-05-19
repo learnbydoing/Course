@@ -39,7 +39,7 @@
     <h3 style='color:red'>${errmsg}</h3>
     <form action="checkout.jsp" method="Post">
       <table style='width:55%'>
-          <tr><td>Full Name:</td><td><input type='text' name='username' value='${payment.name}' required disabled/></td></tr>
+        <tr><td>Full Name:</td><td><input type='text' name='username' value='${payment.name}' required disabled/></td></tr>
         <tr><td>Address:</td><td><input type='text' name='address' value='${payment.address}' required /></td></tr>
         <tr><td>Credit Card Number</td><td><input type='text' name='creditcard' value='${payment.creditCard}' required /></td></tr>
         <tr><td><a href='mycart.jsp' class='button2'>Back to cart</a></td><td><input name="create" value="Place Order" type="submit" class="formbutton" /></td></tr>
