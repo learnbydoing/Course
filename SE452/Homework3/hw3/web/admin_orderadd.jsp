@@ -34,16 +34,37 @@
     String creditcard = request.getParameter("creditcard");
     if ("GET".equalsIgnoreCase(request.getMethod())) {
         order = (Order)session.getAttribute(Constants.SESSION_ORDERITEM);
-        if (order == null) {
-            order = new Order();
-            order.setId(helper.generateUniqueId());
-            order.setUserName(username);
-            order.setAddress(address);
-            order.setCreditCard(creditcard);
-            session.setAttribute(Constants.SESSION_ORDERITEM, order);
+        String actiontype = request.getParameter("actiontype");
+        if (actiontype==null) {
+            if (order == null) {
+                order = new Order();
+                order.setId(helper.generateUniqueId());
+                order.setUserName(username);
+                order.setAddress(address);
+                order.setCreditCard(creditcard);
+                session.setAttribute(Constants.SESSION_ORDERITEM, order);
+            }            
+        } else if (actiontype.equals("updatequantity")){            
+            if (order != null) {  
+                String id = request.getParameter("itemid");
+                if (id != null && !id.isEmpty()) {
+                    String strQuantity = request.getParameter("quantity");
+                    int quantity;
+                    if (strQuantity == null || strQuantity.isEmpty()) {
+                        quantity = 0;
+                    } else {
+                        try {
+                            quantity = Integer.parseInt(strQuantity);
+                        } catch(NumberFormatException nfe) {
+                            quantity = 1;
+                        }
+                    }
+                    order.setItemQuantity(id, quantity);
+                }
+            }
         }
-    } else {
-        order = (Order)session.getAttribute(Constants.SESSION_ORDERITEM);
+    } else {        
+        order = (Order)session.getAttribute(Constants.SESSION_ORDERITEM);                 
         if (order != null) {            
             String confirmation = username + order.getId().substring(order.getId().length()-4) + creditcard.substring(creditcard.length() - 4);
             Date now = new Date();
@@ -61,7 +82,7 @@
             orderDao.addOrder(order);
             session.removeAttribute(Constants.SESSION_ORDERITEM);
             response.sendRedirect("admin_orderlist.jsp");
-        }
+        }        
     }    
     
     UserDao dao = UserDao.createInstance();
@@ -78,25 +99,33 @@
 <jsp:include page="layout_menu.jsp" />
 <section id='content'>
     <div class='cart'>
-        <h3>Create Order</h3>
-        <form action="admin_orderadd.jsp" method="Post">
+        <h3>Create Order</h3>        
         <div class="order_box">
+            <form action="admin_orderadd.jsp?actiontype=save" method="Post">
             <table class="order_table">               
                 <tr><td><h5><i>Customer Name: </i></h5></td>
                     <td>
-                        <select name='username' class='input'>
+                        <select name='username' id='username' class='input'>
                         <c:forEach var="option" items="${list}">
-                            <option value=${option.key}>${option.text}</option>
-                        </c:forEach>  
+                            <c:choose>
+                                <c:when test="${option.key == order.userName}">
+                                    <option value=${option.key} selected>${option.text}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value=${option.key}>${option.text}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
                         </select>
                     </td>
-                    <td></td>
+                    <td><input name="save" class="formbutton" value="Save" type="submit" /></td>
                 </tr>
-                <tr><td><h5><i>Address: </i></h5></td><td><input type='text' name='address' value='${order.address}' required /></td><td></td></tr>
-                <tr><td><h5><i>Credit Card Number: </i></h5></td><td><input type='text' name='creditcard' value='${order.creditCard}' required /></td><td></td></tr>
+                <tr><td><h5><i>Address: </i></h5></td><td><input type='text' name='address' id='address' value='${order.address}' required /></td><td></td></tr>
+                <tr><td><h5><i>Credit Card Number: </i></h5></td><td><input type='text' name='creditcard' id='creditcard' value='${order.creditCard}' required /></td><td></td></tr>
                 <tr><td><h5><i>Confirmation Number: </i></h5></td><td><c:out value="${order.confirmation}"/></td><td></td></tr>
                 <tr><td><h5><i>Delivery Date: </i></h5></td><td><c:out value="${order.formatDeliveryDate}"/></td><td></td></tr>
             </table>
+            </form>
             <table cellspacing='0'>
                 <tr><th>No.</th><th>Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th><th>Management</th></tr>
                 <c:set var="total" value="0" scope="page" />
@@ -107,32 +136,39 @@
                         <td><c:out value="${orderitem.itemName}"/></td>
                         <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${orderitem.unitPrice}" type="currency"/></td>
                         <td>
-                            <form>
+                            <form action="admin_orderadd.jsp?actiontype=updatequantity" method="Get">
                                 <input type="hidden" name="orderid" value="<c:out value="${order.id}"/>">
                                 <input type="hidden" name="itemid" value="<c:out value="${orderitem.itemId}"/>">
-                                <input type="hidden" name="type" value="<c:out value="${orderitem.itemType}"/>">
                                 <input type="text" name="quantity" size=3 value="<c:out value="${orderitem.quantity}"/>">
                                 <input type="submit" class="formbutton2" value="Update">
                             </form>
                         </td>
                         <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${orderitem.totalCost}" type="currency"/></td>
                         <td>
-                            <span><a href='admin_orderlist.jsp?orderid=<c:out value="${order.id}"/>&itemid=<c:out value="${orderitem.itemId}"/>&type=<c:out value="${orderitem.itemType}"/>&quantity=0' class='button3' onclick = "return confirm('Are you sure to delete this product?')">Delete</a></span>
+                            <span><a href='admin_orderadd.jsp?actiontype=updatequantity&orderid=<c:out value="${order.id}"/>&itemid=<c:out value="${orderitem.itemId}"/>&quantity=0' class='button3' onclick = "return confirm('Are you sure to delete this product?')">Delete</a></span>
                         </td>
                     </tr>
                     <c:set var="total" value="${total + orderitem.getTotalCost()}" scope="page"/>
                     <c:set var="counter" value="${counter + 1}" scope="page"/>
                 </c:forEach>
                 <tr class='total'><td></td><td></td><td></td><td>Total</td><td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${total}" type="currency"/></td><td></td></tr>
-                <tr><td colspan="2"><a class='fancybox fancybox.iframe button2' href='admin_orderitemadd.jsp'>Add Item</a></td><td></td><td></td><td></td><td><input name="save" class="formbutton" value="Save" type="submit" /></td></tr>
+                <tr><td colspan="2"><a class='fancybox fancybox.iframe button2' href='admin_orderitemadd.jsp'>Add Item</a></td><td></td><td></td><td></td><td></td></tr>
             </table>
-        </div>
-        </form>
+        </div>       
     </div>
 </section>
 
 <script>
     $().ready(function () {
+        $('#username').change(function() {
+            sethref();
+        });
+        $('#address').change(function() {
+            sethref();
+        });
+        $('#creditcard').change(function() {
+            sethref();
+        });
         $(".fancybox").fancybox({
             fitToView: false,
             autoSize: false,
@@ -141,6 +177,13 @@
             height: 260,
             afterClose: function () { window.location.reload(); }
         });
+        function sethref() {
+            var username = $('#username').val();
+            var address = $('#address').val();
+            var creditcard = $('#creditcard').val();
+            var url = 'admin_orderitemadd.jsp?username='+username+'&address='+address+'&creditcard='+creditcard;
+            $('.fancybox').attr('href', url);
+        }
     });
  </script>
 <jsp:include page="layout_sidebar.jsp" />

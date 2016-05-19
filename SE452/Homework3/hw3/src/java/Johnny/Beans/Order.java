@@ -97,4 +97,19 @@ public class Order {
     public synchronized void addItem(OrderItem item) {
         items.add(item);
     }
+    
+    public synchronized void setItemQuantity(String id, int quantity) {
+        OrderItem orderItem;
+        for(int i = 0; i < items.size(); i++) {
+            orderItem = items.get(i);
+            if (orderItem.getItemId().equals(id)) {
+                if (quantity <= 0) {
+                    items.remove(i);
+                } else {
+                    orderItem.setQuantity(quantity);
+                }
+                return;
+            }
+        }        
+    }
 }

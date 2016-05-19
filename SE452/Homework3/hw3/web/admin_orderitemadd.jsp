@@ -32,7 +32,16 @@
     }
     
     if ("GET".equalsIgnoreCase(request.getMethod())) {
-        
+        String username = request.getParameter("username");
+        String address = request.getParameter("address");
+        String creditcard = request.getParameter("creditcard");
+        Order order;    
+        synchronized(session) {
+            order = (Order)session.getAttribute(Constants.SESSION_ORDERITEM);
+            order.setUserName(username);
+            order.setAddress(address);
+            order.setCreditCard(creditcard);                   
+        }
     } else {
         String productkey = request.getParameter("productkey");
         String strQuantity = request.getParameter("quantity");
@@ -76,7 +85,7 @@
         <script src="scripts/jquery.fancybox.js"></script>
     </head>
     <body>
-        <h1>Add Item</h1>
+        <h1>Choose Product</h1>
         <c:choose>
             <c:when test="${not empty errmsg}">
                 <h3 style='color:red'>${errmsg}</h3>
@@ -93,7 +102,7 @@
                                 </select>
                             </td>
                         </tr>
-                        <tr><td>Quantity:</td><td><input type='text' name='quantity' value='' class='input' required /></td></tr>
+                        <tr><td>Quantity:</td><td><input type='text' name='quantity' value='1' class='input' required /></td></tr>
                         <tr><td colspan="2"><input name="create" class="formbutton" value="Add" type="submit" /></td></tr>
                     </table>
                 </form>
