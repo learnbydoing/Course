@@ -51,7 +51,7 @@
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="submit" class="btn btn-success" value="Create" />
                 </div>
-            </div>  
+            </div>
         </div>
     </div>
 }
@@ -62,7 +62,7 @@
         @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.CategoryFilter, "CategoryId", "CategoryName"), new { @id = "categoryFilter", @name = "categoryFilter", @class = "form-control" })
     </div>
 </form>
- <hr />
+<hr />
 <table class="table table-striped" id="productList">
     <thead>
         <tr>
@@ -78,6 +78,11 @@
     </thead>
     <tbody></tbody>
 </table>
+
+<div class="well">
+    <h5>* The content of this page is cached by ASP.NET Cache.</h5>
+    <h5>* There are three levels of cache, all products level, products by category level and single product level.</h5>
+</div>
 
 @section Scripts
 {
@@ -100,7 +105,7 @@
         function onSuccess(data) {
             if (data == "Okay") {
                 $('.text-danger ul').children().remove();
-                loadList(0);
+                loadList($("#categoryFilter").val());
             } else {
                 $(".text-danger").addClass("validation-summary-errors");
                 $(".text-danger").removeClass("validation-summary-valid");

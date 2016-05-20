@@ -1,4 +1,5 @@
 ﻿using Assignment5.Models;
+using Assignment5.Models.DTO;
 using ECTDBDal;
 using ECTDBDal.Model;
 using System;
@@ -23,18 +24,27 @@ namespace Assignment5.Controllers
             model.IsErrorStatusMessage = false;
             try
             {
-
                 model.Title = "Edit Category";
-                using (ECTDBContext context = new ECTDBContext())
+                if (System.Web.HttpContext.Current.Cache["Category" + id] != null)
                 {
-
-                    var category = from c in context.Categories
-                                  where c.CategoryId == id
-                                  select c;
-                    var cat = category.FirstOrDefault();
-                    model.CategoryId = cat.CategoryId;
-                    model.CategoryName = cat.CategoryName;
+                    CategoryDTO categoryDTO = (CategoryDTO)System.Web.HttpContext.Current.Cache["Category" + id];
+                    model.CategoryId = categoryDTO.CategoryId;
+                    model.CategoryName = categoryDTO.CategoryName;
                 }
+                else
+                {
+                    using (ECTDBContext context = new ECTDBContext())
+                    {
+                        var category = from c in context.Categories
+                                       where c.CategoryId == id
+                                       select c;
+                        var cat = category.FirstOrDefault();
+                        model.CategoryId = cat.CategoryId;
+                        model.CategoryName = cat.CategoryName;
+                        CategoryDTO categoryDTO = new CategoryDTO { CategoryId = cat.CategoryId, CategoryName = cat.CategoryName };
+                        System.Web.HttpContext.Current.Cache["Category" + id] = categoryDTO;
+                    }
+                }                
                 return View(model);
             }
             catch (Exception e)
@@ -64,6 +74,8 @@ namespace Assignment5.Controllers
                         Category original = context.Categories.Find(value.CategoryId);
                         context.Entry(original).CurrentValues.SetValues(value);
                         context.SaveChanges();
+                        System.Web.HttpContext.Current.Cache.Remove("CategoryList");
+                        System.Web.HttpContext.Current.Cache.Remove("Category"+ value.CategoryId);
                         model.Message = "Category Updated.";
                         model.IsError = false;
                         model.Id = value.CategoryId;

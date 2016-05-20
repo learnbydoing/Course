@@ -2,39 +2,43 @@
 @{
     ViewBag.Title = "Category Management";
 }
-<div class="container">
-    <h2>@ViewBag.Title</h2>
-    <hr />
-    @using (Ajax.BeginForm("", new { controller = "api/Category/" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }, new { @class = "form-horizontal" }))
-    {
-        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-        <div class="panel panel-info">
-            <div class="panel-heading">New Category</div>
-            <div class="panel-body">
-                <div class="form-group required">
-                    @Html.LabelFor(o => o.CategoryName, new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-10">
-                        @Html.TextBoxFor(o => o.CategoryName, new { @class = "form-control" })
-                    </div>
+
+<h2>@ViewBag.Title</h2>
+<hr />
+@using (Ajax.BeginForm("", new { controller = "api/Category/" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }, new { @class = "form-horizontal" }))
+{
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <div class="panel panel-info">
+        <div class="panel-heading">New Category</div>
+        <div class="panel-body">
+            <div class="form-group required">
+                @Html.LabelFor(o => o.CategoryName, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(o => o.CategoryName, new { @class = "form-control" })
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <input type="submit" class="btn btn-success" value="Create" />
-                    </div>
-                </div>              
             </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" class="btn btn-success" value="Create" />
+                </div>
+            </div>              
         </div>
-    }
-    <table class="table table-striped" id="categoryList">
-        <thead>
-            <tr>
-                <th>Category Id</th>
-                <th>Category Name</th>
-                <th>Operations</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>    
+    </div>
+}
+<table class="table table-striped" id="categoryList">
+    <thead>
+        <tr>
+            <th>Category Id</th>
+            <th>Category Name</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div class="well">
+    <h5>* The content of this page is cached by ASP.NET Cache.</h5>
+    <h5>* There are two levels of cache, all categories level and single category level.</h5>
 </div>
 
 @section Scripts

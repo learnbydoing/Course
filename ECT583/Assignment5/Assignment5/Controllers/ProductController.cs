@@ -1,4 +1,5 @@
 ﻿using Assignment5.Models;
+using Assignment5.Models.DTO;
 using ECTDBDal;
 using ECTDBDal.Model;
 using System;
@@ -14,41 +15,75 @@ namespace Assignment5.Controllers
         // GET: Product
         public ActionResult Index()
         {
-            List<Category> list = new List<Category>();
-            using (ECTDBContext context = new ECTDBContext())
+            List<CategoryDTO> list = null;
+            if (System.Web.HttpContext.Current.Cache["CategoryList"] != null)
             {
-                list = context.Categories.ToList();
-            }            
+                list = (List<CategoryDTO>)System.Web.HttpContext.Current.Cache["CategoryList"];
+            }
+            else
+            {
+                using (ECTDBContext context = new ECTDBContext())
+                {
+                    list = context.Categories.Select(s => new CategoryDTO { CategoryId = s.CategoryId, CategoryName = s.CategoryName }).ToList();
+                    System.Web.HttpContext.Current.Cache["CategoryList"] = list;
+                }
+            }
+
             ViewBag.Categories = list;
-            List<Category> alllist = new List<Category>(list);
-            alllist.Insert(0, new Category { CategoryId = 0, CategoryName = "Select All" });
+            List<CategoryDTO> alllist = new List<CategoryDTO>(list);
+            alllist.Insert(0, new CategoryDTO { CategoryId = 0, CategoryName = "Select All" });
             ViewBag.CategoryFilter = alllist;
             return View();
         }
 
         public ActionResult Edit(int id)
-        {
-            List<Category> list = new List<Category>();
+        {            
             ProductEditViewModel model = new ProductEditViewModel();
             model.IsErrorStatusMessage = false;
             try
             {
-
                 model.Title = "Edit Product";
-                using (ECTDBContext context = new ECTDBContext())
+                if (System.Web.HttpContext.Current.Cache["Product" + id] != null)
                 {
-                    list = context.Categories.ToList();
-                    var product = from c in context.Products
-                                   where c.ProductId == id
-                                   select c;
-                    Product pro = product.FirstOrDefault();
-                    model.ProductId = pro.ProductId;
-                    model.ProductName = pro.ProductName;
-                    model.CategoryId = pro.CategoryId;
-                    model.Price = pro.Price;
-                    model.Image = pro.Image;
-                    model.Condition = pro.Condition;
-                    model.Discount = pro.Discount;
+                    ProductDTO productDTO = (ProductDTO)System.Web.HttpContext.Current.Cache["Product" + id];
+                    model.ProductId = productDTO.ProductId;
+                    model.ProductName = productDTO.ProductName;
+                    model.CategoryId = productDTO.CategoryId;
+                    model.Price = productDTO.Price;
+                    model.Image = productDTO.Image;
+                    model.Condition = productDTO.Condition;
+                    model.Discount = productDTO.Discount;
+                }
+                else
+                {
+                    using (ECTDBContext context = new ECTDBContext())
+                    {                        
+                        var product = from c in context.Products
+                                      where c.ProductId == id
+                                      select c;
+                        Product pro = product.FirstOrDefault();
+                        model.ProductId = pro.ProductId;
+                        model.ProductName = pro.ProductName;
+                        model.CategoryId = pro.CategoryId;
+                        model.Price = pro.Price;
+                        model.Image = pro.Image;
+                        model.Condition = pro.Condition;
+                        model.Discount = pro.Discount;
+                    }
+                }
+
+                List<CategoryDTO> list = null;
+                if (System.Web.HttpContext.Current.Cache["CategoryList"] != null)
+                {
+                    list = (List<CategoryDTO>)System.Web.HttpContext.Current.Cache["CategoryList"];
+                }
+                else
+                {
+                    using (ECTDBContext context = new ECTDBContext())
+                    {
+                        list = context.Categories.Select(s => new CategoryDTO { CategoryId = s.CategoryId, CategoryName = s.CategoryName }).ToList();
+                        System.Web.HttpContext.Current.Cache["CategoryList"] = list;
+                    }
                 }
                 ViewBag.Categories = list;
                 return View(model);
@@ -87,8 +122,12 @@ namespace Assignment5.Controllers
                         else
                         {
                             Product original = context.Products.Find(value.ProductId);
+                            System.Web.HttpContext.Current.Cache.Remove("ProductList" + original.CategoryId);
                             context.Entry(original).CurrentValues.SetValues(value);
                             context.SaveChanges();
+                            System.Web.HttpContext.Current.Cache.Remove("ProductList");                            
+                            System.Web.HttpContext.Current.Cache.Remove("ProductList" + value.CategoryId);
+                            System.Web.HttpContext.Current.Cache.Remove("Produc" + original.ProductId);
                             model.Message = "Product Updated!";
                             model.IsError = false;
                             model.Id = value.ProductId;

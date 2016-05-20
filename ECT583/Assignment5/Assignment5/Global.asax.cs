@@ -30,5 +30,17 @@ namespace Assignment5
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.MediaTypeMappings.Add(
                 new QueryStringMapping("type", "xml", new MediaTypeHeaderValue("application/xml")));
         }
+
+        public override string GetVaryByCustomString(HttpContext context, string custom)
+        {
+            if (custom == "User")
+            {
+                if (context.User.Identity == null || String.IsNullOrEmpty(context.User.Identity.Name))
+                    return "None";
+                else
+                    return "User-" + context.User.Identity.Name;
+            }
+            return base.GetVaryByCustomString(context, custom);
+        }
     }
 }

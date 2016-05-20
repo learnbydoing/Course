@@ -7,13 +7,25 @@
 <div class="row">
     <div class="col-md-4">
         <ul class="list-group">
+            <li class="list-group-item"><b>Data from Page Loading</b></li>
+            <li class="list-group-item"><span class="badge">@ViewBag.ProductCount</span><a href="/Product">Product List</a></li>
+            <li class="list-group-item"><span class="badge">@ViewBag.CategoryCount</span><a href="/Category">Category List</a></li>
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <ul class="list-group">
+            <li class="list-group-item"><b>Data from Web API called by Ajax</b></li>
             <li class="list-group-item"><span class="badge" id="product">0</span><a href="/Product">Product List</a></li>
             <li class="list-group-item"><span class="badge" id="category">0</span><a href="/Category">Category List</a></li>
         </ul>
     </div>
-    <div class="col-md-8"></div>
+    <div class="col-md-4"></div>
 </div>
-
+<div class="well">
+    <h5>* The content of this page is cached by Output Caching for 60 seconds.</h5>
+    <h5>* Create/delete product or category and come back to this page to see the difference between the left part and the right part.</h5>
+    <h5>* For the right part, even if this page is cached, the realtime number will be fetched from WebApi each time the page is loaded.</h5>
+</div>
 @section Scripts
 {
     <script>
@@ -30,7 +42,7 @@
                     $('#product').text(result);
                 },
                 error: function (result) {
-                    alert("Error:" + result);
+                    //alert("Error:" + result);
                 }
             });
         }
@@ -43,7 +55,7 @@
                     $('#category').text(result);
                 },
                 error: function (result) {
-                    alert("Error:" + result);
+                    //alert("Error:" + result);
                 }
             });
         }

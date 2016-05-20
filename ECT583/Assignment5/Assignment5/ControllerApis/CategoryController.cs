@@ -22,7 +22,9 @@ namespace Assignment5.ControllerApis
                 return (List<CategoryDTO>)HttpContext.Current.Cache["CategoryList"];
             using (ECTDBContext context = new ECTDBContext())
             {
-                return context.Categories.Select(s => new CategoryDTO { CategoryId = s.CategoryId, CategoryName = s.CategoryName }).ToList();
+                List<CategoryDTO> categories = context.Categories.Select(s => new CategoryDTO { CategoryId = s.CategoryId, CategoryName = s.CategoryName }).ToList();
+                HttpContext.Current.Cache["CategoryList"] = categories;
+                return categories;
             }
         }        
 
@@ -40,7 +42,9 @@ namespace Assignment5.ControllerApis
                 }
                 else
                 {
-                    return new CategoryDTO { CategoryId = category.CategoryId, CategoryName = category.CategoryName };
+                    CategoryDTO categoryDTO = new CategoryDTO { CategoryId = category.CategoryId, CategoryName = category.CategoryName };
+                    HttpContext.Current.Cache["Category" + id] = categoryDTO;
+                    return categoryDTO;
                 }
             }
         }
@@ -54,10 +58,13 @@ namespace Assignment5.ControllerApis
                 List<CategoryDTO> list = (List<CategoryDTO>)HttpContext.Current.Cache["CategoryList"];
                 return list.Count();
             }
-            else {
+            else
+            {
                 using (ECTDBContext context = new ECTDBContext())
                 {
-                    return context.Categories.Count();
+                    List<CategoryDTO> categories = context.Categories.Select(s => new CategoryDTO { CategoryId = s.CategoryId, CategoryName = s.CategoryName }).ToList();
+                    HttpContext.Current.Cache["CategoryList"] = categories;
+                    return categories.Count();
                 }
             }
         }
@@ -106,6 +113,7 @@ namespace Assignment5.ControllerApis
                 category.CategoryName = value.CategoryName;
                 context.SaveChanges();
                 HttpContext.Current.Cache.Remove("CategoryList");
+                HttpContext.Current.Cache.Remove("Category" + value.CategoryId);
                 return Request.CreateResponse(HttpStatusCode.OK, "Okay");
             }
         }
@@ -124,6 +132,7 @@ namespace Assignment5.ControllerApis
                 context.Categories.Remove(category);
                 context.SaveChanges();
                 HttpContext.Current.Cache.Remove("CategoryList");
+                HttpContext.Current.Cache.Remove("Category" + id);
                 return Request.CreateResponse(HttpStatusCode.OK, "Okay");
             }
         }

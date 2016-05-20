@@ -25,8 +25,17 @@ namespace Assignment5.ControllerApis
         // GET api/<controller>
         public List<ProductDTO> Get([FromUri] Category value)
         {
-            if (HttpContext.Current.Cache["ProdcutList"] != null)
-                return (List<ProductDTO>)HttpContext.Current.Cache["ProdcutList"];
+            if (value.CategoryId == 0)
+            {
+                if (HttpContext.Current.Cache["ProductList"] != null)
+                    return (List<ProductDTO>)HttpContext.Current.Cache["ProductList"];
+            }
+            else
+            {
+                if (HttpContext.Current.Cache["ProductList" + value.CategoryId] != null)
+                    return (List<ProductDTO>)HttpContext.Current.Cache["ProductList" + value.CategoryId];
+            }
+                
             using (ECTDBContext context = new ECTDBContext())
             {
                 if (value.CategoryId == 0)
@@ -35,7 +44,10 @@ namespace Assignment5.ControllerApis
                                 join category in context.Categories
                                   on product.CategoryId equals category.CategoryId
                       select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount };
-                    return query.ToList();
+
+                    List<ProductDTO> products = query.ToList();
+                    HttpContext.Current.Cache["ProductList"] = products;
+                    return products;
                 }
                 else
                 {
@@ -44,7 +56,9 @@ namespace Assignment5.ControllerApis
                                 join category in context.Categories
                                   on product.CategoryId equals category.CategoryId
                                 select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount };
-                    return query.ToList();                   
+                    List<ProductDTO> products = query.ToList();
+                    HttpContext.Current.Cache["ProductList" + value.CategoryId] = products;
+                    return products;                 
                 }
             }
         }
@@ -52,6 +66,8 @@ namespace Assignment5.ControllerApis
         // GET api/<controller>/5
         public ProductDTO Get(int id)
         {
+            if (HttpContext.Current.Cache["Product" + id] != null)
+                return (ProductDTO)HttpContext.Current.Cache["Product" + id];
             using (ECTDBContext context = new ECTDBContext())
             {
                 Product product = context.Products.Find(id);
@@ -61,7 +77,9 @@ namespace Assignment5.ControllerApis
                 }
                 else
                 {
-                    return new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount };
+                    ProductDTO productDTO = new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount };
+                    HttpContext.Current.Cache["Product" + id] = productDTO;
+                    return productDTO;
                 }
             }
 
@@ -71,9 +89,24 @@ namespace Assignment5.ControllerApis
         [Route("api/Product/GetCount")]
         public int GetCount()
         {
-            using (ECTDBContext context = new ECTDBContext())
+            if (HttpContext.Current.Cache["ProductList"] != null)
             {
-                return context.Products.Count();
+                List<ProductDTO> list = (List<ProductDTO>)HttpContext.Current.Cache["ProductList"];
+                return list.Count();
+            }
+            else
+            {
+                using (ECTDBContext context = new ECTDBContext())
+                {
+                    var query = from product in context.Products
+                                join category in context.Categories
+                                  on product.CategoryId equals category.CategoryId
+                                select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount };
+
+                    List<ProductDTO> products = query.ToList();
+                    HttpContext.Current.Cache["ProductList"] = products;
+                    return products.Count();
+                }
             }
         }
 
@@ -100,6 +133,8 @@ namespace Assignment5.ControllerApis
                 newProduct.Discount = value.Discount;                
                 context.Products.Add(newProduct);
                 context.SaveChanges();
+                HttpContext.Current.Cache.Remove("ProductList");
+                HttpContext.Current.Cache.Remove("ProductList" + newProduct.CategoryId);                
                 return Request.CreateResponse(HttpStatusCode.OK, "Okay");
             }
         }
@@ -111,9 +146,12 @@ namespace Assignment5.ControllerApis
         {
             using (ECTDBContext context = new ECTDBContext())
             {
-                var student = context.Products.Find(id);
-                context.Products.Remove(student);
+                var product = context.Products.Find(id);
+                context.Products.Remove(product);
                 context.SaveChanges();
+                HttpContext.Current.Cache.Remove("ProductList");
+                HttpContext.Current.Cache.Remove("ProductList" + product.CategoryId);
+                HttpContext.Current.Cache.Remove("Product" + id);
                 return Request.CreateResponse(HttpStatusCode.OK, "Okay");
             }
         }
