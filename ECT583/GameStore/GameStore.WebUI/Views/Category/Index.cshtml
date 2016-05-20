@@ -1,0 +1,108 @@
+﻿@model GameStore.WebUI.Models.DTO.CategoryDTO
+@{
+    ViewBag.Title = "Category Management";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+@using (Ajax.BeginForm("", new { controller = "api/Category/" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }, new { @class = "form-horizontal" }))
+{
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <div class="panel panel-info">
+        <div class="panel-heading">New Category</div>
+        <div class="panel-body">
+            <div class="form-group required">
+                @Html.LabelFor(o => o.CategoryName, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(o => o.CategoryName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" class="btn btn-success" value="Create" />
+                </div>
+            </div>              
+        </div>
+    </div>
+}
+<table class="table table-striped" id="categoryList">
+    <thead>
+        <tr>
+            <th>Category Id</th>
+            <th>Category Name</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div class="well">
+    <h5>* The content of this page is cached by ASP.NET Cache.</h5>
+    <h5>* There are two levels of cache, all categories level and single category level.</h5>
+</div>
+
+@section Scripts
+{
+    <script>
+        $().ready(function () {
+            $(".fancybox").fancybox({
+                fitToView: false,
+                autoSize: false,
+                autoDimensions: false,
+                width: 370,
+                height: 260,
+                afterClose: function () { window.location.reload(); }
+            });
+            loadList();
+        });
+
+        function onSuccess(data) {
+            if (data == "Okay") {
+                loadList();
+            } else {
+                $(".text-danger").addClass("validation-summary-errors");
+                $(".text-danger").removeClass("validation-summary-valid");
+                $('.text-danger ul').children().remove();
+                $('.text-danger ul').append("<li>" + data + "</li>")
+            }
+        }
+        function onFailure(data) {
+            alert('An error occurred, please try again.');
+            //alert('Error:' + data.responseText);
+        }
+        function loadList() {
+            $('#CategoryName').val("");
+            $('.validation-summary-errors ul').children().remove();
+            $("#categoryList").find('tbody').empty();
+            $.getJSON("/api/Category/", function (data) {
+                $.each(data, function (i, category) {
+                    $('#categoryList tbody').append("<tr><td>" + category.CategoryId + "</td><td>" + category.CategoryName + "</td><td><span style='padding-right:3px;'><a class='fancybox fancybox.iframe' href='/Category/Edit/"+category.CategoryId+"'>Edit</a> </span><a href='javascript:deleteCategory(" + category.CategoryId + ");'> Delete </a></td>");
+                });
+            });
+        }
+
+        function deleteCategory(id) {
+            var result = confirm("Are you sure to delete?");
+            if (result) {
+                $.ajax({
+                    url: '/api/Category/' + id,
+                    type: 'DELETE',
+                    success: function (data) {
+                        if (data == "Okay") {
+                            loadList();
+                        } else {
+                            $(".text-danger").addClass("validation-summary-errors");
+                            $(".text-danger").removeClass("validation-summary-valid");
+                            $('.text-danger ul').children().remove();
+                            $('.text-danger ul').append("<li>" + data + "</li>")
+                        }
+                    },
+                    error: function (data) {
+                        alert("Unable to delete category. " + data);
+                    }
+                });
+            }            
+        }
+    </script>
+}
+
