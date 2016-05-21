@@ -14,13 +14,13 @@
     List<Menu> list = new ArrayList<Menu>();
     list.add(new Menu(Constants.CURRENT_PAGE_HOME, "index.jsp"));
     list.add(new Menu(Constants.CURRENT_PAGE_CONSOLES, "consolelist.jsp"));
-    list.add(new Menu(Constants.CURRENT_PAGE_ACCESSORIES, "accessorylist.jsp"));
+    list.add(new Menu(Constants.CURRENT_PAGE_ACCESSORIES, "accessorylist.jsp"));    
     list.add(new Menu(Constants.CURRENT_PAGE_GAMES, "gamelist.jsp"));
     list.add(new Menu(Constants.CURRENT_PAGE_TABLETS, "tabletlist.jsp"));
     
     List<Menu> userlist = new ArrayList<Menu>();
     String usertype = helper.usertype();
-    if (usertype.toLowerCase().equals(Constants.CONST_TYPE_STOREMANAGER_LOWER)) {
+    if (usertype.toLowerCase().equals(Constants.CONST_TYPE_STOREMANAGER_LOWER)) {        
         userlist.add(new Menu(Constants.CURRENT_PAGE_ACCMNG, "admin_accessorylist.jsp"));
         userlist.add(new Menu(Constants.CURRENT_PAGE_GAMEMNG, "admin_gamelist.jsp"));
     } else if (usertype.toLowerCase().equals(Constants.CONST_TYPE_SALESMAN_LOWER)) {

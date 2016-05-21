@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Johnny
  */
-public class ProductItem {
+public class ProductItem implements java.io.Serializable {
     private String id;
     private String name;
     private int type; //  1.Console 2.Accessory, 3.Game, 4.Tablet

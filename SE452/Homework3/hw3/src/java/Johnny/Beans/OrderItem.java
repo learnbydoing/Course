@@ -9,7 +9,7 @@ package Johnny.Beans;
  *
  * @author Johnny
  */
-public class OrderItem {
+public class OrderItem implements java.io.Serializable {
     private ProductItem item;
     private int quantity;
 

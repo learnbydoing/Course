@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Johnny
  */
-public class Order {
+public class Order implements java.io.Serializable {
     private String id;
     private String username;
     private String address;
