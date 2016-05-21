@@ -11,7 +11,7 @@ namespace GameStore.Domain.Model
     {
         public Product()
         {
-
+            this.Reviews = new HashSet<Review>();
         }
         [Required]
         public int ProductId { get; set; }
@@ -28,5 +28,7 @@ namespace GameStore.Domain.Model
         public string Condition { get; set; }
         [Required]
         public int Discount { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }

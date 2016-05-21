@@ -4,12 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using GameStore.WebUI.Models.DTO;
-using GameStore.Domain;
+using GameStore.Domain.Infrastructure;
 using GameStore.Domain.Model;
 using System.Net.Http;
 using System.Net;
 
-namespace GameStore.WebUI.ControllerApis
+namespace GameStore.WebUI.Apis
 {
     public class ProductController : ApiController
     {

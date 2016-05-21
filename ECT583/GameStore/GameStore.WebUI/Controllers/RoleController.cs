@@ -10,14 +10,17 @@ using System.Web.Mvc;
 
 namespace GameStore.WebUI.Controllers
 {
-    public class CategoryController : Controller
+    public class RoleController : Controller
     {
-        // GET: Category
+        // GET: Role
         public ActionResult Index()
         {
-            return View();
+            RoleViewModel rolevm = new RoleViewModel();
+            rolevm.CanAdd = true;
+            return View(rolevm);
         }
 
+        /*
         public ActionResult Edit(int id)
         {
             CategoryEditViewModel model = new CategoryEditViewModel();
@@ -89,6 +92,6 @@ namespace GameStore.WebUI.Controllers
                 model.Id = value.CategoryId;
             }
             return View(model);
-        }
+        }*/
     }
 }

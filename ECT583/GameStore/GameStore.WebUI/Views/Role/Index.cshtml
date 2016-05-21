@@ -1,0 +1,194 @@
+﻿@model GameStore.WebUI.Models.RoleViewModel
+@{
+    ViewBag.Title = "Role Management";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#AddModal">Add Role</button>
+
+<table class="table table-striped" id="roleList">
+    <thead>
+        <tr>
+            <th>Role Id</th>
+            <th>Role Name</th>
+            <th>Description</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div id="AddModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add New Role</h4>
+            </div>
+            <div class="modal-body">
+                @using (Ajax.BeginForm("", "api/Role/Create", new AjaxOptions { HttpMethod = "Post", OnSuccess = "$('#AddModal').modal('hide');", OnFailure = "alert('An error occurred, please try again.');" }))
+                {
+
+                    <fieldset class="form-group">
+                        <label for="RoleName">Role Name</label>
+                        @Html.TextBoxFor(t => t.Name, new { @class = "form-control" })
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="RoleDescription">Description</label>
+                        @Html.TextAreaFor(t => t.Description, new { @class = "form-control" })
+                    </fieldset>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="EditModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Tip</h4>
+            </div>
+            <div class="modal-body">
+                @using (Ajax.BeginForm("", "api/Role/", new AjaxOptions { HttpMethod = "Post", OnSuccess = "$('#EditModal').modal('hide');", OnFailure = "alert('An error occurred, please try again.');" }))
+                {
+                    @Html.HiddenFor(t => t.Id)                    
+                    <fieldset class="form-group">
+                        <label for="RoleName">Role Name</label>
+                        @Html.TextBoxFor(t => t.Name, new { @class = "form-control" })
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="RoleDescription">Description</label>
+                        @Html.TextAreaFor(t => t.Description, new { @class = "form-control" })
+                    </fieldset>
+
+                    <button type="submit" class="btn btn-primary">Update</button>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $().ready(function () {
+            //Load Roles when the page is loaded
+            loadRoles();
+
+            //Add a function to reload the list when the dialog closes
+            $('#AddModal').on('hidden.bs.modal', function () {
+                loadRoles();
+            })
+
+            $('#EditModal').on('hidden.bs.modal', function () {
+                loadRoles();
+            })
+        });
+
+        //Make an ajax call to load the roles
+        function loadRoles() {
+            $("#roleList").find('tbody').empty();
+            $.getJSON("/api/Role/", function (data) {
+                $.each(data, function (i, role) {
+                    $('#roleList tbody').append("<tr><td>" + role.Id + "</td><td>" + role.Name + "</td><td>" + role.Description + "</td><td><span style='float:right;'><a class='btn btn-danger' href='javascript:deleteRole(\"" + role.Id + "\");'> Delete</a></span><span style='float:right;'><a class='btn btn-success' href='javascript:editRole(\"" + role.Id + "\");'> Edit</a></span></td>");
+                });
+            });            
+        }
+
+
+        //Make an ajax call to delete a tip
+        function deleteRole(id) {
+            $.ajax({
+                url: '/api/Role/' + id,
+                type: 'DELETE',
+                success: function (result) {
+                    loadRoles();
+                },
+                error: function (result) {
+                    alert("Unable to delete role. Error:" + result);
+                }
+            });
+        }
+
+        function editRole(id) {
+            $.ajax({
+                url: '/api/Role/' + id,
+                type: 'GET',
+                success: function (result) {
+                    alert(result.Name);
+                    $('#EditModal').find('#Id').val(result.Id);
+                    $('#EditModal').find('#Name').val(result.Name);
+                    $('#EditModal').find('#Description').val(result.Description);
+                    $('#EditModal').modal('show');
+                },
+                error: function (result) {
+                    alert("Unable to edit role.")
+                }
+            });
+        }
+
+        /*
+        function onSuccess(data) {
+            if (data == "Okay") {
+                loadList();
+            } else {
+                $(".text-danger").addClass("validation-summary-errors");
+                $(".text-danger").removeClass("validation-summary-valid");
+                $('.text-danger ul').children().remove();
+                $('.text-danger ul').append("<li>" + data + "</li>")
+            }
+        }
+        function onFailure(data) {
+            alert('An error occurred, please try again.');
+            //alert('Error:' + data.responseText);
+        }
+        function loadList() {
+            $('#CategoryName').val("");
+            $('.validation-summary-errors ul').children().remove();
+            $("#categoryList").find('tbody').empty();
+            $.getJSON("/api/Category/", function (data) {
+                $.each(data, function (i, category) {
+                    $('#categoryList tbody').append("<tr><td>" + category.CategoryId + "</td><td>" + category.CategoryName + "</td><td><span style='padding-right:3px;'><a class='fancybox fancybox.iframe' href='/Category/Edit/"+category.CategoryId+"'>Edit</a> </span><a href='javascript:deleteCategory(" + category.CategoryId + ");'> Delete </a></td>");
+                });
+            });
+        }
+
+        function deleteCategory(id) {
+            var result = confirm("Are you sure to delete?");
+            if (result) {
+                $.ajax({
+                    url: '/api/Category/' + id,
+                    type: 'DELETE',
+                    success: function (data) {
+                        if (data == "Okay") {
+                            loadList();
+                        } else {
+                            $(".text-danger").addClass("validation-summary-errors");
+                            $(".text-danger").removeClass("validation-summary-valid");
+                            $('.text-danger ul').children().remove();
+                            $('.text-danger ul').append("<li>" + data + "</li>")
+                        }
+                    },
+                    error: function (data) {
+                        alert("Unable to delete category. " + data);
+                    }
+                });
+            }
+        }*/
+    </script>
+}
+

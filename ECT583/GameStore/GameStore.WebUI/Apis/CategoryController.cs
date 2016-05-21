@@ -5,15 +5,14 @@ using System.Web;
 
 using System.Web.Http;
 using GameStore.WebUI.Models.DTO;
-using GameStore.WebUI;
-using GameStore.Domain;
+using GameStore.Domain.Infrastructure;
 using GameStore.Domain.Model;
 using System.Net.Http;
 using System.Net;
 
-namespace GameStore.WebUI.ControllerApis
+namespace GameStore.WebUI.Apis
 {
-     public class CategoryController : ApiController
+    public class CategoryController : ApiController
     {
         // GET api/<controller>
         public List<CategoryDTO> Get()
