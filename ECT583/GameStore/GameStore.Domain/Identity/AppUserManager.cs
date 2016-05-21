@@ -1,4 +1,5 @@
-﻿using GameStore.Domain.Infrastructure;
+﻿using GameStore.Domain.Helper;
+using GameStore.Domain.Infrastructure;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -16,6 +17,7 @@ namespace GameStore.Domain.Identity
     public class AppUserManager : UserManager<AppUser>
     {
         private AppUserStore _store;
+        private string _membership = "";
         public AppUserManager(AppUserStore store)
             : base(store)
         {
@@ -26,13 +28,25 @@ namespace GameStore.Domain.Identity
         {
             try
             {
+                if (!user.Membership.Equals("Regular") && !user.Membership.Equals("Advanced"))
+                {
+                    return Task.FromResult(IdentityResult.Failed("Invalid membership!"));
+                }
+                AppUser existUser = _store.Users.Where(u => u.Email == user.Email).FirstOrDefault();
+                if (existUser != null)
+                {
+                    return Task.FromResult(IdentityResult.Failed("User with email ["+ user.Email + "] already exists!"));
+                }
+
                 GameStoreDBContext context = (GameStoreDBContext)_store.Context;
                 var newUser = context.Users.Create();
                 newUser.Email = user.Email;
                 newUser.UserName = user.Email;
                 newUser.PasswordHash = PasswordHasher.HashPassword(password);
+                newUser.PhoneNumber = user.PhoneNumber;
+                newUser.Membership = user.Membership;
 
-                var role = context.Roles.Where(r => r.Name == "Member").First();
+                var role = context.Roles.Where(r => r.Name == user.Membership).First();
                 newUser.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = newUser.Id });
                 context.Users.Add(newUser);
 
@@ -40,7 +54,7 @@ namespace GameStore.Domain.Identity
 
                 return Task.FromResult(IdentityResult.Success);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Task.FromResult(IdentityResult.Failed("DB Error"));
             }
@@ -86,7 +100,7 @@ namespace GameStore.Domain.Identity
                 RequireUniqueEmail = true
             };
 
-            manager.PasswordHasher = new PasswordHasher();
+            manager.PasswordHasher = new GameStorePasswordHasher();
 
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
@@ -104,6 +118,11 @@ namespace GameStore.Domain.Identity
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
 
             return manager;
+        }
+
+        public void SetMembership(string membership)
+        {
+            _membership = membership;
         }
     }
 }

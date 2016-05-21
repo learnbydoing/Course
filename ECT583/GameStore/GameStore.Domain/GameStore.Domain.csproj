@@ -85,7 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helper\PasswordHasher.cs" />
+    <Compile Include="Helper\GameStorePasswordHasher.cs" />
     <Compile Include="Identity\AppSignInManager.cs" />
     <Compile Include="Identity\AppUserManager.cs" />
     <Compile Include="Identity\AppRoleManager.cs" />

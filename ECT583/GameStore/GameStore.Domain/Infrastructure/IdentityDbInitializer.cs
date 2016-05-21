@@ -1,4 +1,5 @@
-﻿using GameStore.Domain.Identity;
+﻿using GameStore.Domain.Helper;
+using GameStore.Domain.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -22,8 +23,8 @@ namespace GameStore.Domain.Infrastructure
         {
             GetRoles().ForEach(c => context.Roles.Add(c));
             context.SaveChanges();
-            PasswordHasher hasher = new PasswordHasher();
-            var user = new AppUser { UserName = "admin", Email = "admin@admin.com", PasswordHash = hasher.HashPassword("admin") };
+            GameStorePasswordHasher hasher = new GameStorePasswordHasher();
+            var user = new AppUser { UserName = "admin", Email = "admin@admin.com", PasswordHash = hasher.HashPassword("admin"), Membership = "Admin" };
             var role = context.Roles.Where(r => r.Name == "Admin").First();
             user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });
             context.Users.Add(user);

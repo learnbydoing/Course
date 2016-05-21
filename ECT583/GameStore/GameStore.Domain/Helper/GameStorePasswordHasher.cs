@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Helper
 {
-    public class BigDealsPasswordHasher : IPasswordHasher
+    public class GameStorePasswordHasher : IPasswordHasher
     {
         public string HashPassword(string password)
         {

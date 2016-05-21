@@ -1,0 +1,194 @@
+﻿@model GameStore.WebUI.Models.UserViewModel
+@{
+    ViewBag.Title = "User Management";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#AddModal">Add User</button>
+<hr />
+<table class="table table-striped" id="userList">
+    <thead>
+        <tr>
+            <th>User Id</th>
+            <th>Email</th>
+            <th>User Name</th>            
+            <th>Phone Number</th>
+            <th>Membership</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div id="AddModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add New User</h4>
+            </div>
+            <div class="modal-body">
+                @using (Ajax.BeginForm("", "api/User/Create", new AjaxOptions { HttpMethod = "Post", OnSuccess = "onAddSuccess", OnFailure = "onFailure" }))
+                {
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    <fieldset class="form-group">
+                        <label for="Email">Email</label>
+                        @Html.TextBoxFor(u => u.Email, new { @class = "form-control" })
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="UserName">UserName</label>
+                        @Html.TextBoxFor(u => u.UserName, new { @class = "form-control" })
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="PhoneNumber">Phone Number</label>
+                        @Html.TextBoxFor(u => u.PhoneNumber, new { @class = "form-control" })
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="Role">Role</label>
+                        @Html.DropDownListFor(u => u.Membership, new SelectList(ViewBag.Roles, "Name", "Name"), new { @class = "form-control" })
+                    </fieldset>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="EditModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit User</h4>
+            </div>
+            <div class="modal-body">
+                @using (Ajax.BeginForm("", "api/User/", new AjaxOptions { HttpMethod = "Post", OnSuccess = "onEditSuccess", OnFailure = "onFailure" }))
+                {
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(u => u.Id)
+                    <fieldset class="form-group">
+                        <label for="Email">Email</label>
+                        @Html.TextBoxFor(u => u.Email, new { @class = "form-control", disabled = "true" })
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="UserName">UserName</label>
+                        @Html.TextBoxFor(u => u.UserName, new { @class = "form-control", disabled = "true" })
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="PhoneNumber">Phone Number</label>
+                        @Html.TextBoxFor(u => u.PhoneNumber, new { @class = "form-control" })
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="Role">Role</label>
+                        @Html.DropDownListFor(u => u.Membership, new SelectList(ViewBag.Roles, "Name", "Name"), new { @class = "form-control" })
+                    </fieldset>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $().ready(function () {
+            //Load Roles when the page is loaded
+            loadUsers();
+
+            //Add a function to reload the list when the dialog closes
+            $('#AddModal').on('hidden.bs.modal', function () {
+                loadUsers();
+            })
+
+            $('#EditModal').on('hidden.bs.modal', function () {
+                loadUsers();
+            })
+        });
+
+        //Make an ajax call to load the users
+        function loadUsers() {
+            clearMessage();
+            $("#userList").find('tbody').empty();
+            $.getJSON("/api/User/", function (data) {
+                $.each(data, function (i, user) {
+                    $('#userList tbody').append("<tr><td>" + user.Id + "</td><td>" + user.Email + "</td><td>" + user.UserName + "</td><td>" + user.PhoneNumber + "</td><td>" + user.Membership + "</td><td><span><a class='btn btn-success' href='javascript:editUser(\"" + user.Id + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteUser(\"" + user.Id + "\");'> Delete</a></span></td></tr>");
+                });
+            });
+        }
+
+
+        //Make an ajax call to delete a user
+        function deleteUser(id) {
+            var result = confirm("Are you sure to delete?");
+            if (result) {
+                $.ajax({
+                    url: '/api/User/' + id,
+                    type: 'DELETE',
+                    success: function (result) {
+                        loadUsers();
+                    },
+                    error: function (result) {
+                        alert("Unable to delete user. Error:" + result);
+                    }
+                });
+            }
+        }
+
+        function editUser(id) {
+            $.ajax({
+                url: '/api/User/' + id,
+                type: 'GET',
+                success: function (result) {
+                    $('#EditModal').find('#Id').val(result.Id);
+                    $('#EditModal').find('#Email').val(result.Email);
+                    $('#EditModal').find('#UserName').val(result.UserName);
+                    $('#EditModal').find('#PhoneNumber').val(result.PhoneNumber);
+                    $('#EditModal').find('#Membership').val(result.Membership);
+                    $('#EditModal').modal('show');
+                },
+                error: function (result) {
+                    alert("Unable to edit user.")
+                }
+            });
+        }
+
+
+        function onAddSuccess(data) {
+            if (data == "Okay") {
+                $('#AddModal').modal('hide');
+            } else {
+                clearMessage();
+                $('.text-danger ul').append("<li>" + data + "</li>")
+            }
+        }
+        function onEditSuccess(data) {
+            if (data == "Okay") {
+                $('#EditModal').modal('hide');
+            } else {
+                clearMessage();
+                $('.text-danger ul').append("<li>" + data + "</li>")
+            }
+        }
+        function clearMessage() {
+            $(".text-danger").addClass("validation-summary-errors");
+            $(".text-danger").removeClass("validation-summary-valid");
+            $('.text-danger ul').children().remove();
+        }
+
+        function onFailure(data) {
+            alert('An error occurred, please try again.');
+            //alert('Error:' + data.responseText);
+        }
+    </script>
+}
+

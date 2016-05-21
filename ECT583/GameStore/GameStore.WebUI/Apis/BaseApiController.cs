@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 
 namespace GameStore.WebUI.Apis
 {
@@ -25,6 +26,14 @@ namespace GameStore.WebUI.Apis
             get
             {
                 return HttpContext.Current.GetOwinContext().GetUserManager<AppRoleManager>();
+            }
+        }
+
+        protected IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.Current.GetOwinContext().Authentication;
             }
         }
 

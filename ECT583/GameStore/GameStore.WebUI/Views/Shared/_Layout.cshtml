@@ -25,11 +25,7 @@
                     <li>@Html.ActionLink("Accessory", "Index", "Product")</li>
                     <li>@Html.ActionLink("Game", "Index", "Category")</li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> My Cart</a></li>
-                </ul>
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
