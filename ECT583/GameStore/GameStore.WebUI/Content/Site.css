@@ -19,3 +19,117 @@ textarea {
 h5 {
     color:#ff4d4d;
 }
+
+.clear {
+	clear: both;
+}
+
+form input.formbutton {
+	border: none;
+	background: #DE2D3A;
+	color: #ffffff;
+	font-weight: bold;
+	padding: 6px 10px;
+	font-size: 12px;
+	font-family: Tahoma, Geneva, sans-serif;
+	letter-spacing: 1px;
+	width: auto;
+	overflow: visible;
+}
+
+a.button {
+    background-color: #799AC0;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 8px 15px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.special_grid_row{
+	display:block;
+	margin: 2% 3%;
+}
+.special_grid_col{
+	float: left;
+	width: 25%;
+	padding: 0.5em;
+	text-align:center;
+}
+.special_box {
+	border: 1px solid #0099ff;
+}
+.special_grid_col:hover .special_box{
+	/*border: 1px solid #f54d56;*/
+	transition: 1s all ease;
+	-webkit-transition: 0.5s all ease;
+	-moz-transition: 0.5s all ease;
+	-o-transition: 0.5s all ease;
+	-ms-transition: 0.5s all ease;
+}
+.special_grid_col:hover .special_box img{
+	-webkit-transform: scale(0.9);
+	/* Webkit: Scale up image to 1.2x original size; */
+	-moz-transform: scale(0.9);
+	-o-transform: scale(0.9);
+	opacity: 1;
+}
+.special_grid_col:hover .special_box a{
+	text-decoration:none;
+	/*background: #f54d56;*/
+	color:#fff;
+}
+.special_box img {
+	width: 180px;
+	height: 180px;
+  -webkit-transition-duration: 0.5s;
+  /* Webkit: Animation duration; */
+  -moz-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  width:100%;
+}
+.special_item_price {
+}
+.special_item_price .price-new {
+  color: green;
+  margin-right: 15px;
+  font-weight: 500;
+  font-size: 0.9em;
+}
+.special_item_price .price-old {
+  text-decoration: line-through;
+  color: #ff6978;
+  font-weight: normal;
+  font-size: 0.9em;
+  margin-right: 10px;
+}
+.special_item_add {
+  border: none;
+  color: #3f3d3d;
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  text-align: center;
+}
+.special_item_add  a{
+  background: rgb(9, 209, 182);
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  text-decoration:none;
+}
+.special_item_add ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: none;
+}
+
+.special_item_add ul li {
+	margin-bottom: 5px;
+}

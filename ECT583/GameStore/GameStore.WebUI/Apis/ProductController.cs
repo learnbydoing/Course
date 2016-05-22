@@ -110,8 +110,8 @@ namespace GameStore.WebUI.Apis
             }
         }
 
-        // POST api/<controller>
-        public HttpResponseMessage Post([FromBody]ProductDTO value)
+        [Route("api/Product/Create")]
+        public HttpResponseMessage Create([FromBody]ProductDTO value)
         {
             if (value.Discount < 0 || value.Discount > 100)
             {
@@ -135,6 +135,42 @@ namespace GameStore.WebUI.Apis
                 context.SaveChanges();
                 HttpContext.Current.Cache.Remove("ProductList");
                 HttpContext.Current.Cache.Remove("ProductList" + newProduct.CategoryId);                
+                return Request.CreateResponse(HttpStatusCode.OK, "Okay");
+            }
+        }
+
+        public HttpResponseMessage Post([FromBody]ProductDTO value)
+        {
+            if (value == null || String.IsNullOrEmpty(value.ProductName))
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, "Product Name can't be empty!");
+            }
+
+            if (value.Discount < 0 || value.Discount > 100)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, "Discount must between 0 ~ 100.");
+            }
+
+            using (GameStoreDBContext context = new GameStoreDBContext())
+            {
+                bool exist = context.Products.Any(c => c.ProductId == value.ProductId);
+                if (!exist)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "Product [" + value.ProductId + "] does not exist!");
+                }
+
+                exist = context.Products.Where(c => c.ProductId != value.ProductId).Any(c => c.ProductName.Equals(value.ProductName, StringComparison.OrdinalIgnoreCase));
+                if (exist)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "Product [" + value.ProductName + "] is already existed, please try another name!");
+                }
+                var product = context.Products.Find(value.ProductId);
+                HttpContext.Current.Cache.Remove("ProductList" + product.CategoryId);
+                context.Entry(product).CurrentValues.SetValues(value);
+                context.SaveChanges();
+                HttpContext.Current.Cache.Remove("ProductList");
+                HttpContext.Current.Cache.Remove("ProductList" + value.CategoryId);
+                HttpContext.Current.Cache.Remove("Product" + product.ProductId);
                 return Request.CreateResponse(HttpStatusCode.OK, "Okay");
             }
         }

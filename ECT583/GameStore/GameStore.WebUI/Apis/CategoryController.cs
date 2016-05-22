@@ -15,36 +15,28 @@ namespace GameStore.WebUI.Apis
     public class CategoryController : ApiController
     {
         // GET api/<controller>
-        public List<CategoryDTO> Get()
+        public List<Category> Get()
         {
             if (HttpContext.Current.Cache["CategoryList"] != null)
-                return (List<CategoryDTO>)HttpContext.Current.Cache["CategoryList"];
+                return (List<Category>)HttpContext.Current.Cache["CategoryList"];
             using (GameStoreDBContext context = new GameStoreDBContext())
             {
-                List<CategoryDTO> categories = context.Categories.Select(s => new CategoryDTO { CategoryId = s.CategoryId, CategoryName = s.CategoryName }).ToList();
+                List<Category> categories = context.Categories.ToList();
                 HttpContext.Current.Cache["CategoryList"] = categories;
                 return categories;
             }
         }        
 
         // GET api/<controller>/5
-        public CategoryDTO Get(int id)
+        public Category Get(int id)
         {
             if (HttpContext.Current.Cache["Category" + id] != null)
-                return (CategoryDTO)HttpContext.Current.Cache["Category" + id];
+                return (Category)HttpContext.Current.Cache["Category" + id];
             using (GameStoreDBContext context = new GameStoreDBContext())
             {
                 Category category = context.Categories.Find(id);
-                if (category == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    CategoryDTO categoryDTO = new CategoryDTO { CategoryId = category.CategoryId, CategoryName = category.CategoryName };
-                    HttpContext.Current.Cache["Category" + id] = categoryDTO;
-                    return categoryDTO;
-                }
+                HttpContext.Current.Cache["Category" + id] = category;
+                return category;
             }
         }
 
@@ -54,14 +46,14 @@ namespace GameStore.WebUI.Apis
         {
             if (HttpContext.Current.Cache["CategoryList"] != null)
             {
-                List<CategoryDTO> list = (List<CategoryDTO>)HttpContext.Current.Cache["CategoryList"];
+                List<Category> list = (List<Category>)HttpContext.Current.Cache["CategoryList"];
                 return list.Count();
             }
             else
             {
                 using (GameStoreDBContext context = new GameStoreDBContext())
                 {
-                    List<CategoryDTO> categories = context.Categories.Select(s => new CategoryDTO { CategoryId = s.CategoryId, CategoryName = s.CategoryName }).ToList();
+                    List<Category> categories = context.Categories.ToList();
                     HttpContext.Current.Cache["CategoryList"] = categories;
                     return categories.Count();
                 }
@@ -69,7 +61,8 @@ namespace GameStore.WebUI.Apis
         }
 
         // POST api/<controller>
-        public HttpResponseMessage Post([FromBody]CategoryDTO value)
+        [Route("api/Category/Create")]
+        public HttpResponseMessage Create([FromBody]Category value)
         {
             if (value==null || String.IsNullOrEmpty(value.CategoryName))
             {
@@ -94,7 +87,7 @@ namespace GameStore.WebUI.Apis
 
         //PUT REMOVED
         // Ajax.htmlForm does not support put and delete, only supports get and post.
-        public HttpResponseMessage Put([FromBody]CategoryDTO value)
+        public HttpResponseMessage Post([FromBody]Category value)
         {
             if (value == null || String.IsNullOrEmpty(value.CategoryName))
             {
@@ -107,6 +100,12 @@ namespace GameStore.WebUI.Apis
                 if (!exist)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, "Category ["+value.CategoryId+"] does not exist!");
+                }
+                
+                exist = context.Categories.Where(c => c.CategoryId != value.CategoryId).Any(c => c.CategoryName.Equals(value.CategoryName, StringComparison.OrdinalIgnoreCase));
+                if (exist)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "Category [" + value.CategoryName + "] is already existed, please try another name!");
                 }
                 var category = context.Categories.Find(value.CategoryId);
                 category.CategoryName = value.CategoryName;

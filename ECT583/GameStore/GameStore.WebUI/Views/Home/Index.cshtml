@@ -3,15 +3,13 @@
     ViewBag.Title = "Home Page";
 }
 
+<div class="jumbotron">
+    <h1>Game Store</h1>
+    <p>Welcome to Johnny's Game Store! You can purchase console, accessory and games here. And register as 'Advanced' membership to sell your own product!</p>
+</div>
+
 <h2>Game Store Management</h2>
 <div class="row">
-    <div class="col-md-4">
-        <ul class="list-group">
-            <li class="list-group-item"><b>Data from Page Loading</b></li>
-            <li class="list-group-item"><span class="badge">@ViewBag.ProductCount</span><a href="/Product">Product List</a></li>
-            <li class="list-group-item"><span class="badge">@ViewBag.CategoryCount</span><a href="/Category">Category List</a></li>
-        </ul>
-    </div>
     <div class="col-md-4">
         <ul class="list-group">
             <li class="list-group-item"><b>Data from Web API called by Ajax</b></li>
@@ -20,10 +18,7 @@
         </ul>
     </div>
     <div class="col-md-4"></div>
-</div>
-<div class="well">
-    @Html.ActionLink("Role", "Index", "Role")
-    @Html.ActionLink("User", "Index", "User")
+    <div class="col-md-4"></div>
 </div>
 @section Scripts
 {

@@ -1,31 +1,13 @@
-﻿@model GameStore.WebUI.Models.DTO.CategoryDTO
+﻿@model GameStore.Domain.Model.Category
 @{
     ViewBag.Title = "Category Management";
 }
 
 <h2>@ViewBag.Title</h2>
+
+<button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#AddModal">Add Category</button>
 <hr />
-@using (Ajax.BeginForm("", new { controller = "api/Category/" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }, new { @class = "form-horizontal" }))
-{
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-    <div class="panel panel-info">
-        <div class="panel-heading">New Category</div>
-        <div class="panel-body">
-            <div class="form-group required">
-                @Html.LabelFor(o => o.CategoryName, new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
-                    @Html.TextBoxFor(o => o.CategoryName, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <input type="submit" class="btn btn-success" value="Create" />
-                </div>
-            </div>              
-        </div>
-    </div>
-}
-<table class="table table-striped" id="categoryList">
+<table class="table table-striped" id="modelList">
     <thead>
         <tr>
             <th>Category Id</th>
@@ -36,72 +18,139 @@
     <tbody></tbody>
 </table>
 
-<div class="well">
-    <h5>* The content of this page is cached by ASP.NET Cache.</h5>
-    <h5>* There are two levels of cache, all categories level and single category level.</h5>
+<div id="AddModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add New Category</h4>
+            </div>
+            <div class="modal-body">
+                @using (Ajax.BeginForm("", "api/Category/Create", new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }))
+                {
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    <fieldset class="form-group">
+                        <label for="CategoryName">Category Name</label>
+                        @Html.TextBoxFor(c => c.CategoryName, new { @class = "form-control" })
+                    </fieldset>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="EditModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Category</h4>
+            </div>
+            <div class="modal-body">
+                @using (Ajax.BeginForm("", "api/Category/", new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }))
+                {
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(c => c.CategoryId)
+                    <fieldset class="form-group">
+                        <label for="CategoryName">Category Name</label>
+                        @Html.TextBoxFor(c => c.CategoryName, new { @class = "form-control" })
+                    </fieldset>                    
+                    <button type="submit" class="btn btn-primary">Update</button>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 @section Scripts
 {
     <script>
         $().ready(function () {
-            $(".fancybox").fancybox({
-                fitToView: false,
-                autoSize: false,
-                autoDimensions: false,
-                width: 370,
-                height: 260,
-                afterClose: function () { window.location.reload(); }
-            });
+            //Load Categories when the page is loaded
             loadList();
+
+            //Add a function to reload the list when the dialog closes
+            $('#AddModal').on('hidden.bs.modal', function () {
+                loadList();
+            })
+
+            $('#EditModal').on('hidden.bs.modal', function () {
+                loadList();
+            })
         });
 
-        function onSuccess(data) {
-            if (data == "Okay") {
-                loadList();
-            } else {
-                $(".text-danger").addClass("validation-summary-errors");
-                $(".text-danger").removeClass("validation-summary-valid");
-                $('.text-danger ul').children().remove();
-                $('.text-danger ul').append("<li>" + data + "</li>")
-            }
-        }
-        function onFailure(data) {
-            alert('An error occurred, please try again.');
-            //alert('Error:' + data.responseText);
-        }
+        //Make an ajax call to load the categories
         function loadList() {
-            $('#CategoryName').val("");
-            $('.validation-summary-errors ul').children().remove();
-            $("#categoryList").find('tbody').empty();
+            clearMessage();
+            $("#modelList").find('tbody').empty();
             $.getJSON("/api/Category/", function (data) {
                 $.each(data, function (i, category) {
-                    $('#categoryList tbody').append("<tr><td>" + category.CategoryId + "</td><td>" + category.CategoryName + "</td><td><span style='padding-right:3px;'><a class='fancybox fancybox.iframe' href='/Category/Edit/"+category.CategoryId+"'>Edit</a> </span><a href='javascript:deleteCategory(" + category.CategoryId + ");'> Delete </a></td>");
+                    $('#modelList tbody').append("<tr><td>" + category.CategoryId + "</td><td>" + category.CategoryName + "</td><td><span><a class='btn btn-success' href='javascript:editModel(\"" + category.CategoryId + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteModel(\"" + category.CategoryId + "\");'> Delete</a></span></td></tr>");
                 });
             });
         }
 
-        function deleteCategory(id) {
+
+        //Make an ajax call to delete a model object
+        function deleteModel(id) {
             var result = confirm("Are you sure to delete?");
             if (result) {
                 $.ajax({
                     url: '/api/Category/' + id,
                     type: 'DELETE',
-                    success: function (data) {
-                        if (data == "Okay") {
-                            loadList();
-                        } else {
-                            $(".text-danger").addClass("validation-summary-errors");
-                            $(".text-danger").removeClass("validation-summary-valid");
-                            $('.text-danger ul').children().remove();
-                            $('.text-danger ul').append("<li>" + data + "</li>")
-                        }
+                    success: function (result) {
+                        loadList();
                     },
-                    error: function (data) {
-                        alert("Unable to delete category. " + data);
+                    error: function (result) {
+                        alert("Unable to delete category. Error:" + result);
                     }
                 });
-            }            
+            }
+        }
+
+        function editModel(id) {
+            $.ajax({
+                url: '/api/Category/' + id,
+                type: 'GET',
+                success: function (result) {
+                    $('#EditModal').find('#CategoryId').val(result.CategoryId);
+                    $('#EditModal').find('#CategoryName').val(result.CategoryName);
+                    $('#EditModal').modal('show');
+                },
+                error: function (result) {
+                    alert("Unable to edit category.")
+                }
+            });
+        }
+
+
+        function onSuccess(data) {
+            if (data == "Okay") {
+                $('#AddModal').modal('hide');
+                $('#EditModal').modal('hide');
+            } else {
+                clearMessage();
+                $('.text-danger ul').append("<li>" + data + "</li>")
+            }
+        }
+        function clearMessage() {
+            $(".text-danger").addClass("validation-summary-errors");
+            $(".text-danger").removeClass("validation-summary-valid");
+            $('.text-danger ul').children().remove();
+        }
+
+        function onFailure(data) {
+            alert('An error occurred, please try again.');
+            //alert('Error:' + data.responseText);
         }
     </script>
 }
