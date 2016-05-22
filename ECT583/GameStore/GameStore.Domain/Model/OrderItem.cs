@@ -13,6 +13,12 @@ namespace GameStore.Domain.Model
         {
 
         }
+        //public OrderItem(int OrderId, int ProductId, int Quantity)
+        //{
+        //    this.OrderId = OrderId;
+        //    this.ProductId = ProductId;
+        //    this.Quantity = Quantity;
+        //}
         [Required]
         public int OrderItemId { get; set; }
         [Required]

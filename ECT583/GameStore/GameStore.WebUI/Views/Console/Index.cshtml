@@ -3,7 +3,14 @@
     ViewBag.Title = "Consoles";
 }
 
-<h3>Consoles</h3>
+<div class="row">
+    <div style="float:left; padding-left:15px">
+        <h3>Consoles</h3>
+    </div>
+    <div style="float:right; padding-right:15px">
+        <span>My Order(8)</span><span>@Html.ActionLink("Cart(8)", "Index", "ShoppingCart")</span>
+    </div>
+</div>
 @{
     var counter = 0;
 }
@@ -27,12 +34,12 @@
                 <div class="special_item_add">
                     <ul>
                         <li>
-                            <form method='post' action='mycart.jsp'>
-                                <input type='hidden' name='id' value='@item.ProductId"/>'>
-                                <input type='hidden' name='name' value='@item.ProductName"/>'>
-                                <input type='hidden' name='type' value='1'>
+                            @using (Html.BeginForm("Post", "ShoppingCart", FormMethod.Post))
+                            {
+                                <input type='hidden' name='id' value='@item.ProductId'>
+                                <input type='hidden' name='quantity' value='0'>
                                 <input type='submit' class='formbutton' value='Add to Cart'>
-                            </form>
+                            }
                         </li>
                         <li><a class='button' href='review.jsp?productid=@item.ProductId'>Reviews</a></li>
                     </ul>

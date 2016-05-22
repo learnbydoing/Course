@@ -261,6 +261,7 @@
     <Compile Include="Controllers\AccessoryController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\ConsoleController.cs" />
+    <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
@@ -269,7 +270,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
+    <Compile Include="Models\ViewModels\CartViewModel.cs" />
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
     <Compile Include="Models\ViewModels\RoleViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductEditViewModel.cs" />
@@ -288,8 +292,6 @@
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutEdit.cshtml" />
-    <Content Include="Views\Product\Edit.cshtml" />
-    <Content Include="Views\Product\Update.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
@@ -298,6 +300,7 @@
     <Content Include="Views\Console\Index.cshtml" />
     <Content Include="Views\Accessory\Index.cshtml" />
     <Content Include="Views\Game\Index.cshtml" />
+    <Content Include="Views\ShoppingCart\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
