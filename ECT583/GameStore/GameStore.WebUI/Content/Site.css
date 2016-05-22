@@ -24,6 +24,53 @@ h5 {
 	clear: both;
 }
 
+.header_cart{
+    margin-top:20px;
+}
+
+.header_search{
+	position: relative;
+	background: #f3f4f5;
+	border: 1px solid #D8D8D8;
+    margin-top:20px;
+    width:90%;
+}
+.header_search form{
+	width:100%;
+}
+
+.header_search input[type="text"]{
+	margin:0px 0;
+	font-family: 'Open Sans', sans-serif;
+	padding:8px 16px;
+	outline: none;
+	color: #5a5a5a;
+	background: none;
+	border: none;
+	width:95.33333%;
+	line-height: 1.5em;
+	position: relative;
+	font-size: 0.8725em;
+	-webkit-appearance: none;
+	text-transform: capitalize;
+}
+
+.header_search input[type="text"]{
+	background: #ffffff;
+}
+
+.header_search input[type="submit"]{
+	background: url('../images/search.png') no-repeat 0px 1px;
+	border: none;
+	cursor: pointer;
+	width: 24px;
+	outline: none;
+	position: absolute;
+	height: 24px;
+	top: 6px;
+	right: 5px;
+}
+
 form input.formbutton {
 	border: none;
 	background: #DE2D3A;

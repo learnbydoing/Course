@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Identity
 {
-    [MetadataType(typeof(RoleMetaData))]
+    //[MetadataType(typeof(RoleMetaData))]
     public class AppRole : IdentityRole
     {
         public AppRole() : base() { }

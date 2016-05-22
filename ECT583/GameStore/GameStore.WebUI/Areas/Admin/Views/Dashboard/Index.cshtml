@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Admin: Dashboard";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Game Store Management</h2>
+<div class="row">
+    <div class="col-md-4">
+        <ul class="list-group">
+            <li class="list-group-item"><b>Statistics</b></li>
+            <li class="list-group-item"><span class="badge" id="product">0</span><a href="/Product">Product List</a></li>
+            <li class="list-group-item"><span class="badge" id="category">0</span><a href="/Category">Category List</a></li>
+        </ul>
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+</div>
+@section Scripts
+{
+    <script>
+        $().ready(function () {
+            getProductCount();
+            getCategoryCount();
+        });
+
+        function getProductCount() {
+            $.ajax({
+                url: '/api/Product/GetCount/',
+                type: 'GET',
+                success: function (result) {
+                    $('#product').text(result);
+                },
+                error: function (result) {
+                    //alert("Error:" + result);
+                }
+            });
+        }
+
+        function getCategoryCount() {
+            $.ajax({
+                url: '/api/Category/GetCount/',
+                type: 'GET',
+                success: function (result) {
+                    $('#category').text(result);
+                },
+                error: function (result) {
+                    //alert("Error:" + result);
+                }
+            });
+        }
+    </script>
+}

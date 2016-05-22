@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Consoles";
 }
-
 <div class="row">
     <div style="float:left; padding-left:15px">
         <h3>Consoles</h3>
@@ -14,7 +13,6 @@
 @{
     var counter = 0;
 }
-<hr/>
 <section id='content'>
 @foreach (var item in Model)
 {
@@ -29,19 +27,19 @@
             <h4>@item.ProductName</h4>
             <div class="grid_1">
                 <div class="special_item_price">
-                    <span class="price-old">@item.Price</span><span class="price-new">@item.Price</span>
+                    <span class="price-old">@item.Price</span><span class="price-new">@item.GetDiscountedPrice()</span>
                 </div>
                 <div class="special_item_add">
                     <ul>
                         <li>
-                            @using (Html.BeginForm("Post", "ShoppingCart", FormMethod.Post))
+                            @using (Html.BeginForm("CreateOrUpdate", "ShoppingCart", FormMethod.Post))
                             {
                                 <input type='hidden' name='id' value='@item.ProductId'>
                                 <input type='hidden' name='quantity' value='0'>
-                                <input type='submit' class='formbutton' value='Add to Cart'>
+                                <input type='submit' class='btn btn-success' value='Add to Cart'>
                             }
                         </li>
-                        <li><a class='button' href='review.jsp?productid=@item.ProductId'>Reviews</a></li>
+                        <li><a class='btn btn-info' href='review.jsp?productid=@item.ProductId'>Reviews</a></li>
                     </ul>
                 </div>
             </div>

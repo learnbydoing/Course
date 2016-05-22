@@ -218,6 +218,10 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\ecta5.pubxml" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
@@ -256,11 +260,14 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Apis\CategoryController.cs" />
     <Compile Include="Apis\ProductController.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AccessoryController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\ConsoleController.cs" />
+    <Compile Include="Controllers\MyOrderController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
@@ -273,6 +280,9 @@
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
+    <Compile Include="Models\ViewModels\OrderItemViewModel.cs" />
+    <Compile Include="Models\ViewModels\CheckoutViewModel.cs" />
+    <Compile Include="Models\ViewModels\OrderViewModel.cs" />
     <Compile Include="Models\ViewModels\CartViewModel.cs" />
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
     <Compile Include="Models\ViewModels\RoleViewModel.cs" />
@@ -301,6 +311,12 @@
     <Content Include="Views\Accessory\Index.cshtml" />
     <Content Include="Views\Game\Index.cshtml" />
     <Content Include="Views\ShoppingCart\Index.cshtml" />
+    <Content Include="Views\ShoppingCart\Checkout.cshtml" />
+    <Content Include="Views\ShoppingCart\PlaceOrder.cshtml" />
+    <Content Include="Views\MyOrder\Index.cshtml" />
+    <Content Include="Views\MyOrder\Detail.cshtml" />
+    <Content Include="Views\Shared\_SearchPartial.cshtml" />
+    <Content Include="Views\Shared\_CartPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -310,11 +326,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameStore.Domain\GameStore.Domain.csproj">
       <Project>{89668e5c-bfae-41ed-913f-b039c6898b27}</Project>
       <Name>GameStore.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameStore.Extension\GameStore.Extension.csproj">
+      <Project>{e3686e98-b47f-42f7-8db6-2cf476fbf652}</Project>
+      <Name>GameStore.Extension</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

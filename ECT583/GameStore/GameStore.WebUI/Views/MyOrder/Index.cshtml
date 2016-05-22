@@ -1,0 +1,30 @@
+﻿@model IEnumerable<GameStore.WebUI.Models.OrderViewModel>
+@{
+    ViewBag.Title = "Place Order";
+}
+
+<table class="table table-striped" id="modelList">
+    <thead>
+        <tr>
+            <th>Orer Id</th>
+            <th>User Name</th>
+            <th>Confirmation Number</th>
+            <th>DeliveryDate</th>
+            <th>Sub Total</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.OrderId</td>
+                <td>@item.UserName</td>
+                <td>@item.ConfirmationNumber</td>
+                <td>@item.DeliveryDate</td>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>

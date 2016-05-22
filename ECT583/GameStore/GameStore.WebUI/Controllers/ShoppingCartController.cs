@@ -25,7 +25,7 @@ namespace GameStore.WebUI.Controllers
             return View(cart);
         }
 
-        public ActionResult Post([FromBody]CartViewModel value)
+        public ActionResult CreateOrUpdate([FromBody]CartViewModel value)
         {
             ShoppingCart cart = (ShoppingCart)Session["ShoppingCart"];
             if (cart == null)
@@ -48,35 +48,73 @@ namespace GameStore.WebUI.Controllers
                     }
                 }
             }
-            
+
             return View("Index", cart);
         }
 
-        public ActionResult Submit()
+        public ActionResult Checkout()
+        {
+            CheckoutViewModel checkout = new CheckoutViewModel();
+            checkout.Address = "1st Jackson Ave,Chicago,IL";
+            checkout.CreditCard = "3101122033287498";
+            return View(checkout);
+        }
+
+        public ActionResult PlaceOrder([FromBody]CheckoutViewModel value)
         {
             ShoppingCart cart = (ShoppingCart)Session["ShoppingCart"];
             if (cart == null)
             {
-                cart = new ShoppingCart();
-                Session["ShoppingCart"] = cart;
-                return View("Index", cart);
+                ViewBag.Message = "Your cart is empty!";
+                return View("Index", "ShoppingCart");
             }
-            using (GameStoreDBContext context = new GameStoreDBContext())
+            if (String.IsNullOrEmpty(value.Address) || String.IsNullOrEmpty(value.CreditCard))
             {
-                Order newOrder = context.Orders.Create();
-                newOrder.Address = "1 est jas";
-                newOrder.CreditCard = "313131321";
-                newOrder.DeliveryDate = DateTime.Now;
-                newOrder.ConfirmationNumber = "1 est jas11111";
-                newOrder.UserId = User.Identity.GetUserId();                
-                context.Orders.Add(newOrder);
-                context.SaveChanges();
-
-                cart.GetItems().ForEach(c => context.OrderItems.Add(new OrderItem { OrderId = newOrder.OrderId, ProductId = c.GetItemId(), Quantity = c.Quantity }));
-                System.Web.HttpContext.Current.Cache.Remove("OrderList");
-                Session["ShoppingCart"] = null;
+                ViewBag.Message = "Please provide address and credit card!";
+                return View("Checkout", "ShoppingCart");
             }
-            return RedirectToAction("Index", "Home");
+
+            OrderViewModel model = new OrderViewModel();
+            try
+            {
+                using (GameStoreDBContext context = new GameStoreDBContext())
+                {
+                    Order newOrder = context.Orders.Create();
+                    newOrder.Address = value.Address;
+                    newOrder.CreditCard = value.CreditCard;
+                    newOrder.DeliveryDate = DateTime.Now.AddDays(14);
+                    newOrder.ConfirmationNumber = value.CreditCard.Substring(value.CreditCard.Length - 4) + DateTime.Now.ToLongTimeString();
+                    newOrder.UserId = User.Identity.GetUserId();
+                    context.Orders.Add(newOrder);
+                    cart.GetItems().ForEach(c => context.OrderItems.Add(new OrderItem { OrderId = newOrder.OrderId, ProductId = c.GetItemId(), Quantity = c.Quantity }));
+                    context.SaveChanges();
+                    System.Web.HttpContext.Current.Cache.Remove("OrderList");
+                    Session["ShoppingCart"] = null;
+
+                    var order = from o in context.Orders
+                                join u in context.Users
+                                  on o.UserId equals u.Id
+                               where o.OrderId == newOrder.OrderId
+                              select new { o.OrderId, o.UserId, u.UserName, o.Address, o.CreditCard, o.ConfirmationNumber, o.DeliveryDate };
+                    var ord = order.FirstOrDefault();
+                    model = new OrderViewModel { OrderId = ord.OrderId, UserId = ord.UserId, UserName = ord.UserName, Address = ord.Address, CreditCard = ord.CreditCard, ConfirmationNumber = ord.ConfirmationNumber, DeliveryDate = ord.DeliveryDate };
+
+                    var orderitems = from i in context.OrderItems
+                                     join p in context.Products
+                                       on i.ProductId equals p.ProductId
+                                     join c in context.Categories
+                                       on p.CategoryId equals c.CategoryId
+                                     where i.OrderId == newOrder.OrderId
+                                    select new { i.OrderItemId, i.OrderId, i.ProductId, p.ProductName, p.CategoryId, c.CategoryName, p.Price, p.Image, p.Condition, p.Discount, i.Quantity};
+                    model.Items = orderitems.Select(o => new OrderItemViewModel { OrderItemId = o.OrderItemId, OrderId = o.OrderId, ProductId = o.ProductId, ProductName = o.ProductName, CategoryId = o.CategoryId, CategoryName = o.CategoryName, Price = o.Price, Image = o.Image, Condition = o.Condition, Discount = o.Discount, Quantity = o.Quantity }).ToList();
+                }
+            }
+            catch(Exception ex)
+            {
+                ViewBag.Message = "Error Occurs:"+ ex.Message;
+            }
+
+            return View(model);
         }
     }
 }

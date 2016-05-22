@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "My Cart";
 }
-
+<h3 class="box-title">@ViewBag.Message</h3>
 <div class="row">
     <div style="float:left; padding-left:15px">
         <h3>My Cart</h3>
@@ -30,24 +30,26 @@
             <td>@item.GetItemName()</td>
             <td>@item.GetDiscountedPrice()</td>
             <td>
-                @using (Html.BeginForm("Post", "ShoppingCart", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+                @using (Html.BeginForm("CreateOrUpdate", "ShoppingCart", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
                 {
                     <input type="hidden" name="id" value="@item.GetItemId()">
                     <input type="text" name="quantity" size=3 value="@item.Quantity">
-                    <input type="submit" class="formbutton2" value="Update">
+                    <input type="submit" class="btn btn-success" value="Update">
                 }
             </td>
             <td>@item.GetTotalCost()</td>
             <td>
-                @using (Html.BeginForm("Post", "ShoppingCart", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+                @using (Html.BeginForm("CreateOrUpdate", "ShoppingCart", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
                 {
                     <input type="hidden" name="id" value="@item.GetItemId()">
                     <input type="hidden" name="quantity" size=3 value="0">
-                    <input type="submit" class="formbutton2" value="Delete">
+                    <input type="submit" class="btn btn-danger" value="Delete">
                 }
             </td>
         </tr>
-    }
-        <tr><td colspan="6">@Html.ActionLink("Place Order", "Submit", "ShoppingCart")</tr> 
+    }        
     </tbody>
 </table>
+<div class="box-footer">
+    @Html.ActionLink("Checkout", "Checkout", "ShoppingCart", new { @class="btn btn-info"})
+</div>
