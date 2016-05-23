@@ -11,6 +11,7 @@ using GameStore.Domain.Identity;
 
 namespace GameStore.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserController : BaseController
     {
         // GET: User

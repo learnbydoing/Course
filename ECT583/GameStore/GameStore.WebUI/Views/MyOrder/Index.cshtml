@@ -1,8 +1,9 @@
-﻿@model IEnumerable<GameStore.WebUI.Models.OrderViewModel>
+﻿@using GameStore.Extension;
+@model IEnumerable<GameStore.WebUI.Models.OrderViewModel>
 @{
-    ViewBag.Title = "Place Order";
+    ViewBag.Title = "My Orders";
 }
-
+@Html.Partial("_FrontPartial")
 <table class="table table-striped" id="modelList">
     <thead>
         <tr>

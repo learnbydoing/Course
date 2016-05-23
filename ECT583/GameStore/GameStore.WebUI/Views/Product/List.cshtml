@@ -1,18 +1,9 @@
-﻿@model List<GameStore.WebUI.Models.DTO.ProductDTO>
-@{
-    ViewBag.Title = "Consoles";
-}
-<div class="row">
-    <div style="float:left; padding-left:15px">
-        <h3>Consoles</h3>
-    </div>
-    <div style="float:right; padding-right:15px">
-        <span>My Order(8)</span><span>@Html.ActionLink("Cart(8)", "Index", "ShoppingCart")</span>
-    </div>
-</div>
+﻿@using GameStore.Extension;
+@model List<GameStore.WebUI.Models.DTO.ProductDTO>
 @{
     var counter = 0;
 }
+@Html.Partial("_FrontPartial")
 <section id='content'>
 @foreach (var item in Model)
 {
@@ -23,11 +14,11 @@
 
     <div class="special_grid_col">
         <div class="special_box">
-            <img src="images/@item.Image" class="img-responsive" alt="" />
-            <h4>@item.ProductName</h4>
+            <a href='/Product/Detail/@item.ProductId'><img src="~/images/@item.Image" class="img-responsive" alt="" /></a>
+            <h4>@item.ProductName</h4>         
             <div class="grid_1">
                 <div class="special_item_price">
-                    <span class="price-old">@item.Price</span><span class="price-new">@item.GetDiscountedPrice()</span>
+                    <span class="price-old">@Html.FormattedCurrency(item.Price)</span><span class="price-new">@Html.FormattedCurrency(item.GetDiscountedPrice())</span>
                 </div>
                 <div class="special_item_add">
                     <ul>
@@ -39,7 +30,7 @@
                                 <input type='submit' class='btn btn-success' value='Add to Cart'>
                             }
                         </li>
-                        <li><a class='btn btn-info' href='review.jsp?productid=@item.ProductId'>Reviews</a></li>
+                        <li><a class='btn btn-warn' href='/Product/Detail/@item.ProductId'>Details</a></li>
                     </ul>
                 </div>
             </div>

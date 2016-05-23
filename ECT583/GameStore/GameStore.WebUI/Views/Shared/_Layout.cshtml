@@ -5,6 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Rong's Game Store</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/fancy")
     @Scripts.Render("~/bundles/modernizr")
@@ -31,25 +36,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="@Html.IsSelected(actions: "Index", controllers: "Console")">@Html.ActionLink("Console", "Index", "Console")</li>
-                    <li class="@Html.IsSelected(actions: "Index", controllers: "Accessory")">@Html.ActionLink("Accessory", "Index", "Accessory")</li>
-                    <li class="@Html.IsSelected(actions: "Index", controllers: "Game")">@Html.ActionLink("Game", "Index", "Game")</li>
+                    <li class="@Html.IsSelected(actions: "Console", controllers: "Product")">@Html.ActionLink("Console", "Console", "Product")</li>
+                    <li class="@Html.IsSelected(actions: "Accessory", controllers: "Product")">@Html.ActionLink("Accessory", "Accessory", "Product")</li>
+                    <li class="@Html.IsSelected(actions: "Game", controllers: "Product")">@Html.ActionLink("Game", "Game", "Product")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4"><h2>@ViewBag.Title</h2></div>
-            <div class="col-sm-4" style="vertical-align:middle">
-                @Html.Partial("_SearchPartial")
-            </div>
-            <div class="col-sm-4" style="text-align: right;">
-                @Html.Partial("_CartPartial")
-            </div>
-        </div>        
-        <hr/>
+    <div class="container">        
         @RenderBody()
         <hr />
         <footer>
@@ -57,10 +52,6 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>

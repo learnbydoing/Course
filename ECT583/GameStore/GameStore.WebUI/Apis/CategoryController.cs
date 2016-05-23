@@ -12,6 +12,7 @@ using System.Net;
 
 namespace GameStore.WebUI.Apis
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryController : ApiController
     {
         // GET api/<controller>

@@ -1,5 +1,6 @@
 ﻿using GameStore.Domain;
 using GameStore.Domain.Identity;
+using GameStore.Domain.Infrastructure;
 using GameStore.Domain.Model;
 using GameStore.WebUI.Models;
 using Microsoft.AspNet.Identity;
@@ -90,8 +91,9 @@ namespace GameStore.WebUI.Controllers
                         var user = UserManager.FindByEmail(model.Email);
                         var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
                         AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
-                        if (String.IsNullOrEmpty(returnUrl))
-                            return RedirectToLocal("/");
+                        GetOrderCount();
+                        if (!String.IsNullOrEmpty(returnUrl))
+                            return RedirectToLocal(returnUrl);
                         else
                             return RedirectToAction("Index", "Home");
                     }
@@ -113,7 +115,20 @@ namespace GameStore.WebUI.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            @Session["OrderCount"] = 0;
+            @Session["CartCount"] = 0;
             return RedirectToAction("Index", "Home");
+        }
+
+        private void GetOrderCount()
+        {
+            int count = 0;
+            using (GameStoreDBContext context = new GameStoreDBContext())
+            {
+                count = context.Orders.Count();
+            }
+            Session["OrderCount"] = count;
+            Session["CartCount"] = 0;
         }
     }
 }

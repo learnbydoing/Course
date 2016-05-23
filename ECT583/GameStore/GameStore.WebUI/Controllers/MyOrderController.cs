@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace GameStore.WebUI.Controllers
 {
+    [Authorize]
     public class MyOrderController : Controller
     {
         // GET: MyOrder

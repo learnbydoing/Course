@@ -264,9 +264,6 @@
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\AccessoryController.cs" />
-    <Compile Include="Controllers\GameController.cs" />
-    <Compile Include="Controllers\ConsoleController.cs" />
     <Compile Include="Controllers\MyOrderController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -307,9 +304,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\Console\Index.cshtml" />
-    <Content Include="Views\Accessory\Index.cshtml" />
-    <Content Include="Views\Game\Index.cshtml" />
     <Content Include="Views\ShoppingCart\Index.cshtml" />
     <Content Include="Views\ShoppingCart\Checkout.cshtml" />
     <Content Include="Views\ShoppingCart\PlaceOrder.cshtml" />
@@ -317,6 +311,9 @@
     <Content Include="Views\MyOrder\Detail.cshtml" />
     <Content Include="Views\Shared\_SearchPartial.cshtml" />
     <Content Include="Views\Shared\_CartPartial.cshtml" />
+    <Content Include="Views\Product\Detail.cshtml" />
+    <Content Include="Views\Product\List.cshtml" />
+    <Content Include="Views\Shared\_FrontPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

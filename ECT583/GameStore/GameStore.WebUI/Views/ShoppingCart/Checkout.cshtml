@@ -2,9 +2,7 @@
 @{
     ViewBag.Title = "Checkout";
 }
-<h3>@ViewBag.Title</h3>
-<h3 class="box-title">@ViewBag.Message</h3>
-<hr />
+@Html.Partial("_FrontPartial")
 <div class="box-body">
     @using (Html.BeginForm("PlaceOrder", "ShoppingCart", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
     {
@@ -23,7 +21,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                @Html.ActionLink("Back to Cart", "Index", "ShoppingCart", new { @class="btn btn-info" })
+                @Html.ActionLink("Back to Cart", "Index", new { controller = "ShoppingCart" }, new { @class="btn btn-info" })
                 <input type="submit" style="padding-left:20px" class="btn btn-success" value="Place Order" />
             </div>
         </div>

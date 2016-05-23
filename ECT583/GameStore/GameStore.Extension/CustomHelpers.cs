@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,12 @@ namespace GameStore.Extension
 
             return acceptedActions.Contains(currentAction) && acceptedControllers.Contains(currentController) ?
                 cssClass : String.Empty;
+        }
+
+        public static string FormattedCurrency(this HtmlHelper html, double value)
+        {
+            CultureInfo cultureInfo = new CultureInfo("en-US");
+            return string.Format(cultureInfo, "{0:C}", value);
         }
     }
 }

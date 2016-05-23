@@ -12,6 +12,7 @@ using System.Web.Http;
 
 namespace GameStore.WebUI.Apis
 {
+    [Authorize(Roles = "Admin")]
     public class RoleController : BaseApiController
     {
         // GET api/<controller>

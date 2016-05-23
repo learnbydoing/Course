@@ -17,6 +17,11 @@ namespace GameStore.WebUI
 {
     public class Global : HttpApplication
     {
+        void Session_Start(Object sender, EventArgs e)
+        {
+            Session["CartCount"] = 0;
+            Session["OrderCount"] = 0;
+        }
         void Application_Start(object sender, EventArgs e)
         {
             // Code that runs on application startup

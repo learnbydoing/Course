@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Http;
 using System.Web.Mvc;
 
 namespace GameStore.WebUI.Controllers
 {
+    [Authorize]
     public class ShoppingCartController : Controller
     {
         // GET: ShoppingCart
@@ -25,7 +25,7 @@ namespace GameStore.WebUI.Controllers
             return View(cart);
         }
 
-        public ActionResult CreateOrUpdate([FromBody]CartViewModel value)
+        public ActionResult CreateOrUpdate(CartViewModel value)
         {
             ShoppingCart cart = (ShoppingCart)Session["ShoppingCart"];
             if (cart == null)
@@ -49,6 +49,7 @@ namespace GameStore.WebUI.Controllers
                 }
             }
 
+            Session["CartCount"] = cart.GetItems().Count();
             return View("Index", cart);
         }
 
@@ -60,7 +61,7 @@ namespace GameStore.WebUI.Controllers
             return View(checkout);
         }
 
-        public ActionResult PlaceOrder([FromBody]CheckoutViewModel value)
+        public ActionResult PlaceOrder(CheckoutViewModel value)
         {
             ShoppingCart cart = (ShoppingCart)Session["ShoppingCart"];
             if (cart == null)
@@ -83,13 +84,15 @@ namespace GameStore.WebUI.Controllers
                     newOrder.Address = value.Address;
                     newOrder.CreditCard = value.CreditCard;
                     newOrder.DeliveryDate = DateTime.Now.AddDays(14);
-                    newOrder.ConfirmationNumber = value.CreditCard.Substring(value.CreditCard.Length - 4) + DateTime.Now.ToLongTimeString();
+                    newOrder.ConfirmationNumber = value.CreditCard.Substring(value.CreditCard.Length - 4) + DateTime.Now.ToString("yyyyMMddHHmmss");
                     newOrder.UserId = User.Identity.GetUserId();
                     context.Orders.Add(newOrder);
                     cart.GetItems().ForEach(c => context.OrderItems.Add(new OrderItem { OrderId = newOrder.OrderId, ProductId = c.GetItemId(), Quantity = c.Quantity }));
                     context.SaveChanges();
                     System.Web.HttpContext.Current.Cache.Remove("OrderList");
                     Session["ShoppingCart"] = null;
+                    Session["CartCount"] = 0;
+                    Session["OrderCount"] = (int)Session["OrderCount"] + 1;
 
                     var order = from o in context.Orders
                                 join u in context.Users

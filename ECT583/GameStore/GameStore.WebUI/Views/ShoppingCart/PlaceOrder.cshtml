@@ -1,11 +1,11 @@
-﻿@model GameStore.WebUI.Models.OrderViewModel
+﻿@using GameStore.Extension;
+@model GameStore.WebUI.Models.OrderViewModel
 @{
     ViewBag.Title = "Place Order";
+    double total = 0;
 }
 
-<h3>@ViewBag.Title</h3>
-<h3 class="box-title">@ViewBag.Message</h3>
-<hr />
+@Html.Partial("_FrontPartial")
 @using (Html.BeginForm("PlaceOrder", "ShoppingCart", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
 {
     <div class="form-group">
@@ -40,7 +40,7 @@
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            @Html.ActionLink("My Orders", "Index", "MyOrder", new { @class="btn btn-info"})
+            @Html.ActionLink("My Orders", "Index", new { controller = "MyOrder" }, new { @class="btn btn-info"})
         </div>
     </div>
 }
@@ -61,10 +61,14 @@
             <tr>
                 <td>@item.ProductId</td>
                 <td>@item.ProductName</td>
-                <td>@item.GetDiscountedPrice()</td>
+                <td>@Html.FormattedCurrency(item.GetDiscountedPrice())</td>
                 <td>@item.Quantity</td>
-                <td>@item.GetTotalCost()</td>
+                <td>@Html.FormattedCurrency(item.GetTotalCost())</td>
             </tr>
+            total += item.GetTotalCost();
         }
     </tbody>
+    <tfoot>
+        <tr><td></td><td></td><td></td><td>Total:</td><td>@Html.FormattedCurrency(total)</td></tr>
+    </tfoot>
 </table>

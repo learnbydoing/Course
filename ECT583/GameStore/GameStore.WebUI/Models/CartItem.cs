@@ -1,6 +1,7 @@
 ﻿using GameStore.Domain.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -39,7 +40,7 @@ namespace GameStore.WebUI.Models
         public double GetDiscountedPrice()
         {
             return ProductItem.Price * (100 - ProductItem.Discount) / 100;
-        }
+        }     
 
         public double GetTotalCost()
         {

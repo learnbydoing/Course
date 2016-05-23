@@ -1,0 +1,14 @@
+﻿@model GameStore.WebUI.Models.DTO.ProductDTO
+@{
+    ViewBag.Title = "Product";
+}
+<div>
+    <div>@Model.ProductId</div>
+    <div>@Model.ProductName</div>
+    <div>@Model.CategoryName</div>
+    <div>@Model.Price</div>
+    <div>@Model.GetDiscountedPrice()</div>
+    <div>@Model.Image</div>
+    <div>@Model.Condition</div>
+    <div>@Model.Discount</div>
+</div>

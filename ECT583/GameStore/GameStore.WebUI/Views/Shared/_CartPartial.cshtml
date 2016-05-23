@@ -1,6 +1,6 @@
 ﻿<div class="header_cart">    
     <div class="row">
         <div class="col-sm-4"></div>
-        <div class="col-sm-8"><a href="@Html.Action("Index", "MyOrder")"><span style="margin-right:20px">My Order(2)</span></a><a href="@Html.Action("Index", "ShoppingCart")"><img src="images/bag.png" alt=""><span style="margin-left:10px">Cart(2)</span></a></div>
+        <div class="col-sm-8"><a href="/MyOrder"><span style="margin-right:20px">My Order(@Session["OrderCount"])</span></a><a href="/ShoppingCart"><img src="~/images/bag.png" alt=""><span style="margin-left:10px">Cart(@Session["CartCount"])</span></a></div>
     </div>
 </div>

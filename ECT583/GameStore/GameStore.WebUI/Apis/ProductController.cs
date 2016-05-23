@@ -110,6 +110,20 @@ namespace GameStore.WebUI.Apis
             }
         }
 
+        [Route("api/Product/GetAutoComplete")]
+        public List<String> GetAutoComplete([FromUri] string name)
+        {
+            using (GameStoreDBContext context = new GameStoreDBContext())
+            {
+                var query = from product in context.Products
+                            where product.ProductName.ToLower().Contains(name.ToLower())
+                            select product.ProductName;
+
+                List<String> names = query.ToList();
+                return names;
+            }
+        }
+
         [Route("api/Product/Create")]
         public HttpResponseMessage Create([FromBody]ProductDTO value)
         {

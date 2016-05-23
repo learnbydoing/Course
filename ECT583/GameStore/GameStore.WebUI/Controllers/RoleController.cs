@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace GameStore.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         // GET: Role
