@@ -27,6 +27,19 @@ namespace GameStore.WebUI.Controllers
                                  where o.UserId == userid
                                  select new { o.OrderId, o.UserId, u.UserName, o.Address, o.CreditCard, o.ConfirmationNumber, o.DeliveryDate };
                     list = orders.Select(o => new OrderViewModel { OrderId = o.OrderId, UserId = o.UserId, UserName = o.UserName, Address = o.Address, CreditCard = o.CreditCard, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate }).ToList();
+
+                    foreach (OrderViewModel order in list)
+                    {
+                        var orderitems = from i in context.OrderItems
+                                         join p in context.Products
+                                           on i.ProductId equals p.ProductId
+                                         join c in context.Categories
+                                           on p.CategoryId equals c.CategoryId
+                                         where i.OrderId == order.OrderId
+                                         select new { i.OrderItemId, i.OrderId, i.ProductId, p.ProductName, p.CategoryId, c.CategoryName, p.Price, p.Image, p.Condition, p.Discount, i.Quantity };
+                        order.Items = orderitems.Select(o => new OrderItemViewModel { OrderItemId = o.OrderItemId, OrderId = o.OrderId, ProductId = o.ProductId, ProductName = o.ProductName, CategoryId = o.CategoryId, CategoryName = o.CategoryName, Price = o.Price, Image = o.Image, Condition = o.Condition, Discount = o.Discount, Quantity = o.Quantity }).ToList();
+                    }
+                    Session["OrderCount"] = orders.Count();
                 }
             }
             catch (Exception ex)

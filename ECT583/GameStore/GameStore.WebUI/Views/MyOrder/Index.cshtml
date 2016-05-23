@@ -4,28 +4,61 @@
     ViewBag.Title = "My Orders";
 }
 @Html.Partial("_FrontPartial")
-<table class="table table-striped" id="modelList">
-    <thead>
-        <tr>
-            <th>Orer Id</th>
-            <th>User Name</th>
-            <th>Confirmation Number</th>
-            <th>DeliveryDate</th>
-            <th>Sub Total</th>
-            <th>Operations</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.OrderId</td>
-                <td>@item.UserName</td>
-                <td>@item.ConfirmationNumber</td>
-                <td>@item.DeliveryDate</td>
-                <td></td>
-                <td></td>
-            </tr>
-        }
-    </tbody>
-</table>
+@foreach (var order in Model)
+{
+    double total = 0;
+
+    <div class="panel panel-info">
+        <div class="panel-heading">Order Id: @order.OrderId</div>
+        <div class="panel-body">
+            <div>
+                <div>
+                    <div class="row">
+                        <div class="col-sm-2">User Name</div>
+                        <div class="col-sm-10">@order.UserName</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">Address</div>
+                        <div class="col-sm-10">@order.Address</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">Confirmation Number</div>
+                        <div class="col-sm-10">@order.ConfirmationNumber</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">Delivery Date</div>
+                        <div class="col-sm-10">@order.DeliveryDate</div>
+                    </div>
+                </div>
+                <hr />
+                <table class="table table-striped" id="modelList">
+                    <thead>
+                        <tr>
+                            <th>Product Id</th>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Sub Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in order.Items)
+                {
+                            <tr>
+                                <td>@item.ProductId</td>
+                                <td>@item.ProductName</td>
+                                <td>@Html.FormattedCurrency(item.GetDiscountedPrice())</td>
+                                <td>@item.Quantity</td>
+                                <td>@Html.FormattedCurrency(item.GetTotalCost())</td>
+                            </tr>
+                            total += item.GetTotalCost();
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr><td></td><td></td><td></td><td>Total:</td><td>@Html.FormattedCurrency(total)</td></tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>    
+}
