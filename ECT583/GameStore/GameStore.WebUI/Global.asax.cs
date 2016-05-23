@@ -32,11 +32,13 @@ namespace GameStore.WebUI
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
 
-            GlobalConfiguration.Configuration.Formatters.JsonFormatter.MediaTypeMappings.Add(
-                new QueryStringMapping("type", "json", new MediaTypeHeaderValue("application/json")));
+            //GlobalConfiguration.Configuration.Formatters.JsonFormatter.MediaTypeMappings.Add(
+            //    new QueryStringMapping("type", "json", new MediaTypeHeaderValue("application/json")));
 
-            GlobalConfiguration.Configuration.Formatters.XmlFormatter.MediaTypeMappings.Add(
-                new QueryStringMapping("type", "xml", new MediaTypeHeaderValue("application/xml")));
+            //GlobalConfiguration.Configuration.Formatters.XmlFormatter.MediaTypeMappings.Add(
+            //    new QueryStringMapping("type", "xml", new MediaTypeHeaderValue("application/xml")));
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            GlobalConfiguration.Configuration.Formatters.Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
         }
 
         public override string GetVaryByCustomString(HttpContext context, string custom)

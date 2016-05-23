@@ -1,6 +1,5 @@
 ﻿@{
     ViewBag.Title = "Admin: Dashboard";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Game Store Management</h2>
@@ -8,20 +7,52 @@
     <div class="col-md-4">
         <ul class="list-group">
             <li class="list-group-item"><b>Statistics</b></li>
-            <li class="list-group-item"><span class="badge" id="product">0</span><a href="/Product">Product List</a></li>
-            <li class="list-group-item"><span class="badge" id="category">0</span><a href="/Category">Category List</a></li>
+            <li class="list-group-item"><span class="badge" id="user">0</span>@Html.ActionLink("User List", "AppUser", "Account", new { area = "Admin" }, null)</li>
+            <li class="list-group-item"><span class="badge" id="role">0</span>@Html.ActionLink("Role", "AppRole", "Account", new { area = "Admin" }, null)</li>
+            <li class="list-group-item"><span class="badge" id="product">0</span>@Html.ActionLink("Product", "Product", "Store", new { area = "Admin" }, null)</li>
+            <li class="list-group-item"><span class="badge" id="category">0</span>@Html.ActionLink("Category", "Category", "Store", new { area = "Admin" }, null)</li>
         </ul>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        @Html.ActionLink("Clear Cache", "ClearCache", "Dashboard", new { area = "Admin" }, null)
+    </div>
     <div class="col-md-4"></div>
 </div>
 @section Scripts
 {
     <script>
         $().ready(function () {
+            getUserCount();
+            getRoleCount();
             getProductCount();
             getCategoryCount();
         });
+
+        function getUserCount() {
+            $.ajax({
+                url: '/api/User/GetCount/',
+                type: 'GET',
+                success: function (result) {
+                    $('#user').text(result);
+                },
+                error: function (result) {
+                    //alert("Error:" + result);
+                }
+            });
+        }
+
+        function getRoleCount() {
+            $.ajax({
+                url: '/api/Role/GetCount/',
+                type: 'GET',
+                success: function (result) {
+                    $('#role').text(result);
+                },
+                error: function (result) {
+                    //alert("Error:" + result);
+                }
+            });
+        }
 
         function getProductCount() {
             $.ajax({

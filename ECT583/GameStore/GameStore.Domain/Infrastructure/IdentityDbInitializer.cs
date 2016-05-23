@@ -27,8 +27,16 @@ namespace GameStore.Domain.Infrastructure
             GetProducts().ForEach(c => context.Products.Add(c));
             context.SaveChanges();
             GameStorePasswordHasher hasher = new GameStorePasswordHasher();
-            var user = new AppUser { UserName = "admin", Email = "admin@admin.com", PasswordHash = hasher.HashPassword("admin"), Membership = "Admin" };
+            var user = new AppUser { UserName = "admin", Email = "admin@gamestore.com", PasswordHash = hasher.HashPassword("admin"), Membership = "Admin" };
             var role = context.Roles.Where(r => r.Name == "Admin").First();
+            user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });
+            context.Users.Add(user);
+            user = new AppUser { UserName = "regular", Email = "regular@gamestore.com", PasswordHash = hasher.HashPassword("regular"), Membership = "Regular" };
+            role = context.Roles.Where(r => r.Name == "Regular").First();
+            user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });
+            context.Users.Add(user);
+            user = new AppUser { UserName = "advanced", Email = "advanced@gamestore.com", PasswordHash = hasher.HashPassword("advanced"), Membership = "Advanced" };
+            role = context.Roles.Where(r => r.Name == "Advanced").First();
             user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });
             context.Users.Add(user);
             context.SaveChanges();

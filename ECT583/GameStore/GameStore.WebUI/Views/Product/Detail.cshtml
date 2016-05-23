@@ -1,7 +1,8 @@
 ﻿@model GameStore.WebUI.Models.DTO.ProductDTO
 @{
-    ViewBag.Title = "Product";
+    ViewBag.Title = "Product Detail";
 }
+@Html.Partial("_FrontPartial")
 <div>
     <div>@Model.ProductId</div>
     <div>@Model.ProductName</div>

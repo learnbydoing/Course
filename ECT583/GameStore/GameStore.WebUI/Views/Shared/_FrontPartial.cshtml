@@ -1,11 +1,42 @@
 ﻿<div class="row">
     <div class="col-sm-4"><h2>@ViewBag.Title</h2></div>
     <div class="col-sm-4" style="vertical-align:middle">
-        @Html.Partial("_SearchPartial")
+        <div class="header_search">
+            <form action="/Product/Search/" method="Post">
+                <input type="text" id="search" name="productname" value="" placeholder="search...">
+                <input type="submit" value="">
+            </form>
+        </div>
     </div>
     <div class="col-sm-4" style="text-align: right;">
-        @Html.Partial("_CartPartial")
+        <div class="header_cart">
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-8"><a href="/MyOrder"><span style="margin-right:20px">My Order(@Session["OrderCount"])</span></a><a href="/ShoppingCart"><img src="~/images/bag.png" alt=""><span style="margin-left:10px">Cart(@Session["CartCount"])</span></a></div>
+            </div>
+        </div>
     </div>
 </div>
 <h3>@ViewBag.Message</h3>
 <hr />
+<script>
+$(document).ready(function() {
+    $(function() {
+        $("#search").autocomplete({
+            source : function(request, response) {
+                $.ajax({
+                    url: "/api/Product/GetAutoComplete/",
+                    type : "GET",
+                    data : {
+                        name : request.term
+                    },
+                    dataType : "json",
+                    success : function(data) {
+                        response(data);
+                    }
+                });
+            }
+        });
+    });
+});
+</script>
