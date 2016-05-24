@@ -4,11 +4,12 @@ using System.Linq;
 using System.Web;
 
 using System.Web.Http;
-using GameStore.WebUI.Models.DTO;
 using GameStore.Domain.Infrastructure;
 using GameStore.Domain.Model;
 using System.Net.Http;
 using System.Net;
+using GameStore.WebUI.Areas.Admin.Models.DTO;
+using GameStore.WebUI.Areas.Admin.Models;
 
 namespace GameStore.WebUI.Apis
 {
@@ -16,26 +17,27 @@ namespace GameStore.WebUI.Apis
     public class CategoryController : ApiController
     {
         // GET api/<controller>
-        public List<Category> Get()
+        public List<CategoryDTO> Get()
         {
             if (HttpContext.Current.Cache["CategoryList"] != null)
-                return (List<Category>)HttpContext.Current.Cache["CategoryList"];
+                return (List<CategoryDTO>)HttpContext.Current.Cache["CategoryList"];
             using (GameStoreDBContext context = new GameStoreDBContext())
             {
-                List<Category> categories = context.Categories.ToList();
+                List<CategoryDTO> categories = context.Categories.Select(c => new CategoryDTO { CategoryId = c.CategoryId, CategoryName = c.CategoryName }).ToList();
                 HttpContext.Current.Cache["CategoryList"] = categories;
                 return categories;
             }
         }        
 
         // GET api/<controller>/5
-        public Category Get(int id)
+        public CategoryDTO Get(int id)
         {
             if (HttpContext.Current.Cache["Category" + id] != null)
-                return (Category)HttpContext.Current.Cache["Category" + id];
+                return (CategoryDTO)HttpContext.Current.Cache["Category" + id];
             using (GameStoreDBContext context = new GameStoreDBContext())
             {
-                Category category = context.Categories.Find(id);
+                Category c = context.Categories.Find(id);
+                CategoryDTO category = new CategoryDTO { CategoryId = c.CategoryId, CategoryName = c.CategoryName };
                 HttpContext.Current.Cache["Category" + id] = category;
                 return category;
             }
@@ -47,14 +49,14 @@ namespace GameStore.WebUI.Apis
         {
             if (HttpContext.Current.Cache["CategoryList"] != null)
             {
-                List<Category> list = (List<Category>)HttpContext.Current.Cache["CategoryList"];
+                List<CategoryDTO> list = (List<CategoryDTO>)HttpContext.Current.Cache["CategoryList"];
                 return list.Count();
             }
             else
             {
                 using (GameStoreDBContext context = new GameStoreDBContext())
                 {
-                    List<Category> categories = context.Categories.ToList();
+                    List<CategoryDTO> categories = context.Categories.Select(c => new CategoryDTO { CategoryId = c.CategoryId, CategoryName = c.CategoryName }).ToList();
                     HttpContext.Current.Cache["CategoryList"] = categories;
                     return categories.Count();
                 }
@@ -63,7 +65,7 @@ namespace GameStore.WebUI.Apis
 
         // POST api/<controller>
         [Route("api/Category/Create")]
-        public HttpResponseMessage Create([FromBody]Category value)
+        public HttpResponseMessage Create([FromBody]CategoryViewModel value)
         {
             if (value==null || String.IsNullOrEmpty(value.CategoryName))
             {
@@ -77,9 +79,9 @@ namespace GameStore.WebUI.Apis
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, "Category ["+ value.CategoryName + "] is already existed, please try another name!");
                 }
-                Category newCategory = context.Categories.Create();
-                newCategory.CategoryName = value.CategoryName;
-                context.Categories.Add(newCategory);
+                Category category = context.Categories.Create();
+                category.CategoryName = value.CategoryName;
+                context.Categories.Add(category);
                 context.SaveChanges();
                 HttpContext.Current.Cache.Remove("CategoryList");
                 return Request.CreateResponse(HttpStatusCode.OK, "Okay");
@@ -88,7 +90,7 @@ namespace GameStore.WebUI.Apis
 
         //PUT REMOVED
         // Ajax.htmlForm does not support put and delete, only supports get and post.
-        public HttpResponseMessage Post([FromBody]Category value)
+        public HttpResponseMessage Post([FromBody]CategoryViewModel value)
         {
             if (value == null || String.IsNullOrEmpty(value.CategoryName))
             {

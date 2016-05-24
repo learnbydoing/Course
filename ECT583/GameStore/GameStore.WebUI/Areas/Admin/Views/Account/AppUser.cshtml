@@ -22,7 +22,7 @@
 
 <div id="AddModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-    @using (Ajax.BeginForm("", "api/User/Create", new { area = "" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onAddSuccess", OnFailure = "onFailure" }))
+    @using (Ajax.BeginForm("", "api/User/Create", new { area = "" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }))
     {
         <div class="modal-content">
             <div class="modal-header">
@@ -55,7 +55,7 @@
 
 <div id="EditModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-    @using (Ajax.BeginForm("", "api/User/", new { area = "" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onEditSuccess", OnFailure = "onFailure" }))
+    @using (Ajax.BeginForm("", "api/User/", new { area = "" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }))
     {
         <div class="modal-content">
             <div class="modal-header">
@@ -65,15 +65,14 @@
             <div class="modal-body">                
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                 @Html.HiddenFor(u => u.Id)
-                @Html.HiddenFor(u => u.Email)
-                @Html.HiddenFor(u => u.UserName)
+                @Html.HiddenFor(u => u.Email)                
                 <fieldset class="form-group">
                     <label for="Email">Email</label>
                     @Html.TextBoxFor(u => u.Email, new { @class = "form-control", disabled = "true" })
                 </fieldset>
                 <fieldset class="form-group">
                     <label for="UserName">UserName</label>
-                    @Html.TextBoxFor(u => u.UserName, new { @class = "form-control", disabled = "true" })
+                    @Html.TextBoxFor(u => u.UserName, new { @class = "form-control"})
                 </fieldset>
                 <fieldset class="form-group">
                     <label for="Role">Role</label>
@@ -94,39 +93,48 @@
     <script>
         $().ready(function () {
             //Load Roles when the page is loaded
-            loadUsers();
+            loadList();
+
+            $('#AddModal').on('show.bs.modal', function () {
+                $('#AddModal').find('#Email').val("");
+                $('#AddModal').find('#UserName').val("");
+                $('#AddModal').find('#Membership').val("");
+                clearMessage();
+            })
 
             //Add a function to reload the list when the dialog closes
             $('#AddModal').on('hidden.bs.modal', function () {
-                loadUsers();
+                loadList();
+            })
+
+            $('#EditModal').on('show.bs.modal', function () {
+                clearMessage();
             })
 
             $('#EditModal').on('hidden.bs.modal', function () {
-                loadUsers();
+                loadList();
             })
         });
 
         //Make an ajax call to load the users
-        function loadUsers() {
-            clearMessage();
+        function loadList() {
             $("#userList").find('tbody').empty();
             $.getJSON("/api/User/", function (data) {
                 $.each(data, function (i, user) {
-                    $('#userList tbody').append("<tr><td>" + user.Id + "</td><td>" + user.Email + "</td><td>" + user.UserName + "</td><td>" + user.Membership + "</td><td><span><a class='btn btn-success' href='javascript:editUser(\"" + user.Id + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteUser(\"" + user.Id + "\");'> Delete</a></span></td></tr>");
+                    $('#userList tbody').append("<tr><td>" + user.Id + "</td><td>" + user.Email + "</td><td>" + user.UserName + "</td><td>" + user.Membership + "</td><td><span><a class='btn btn-success' href='javascript:editModel(\"" + user.Id + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteModel(\"" + user.Id + "\");'> Delete</a></span></td></tr>");
                 });
             });
         }
 
-
         //Make an ajax call to delete a user
-        function deleteUser(id) {
+        function deleteModel(id) {
             var result = confirm("Are you sure to delete?");
             if (result) {
                 $.ajax({
                     url: '/api/User/' + id,
                     type: 'DELETE',
                     success: function (result) {
-                        loadUsers();
+                        loadList();
                     },
                     error: function (result) {
                         alert("Unable to delete user. Error:" + result);
@@ -135,7 +143,7 @@
             }
         }
 
-        function editUser(id) {
+        function editModel(id) {
             $.ajax({
                 url: '/api/User/' + id,
                 type: 'GET',
@@ -152,23 +160,16 @@
             });
         }
 
-
-        function onAddSuccess(data) {
+        function onSuccess(data) {
             if (data == "Okay") {
                 $('#AddModal').modal('hide');
-            } else {
-                clearMessage();
-                $('.text-danger ul').append("<li>" + data + "</li>")
-            }
-        }
-        function onEditSuccess(data) {
-            if (data == "Okay") {
                 $('#EditModal').modal('hide');
             } else {
                 clearMessage();
                 $('.text-danger ul').append("<li>" + data + "</li>")
             }
         }
+
         function clearMessage() {
             $(".text-danger").addClass("validation-summary-errors");
             $(".text-danger").removeClass("validation-summary-valid");

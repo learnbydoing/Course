@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace GameStore.WebUI.Models.DTO
+namespace GameStore.WebUI.Areas.Admin.Models.DTO
 {
     public class ProductDTO : Product
     {

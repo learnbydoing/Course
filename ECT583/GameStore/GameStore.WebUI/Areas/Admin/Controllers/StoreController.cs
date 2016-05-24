@@ -1,6 +1,4 @@
-﻿using GameStore.WebUI.Models;
-using GameStore.WebUI.Models.DTO;
-using GameStore.Domain.Infrastructure;
+﻿using GameStore.Domain.Infrastructure;
 using GameStore.Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -30,6 +28,11 @@ namespace GameStore.WebUI.Areas.Admin.Controllers
         }
 
         public ActionResult Category()
+        {
+            return View();
+        }
+
+        public ActionResult Order()
         {
             return View();
         }

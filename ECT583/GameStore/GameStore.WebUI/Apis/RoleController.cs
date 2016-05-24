@@ -2,7 +2,6 @@
 using GameStore.Domain.Infrastructure;
 using GameStore.WebUI.Areas.Admin.Models;
 using GameStore.WebUI.Areas.Admin.Models.DTO;
-using GameStore.WebUI.Models.DTO;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -26,10 +25,9 @@ namespace GameStore.WebUI.Apis
             }
             else
             {
-                var roles = RoleManager.Roles.ToList();
-                List<RoleDTO> list = roles.Select(r => new RoleDTO { Id = r.Id, Name = r.Name, Description = r.Description }).ToList();
-                HttpContext.Current.Cache["RoleList"] = list;
-                return list;
+                List<RoleDTO> roles = RoleManager.Roles.Select(r => new RoleDTO { Id = r.Id, Name = r.Name, Description = r.Description }).ToList();
+                HttpContext.Current.Cache["RoleList"] = roles;
+                return roles;
             }
         }
 
@@ -60,9 +58,8 @@ namespace GameStore.WebUI.Apis
             }
             else
             {
-                List<AppRole> roles = RoleManager.Roles.ToList();
-                List<RoleDTO> list = roles.Select(r => new RoleDTO { Id = r.Id, Name = r.Name, Description = r.Description }).ToList();
-                HttpContext.Current.Cache["RoleList"] = list;
+                List<RoleDTO> roles = RoleManager.Roles.Select(r => new RoleDTO { Id = r.Id, Name = r.Name, Description = r.Description }).ToList();
+                HttpContext.Current.Cache["RoleList"] = roles;
                 return roles.Count();
             }
         }

@@ -21,7 +21,7 @@
 
 <div id="AddModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-    @using (Ajax.BeginForm("", "api/Role/Create", new { area = "" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onAddSuccess", OnFailure = "onFailure" }))
+    @using (Ajax.BeginForm("", "api/Role/Create", new { area = "" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }))
     {
          <div class="modal-content">        
             <div class="modal-header">
@@ -50,7 +50,7 @@
 
 <div id="EditModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-    @using (Ajax.BeginForm("", "api/Role/", new { area = "" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onEditSuccess", OnFailure = "onFailure" }))
+    @using (Ajax.BeginForm("", "api/Role/", new { area = "" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }))
     {
         <div class="modal-content">       
             <div class="modal-header">
@@ -83,39 +83,47 @@
     <script>
         $().ready(function () {
             //Load Roles when the page is loaded
-            loadRoles();
+            loadList();
 
+            $('#AddModal').on('show.bs.modal', function () {
+                $('#AddModal').find('#Name').val("");
+                $('#AddModal').find('#Description').val("");
+                clearMessage();
+            })
             //Add a function to reload the list when the dialog closes
             $('#AddModal').on('hidden.bs.modal', function () {
-                loadRoles();
+                loadList();
+            })
+
+            $('#EditModal').on('show.bs.modal', function () {
+                clearMessage();
             })
 
             $('#EditModal').on('hidden.bs.modal', function () {
-                loadRoles();
+                loadList();
             })
         });
 
         //Make an ajax call to load the roles
-        function loadRoles() {
-            clearMessage();
+        function loadList() {
             $("#roleList").find('tbody').empty();
             $.getJSON("/api/Role/", function (data) {
                 $.each(data, function (i, role) {
-                    $('#roleList tbody').append("<tr><td>" + role.Id + "</td><td>" + role.Name + "</td><td>" + role.Description + "</td><td><span><a class='btn btn-success' href='javascript:editRole(\"" + role.Id + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteRole(\"" + role.Id + "\");'> Delete</a></span></td></tr>");
+                    $('#roleList tbody').append("<tr><td>" + role.Id + "</td><td>" + role.Name + "</td><td>" + role.Description + "</td><td><span><a class='btn btn-success' href='javascript:editModel(\"" + role.Id + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteModel(\"" + role.Id + "\");'> Delete</a></span></td></tr>");
                 });
             });
         }
 
 
         //Make an ajax call to delete a tip
-        function deleteRole(id) {
+        function deleteModel(id) {
             var result = confirm("Are you sure to delete?");
             if (result) {
                 $.ajax({
                     url: '/api/Role/' + id,
                     type: 'DELETE',
                     success: function (result) {
-                        loadRoles();
+                        loadList();
                     },
                     error: function (result) {
                         alert("Unable to delete role. Error:" + result);
@@ -124,7 +132,7 @@
             }
         }
 
-        function editRole(id) {
+        function editModel(id) {
             $.ajax({
                 url: '/api/Role/' + id,
                 type: 'GET',
@@ -140,23 +148,16 @@
             });
         }
 
-
-        function onAddSuccess(data) {
+        function onSuccess(data) {
             if (data == "Okay") {
                 $('#AddModal').modal('hide');
-            } else {
-                clearMessage();
-                $('.text-danger ul').append("<li>" + data + "</li>")
-            }
-        }
-        function onEditSuccess(data) {
-            if (data == "Okay") {
                 $('#EditModal').modal('hide');
             } else {
                 clearMessage();
                 $('.text-danger ul').append("<li>" + data + "</li>")
             }
         }
+        
         function clearMessage() {
             $(".text-danger").addClass("validation-summary-errors");
             $(".text-danger").removeClass("validation-summary-valid");

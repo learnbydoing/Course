@@ -33,7 +33,7 @@ namespace GameStore.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = model.Email, Email = model.Email, Membership = model.Membership };
+                var user = new AppUser { Email = model.Email, UserName = model.UserName, Membership = model.Membership };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -41,7 +41,7 @@ namespace GameStore.WebUI.Controllers
                     var identity = await UserManager.CreateIdentityAsync(newUser, DefaultAuthenticationTypes.ApplicationCookie);
                     AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
 
-
+                    System.Web.HttpContext.Current.Cache.Remove("UserList");
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -91,7 +91,7 @@ namespace GameStore.WebUI.Controllers
                         var user = UserManager.FindByEmail(model.Email);
                         var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
                         AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
-                        GetOrderCount();
+                        GetOrderCount(user.Id);
                         if (!String.IsNullOrEmpty(returnUrl))
                             return RedirectToLocal(returnUrl);
                         else
@@ -115,17 +115,17 @@ namespace GameStore.WebUI.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            @Session["OrderCount"] = 0;
-            @Session["CartCount"] = 0;
+            Session["OrderCount"] = 0;
+            Session["CartCount"] = 0;
             return RedirectToAction("Index", "Home");
         }
 
-        private void GetOrderCount()
+        private void GetOrderCount(string id)
         {
             int count = 0;
             using (GameStoreDBContext context = new GameStoreDBContext())
             {
-                count = context.Orders.Count();
+                count = context.Orders.Where(o => o.UserId == id).Count();
             }
             Session["OrderCount"] = count;
             Session["CartCount"] = 0;

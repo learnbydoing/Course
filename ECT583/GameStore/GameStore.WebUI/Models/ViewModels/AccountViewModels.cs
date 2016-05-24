@@ -24,6 +24,9 @@ namespace GameStore.WebUI.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
         [Required]
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
+        [Required]
         [Display(Name = "Membership")]
         public string Membership { get; set; }
     }

@@ -1,4 +1,4 @@
-﻿@model GameStore.Domain.Model.Category
+﻿@model GameStore.WebUI.Areas.Admin.Models.CategoryViewModel
 @{
     ViewBag.Title = "Category Management";
 }
@@ -76,9 +76,17 @@
             //Load Categories when the page is loaded
             loadList();
 
+            $('#AddModal').on('show.bs.modal', function () {
+                $('#AddModal').find('#CategoryName').val("");
+                clearMessage();
+            })
             //Add a function to reload the list when the dialog closes
             $('#AddModal').on('hidden.bs.modal', function () {
                 loadList();
+            })
+
+            $('#EditModal').on('show.bs.modal', function () {
+                clearMessage();
             })
 
             $('#EditModal').on('hidden.bs.modal', function () {
@@ -88,7 +96,6 @@
 
         //Make an ajax call to load the categories
         function loadList() {
-            clearMessage();
             $("#modelList").find('tbody').empty();
             $.getJSON("/api/Category/", function (data) {
                 $.each(data, function (i, category) {
@@ -96,7 +103,6 @@
                 });
             });
         }
-
 
         //Make an ajax call to delete a model object
         function deleteModel(id) {
@@ -106,7 +112,11 @@
                     url: '/api/Category/' + id,
                     type: 'DELETE',
                     success: function (result) {
-                        loadList();
+                        if (result == "Okay") {
+                            loadList();
+                        } else {
+                            alert(result);
+                        }
                     },
                     error: function (result) {
                         alert("Unable to delete category. Error:" + result);
@@ -130,17 +140,17 @@
             });
         }
 
-
         function onSuccess(data) {
             if (data == "Okay") {
                 $('#AddModal').modal('hide');
-                $('#EditModal').modal('hide');
+                $('#EditModal').modal('hide');                
             } else {
                 clearMessage();
                 $('.text-danger ul').append("<li>" + data + "</li>")
             }
         }
-        function clearMessage() {
+
+        function clearMessage() {            
             $(".text-danger").addClass("validation-summary-errors");
             $(".text-danger").removeClass("validation-summary-valid");
             $('.text-danger ul').children().remove();

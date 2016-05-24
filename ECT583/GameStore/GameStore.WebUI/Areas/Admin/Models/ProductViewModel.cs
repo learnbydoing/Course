@@ -1,11 +1,10 @@
-﻿using GameStore.Domain.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace GameStore.WebUI.Models
+namespace GameStore.WebUI.Areas.Admin.Models
 {
     public class ProductViewModel
     {

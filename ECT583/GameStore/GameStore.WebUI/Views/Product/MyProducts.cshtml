@@ -1,4 +1,4 @@
-﻿@model GameStore.WebUI.Models.ProductViewModel
+﻿@model GameStore.WebUI.Areas.Admin.Models.ProductViewModel
 @{
     ViewBag.Title = "My Products";
 }
@@ -37,7 +37,7 @@
 
 <div id="AddModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-     @using (Ajax.BeginForm("", "api/Product/Create", new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }))
+     @using (Ajax.BeginForm("", new { controller = "api/Product/Create" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }, new { enctype = "multipart/form-data" }))
      {
          <div class="modal-content">
             <div class="modal-header">
@@ -58,9 +58,10 @@
                     @Html.LabelFor(p => p.Price)
                     @Html.TextBoxFor(p => p.Price, new { @class = "form-control" })
                 </fieldset>
-                <fieldset class="form-group">
+
+                <fieldset class="form-group">                    
                     @Html.LabelFor(p => p.Image)
-                    @Html.TextBoxFor(p => p.Image, new { @class = "form-control" })
+                    @Html.TextBoxFor(p => p.Image, new { @class = "form-control" })                   
                 </fieldset>
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.Condition)

@@ -12,8 +12,6 @@ namespace GameStore.WebUI.Areas.Admin.Models
     {
         public int CategoryId { get; set; }
         [Required]
-        public String Name { get; set; }
-        [Required]
-        public String Description { get; set; }
+        public String CategoryName { get; set; }
     }
 }

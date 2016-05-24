@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
-using GameStore.WebUI.Models.DTO;
 using GameStore.Domain.Infrastructure;
 using GameStore.Domain.Model;
 using System.Net.Http;
@@ -11,6 +10,7 @@ using System.Net;
 using Microsoft.AspNet.Identity;
 using GameStore.WebUI.Models;
 using GameStore.WebUI.Areas.Admin.Models;
+using GameStore.WebUI.Areas.Admin.Models.DTO;
 
 namespace GameStore.WebUI.Apis
 {
@@ -166,6 +166,18 @@ namespace GameStore.WebUI.Apis
                     {
                         return Request.CreateResponse(HttpStatusCode.OK, "Product [" + value.ProductName + "] is already existed, please try another name!");
                     }
+                    //if (file != null)
+                    //{
+                    //    string[] formats = new string[] { ".jpg", ".png", ".gif", ".jpeg" }; // add more if u like...
+
+                    //    // linq from Henrik Stenbæk
+                    //    bool isimage = formats.Any(item => file.FileName.EndsWith(item, StringComparison.OrdinalIgnoreCase));
+
+                    //    if (!isimage)
+                    //    {
+                    //        return Request.CreateResponse(HttpStatusCode.OK, "The image format is not valid, must be .jpg, .png, .gif, or .jpeg");
+                    //    }
+                    //}
                     Product newProduct = context.Products.Create();
                     newProduct.ProductName = value.ProductName;
                     newProduct.CategoryId = value.CategoryId;
@@ -174,6 +186,10 @@ namespace GameStore.WebUI.Apis
                     newProduct.Condition = value.Condition;
                     newProduct.Discount = value.Discount;
                     newProduct.UserId = User.Identity.GetUserId();
+                    //string root = System.Web.Hosting.HostingEnvironment.MapPath("~/images/");
+                    //string filename = string.Format(@"{0}.{1}", DateTime.Now.Ticks, System.IO.Path.GetExtension(file.FileName));
+                    //file.SaveAs(System.IO.Path.Combine(root, filename));
+                    //newProduct.Image = filename;
                     context.Products.Add(newProduct);
                     context.SaveChanges();
                     HttpContext.Current.Cache.Remove("ProductList");

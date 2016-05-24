@@ -2,8 +2,7 @@
 using GameStore.Domain.Infrastructure;
 using GameStore.WebUI.Areas.Admin.Models;
 using GameStore.WebUI.Areas.Admin.Models.DTO;
-using GameStore.WebUI.Models;
-using GameStore.WebUI.Models.DTO;
+using GameStore.WebUI.Helper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
@@ -30,10 +29,9 @@ namespace GameStore.WebUI.Apis
             }
             else
             {
-                var users = UserManager.Users.ToList();
-                List<UserDTO> list = users.Select(u => new UserDTO { Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership }).ToList();
-                HttpContext.Current.Cache["UserList"] = list;
-                return list;
+                List<UserDTO> users = UserManager.Users.Select(u => new UserDTO { Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership }).ToList();
+                HttpContext.Current.Cache["UserList"] = users;
+                return users;
             }
         }
 
@@ -64,9 +62,8 @@ namespace GameStore.WebUI.Apis
             }
             else
             {
-                var users = UserManager.Users.ToList();
-                List<UserDTO> list = users.Select(u => new UserDTO { Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership }).ToList();
-                HttpContext.Current.Cache["UserList"] = list;
+                List<UserDTO> users = UserManager.Users.Select(u => new UserDTO { Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership }).ToList();
+                HttpContext.Current.Cache["UserList"] = users;
                 return users.Count();
             }
         }
@@ -77,7 +74,7 @@ namespace GameStore.WebUI.Apis
             if (ModelState.IsValid)
             {
                 var user = new AppUser { Email = value.Email, UserName = value.UserName, Membership = value.Membership };
-                var result = await UserManager.CreateAsync(user, "asdasd");
+                var result = await UserManager.CreateAsync(user, ConfigurationHelper.GetDefaultPassword());
                 if (result.Succeeded)
                 {
                     HttpContext.Current.Cache.Remove("UserList");
@@ -102,8 +99,8 @@ namespace GameStore.WebUI.Apis
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, "User [" + value.Id + "] does not exist!");
                 }
+                user.UserName = value.UserName;
                 user.Membership = value.Membership;
-                //existUser. = role.Description;
                 user.Roles.Clear();
                 var role = RoleManager.Roles.Where(r => r.Name == value.Membership).First();
                 user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });

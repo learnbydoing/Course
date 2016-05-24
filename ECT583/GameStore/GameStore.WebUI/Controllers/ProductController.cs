@@ -1,7 +1,6 @@
-﻿using GameStore.WebUI.Models;
-using GameStore.WebUI.Models.DTO;
-using GameStore.Domain.Infrastructure;
+﻿using GameStore.Domain.Infrastructure;
 using GameStore.Domain.Model;
+using GameStore.WebUI.Areas.Admin.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
