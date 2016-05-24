@@ -21,7 +21,7 @@
                     </div>
                     <div class="panel-footer">
                         @using (Html.BeginForm("CreateOrUpdate", "ShoppingCart", FormMethod.Post))
-                    {
+                        {
                             <input type='hidden' name='id' value='@item.ProductId'>
                             <input type='hidden' name='quantity' value='0'>
                             <input type='submit' class='btn btn-warning' value='Add to Cart'>
