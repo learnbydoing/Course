@@ -28,14 +28,16 @@ h5 {
     margin-top:20px;
 }
 
+
+/*
 .header_search{
     margin-top:15px;
 }
 .header_search form{
 	width:100%;
 }
+    */
 
-/*
 .header_search{
 	position: relative;
 	background: #f3f4f5;
@@ -62,7 +64,6 @@ h5 {
 	-webkit-appearance: none;
 	text-transform: capitalize;
 }
-    */
 
 .header_search input[type="text"]{
 	background: #ffffff;

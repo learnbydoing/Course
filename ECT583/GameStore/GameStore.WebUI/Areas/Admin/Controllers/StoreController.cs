@@ -28,6 +28,7 @@ namespace GameStore.WebUI.Areas.Admin.Controllers
             ViewBag.CategoryFilter = alllist;
             return View();
         }
+
         public ActionResult Category()
         {
             return View();

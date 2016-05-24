@@ -8,21 +8,20 @@ using System.Web;
 
 namespace GameStore.WebUI.Areas.Admin.Models
 {
-    public class UserViewModel: AppUser
+    public class UserViewModel
     {
-        public Boolean CanAdd { get; set; }
-
+        public string Id { get; set; }
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
-        public override string Email { get; set; }
+        public string Email { get; set; }
 
         [Required]
-        [Display(Name = "PhoneNumber")]
-        public override string PhoneNumber { get; set; }
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
 
         [Required]
         [Display(Name = "Membership")]
-        public override string Membership { get; set; }
+        public string Membership { get; set; }
     }
 }

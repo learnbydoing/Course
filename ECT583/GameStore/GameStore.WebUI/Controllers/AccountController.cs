@@ -103,7 +103,7 @@ namespace GameStore.WebUI.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Log in failel, please check you email and password!");
+                    ModelState.AddModelError("", "Log in failed, please check you email and password!");
                     return View(model);
             }
         }

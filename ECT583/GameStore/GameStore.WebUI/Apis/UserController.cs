@@ -1,5 +1,7 @@
 ﻿using GameStore.Domain.Identity;
 using GameStore.Domain.Infrastructure;
+using GameStore.WebUI.Areas.Admin.Models;
+using GameStore.WebUI.Areas.Admin.Models.DTO;
 using GameStore.WebUI.Models;
 using GameStore.WebUI.Models.DTO;
 using Microsoft.AspNet.Identity;
@@ -20,30 +22,32 @@ namespace GameStore.WebUI.Apis
     public class UserController : BaseApiController
     {
         // GET api/<controller>
-        public List<AppUser> Get()
+        public List<UserDTO> Get()
         {
             if (HttpContext.Current.Cache["UserList"] != null)
             {
-                return (List<AppUser>)HttpContext.Current.Cache["UserList"];
+                return (List<UserDTO>)HttpContext.Current.Cache["UserList"];
             }
             else
             {
-                List<AppUser> users = UserManager.Users.ToList();
-                HttpContext.Current.Cache["UserList"] = users;
-                return users;
+                var users = UserManager.Users.ToList();
+                List<UserDTO> list = users.Select(u => new UserDTO { Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership }).ToList();
+                HttpContext.Current.Cache["UserList"] = list;
+                return list;
             }
         }
 
         // GET api/<controller>/5
-        public AppUser Get(string id)
+        public UserDTO Get(string id)
         {
             if (HttpContext.Current.Cache["User" + id] != null)
             {
-                return (AppUser)HttpContext.Current.Cache["User" + id];
+                return (UserDTO)HttpContext.Current.Cache["User" + id];
             }
             else
             {
-                AppUser user = UserManager.FindById(id);
+                AppUser u = UserManager.FindById(id);
+                UserDTO user = new UserDTO { Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership };
                 HttpContext.Current.Cache["User" + id] = user;
                 return user;
             }            
@@ -55,23 +59,24 @@ namespace GameStore.WebUI.Apis
         {
             if (HttpContext.Current.Cache["UserList"] != null)
             {
-                List<AppUser> list = (List<AppUser>)HttpContext.Current.Cache["UserList"];
+                List<UserDTO> list = (List<UserDTO>)HttpContext.Current.Cache["UserList"];
                 return list.Count();
             }
             else
             {
-                List<AppUser> users = UserManager.Users.ToList();
-                HttpContext.Current.Cache["UserList"] = users;
+                var users = UserManager.Users.ToList();
+                List<UserDTO> list = users.Select(u => new UserDTO { Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership }).ToList();
+                HttpContext.Current.Cache["UserList"] = list;
                 return users.Count();
             }
         }
 
         [Route("api/User/Create")]
-        public async Task<HttpResponseMessage> Create([FromBody]AppUser model)
+        public async Task<HttpResponseMessage> Create([FromBody]UserViewModel value)
         {
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = model.Email, Email = model.Email, PhoneNumber = model.PhoneNumber, Membership = model.Membership };
+                var user = new AppUser { Email = value.Email, UserName = value.UserName, Membership = value.Membership };
                 var result = await UserManager.CreateAsync(user, "asdasd");
                 if (result.Succeeded)
                 {
@@ -88,26 +93,25 @@ namespace GameStore.WebUI.Apis
                 return Request.CreateResponse(HttpStatusCode.OK, "ModelState.IsValid=false");
             }
         }
-        public HttpResponseMessage Post([FromBody]AppUser user)
+        public HttpResponseMessage Post([FromBody]UserViewModel value)
         {
             if (ModelState.IsValid)
             {
-                AppUser existUser = UserManager.FindById(user.Id);
-                if (existUser == null)
+                AppUser user = UserManager.FindById(value.Id);
+                if (user == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "User [" + user.Id + "] does not exist!");
+                    return Request.CreateResponse(HttpStatusCode.OK, "User [" + value.Id + "] does not exist!");
                 }
-                existUser.PhoneNumber = user.PhoneNumber;
-                existUser.Membership = user.Membership;
+                user.Membership = value.Membership;
                 //existUser. = role.Description;
-                existUser.Roles.Clear();
-                var role = RoleManager.Roles.Where(r => r.Name == user.Membership).First();
-                existUser.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = existUser.Id });
-                IdentityResult result = UserManager.Update(existUser);
+                user.Roles.Clear();
+                var role = RoleManager.Roles.Where(r => r.Name == value.Membership).First();
+                user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });
+                IdentityResult result = UserManager.Update(user);
                 if (result.Succeeded)
                 {
                     HttpContext.Current.Cache.Remove("UserList");
-                    HttpContext.Current.Cache.Remove("User" + user.Id);
+                    HttpContext.Current.Cache.Remove("User" + value.Id);
                     return Request.CreateResponse(HttpStatusCode.OK, "Okay");
                 }
                 else

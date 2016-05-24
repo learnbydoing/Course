@@ -38,13 +38,8 @@
             @Html.TextBoxFor(o => o.DeliveryDate, new { @class = "form-control", @placeholder = "Customer Name", disabled = "true" })
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            @Html.ActionLink("My Orders", "Index", new { controller = "MyOrder" }, new { @class="btn btn-info"})
-        </div>
-    </div>
 }
-
+<hr/>
 <table class="table table-striped" id="modelList">
     <thead>
         <tr>

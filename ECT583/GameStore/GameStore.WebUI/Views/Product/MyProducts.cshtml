@@ -1,6 +1,6 @@
-﻿@model GameStore.WebUI.Models.DTO.ProductDTO
+﻿@model GameStore.WebUI.Models.ProductViewModel
 @{
-    ViewBag.Title = "Product Management";
+    ViewBag.Title = "My Products";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -37,62 +37,15 @@
 
 <div id="AddModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-    @using (Ajax.BeginForm("", "api/Product/Create", new { area = "" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }))
-    {
-        <div class="modal-content">
+     @using (Ajax.BeginForm("", "api/Product/Create", new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }))
+     {
+         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Add New Product</h4>
             </div>
             <div class="modal-body">                
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-                <fieldset class="form-group">
-                    @Html.LabelFor(p => p.ProductName)
-                    @Html.TextBoxFor(p => p.ProductName, new { @class = "form-control" })
-                </fieldset>
-                <fieldset class="form-group">
-                    @Html.LabelFor(p => p.Category)
-                    @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.Categories, "CategoryId", "CategoryName"), new { @class = "form-control" })
-                </fieldset>
-                <fieldset class="form-group">
-                    @Html.LabelFor(p => p.Price)
-                    @Html.TextBoxFor(p => p.Price, new { @class = "form-control" })
-                </fieldset>
-                <fieldset class="form-group">
-                    @Html.LabelFor(p => p.Image)
-                    @Html.TextBoxFor(p => p.Image, new { @class = "form-control" })
-                </fieldset>
-                <fieldset class="form-group">
-                    @Html.LabelFor(p => p.Condition)
-                    @Html.TextBoxFor(p => p.Condition, new { @class = "form-control" })
-                </fieldset>
-                <fieldset class="form-group">
-                    @Html.LabelFor(p => p.Discount)
-                    @Html.TextBoxFor(p => p.Discount, new { @class = "form-control" })
-                </fieldset>                                
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary pull-left">Submit</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    }
-    </div>
-</div>
-
-<div id="EditModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-    @using (Ajax.BeginForm("", "api/Product/", new { area = "" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }))
-    {
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit Category</h4>
-            </div>
-            <div class="modal-body">               
-                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-                @Html.HiddenFor(p => p.ProductId)
-                @Html.HiddenFor(p => p.UserId)
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.ProductName)
                     @Html.TextBoxFor(p => p.ProductName, new { @class = "form-control" })
@@ -116,7 +69,53 @@
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.Discount)
                     @Html.TextBoxFor(p => p.Discount, new { @class = "form-control" })
-                </fieldset>                
+                </fieldset>               
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary pull-left">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+     }
+    </div>
+</div>
+
+<div id="EditModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+    @using (Ajax.BeginForm("", "api/Product/", new AjaxOptions { HttpMethod = "Post", OnSuccess = "onSuccess", OnFailure = "onFailure" }))
+    {
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Category</h4>
+            </div>
+            <div class="modal-body">               
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                @Html.HiddenFor(p => p.ProductId)
+                <fieldset class="form-group">
+                    @Html.LabelFor(p => p.ProductName)
+                    @Html.TextBoxFor(p => p.ProductName, new { @class = "form-control" })
+                </fieldset>
+                <fieldset class="form-group">
+                    @Html.LabelFor(p => p.CategoryId)
+                    @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.Categories, "CategoryId", "CategoryName"), new { @class = "form-control" })
+                </fieldset>
+                <fieldset class="form-group">
+                    @Html.LabelFor(p => p.Price)
+                    @Html.TextBoxFor(p => p.Price, new { @class = "form-control" })
+                </fieldset>
+                <fieldset class="form-group">
+                    @Html.LabelFor(p => p.Image)
+                    @Html.TextBoxFor(p => p.Image, new { @class = "form-control" })
+                </fieldset>
+                <fieldset class="form-group">
+                    @Html.LabelFor(p => p.Condition)
+                    @Html.TextBoxFor(p => p.Condition, new { @class = "form-control" })
+                </fieldset>
+                <fieldset class="form-group">
+                    @Html.LabelFor(p => p.Discount)
+                    @Html.TextBoxFor(p => p.Discount, new { @class = "form-control" })
+                </fieldset>                            
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary pull-left">Update</button>
@@ -153,10 +152,10 @@
         function loadList(categoryid) {
             clearMessage();
             $("#modelList").find('tbody').empty();
-            var url = '/api/Product/?CategoryId=' + categoryid + '&CategoryName=AAA';
+            var url = '/api/Product/GetByUserId/?CategoryId=' + categoryid + '&CategoryName=AAA';
             $.getJSON(url, function (data) {
                 $.each(data, function (i, product) {
-                    $('#modelList tbody').append("<tr><td>" + product.ProductId + "</td><td>" + product.ProductName + "</td><td>" + product.CategoryName + "</td><td>" + product.Price + "</td><td>" + product.Image + "</td><td>" + product.Condition + "</td><td>" + product.Discount + "</td><td><span><a class='btn btn-success' href='javascript:editModel(\"" + product.ProductId + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteModel(\"" + product.ProductId + "\");'> Delete</a></span></td></tr>");
+                    $('#modelList tbody').append("<tr><td>" + product.ProductId + "</td><td>" + product.ProductName + "</td><td>" + product.CategoryName + "</td><td>" + formatter.format(product.Price) + "</td><td>" + product.Image + "</td><td>" + product.Condition + "</td><td>" + product.Discount + "</td><td><span><a class='btn btn-success' href='javascript:editModel(\"" + product.ProductId + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteModel(\"" + product.ProductId + "\");'> Delete</a></span></td></tr>");
                 });
             });
         }
@@ -196,7 +195,6 @@
                     $('#EditModal').find('#Image').val(result.Image);
                     $('#EditModal').find('#Condition').val(result.Condition);
                     $('#EditModal').find('#Discount').val(result.Discount);
-                    $('#EditModal').find('#UserId').val(result.UserId);
                     $('#EditModal').modal('show');
                 },
                 error: function (result) {

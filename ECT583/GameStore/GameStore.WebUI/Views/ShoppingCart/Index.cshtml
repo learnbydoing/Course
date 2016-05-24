@@ -30,11 +30,11 @@ else
                 <td>@item.GetItemName()</td>
                 <td>@Html.FormattedCurrency(item.GetDiscountedPrice())</td>
                 <td>
-                    @using (Html.BeginForm("CreateOrUpdate", "ShoppingCart", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+                    @using (Html.BeginForm("CreateOrUpdate", "ShoppingCart", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-inline" }))
                     {
                         <input type="hidden" name="id" value="@item.GetItemId()">
-                        <input type="text" name="quantity" size=3 value="@item.Quantity">
-                        <input type="submit" class="btn btn-info" value="Update">
+                        <input type="text" name="quantity" size=3 value="@item.Quantity" class="form-control" >
+                        <input type="submit" class="btn btn-success" value="Update">
                     }
                 </td>
                 <td>@Html.FormattedCurrency(item.GetTotalCost())</td>
@@ -51,7 +51,7 @@ else
         }             
         </tbody>
         <tfoot>
-            <tr><td></td><td></td><td></td><td></td><td>@Html.FormattedCurrency(total)</td><td>@Html.ActionLink("Checkout", "Checkout", new { controller = "ShoppingCart" }, new { @class = "btn btn-success" })</td></tr>
+            <tr><td></td><td></td><td></td><td></td><td>@Html.FormattedCurrency(total)</td><td>@Html.ActionLink("Checkout", "Checkout", new { controller = "ShoppingCart" }, new { @class = "btn btn-primary" })</td></tr>
         </tfoot>
     </table>
 }

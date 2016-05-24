@@ -41,7 +41,7 @@ namespace GameStore.Domain.Identity
                 GameStoreDBContext context = (GameStoreDBContext)_store.Context;
                 var newUser = context.Users.Create();
                 newUser.Email = user.Email;
-                newUser.UserName = user.Email;
+                newUser.UserName = user.UserName;
                 newUser.PasswordHash = PasswordHasher.HashPassword(password);
                 newUser.PhoneNumber = user.PhoneNumber;
                 newUser.Membership = user.Membership;

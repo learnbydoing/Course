@@ -13,7 +13,6 @@
             <th>User Id</th>
             <th>Email</th>
             <th>User Name</th>
-            <th>Phone Number</th>
             <th>Membership</th>
             <th>Operations</th>
         </tr>
@@ -23,78 +22,70 @@
 
 <div id="AddModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
+    @using (Ajax.BeginForm("", "api/User/Create", new { area = "" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onAddSuccess", OnFailure = "onFailure" }))
+    {
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Add New User</h4>
             </div>
-            <div class="modal-body">
-                @using (Ajax.BeginForm("", "api/User/Create", new AjaxOptions { HttpMethod = "Post", OnSuccess = "onAddSuccess", OnFailure = "onFailure" }))
-                {
-                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-                    <fieldset class="form-group">
-                        <label for="Email">Email</label>
-                        @Html.TextBoxFor(u => u.Email, new { @class = "form-control" })
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="UserName">UserName</label>
-                        @Html.TextBoxFor(u => u.UserName, new { @class = "form-control" })
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="PhoneNumber">Phone Number</label>
-                        @Html.TextBoxFor(u => u.PhoneNumber, new { @class = "form-control" })
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="Role">Role</label>
-                        @Html.DropDownListFor(u => u.Membership, new SelectList(ViewBag.Roles, "Name", "Name"), new { @class = "form-control" })
-                    </fieldset>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                }
+        <div class="modal-body">                
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                <fieldset class="form-group">
+                    <label for="Email">Email</label>
+                    @Html.TextBoxFor(u => u.Email, new { @class = "form-control" })
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="UserName">UserName</label>
+                    @Html.TextBoxFor(u => u.UserName, new { @class = "form-control" })
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="Role">Role</label>
+                    @Html.DropDownListFor(u => u.Membership, new SelectList(ViewBag.Roles, "Name", "Name"), new { @class = "form-control" })
+                </fieldset>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary pull-left">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
-
+    }
     </div>
 </div>
 
 <div id="EditModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
+    @using (Ajax.BeginForm("", "api/User/", new { area = "" }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "onEditSuccess", OnFailure = "onFailure" }))
+    {
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Edit User</h4>
             </div>
-            <div class="modal-body">
-                @using (Ajax.BeginForm("", "api/User/", new AjaxOptions { HttpMethod = "Post", OnSuccess = "onEditSuccess", OnFailure = "onFailure" }))
-                {
-                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(u => u.Id)
-                    <fieldset class="form-group">
-                        <label for="Email">Email</label>
-                        @Html.TextBoxFor(u => u.Email, new { @class = "form-control", disabled = "true" })
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="UserName">UserName</label>
-                        @Html.TextBoxFor(u => u.UserName, new { @class = "form-control", disabled = "true" })
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="PhoneNumber">Phone Number</label>
-                        @Html.TextBoxFor(u => u.PhoneNumber, new { @class = "form-control" })
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="Role">Role</label>
-                        @Html.DropDownListFor(u => u.Membership, new SelectList(ViewBag.Roles, "Name", "Name"), new { @class = "form-control" })
-                    </fieldset>
-                    <button type="submit" class="btn btn-primary">Update</button>
-                }
+            <div class="modal-body">                
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                @Html.HiddenFor(u => u.Id)
+                @Html.HiddenFor(u => u.Email)
+                @Html.HiddenFor(u => u.UserName)
+                <fieldset class="form-group">
+                    <label for="Email">Email</label>
+                    @Html.TextBoxFor(u => u.Email, new { @class = "form-control", disabled = "true" })
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="UserName">UserName</label>
+                    @Html.TextBoxFor(u => u.UserName, new { @class = "form-control", disabled = "true" })
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="Role">Role</label>
+                    @Html.DropDownListFor(u => u.Membership, new SelectList(ViewBag.Roles, "Name", "Name"), new { @class = "form-control" })
+                </fieldset>                
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary pull-left">Update</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
-
+    }
     </div>
 </div>
 
@@ -121,7 +112,7 @@
             $("#userList").find('tbody').empty();
             $.getJSON("/api/User/", function (data) {
                 $.each(data, function (i, user) {
-                    $('#userList tbody').append("<tr><td>" + user.Id + "</td><td>" + user.Email + "</td><td>" + user.UserName + "</td><td>" + user.PhoneNumber + "</td><td>" + user.Membership + "</td><td><span><a class='btn btn-success' href='javascript:editUser(\"" + user.Id + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteUser(\"" + user.Id + "\");'> Delete</a></span></td></tr>");
+                    $('#userList tbody').append("<tr><td>" + user.Id + "</td><td>" + user.Email + "</td><td>" + user.UserName + "</td><td>" + user.Membership + "</td><td><span><a class='btn btn-success' href='javascript:editUser(\"" + user.Id + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteUser(\"" + user.Id + "\");'> Delete</a></span></td></tr>");
                 });
             });
         }
@@ -152,7 +143,6 @@
                     $('#EditModal').find('#Id').val(result.Id);
                     $('#EditModal').find('#Email').val(result.Email);
                     $('#EditModal').find('#UserName').val(result.UserName);
-                    $('#EditModal').find('#PhoneNumber').val(result.PhoneNumber);
                     $('#EditModal').find('#Membership').val(result.Membership);
                     $('#EditModal').modal('show');
                 },

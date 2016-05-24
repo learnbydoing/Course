@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace GameStore.WebUI.Controllers
-{
+{    
     public class ProductController : Controller
     {        
         public ActionResult Console()
@@ -46,7 +46,7 @@ namespace GameStore.WebUI.Controllers
                                 where product.CategoryId == categoryid
                                 join category in context.Categories
                                   on product.CategoryId equals category.CategoryId
-                                select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount };
+                                select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                     list = query.ToList();
                     System.Web.HttpContext.Current.Cache["ProductList" + categoryid] = list;
                 }
@@ -65,7 +65,7 @@ namespace GameStore.WebUI.Controllers
                             where product.ProductName.ToLower().Contains(productname.ToLower())
                             join category in context.Categories
                               on product.CategoryId equals category.CategoryId
-                            select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount };
+                            select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                 list = query.ToList();
             }
             ViewBag.Title = "Search";
@@ -81,10 +81,26 @@ namespace GameStore.WebUI.Controllers
                             where product.ProductId == id
                             join category in context.Categories
                               on product.CategoryId equals category.CategoryId
-                            select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount };
+                            select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                 model = query.FirstOrDefault();
             }
             return View(model);
+        }
+
+        [Authorize(Roles = "Admin, Advanced")]
+        public ActionResult MyProducts()
+        {
+            List<Category> list = new List<Category>();
+            using (GameStoreDBContext context = new GameStoreDBContext())
+            {
+                list = context.Categories.ToList();
+            }
+
+            ViewBag.Categories = list;
+            List<Category> alllist = new List<Category>(list);
+            alllist.Insert(0, new Category { CategoryId = 0, CategoryName = "Select All" });
+            ViewBag.CategoryFilter = alllist;
+            return View();
         }
     }
 }

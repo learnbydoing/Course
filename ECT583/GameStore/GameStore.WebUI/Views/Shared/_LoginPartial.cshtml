@@ -7,7 +7,7 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> @User.Identity.GetUserName()</a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> @User.Identity.GetUserName()<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     @if (HttpContext.Current.User.IsInRole("Admin"))
                     {
@@ -24,7 +24,7 @@
                     }
                     @if (HttpContext.Current.User.IsInRole("Advanced"))
                     {
-                        <li>@Html.ActionLink("Product", "Product", "Store", new { area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("My Products", "MyProducts", "Product", new { area = "" }, null)</li>
                         <li class="nav-divider"></li>
                         <li>@Html.ActionLink("My Order", "Index", "MyOrder", new { area = "" }, null)</li>
                         <li>@Html.ActionLink("My Cart", "Index", "ShoppingCart", new { area = "" }, null)</li>

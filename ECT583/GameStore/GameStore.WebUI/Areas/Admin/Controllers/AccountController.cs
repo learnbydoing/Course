@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using GameStore.Domain.Identity;
 using GameStore.WebUI.Controllers;
+using GameStore.WebUI.Areas.Admin.Models.DTO;
 
 namespace GameStore.WebUI.Areas.Admin.Controllers
 {
@@ -18,17 +19,14 @@ namespace GameStore.WebUI.Areas.Admin.Controllers
         // GET: User
         public ActionResult AppUser()
         {
-            ViewBag.Roles = RoleManager.Roles.ToList();
-
-            UserViewModel rolevm = new UserViewModel();
-            rolevm.CanAdd = true;
-            return View(rolevm);
+            var roles = RoleManager.Roles.ToList();
+            List<RoleDTO> list = roles.Select(r => new RoleDTO { Id = r.Id, Name = r.Name, Description = r.Description }).ToList();
+            ViewBag.Roles = list;
+            return View();
         }
         public ActionResult AppRole()
         {
-            RoleViewModel rolevm = new RoleViewModel();
-            rolevm.CanAdd = true;
-            return View(rolevm);
+            return View();
         }
     }
 }

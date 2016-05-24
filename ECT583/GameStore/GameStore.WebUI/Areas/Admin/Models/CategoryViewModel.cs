@@ -8,9 +8,9 @@ using System.Web;
 
 namespace GameStore.WebUI.Areas.Admin.Models
 {
-    public class RoleViewModel
+    public class CategoryViewModel
     {
-        public String Id { get; set; }
+        public int CategoryId { get; set; }
         [Required]
         public String Name { get; set; }
         [Required]

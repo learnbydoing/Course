@@ -7,14 +7,17 @@
     <div class="col-md-4">
         <ul class="list-group">
             <li class="list-group-item"><b>Statistics</b></li>
-            <li class="list-group-item"><span class="badge" id="user">0</span>@Html.ActionLink("User List", "AppUser", "Account", new { area = "Admin" }, null)</li>
-            <li class="list-group-item"><span class="badge" id="role">0</span>@Html.ActionLink("Role", "AppRole", "Account", new { area = "Admin" }, null)</li>
-            <li class="list-group-item"><span class="badge" id="product">0</span>@Html.ActionLink("Product", "Product", "Store", new { area = "Admin" }, null)</li>
-            <li class="list-group-item"><span class="badge" id="category">0</span>@Html.ActionLink("Category", "Category", "Store", new { area = "Admin" }, null)</li>
+            <li class="list-group-item"><span class="badge" id="user">0</span>@Html.ActionLink("Users", "AppUser", "Account", new { area = "Admin" }, new { @class = "btn btn-primary" })</li>
+            <li class="list-group-item"><span class="badge" id="role">0</span>@Html.ActionLink("Roles", "AppRole", "Account", new { area = "Admin" }, new { @class = "btn btn-primary" })</li>
+            <li class="list-group-item"><span class="badge" id="product">0</span>@Html.ActionLink("Products", "Product", "Store", new { area = "Admin" }, new { @class = "btn btn-primary" })</li>
+            <li class="list-group-item"><span class="badge" id="category">0</span>@Html.ActionLink("Categories", "Category", "Store", new { area = "Admin" }, new { @class = "btn btn-primary" })</li>
         </ul>
     </div>
     <div class="col-md-4">
-        @Html.ActionLink("Clear Cache", "ClearCache", "Dashboard", new { area = "Admin" }, null)
+        <ul class="list-group">
+            <li class="list-group-item"><b>System</b></li>
+            <li class="list-group-item"><span class="badge" id="user"></span>@Html.ActionLink("Clear Cache", "ClearCache", "Dashboard", new { area = "Admin" }, new { @class = "btn btn-primary"})</li>
+        </ul>        
     </div>
     <div class="col-md-4"></div>
 </div>
