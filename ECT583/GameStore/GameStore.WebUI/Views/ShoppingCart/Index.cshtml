@@ -42,8 +42,8 @@ else
                     @using (Html.BeginForm("CreateOrUpdate", "ShoppingCart", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
                     {
                         <input type="hidden" name="id" value="@item.GetItemId()">
-                        <input type="hidden" name="quantity" size=3 value="0">
-                        <input type="submit" class="btn btn-danger" value="Delete">
+                        <input type="hidden" name="quantity" size=3 value="-99">
+                        <input type="submit" class="btn btn-danger" onclick="return confirm('Are you sure to delete?')"  value="Delete">
                     }
                 </td>
             </tr>

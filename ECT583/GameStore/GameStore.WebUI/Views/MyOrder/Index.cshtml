@@ -18,26 +18,60 @@ else
         <div class="panel panel-info">
             <div class="panel-heading">Order Id: @order.OrderId</div>
             <div class="panel-body">
-                <div>
-                    <div>
-                        <div class="row">
-                            <div class="col-sm-2">User Name</div>
-                            <div class="col-sm-10">@order.UserName</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-2">Address</div>
-                            <div class="col-sm-10">@order.Address</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-2">Confirmation Number</div>
-                            <div class="col-sm-10">@order.ConfirmationNumber</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-2">Delivery Date</div>
-                            <div class="col-sm-10">@order.DeliveryDate</div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="well well-sm">
+                            <div class="row">
+                                <div class="col-sm-5">User Name:</div>
+                                <div class="col-sm-7">@order.UserName</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Confirmation Number:</div>
+                                <div class="col-sm-7">@order.ConfirmationNumber</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Delivery Date:</div>
+                                <div class="col-sm-7">@order.DeliveryDate</div>
+                            </div>
                         </div>
                     </div>
-                    <hr />
+                    <div class="col-sm-5">
+                        <div class="well well-sm">
+                            <div class="row" style="margin-bottom:20px">
+                                <div class="col-sm-12"><span class="glyphicon glyphicon-plane"></span> Shipping Address</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">Full Name:</div>
+                                <div class="col-sm-9">@order.FullName:</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">Address:</div>
+                                <div class="col-sm-9">@order.Address</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">City:</div>
+                                <div class="col-sm-9">@order.City</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">State:</div>
+                                <div class="col-sm-9">@order.State</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">Zip:</div>
+                                <div class="col-sm-9">@order.Zip</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        @using (Html.BeginForm("CancelOrder", "MyOrder", FormMethod.Post, null))
+                        {
+                            <input type="hidden" name="id" value="@order.OrderId">
+                            <input type="submit" onclick="return confirm('Are you sure to delete?')" class="btn btn-danger" value="Cancel Order" />
+                        }
+                    </div>
+                </div>
+                <hr />
+                <div>                    
                     <table class="table table-striped" id="modelList">
                         <thead>
                             <tr>

@@ -11,6 +11,10 @@
                 <ul class="dropdown-menu">
                     @if (HttpContext.Current.User.IsInRole("Admin"))
                     {
+                        <li>@Html.ActionLink("Profile", "MemberProfile", "Account", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Change Password", "ChangePassword", "Account", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Dashboard", "Index", "Dashboard", new { Area = "Admin" }, null)</li>
+                        <li class="nav-divider"></li>
                         <li>@Html.ActionLink("User", "AppUser", "Account", new { area = "Admin" }, null)</li>
                         <li>@Html.ActionLink("Role", "AppRole", "Account", new { area = "Admin" }, null)</li>
                         <li class="nav-divider"></li>
@@ -18,13 +22,14 @@
                         <li>@Html.ActionLink("Category", "Category", "Store", new { area = "Admin" }, null)</li>
                         <li>@Html.ActionLink("Order", "Order", "Store", new { area = "Admin" }, null)</li>
                         <li class="nav-divider"></li>
-                        <li>@Html.ActionLink("Dashboard", "Index", "Dashboard", new { Area = "Admin" }, null)</li>
-                        <li class="nav-divider"></li>
                         <li>@Html.ActionLink("My Order", "Index", "MyOrder", new { area = "" }, null)</li>
                         <li>@Html.ActionLink("My Cart", "Index", "ShoppingCart", new { area = "" }, null)</li>                        
                     }
                     @if (HttpContext.Current.User.IsInRole("Advanced"))
                     {
+                        <li>@Html.ActionLink("Profile", "MemberProfile", "Account", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Change Password", "ChangePassword", "Account", new { area = "" }, null)</li>
+                        <li class="nav-divider"></li>
                         <li>@Html.ActionLink("My Products", "MyProducts", "Product", new { area = "" }, null)</li>
                         <li class="nav-divider"></li>
                         <li>@Html.ActionLink("My Order", "Index", "MyOrder", new { area = "" }, null)</li>
@@ -32,6 +37,9 @@
                     }
                     @if (HttpContext.Current.User.IsInRole("Regular"))
                     {
+                        <li>@Html.ActionLink("Profile", "MemberProfile", "Account", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Change Password", "ChangePassword", "Account", new { area = "" }, null)</li>
+                        <li class="nav-divider"></li>
                         <li>@Html.ActionLink("My Order", "Index", "MyOrder", new { area = "" }, null)</li>
                         <li>@Html.ActionLink("My Cart", "Index", "ShoppingCart", new { area = "" }, null)</li>
                     }

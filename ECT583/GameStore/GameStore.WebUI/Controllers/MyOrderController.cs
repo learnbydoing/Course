@@ -25,8 +25,9 @@ namespace GameStore.WebUI.Controllers
                                  join u in context.Users
                                    on o.UserId equals u.Id
                                  where o.UserId == userid
-                                 select new { o.OrderId, o.UserId, u.UserName, o.Address, o.CreditCard, o.ConfirmationNumber, o.DeliveryDate };
-                    list = orders.Select(o => new OrderViewModel { OrderId = o.OrderId, UserId = o.UserId, UserName = o.UserName, Address = o.Address, CreditCard = o.CreditCard, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate }).ToList();
+                                 orderby o.OrderId descending
+                                 select new { o.OrderId, o.UserId, u.UserName, o.FullName, o.Address, o.City, o.State, o.Zip, o.ConfirmationNumber, o.DeliveryDate };
+                    list = orders.Select(o => new OrderViewModel { OrderId = o.OrderId, UserId = o.UserId, UserName = o.UserName, FullName = o.FullName, Address = o.Address, City = o.City, State = o.State, Zip = o.Zip, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate }).ToList();
 
                     foreach (OrderViewModel order in list)
                     {
@@ -53,6 +54,26 @@ namespace GameStore.WebUI.Controllers
         public ActionResult Detail()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult CancelOrder(int id)
+        {
+            using (GameStoreDBContext context = new GameStoreDBContext())
+            {
+                var order = context.Orders.Find(id);
+                if (order == null)
+                {
+                    ViewBag.Message = string.Format("No such order [{0}] found.", id);
+                }
+                else {
+                    context.Orders.Remove(order);
+                    context.SaveChanges();
+                    ViewBag.Message = string.Format("Order [{0}] has been deleted!", id);
+                }
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

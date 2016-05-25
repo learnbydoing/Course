@@ -18,9 +18,15 @@ namespace GameStore.Domain.Model
         [Required]
         public string UserId { get; set; }
         [Required]
+        public string FullName { get; set; }
+        [Required]
         public string Address { get; set; }
         [Required]
-        public string CreditCard { get; set; }
+        public string City { get; set; }
+        [Required]
+        public string State { get; set; }
+        [Required]
+        public string Zip { get; set; }
         [Required]
         public string ConfirmationNumber { get; set; }
         [Required]

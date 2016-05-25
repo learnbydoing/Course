@@ -57,5 +57,15 @@ namespace GameStore.WebUI.Models
             CartItem newCartItem = new CartItem(product);
             items.Add(newCartItem);
         }
+
+        public double GetTotalValue()
+        {
+            double sum = 0;
+            for (int i = 0; i < items.Count(); i++)
+            {
+                sum = items[i].GetDiscountedPrice();
+            }
+            return sum;
+        }
     }
 }

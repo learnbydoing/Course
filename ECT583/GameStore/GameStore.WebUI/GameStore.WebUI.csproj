@@ -226,8 +226,35 @@
     <Content Include="Areas\Admin\Views\Store\Product.cshtml" />
     <Content Include="Areas\Admin\Views\Store\Category.cshtml" />
     <Content Include="Areas\Admin\Views\Store\Order.cshtml" />
+    <None Include="Properties\PublishProfiles\ect583final - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ecta5.pubxml" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="images\accessories\chartboost.jpg" />
+    <Content Include="images\accessories\ps3_controller.jpg" />
+    <Content Include="images\accessories\ps3_diskcontroller.jpg" />
+    <Content Include="images\accessories\ps4_controllercharger.jpg" />
+    <Content Include="images\accessories\Turtle Beach Headset.jpg" />
+    <Content Include="images\accessories\wiiu_fightingpad.jpg" />
+    <Content Include="images\accessories\wiiu_gamecube.jpg" />
+    <Content Include="images\accessories\wii_chargingsystem.jpg" />
+    <Content Include="images\accessories\wii_remoteplus.jpg" />
+    <Content Include="images\accessories\XBOX controller.jpg" />
+    <Content Include="images\accessories\XBOX360-SpeedWheel.jpg" />
+    <Content Include="images\accessories\xbox360_wa.png" />
+    <Content Include="images\bag.png" />
+    <Content Include="images\consoles\ps3-console.jpg" />
+    <Content Include="images\consoles\PS4-console-bundle.jpg" />
+    <Content Include="images\consoles\wii.jpg" />
+    <Content Include="images\consoles\wiiu.jpg" />
+    <Content Include="images\consoles\xbox1.jpg" />
+    <Content Include="images\consoles\xbox360.jpg" />
+    <Content Include="images\games\activision_cod.jpg" />
+    <Content Include="images\games\activision_prot.jpg" />
+    <Content Include="images\games\ea_fifa.jpg" />
+    <Content Include="images\games\ea_nfs.jpg" />
+    <Content Include="images\games\tti_evolve.jpg" />
+    <Content Include="images\games\tti_gta.jpg" />
+    <Content Include="images\search.png" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
@@ -286,8 +313,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\ConfigurationHelper.cs" />
+    <Compile Include="Helper\CreditAuthorizationClient.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
+    <Compile Include="Models\State.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\OrderItemViewModel.cs" />
     <Compile Include="Models\ViewModels\CheckoutViewModel.cs" />
@@ -319,6 +348,9 @@
     <Content Include="Views\Shared\_FrontPartial.cshtml" />
     <Content Include="Views\Shared\_FrontLayout.cshtml" />
     <Content Include="Views\Product\MyProducts.cshtml" />
+    <Content Include="Views\Account\ProcessCreditResponse.cshtml" />
+    <Content Include="Views\Account\MemberProfile.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

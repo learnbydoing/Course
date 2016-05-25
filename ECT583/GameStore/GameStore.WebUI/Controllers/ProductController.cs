@@ -60,14 +60,25 @@ namespace GameStore.WebUI.Controllers
 
             using (GameStoreDBContext context = new GameStoreDBContext())
             {
-                var query = from product in context.Products
-                            where product.ProductName.ToLower().Contains(productname.ToLower())
-                            join category in context.Categories
-                              on product.CategoryId equals category.CategoryId
-                            select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
-                list = query.ToList();
+                if (String.IsNullOrEmpty(productname))
+                {
+                    var query = from product in context.Products
+                                join category in context.Categories
+                                  on product.CategoryId equals category.CategoryId
+                                select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                    list = query.ToList();
+                }
+                else
+                {
+                    var query = from product in context.Products
+                                where product.ProductName.ToLower().Contains(productname.ToLower())
+                                join category in context.Categories
+                                  on product.CategoryId equals category.CategoryId
+                                select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                    list = query.ToList();
+                }
             }
-            ViewBag.Title = "Search";
+            ViewBag.Title = "Search Result";
             return View("List", list);
         }
 
