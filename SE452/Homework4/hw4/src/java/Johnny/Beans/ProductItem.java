@@ -19,11 +19,11 @@ public class ProductItem implements java.io.Serializable {
     private double price;
     private String image;
     private String maker;    
-    private double discount;
+    private int discount;
     private String console; // only for accessory
     private List<Review> reviews = new ArrayList<Review>();
 
-    public ProductItem(String id, String name, int type, double price, String image, String maker, double discount, List<Review> reviews) {
+    public ProductItem(String id, String name, int type, double price, String image, String maker, int discount, List<Review> reviews) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -34,7 +34,7 @@ public class ProductItem implements java.io.Serializable {
         this.reviews = reviews;
     }
     
-    public ProductItem(String id, String name, int type, double price, String image, String maker, double discount, String console, List<Review> reviews) {
+    public ProductItem(String id, String name, int type, double price, String image, String maker, int discount, String console, List<Review> reviews) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -90,11 +90,11 @@ public class ProductItem implements java.io.Serializable {
         this.maker = maker;
     }
     
-     public double getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
     

@@ -1,9 +1,9 @@
+<%@page import="Johnny.DB.OrderDB"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Johnny.Beans.Menu"%>
 <%@page import="Johnny.Beans.ShoppingCart"%>
 <%@page import="Johnny.Dao.UserDao"%>
-<%@page import="Johnny.Dao.OrderDao"%>
 <%@page import="Johnny.Common.Constants" %>
 <%@page import="Johnny.Common.Helper" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -24,16 +24,14 @@
         userlist.add(new Menu(Constants.CURRENT_PAGE_ACCMNG, "admin_accessorylist.jsp"));
         userlist.add(new Menu(Constants.CURRENT_PAGE_GAMEMNG, "admin_gamelist.jsp"));
     } else if (usertype.toLowerCase().equals(Constants.CONST_TYPE_SALESMAN_LOWER)) {
-        OrderDao dao = OrderDao.createInstance();
-        userlist.add(new Menu(Constants.CURRENT_PAGE_ALLORDERS, "All Order("+dao.getOrders().size()+")", "admin_orderlist.jsp"));
+        userlist.add(new Menu(Constants.CURRENT_PAGE_ALLORDERS, "All Order("+OrderDB.getList().size()+")", "admin_orderlist.jsp"));
         UserDao userdao = UserDao.createInstance();
         userlist.add(new Menu(Constants.CURRENT_PAGE_USERMNG, "User("+userdao.getUserCount()+")", "admin_userlist.jsp"));
     }
     // My Order
     int ordercount = 0;
     if (helper.isLoggedin()) {
-        OrderDao dao = OrderDao.createInstance();
-        ordercount = dao.getOrders(helper.username()).size();
+        ordercount = OrderDB.getList(helper.username()).size();
     }
     userlist.add(new Menu(Constants.CURRENT_PAGE_MYORDER, "My Order("+ordercount+")","myorder.jsp"));
     

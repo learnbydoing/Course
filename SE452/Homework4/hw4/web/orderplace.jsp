@@ -1,3 +1,4 @@
+<%@page import="Johnny.DB.OrderDB"%>
 <%@page import="Johnny.Common.Constants"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
@@ -7,7 +8,6 @@
 <%@page import="Johnny.Beans.CartItem"%>
 <%@page import="Johnny.Beans.OrderItem"%>
 <%@page import="Johnny.Common.Helper"%>
-<%@page import="Johnny.Dao.OrderDao"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="layout_top.jsp" />
@@ -58,16 +58,16 @@
             c.setTime(now);
             c.add(Calendar.DATE, 14); // 2 weeks
              //create order
-            Order order = new Order(orderid, helper.username(), address, creditcard, confirmation, c.getTime());
+            Order order = new Order(0, helper.username(), address, creditcard, confirmation, c.getTime());
             for (CartItem ob: list) {
-                OrderItem item = new OrderItem(ob.getItem());
+                OrderItem item = new OrderItem(0, 0, ob.getItemId(), ob.getItemName(), ob.getItem().getType(), ob.getItem().getPrice(), ob.getItem().getImage(), ob.getItem().getMaker(), ob.getItem().getDiscount(), 1);
                 item.setQuantity(ob.getQuantity());
                 order.addItem(item);
             }
 
-            OrderDao dao=  OrderDao.createInstance();
             // create 
-            dao.addOrder(order);
+            int generatedKey = OrderDB.insert(order);
+            order.setId(generatedKey);
             // remove cart from session
             session.removeAttribute(Constants.SESSION_CART);
             pageContext.setAttribute("order", order);
@@ -91,7 +91,7 @@
                     <tr><td width="30%"><h5><i>Order Id: </i></h5></td><td width="70%">${order.id}</td></tr>
                     <tr><td><h5><i>Customer Name: </i></h5></td><td>${order.userName}</td></tr>
                     <tr><td><h5><i>Address: </i></h5></td><td>${order.address}</td></tr>
-                    <tr><td><h5><i>Confirmation Number: </i></h5></td><td>${order.confirmation}</td></tr>    
+                    <tr><td><h5><i>Confirmation Number: </i></h5></td><td>${order.confirmationNumber}</td></tr>    
                     <tr><td><h5><i>Delivery Date: </i></h5></td><td>${order.formatDeliveryDate}</td><td></td></tr>
                 </table>
                 <table cellspacing='0'>

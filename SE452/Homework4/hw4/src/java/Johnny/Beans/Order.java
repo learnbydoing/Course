@@ -14,32 +14,33 @@ import java.util.List;
  * @author Johnny
  */
 public class Order implements java.io.Serializable {
-    private String id;
+    private int id;
     private String username;
     private String address;
     private String creditcard;
-    private String confirmation;
+    private String confirmationnumber;
     private Date deliverydate;
     private ArrayList<OrderItem> items = new ArrayList();
     
     public Order() {
     }
-    public Order(String id, String username, String address, String creditcard, String confirmation, Date deliverydate) {
+    public Order(int id, String username, String address, String creditcard, String confirmationnumber, Date deliverydate) {
         this.id = id;
         this.username = username;
         this.address = address;
         this.creditcard = creditcard;
-        this.confirmation = confirmation;
+        this.confirmationnumber = confirmationnumber;
         this.deliverydate = deliverydate;
     }
     
+    /*
     public Order Clone() {
         Order clone = new Order();
         clone.setId(id);
         clone.setUserName(username);
         clone.setAddress(address);
         clone.setCreditCard(creditcard);
-        clone.setConfirmation(confirmation);
+        clone.setConfirmationNumber(confirmationnumber);
         clone.setDeliveryDate(deliverydate);
         ArrayList<OrderItem> cloneItems = new ArrayList<OrderItem>();
         for (OrderItem oit : items) {
@@ -47,13 +48,13 @@ public class Order implements java.io.Serializable {
         }
         clone.setItems(cloneItems);
         return clone;
-    }
+    }*/
     
-    public String getId() {
+    public int getId() {
         return id;
     }
     
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     
@@ -81,12 +82,12 @@ public class Order implements java.io.Serializable {
         this.creditcard = creditcard;
     }
     
-    public String getConfirmation() {
-        return confirmation;
+    public String getConfirmationNumber() {
+        return confirmationnumber;
     }
     
-    public void setConfirmation(String confirmation) {
-        this.confirmation = confirmation;
+    public void setConfirmationNumber(String confirmationnumber) {
+        this.confirmationnumber = confirmationnumber;
     }
     
     public Date getDeliveryDate() {
@@ -110,20 +111,19 @@ public class Order implements java.io.Serializable {
         return items;
     }
     
-    public void setItems(ArrayList<OrderItem> items) {
+    public void setItems(List<OrderItem> items) {
         this.items = new ArrayList<OrderItem>(items);
-    }
-    
+    }    
     
     public synchronized void addItem(OrderItem item) {
         items.add(item);
     }
     
-    public synchronized void setItemQuantity(String id, int quantity) {
+    public synchronized void setItemQuantity(int id, int quantity) {
         OrderItem orderItem;
         for(int i = 0; i < items.size(); i++) {
             orderItem = items.get(i);
-            if (orderItem.getItemId().equals(id)) {
+            if (orderItem.getOrderItemId() == id) {
                 if (quantity <= 0) {
                     items.remove(i);
                 } else {

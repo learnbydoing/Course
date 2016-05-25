@@ -10,7 +10,7 @@ package Johnny.Beans;
  * @author RZHUANG
  */
 public class Game extends BaseBean {
-    public Game(String key, String maker, String name, double price, String image, String retailer, String condition,double discount){
+    public Game(String key, String maker, String name, double price, String image, String retailer, String condition, int discount){
         super.setKey(key);
         super.setMaker(maker);
         super.setName(name);

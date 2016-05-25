@@ -16,7 +16,7 @@ import java.util.List;
 public class Console extends BaseBean {
     private List<Accessory> accessories = new ArrayList<Accessory>();
     
-    public Console(String key, String maker, String name, double price, String image, String retailer, String condition,double discount, List<Accessory> accessories){
+    public Console(String key, String maker, String name, double price, String image, String retailer, String condition, int discount, List<Accessory> accessories){
         super.setKey(key);
         super.setMaker(maker);
         super.setName(name);

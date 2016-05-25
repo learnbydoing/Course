@@ -20,10 +20,10 @@ public class BaseBean implements java.io.Serializable {
     private String image;
     private String retailer;
     private String condition;
-    private double discount;
+    private int discount;
     private List<Review> reviews = new ArrayList<Review>();
 
-    public BaseBean(String key, String maker, String name, double price, String image, String retailer, String condition,double discount){
+    public BaseBean(String key, String maker, String name, double price, String image, String retailer, String condition,int discount){
         this.key = key;
         this.maker = maker;
         this.name = name;
@@ -83,11 +83,11 @@ public class BaseBean implements java.io.Serializable {
         this.condition = condition;
     }
 
-    public double getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
     

@@ -1,3 +1,4 @@
+<%@page import="Johnny.DB.OrderDB"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="Johnny.Beans.User"%>
@@ -8,7 +9,6 @@
 <%@page import="Johnny.Beans.Order"%>
 <%@page import="Johnny.Common.Helper"%>
 <%@page import="Johnny.Common.Constants"%>
-<%@page import="Johnny.Dao.OrderDao"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="layout_top.jsp" />
@@ -33,25 +33,22 @@
         errmsg = "Invalid Paramters!";
     }
     
-    OrderDao dao = OrderDao.createInstance();
     Order order = (Order)session.getAttribute("OrderItem"+orderid);
     if (errmsg.isEmpty()) {        
-        Order orgorder = dao.getOrder(orderid);
+        Order orgorder = OrderDB.getOrder(Integer.parseInt(orderid));
         if (orgorder == null) {
             errmsg = "Order ["+orderid+"] does not exist!";
         } else {
             if (order == null) {
                 // copy from the original instance
                 order = new Order();
-                order = orgorder.Clone();
-                /*
                 order.setId(orgorder.getId());
                 order.setUserName(orgorder.getUserName());
                 order.setAddress(orgorder.getAddress());
                 order.setCreditCard(orgorder.getCreditCard());
-                order.setConfirmation(orgorder.getConfirmation());
+                order.setConfirmationNumber(orgorder.getConfirmationNumber());
                 order.setDeliveryDate(orgorder.getDeliveryDate());
-                order.setItems(orgorder.getItems());*/
+                order.setItems(orgorder.getItems());
                 session.setAttribute("OrderItem"+orderid, order);
             } else {            
                 String address = request.getParameter("address");
@@ -74,20 +71,21 @@
                                 if (order.getItems().size() == 0) {
                                     errmsg = "The order contains nothing. You must choose at least one product!";
                                 } else {
-                                    String confirmation = order.getUserName() + order.getId().substring(order.getId().length()-4) + creditcard.substring(creditcard.length() - 4);
+                                    String uniqueid = helper.generateUniqueId();
+                                    String confirmation = order.getUserName() + uniqueid.substring(uniqueid.length()-4) + creditcard.substring(creditcard.length() - 4);
                                     Date now = new Date();
                                     Calendar c = Calendar.getInstance();
                                     c.setTime(now);
                                     c.add(Calendar.DATE, 14); // 2 weeks
                                     //set order                        
-                                    order.setConfirmation(confirmation);
+                                    order.setConfirmationNumber(confirmation);
                                     order.setDeliveryDate(c.getTime());
                                     // update, save to file
-                                    Order updOrder = dao.getOrder(order.getId());
+                                    Order updOrder = OrderDB.getOrder(order.getId());
                                     updOrder.setAddress(order.getAddress());
                                     updOrder.setCreditCard(order.getCreditCard());
                                     updOrder.setItems(order.getItems());
-                                    dao.updateOrder();
+                                    OrderDB.update(order);
                                     session.removeAttribute("OrderItem"+orderid);
                                     errmsg = "Order ["+order.getId()+"] is updated!";
                                 }
@@ -98,8 +96,9 @@
 
                 if (actiontype != null && actiontype.equals("updatequantity")){                    
                     if (order != null) {  
-                        String id = request.getParameter("itemid");
-                        if (id != null && !id.isEmpty()) {
+                        String itemid = request.getParameter("itemid");
+                        int id = Integer.parseInt(itemid);
+                        if (itemid != null && !itemid.isEmpty()) {
                             String strQuantity = request.getParameter("quantity");
                             int quantity;
                             if (strQuantity == null || strQuantity.isEmpty()) {
@@ -135,7 +134,7 @@
                     <tr><td><h5><i>User Name: </i></h5></td><td>${order.userName}</td><td><input type="submit" class="formbutton" value="Save"></td></tr>
                     <tr><td><h5><i>Address: </i></h5></td><td><input type='text' name='address' id='address' value='${order.address}' required /></td><td></td></tr>
                     <tr><td><h5><i>Credit Card Number: </i></h5></td><td><input type='text' name='creditcard' id='creditcard' value='${order.creditCard}' required /></td><td></td></tr>
-                    <tr><td><h5><i>Confirmation Number: </i></h5></td><td><c:out value="${order.confirmation}"/></td><td></td></tr>
+                    <tr><td><h5><i>Confirmation Number: </i></h5></td><td><c:out value="${order.confirmationNumber}"/></td><td></td></tr>
                     <tr><td><h5><i>Delivery Date: </i></h5></td><td><c:out value="${order.formatDeliveryDate}"/></td><td></td></tr>
                 </table>
             </form>
@@ -146,19 +145,19 @@
                 <c:forEach var="orderitem" items="${order.getItems()}">                                
                     <tr>
                         <td><c:out value="${counter + 1}"/></td>
-                        <td><c:out value="${orderitem.itemName}"/></td>
+                        <td><c:out value="${orderitem.productName}"/></td>
                         <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${orderitem.unitPrice}" type="currency"/></td>
                         <td>
                             <form action="admin_orderedit.jsp?actiontype=updatequantity" method="Post">
                                 <input type="hidden" name="orderid" value="<c:out value="${order.id}"/>">
-                                <input type="hidden" name="itemid" value="<c:out value="${orderitem.itemId}"/>">
+                                <input type="hidden" name="itemid" value="<c:out value="${orderitem.orderItemId}"/>">
                                 <input type="text" name="quantity" size=3 value="<c:out value="${orderitem.quantity}"/>">
                                 <input type="submit" class="formbutton2" value="Update">
                             </form>
                         </td>
                         <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${orderitem.totalCost}" type="currency"/></td>
                         <td>
-                            <span><a href='admin_orderedit.jsp?actiontype=updatequantity&orderid=<c:out value="${order.id}"/>&itemid=<c:out value="${orderitem.itemId}"/>&quantity=0' class='button3' onclick = "return confirm('Are you sure to delete this product?')">Delete</a></span>
+                            <span><a href='admin_orderedit.jsp?actiontype=updatequantity&orderid=<c:out value="${order.id}"/>&itemid=<c:out value="${orderitem.orderItemId}"/>&quantity=0' class='button3' onclick = "return confirm('Are you sure to delete this product?')">Delete</a></span>
                         </td>
                     </tr>
                     <c:set var="total" value="${total + orderitem.getTotalCost()}" scope="page"/>

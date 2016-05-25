@@ -10,7 +10,7 @@ package Johnny.Beans;
  * @author RZHUANG
  */
 public class Accessory extends BaseBean {
-    public Accessory(String key, String maker, String name, double price, String image, String retailer, String condition,double discount){
+    public Accessory(String key, String maker, String name, double price, String image, String retailer, String condition, int discount){
         super.setKey(key);
         super.setMaker(maker); // parent console
         super.setName(name);

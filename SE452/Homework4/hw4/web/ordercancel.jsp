@@ -1,5 +1,5 @@
+<%@page import="Johnny.DB.OrderDB"%>
 <%@page import="Johnny.Common.Constants"%>
-<%@page import="Johnny.Dao.OrderDao"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.List"%>
@@ -24,19 +24,18 @@
     }
 
     if (errmsg.isEmpty()) {
-        OrderDao dao = OrderDao.createInstance();
-        List<Order> orders = dao.getOrders();
+        List<Order> orders = OrderDB.getList();
         synchronized(session) {
             if (orders == null || orders.size() == 0) {
                 errmsg = "You have no order!";
             } else {
-                Order order = dao.getOrder(orderid);
+                Order order = OrderDB.getOrder(Integer.parseInt(orderid));
                 if (order == null) {
                     errmsg = "Order ["+orderid+"] is not found!";
                 } else {                    
                     List<OrderItem> items = order.getItems();
                     for (OrderItem item: items) {
-                        if (item.getItemType() == 4 || item.getItemType() == 5) {
+                        if (item.getProductType() == 4 || item.getProductType() == 5) {
                             Date deliverydate = order.getDeliveryDate();
                             Calendar c = Calendar.getInstance();
                             c.setTime(deliverydate);
@@ -52,7 +51,7 @@
                 }
             }
             if (errmsg.isEmpty()) {
-                dao.deleteOrder(orderid);
+                OrderDB.delete(Integer.parseInt(orderid));
                 errmsg = "Your order ["+orderid+"] has been removed!";
             }
         }

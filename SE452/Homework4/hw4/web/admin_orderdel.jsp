@@ -1,4 +1,4 @@
-<%@page import="Johnny.Dao.OrderDao"%>
+<%@page import="Johnny.DB.OrderDB"%>
 <%@page import="Johnny.Common.Constants"%>
 <%@page import="Johnny.Common.Helper"%>
 <jsp:include page="layout_top.jsp" />
@@ -19,13 +19,17 @@
     
     if (errmsg.isEmpty()) {
         String orderid = request.getParameter("orderid");
-
-        OrderDao dao = OrderDao.createInstance();
-        if (dao.isExisted(orderid)) {
-            dao.deleteOrder(orderid);
-            response.sendRedirect("admin_orderlist.jsp");
+        
+        if (orderid == null || orderid.isEmpty()) {
+            errmsg = "Invalid parameter!";
         } else {
-            errmsg = "No Order found!";
+            int id = Integer.parseInt(orderid);
+            if (OrderDB.exists(id)) {
+                OrderDB.delete(id);
+                response.sendRedirect("admin_orderlist.jsp");
+            } else {
+                errmsg = "No Order found!";
+            }
         }
     }
     pageContext.setAttribute("errmsg", errmsg);

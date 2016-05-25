@@ -1,8 +1,8 @@
+<%@page import="Johnny.DB.OrderDB"%>
 <%@page import="java.util.List"%>
 <%@page import="Johnny.Beans.Order"%>
 <%@page import="Johnny.Common.Helper"%>
 <%@page import="Johnny.Common.Constants"%>
-<%@page import="Johnny.Dao.OrderDao"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="layout_top.jsp" />
@@ -22,8 +22,7 @@
         errmsg = "You have no authorization to manage order!";
     }
 
-    OrderDao dao = OrderDao.createInstance();
-    List<Order> list = dao.getOrders();
+    List<Order> list = OrderDB.getList();
     if (list == null || list.size() == 0) {
         errmsg = "There is no order yet!";
     } else {
@@ -44,7 +43,7 @@
             } catch(NumberFormatException nfe) {
                 quantity = 1;
             }
-            dao.setItemQuantity(orderid, itemid, type, quantity);
+            OrderDB.setItemQuantity(Integer.parseInt(orderid), Integer.parseInt(itemid), quantity);
         }
     }
     

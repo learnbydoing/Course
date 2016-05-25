@@ -10,43 +10,108 @@ package Johnny.Beans;
  * @author Johnny
  */
 public class OrderItem implements java.io.Serializable {
-    private ProductItem item;
+    private int orderitemid;
+    private int orderid;
+    private String productid;
+    private String productname;
+    private int producttype; //  1.Console 2.Accessory, 3.Game, 4.Tablet
+    private double price;
+    private String image;
+    private String maker;    
+    private int discount;
     private int quantity;
 
-    public OrderItem(ProductItem item) {
-        setItem(item);
-        setQuantity(1);
+    public OrderItem() {
+
+    }
+    public OrderItem(int orderitemid, int orderid, String productid, String productname, int producttype, double price, String image, String maker, int discount, int quantity) {
+        this.orderitemid = orderitemid;
+        this.orderid = orderid;
+        this.productid = productid;
+        this.productname = productname;
+        this.producttype = producttype;
+        this.price = price;
+        this.image = image;
+        this.maker = maker;
+        this.discount = discount;
+        this.quantity = quantity;        
+    }    
+
+    public int getOrderItemId() {
+        return this.orderitemid;
     }
     
-    public OrderItem Clone() {
-        ProductItem prod = new ProductItem(item.getId(), item.getName(), item.getType(), item.getPrice(), item.getImage(), item.getMaker(), item.getDiscount(), null);
-        OrderItem clone = new OrderItem(prod);
-        clone.setQuantity(quantity);
-        return clone;        
-    }
-
-    public ProductItem getItem() {
-        return item;
-    }
-
-    protected void setItem(ProductItem item) {
-        this.item = item;
-    }
-
-    public String getItemId() {
-        return getItem().getId();
+    public void setOrderItemId(int orderitemid) {
+        this.orderitemid = orderitemid;
     }
     
-    public String getItemName() {
-        return getItem().getName();
+     public int getOrderId() {
+        return this.orderid;
+    }
+    
+    public void setOrderId(int orderid) {
+        this.orderid = orderid;
+    }
+    
+    
+    public String getProductId() {
+        return this.productid;
+    }
+    
+    public void setProductId(String productid) {
+        this.productid = productid;
+    }
+    
+    public String getProductName() {
+        return this.productname;
+    }
+    
+    public void setProductName(String productname) {
+        this.productname = productname;
     }
 
-    public int getItemType() {
-        return getItem().getType();
+    public int getProductType() {
+        return this.producttype;
+    }
+    
+    public void setProductType(int producttype) {
+        this.producttype = producttype;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }    
+    
+    public String getImage() {
+        return image;
+    }
+    
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
+    public String getMaker() {
+        return maker;
+    }
+    
+    public void setMaker(String maker) {
+        this.maker = maker;
+    }
+    
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+    
     public double getUnitPrice() {
-        return getItem().getDiscountedPrice();
+        return price * (100 - discount) / 100;
     }
 
     public int getQuantity() {
@@ -59,10 +124,6 @@ public class OrderItem implements java.io.Serializable {
 
     public void incrementItemQuantity() {
         setQuantity(getQuantity() + 1);
-    }
-
-    public void cancelOrder() {
-        setQuantity(0);
     }
 
     public double getTotalCost() {

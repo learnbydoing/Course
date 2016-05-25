@@ -10,7 +10,7 @@ package Johnny.Beans;
  * @author Johnny
  */
 public class Tablet extends BaseBean {
-    public Tablet(String key, String maker, String name, double price, String image, String retailer, String condition,double discount){
+    public Tablet(String key, String maker, String name, double price, String image, String retailer, String condition, int discount){
         super.setKey(key);
         super.setMaker(maker);
         super.setName(name);

@@ -16,14 +16,14 @@ import java.util.List;
  *
  * @author Johnny
  */
-public class OrderDao {
-    private static OrderDao dao;
+public class OrderDao22 {
+    private static OrderDao22 dao;
     private static List<Order> orders = new ArrayList<Order>();
-    private OrderDao() {}
+    private OrderDao22() {}
     
-    public static synchronized OrderDao createInstance() {
+    public static synchronized OrderDao22 createInstance() {
         if (dao == null) {
-            dao = new OrderDao();
+            dao = new OrderDao22();
             init();
         }
         return dao;
@@ -55,19 +55,19 @@ public class OrderDao {
         return res;
     }
     
-    public synchronized Order getOrder(String id) {
+    public synchronized Order getOrder(int id) {
         if (orders==null || orders.isEmpty()) {
             return null;
         } 
         for (Order order: orders) {
-            if (order.getId().equals(id)) {
+            if (order.getId() == id) {
                 return order;
             }
         }
         return null;
     }
             
-    public boolean isExisted(String id) {
+    public boolean isExisted(int id) {
         return getOrder(id) == null ? false : true;
     }
     
@@ -80,7 +80,7 @@ public class OrderDao {
         SerializeHelper.writeToFile(Constants.DATA_FILE_ORDER, orders);
     }
     
-    public synchronized void deleteOrder(String id) {
+    public synchronized void deleteOrder(int id) {
         if (orders==null || orders.isEmpty()) {
             return;
         } 
@@ -94,15 +94,15 @@ public class OrderDao {
         SerializeHelper.writeToFile(Constants.DATA_FILE_ORDER, orders);
     }
     
-    public synchronized void setItemQuantity(String orderid, String itemid, int type, int quantity) {
+    public synchronized void setItemQuantity(int orderid, int itemid, int type, int quantity) {
         Order order;
         for(int i = 0; i < orders.size(); i++) {
             order = orders.get(i);
-            if (order.getId().equals(orderid)) {
+            if (order.getId() == orderid) {
                 List<OrderItem> items= order.getItems();
                 for (int j = 0; j < items.size(); j++) {
                     OrderItem orderItem = items.get(j);
-                    if (orderItem.getItemId().equals(itemid)) {
+                    if (orderItem.getOrderItemId() == itemid) {
                         if (quantity <= 0) {
                             items.remove(j);
                         } else {

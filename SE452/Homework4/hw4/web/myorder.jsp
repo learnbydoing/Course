@@ -1,8 +1,8 @@
+<%@page import="Johnny.DB.OrderDB"%>
 <%@page import="Johnny.Common.Constants"%>
 <%@page import="java.util.List"%>
 <%@page import="Johnny.Beans.Order"%>
 <%@page import="Johnny.Common.Helper"%>
-<%@page import="Johnny.Dao.OrderDao"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="layout_top.jsp" />
@@ -17,8 +17,7 @@
     }
 
     String errmsg = "";
-    OrderDao dao = OrderDao.createInstance();
-    List<Order> orders = dao.getOrders(helper.username());
+    List<Order> orders = OrderDB.getList(helper.username());
     if (orders == null || orders.size() == 0) {
         errmsg = "You have no order yet!";
     }
@@ -48,22 +47,22 @@
                             </tr>
                             <tr><td><h5><i>Customer Name: </i></h5></td><td><c:out value="${order.userName}"/></td><td></td></tr>
                             <tr><td><h5><i>Address: </i></h5></td><td><c:out value="${order.address}"/></td><td></td></tr>
-                            <tr><td><h5><i>Confirmation Number: </i></h5></td><td><c:out value="${order.confirmation}"/></td><td></td></tr>
+                            <tr><td><h5><i>Confirmation Number: </i></h5></td><td><c:out value="${order.confirmationNumber}"/></td><td></td></tr>
                             <tr><td><h5><i>Delivery Date: </i></h5></td><td><c:out value="${order.formatDeliveryDate}"/></td><td></td></tr>
                         </table>
                         <table cellspacing='0'>
                             <tr><th>No.</th><th>Name</th><th>Price</th><th>Quantity</th><th>SubTotal</th></tr>
                             <c:set var="total" value="0" scope="page" />
                             <c:set var="counter" value="0" scope="page" />
-                            <c:forEach var="cartitem" items="${order.getItems()}">                                
+                            <c:forEach var="orderitem" items="${order.getItems()}">                                
                                 <tr>
                                     <td><c:out value="${counter + 1}"/></td>
-                                    <td><c:out value="${cartitem.itemName}"/></td>
-                                    <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${cartitem.unitPrice}" type="currency"/></td>
-                                    <td><c:out value="${cartitem.quantity}"/></td>                                 
-                                    <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${cartitem.totalCost}" type="currency"/></td>
+                                    <td><c:out value="${orderitem.productName}"/></td>
+                                    <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${orderitem.unitPrice}" type="currency"/></td>
+                                    <td><c:out value="${orderitem.quantity}"/></td>                                 
+                                    <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${orderitem.totalCost}" type="currency"/></td>
                                 </tr>
-                                <c:set var="total" value="${total + cartitem.getTotalCost()}" scope="page"/>
+                                <c:set var="total" value="${total + orderitem.getTotalCost()}" scope="page"/>
                                 <c:set var="counter" value="${counter + 1}" scope="page"/>
                             </c:forEach>
                             <tr class='total'><td></td><td></td><td></td><td>Total</td><td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${total}" type="currency"/></td></tr>
