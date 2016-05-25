@@ -83,15 +83,41 @@ public class OrderDB {
                 + "ConfirmationNumber = ?, "
                 + "DeliveryDate = ? "
                 + "WHERE OrderId = ?";
+        String query2 = "DELETE FROM OrderItem "
+                + "WHERE OrderId = ?";
+        String query3
+                = "INSERT INTO OrderItem (OrderId, ProductId, ProductName, ProductType, Price, Image, Maker, Discount, Quantity) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
+            connection.setAutoCommit(false); //transaction block start
             ps = connection.prepareStatement(query);
             ps.setString(1, order.getAddress());
             ps.setString(2, order.getCreditCard());
             ps.setString(3, order.getConfirmationNumber());
             ps.setDate(4, new java.sql.Date(order.getDeliveryDate().getTime()));
             ps.setInt(5, order.getId());
-
-            return ps.executeUpdate();
+            ps.executeUpdate();
+            
+            ps = connection.prepareStatement(query2);
+            ps.setInt(1, order.getId());
+            ps.executeUpdate();
+            
+            for(int i = 0; i < order.getItems().size(); i++) {
+                OrderItem item = order.getItems().get(i);
+                ps = connection.prepareStatement(query3);
+                ps.setInt(1, order.getId());
+                ps.setString(2, item.getProductId());
+                ps.setString(3, item.getProductName());
+                ps.setInt(4, item.getProductType());
+                ps.setDouble(5, item.getPrice());
+                ps.setString(6, item.getImage());
+                ps.setString(7, item.getMaker());
+                ps.setInt(8, item.getDiscount());
+                ps.setInt(9, item.getQuantity());
+                ps.executeUpdate();
+            } 
+            connection.commit(); //transaction block end
+            return 1;            
         } catch (SQLException e) {
             System.out.println(e);
             return 0;
