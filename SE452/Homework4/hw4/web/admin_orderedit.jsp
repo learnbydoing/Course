@@ -85,9 +85,11 @@
                                     updOrder.setAddress(order.getAddress());
                                     updOrder.setCreditCard(order.getCreditCard());
                                     updOrder.setItems(order.getItems());
-                                    OrderDB.update(order);
+                                    OrderDB.update(order);                                    
                                     session.removeAttribute("OrderItem"+orderid);
                                     errmsg = "Order ["+order.getId()+"] is updated!";
+                                    order = OrderDB.getOrder(Integer.parseInt(orderid));
+                                    session.setAttribute("OrderItem"+orderid, order);
                                 }
                             }
                         }
@@ -188,7 +190,8 @@
             width: 370,
             height: 260,
             afterClose: function () { 
-                location.href = location.href;
+                location.href = 'admin_orderedit.jsp?orderid='+$('#orderid').val();
+                //location.href = location.href;                
             } //window.location.reload(); }
         });
         sethref();

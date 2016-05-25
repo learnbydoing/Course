@@ -60,7 +60,11 @@
             synchronized(session) {
                 order = (Order)session.getAttribute("OrderItem"+orderid);
                 if (order != null) {
-                    OrderItem item = new OrderItem(0, 0, product.getId(), product.getName(), product.getType(), product.getPrice(), product.getImage(), product.getMaker(), product.getDiscount(), 1);
+                    int maxid = 0;
+                    for (int i = 0; i < order.getItems().size(); i++) {
+                        maxid = Math.max(order.getItems().get(i).getOrderItemId(), maxid);
+                    }
+                    OrderItem item = new OrderItem(maxid + 1, Integer.parseInt(orderid), product.getId(), product.getName(), product.getType(), product.getPrice(), product.getImage(), product.getMaker(), product.getDiscount(), 1);
                     item.setQuantity(quantity);
                     order.addItem(item);
                     errmsg = "Product has been added to order!";

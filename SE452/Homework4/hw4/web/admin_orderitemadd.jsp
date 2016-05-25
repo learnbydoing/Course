@@ -58,7 +58,7 @@
         synchronized(session) {
             order = (Order)session.getAttribute(Constants.SESSION_ORDERITEM);
             if (order != null) {
-                OrderItem item = new OrderItem(0, 0, product.getId(), product.getName(), product.getType(), product.getPrice(), product.getImage(), product.getMaker(), product.getDiscount(), 1);
+                OrderItem item = new OrderItem(order.getItems().size() + 1, 0, product.getId(), product.getName(), product.getType(), product.getPrice(), product.getImage(), product.getMaker(), product.getDiscount(), 1);
                 item.setQuantity(quantity);
                 order.addItem(item);
                 errmsg = "Product has been added to order!";

@@ -278,7 +278,7 @@ public class OrderDB {
             while (rs.next()) {
                 orderitem = new OrderItem();
                 orderitem.setOrderItemId(rs.getInt("OrderItemId"));
-                orderitem.setOrderItemId(rs.getInt("OrderId"));
+                orderitem.setOrderId(rs.getInt("OrderId"));
                 orderitem.setProductId(rs.getString("ProductId"));
                 orderitem.setProductName(rs.getString("ProductName"));
                 orderitem.setProductType(rs.getInt("ProductType"));

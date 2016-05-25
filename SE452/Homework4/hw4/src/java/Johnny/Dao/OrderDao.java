@@ -13,17 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * ObsoleteObsoleteObsoleteObsoleteObsoleteObsoleteObsoleteObsoleteObsoleteObsoleteObsolete
  * @author Johnny
  */
-public class OrderDao22 {
-    private static OrderDao22 dao;
+public class OrderDao {
+    private static OrderDao dao;
     private static List<Order> orders = new ArrayList<Order>();
-    private OrderDao22() {}
+    private OrderDao() {}
     
-    public static synchronized OrderDao22 createInstance() {
+    public static synchronized OrderDao createInstance() {
         if (dao == null) {
-            dao = new OrderDao22();
+            dao = new OrderDao();
             init();
         }
         return dao;
