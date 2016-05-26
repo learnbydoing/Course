@@ -1,0 +1,79 @@
+1)
+create or replace TRIGGER emp_dept_hist_trg
+	BEFORE INSERT OR UPDATE OF department_id ON employee
+  FOR EACH ROW
+DECLARE
+  v_department_name_old	department.department_name%TYPE;
+  v_department_name_new	department.department_name%TYPE;
+BEGIN
+  IF INSERTING THEN
+    IF :NEW.department_id IS NULL THEN
+      v_department_name_new := '---';
+    ELSE
+     SELECT department_name
+       INTO v_department_name_new
+       FROM department
+      WHERE department_id = :NEW.department_id;
+    END IF;
+
+    INSERT INTO	emp_dept_hist VALUES(:NEW.employee_id, :NEW.employee_name, '(New Hire)', v_department_name_new, sysdate);
+  ELSE
+    IF (:OLD.department_id IS NULL AND :NEW.department_id IS NOT NULL) OR
+       (:OLD.department_id IS NOT NULL AND :NEW.department_id IS NULL) OR
+       ((:OLD.department_id IS NOT NULL AND :NEW.department_id IS NOT NULL) AND
+         :OLD.department_id != :NEW.department_id) THEN
+      IF :OLD.department_id IS NULL THEN
+        v_department_name_old := '---';
+      ELSE
+       SELECT department_name
+         INTO v_department_name_old
+         FROM department
+        WHERE department_id = :OLD.department_id;
+      END IF;
+
+      IF :NEW.department_id IS NULL THEN
+        v_department_name_new := '---';
+      ELSE
+       SELECT department_name
+         INTO v_department_name_new
+         FROM department
+        WHERE department_id = :NEW.department_id;
+      END IF;
+      INSERT INTO	emp_dept_hist VALUES(:OLD.employee_id, :OLD.employee_name, v_department_name_old, v_department_name_new, sysdate);
+    END IF;
+  END IF;
+END;
+
+2)
+create or replace TRIGGER job_min_sal_trg
+	BEFORE INSERT OR UPDATE OF JOB, SALARY ON employee
+	FOR EACH ROW
+DECLARE
+  v_n          NUMBER;
+  v_job        job_minimum_salary.job%TYPE;
+  v_salary_min job_minimum_salary.minimum_salary%TYPE;
+BEGIN
+  IF :NEW.job IS NULL THEN
+    v_job := 'TBA';
+  ELSE
+    v_job := :NEW.job;
+  END IF;
+
+  SELECT COUNT(*)
+    INTO v_n
+    FROM job_minimum_salary
+   WHERE job = v_job;
+
+  IF v_n = 0 THEN
+    v_job := 'TBA';
+  END IF;
+
+  SELECT minimum_salary
+    INTO v_salary_min
+    FROM job_minimum_salary
+   WHERE job = v_job;
+
+  IF v_salary_min > :NEW.salary THEN
+   :NEW.salary := v_salary_min;
+  END IF;
+END;

@@ -1,0 +1,26 @@
+delete from emp_dept_hist;
+delete from employee where employee_id = 9999;
+
+INSERT INTO employee
+	(employee_id, employee_name, job, hire_date, salary)
+VALUES (9999, 'KING_99', 'DBA', '01-DEC-2014', 4900);
+
+Select * from emp_dept_hist;
+
+update employee
+set EMPLOYEE_NAME = 'SDFSDF'
+where employee_id = 9999;
+Select * from emp_dept_hist;
+
+
+
+INSERT INTO employee
+	(employee_id, employee_name, job, hire_date, salary)
+VALUES (9999, 'KING_99', 'PROGRAMMER', '01-DEC-2014', 1500);
+
+Select * from employee where employee_id = 9999;
+
+update employee
+set JOB = 'DATABASE ADMINISTRATOR', SALARY = 1234
+where employee_id = 9999;
+Select * from employee where employee_id = 9999;
