@@ -1,6 +1,6 @@
 1)
 create or replace TRIGGER emp_dept_hist_trg
-	BEFORE INSERT OR UPDATE OF department_id ON employee
+  AFTER INSERT OR UPDATE OF department_id ON employee
   FOR EACH ROW
 DECLARE
   v_department_name_old	department.department_name%TYPE;
@@ -17,7 +17,7 @@ BEGIN
     END IF;
 
     INSERT INTO	emp_dept_hist VALUES(:NEW.employee_id, :NEW.employee_name, '(New Hire)', v_department_name_new, sysdate);
-  ELSE
+  ELSIF UPDATING THEN
     IF (:OLD.department_id IS NULL AND :NEW.department_id IS NOT NULL) OR
        (:OLD.department_id IS NOT NULL AND :NEW.department_id IS NULL) OR
        ((:OLD.department_id IS NOT NULL AND :NEW.department_id IS NOT NULL) AND
@@ -39,15 +39,15 @@ BEGIN
          FROM department
         WHERE department_id = :NEW.department_id;
       END IF;
-      INSERT INTO	emp_dept_hist VALUES(:OLD.employee_id, :OLD.employee_name, v_department_name_old, v_department_name_new, sysdate);
+      INSERT INTO emp_dept_hist VALUES(:OLD.employee_id, :OLD.employee_name, v_department_name_old, v_department_name_new, sysdate);
     END IF;
   END IF;
 END;
 
 2)
 create or replace TRIGGER job_min_sal_trg
-	BEFORE INSERT OR UPDATE OF JOB, SALARY ON employee
-	FOR EACH ROW
+  BEFORE INSERT OR UPDATE OF JOB, SALARY ON employee
+  FOR EACH ROW
 DECLARE
   v_n          NUMBER;
   v_job        job_minimum_salary.job%TYPE;
