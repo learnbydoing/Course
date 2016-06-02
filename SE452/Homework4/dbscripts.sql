@@ -1,5 +1,5 @@
 /***********************************************************
-* Create the database named murach, its tables, and a user
+* Create the database named gamestore, its tables
 ************************************************************/
 
 DROP DATABASE IF EXISTS gamestore;
