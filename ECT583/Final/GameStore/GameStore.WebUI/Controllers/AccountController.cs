@@ -52,7 +52,15 @@ namespace GameStore.WebUI.Controllers
                 String AppId = ConfigurationHelper.GetAppId();
                 String SharedKey = ConfigurationHelper.GetSharedKey();
                 String AppTransId = "20";
-                String AppTransAmount = "12.50";
+                String AppTransAmount = "";
+                if (model.Membership.Equals("Regular"))
+                {
+                    AppTransAmount = "49.99";
+                }
+                else
+                {
+                    AppTransAmount = "99.99";
+                }
 
                 // Hash the values so the server can verify the values are original
                 String hash = HttpUtility.UrlEncode(CreditAuthorizationClient.GenerateClientRequestHash(SharedKey, AppId, AppTransId, AppTransAmount));

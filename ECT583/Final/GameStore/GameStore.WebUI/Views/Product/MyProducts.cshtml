@@ -139,6 +139,16 @@
                 loadList(this.value);
             });
 
+            $('#AddModal').on('show.bs.modal', function () {
+                $('#AddModal').find('#ProductName').val('');
+                $('#AddModal').find('#CategoryId').val('');
+                $('#AddModal').find('#Price').val('');
+                $('#AddModal').find('#Image').val('');
+                $('#AddModal').find('#Condition').val('');
+                $('#AddModal').find('#Discount').val('');
+                clearMessage();
+            })
+
             //Add a function to reload the list when the dialog closes
             $('#AddModal').on('hidden.bs.modal', function () {
                 loadList($("#categoryFilter").val());
