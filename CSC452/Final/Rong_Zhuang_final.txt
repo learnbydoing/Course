@@ -47,22 +47,8 @@ IS
   v_count           NUMBER;
   v_count_available NUMBER;
   v_output          VARCHAR2(200);
+  v_format          VARCHAR2(100);
   CURSOR c_video IS
-    SELECT v.video_name, c.video_copy_id, v.format, c.status, NULL as checkout_date, NULL as due_date
-      FROM video v
-      LEFT OUTER JOIN video_copy c
-        ON v.video_id = c.video_id
-     WHERE c.status = 'A' AND UPPER(v.video_name) LIKE '%' || UPPER(p_video_name) ||  '%'
-    UNION SELECT  v.video_name, c.video_copy_id, v.format, c.status, r.checkout_date, r.due_date
-      FROM video v
-      LEFT OUTER JOIN video_copy c
-        ON v.video_id = c.video_id
-      LEFT OUTER JOIN video_rental_record r
-        ON c.video_copy_id = r.video_copy_id
-     WHERE c.status = 'R' AND r.return_date IS NULL
-       AND UPPER(v.video_name) LIKE '%' || UPPER(p_video_name) ||  '%'
-     ORDER BY video_name, video_copy_id;
-  CURSOR c_video2 IS
     SELECT v.video_name, c.video_copy_id, v.format, c.status, NULL as checkout_date, NULL as due_date
       FROM video v
       LEFT OUTER JOIN video_copy c
@@ -80,86 +66,49 @@ IS
        AND UPPER(v.format) LIKE '%' || UPPER(p_format) ||  '%'
      ORDER BY video_name, video_copy_id;
 BEGIN
-  IF p_format IS NULL THEN
-    SELECT COUNT(*)
-      INTO v_count
-      FROM video v
-     INNER JOIN video_copy c
-        ON v.video_id = c.video_id
-     WHERE c.status != 'D' AND UPPER(video_name) LIKE '%' || UPPER(p_video_name) ||  '%';
-    IF v_count = 0 THEN
-       DBMS_OUTPUT.PUT_LINE('***** 0 results found for '|| p_video_name ||'. *****');
-       RETURN;
-    END IF;
-  ELSE
-    SELECT COUNT(*)
-      INTO v_count
-      FROM video v
-     INNER JOIN video_copy c
-        ON v.video_id = c.video_id
-     WHERE c.status != 'D' AND UPPER(video_name) LIKE '%' || UPPER(p_video_name) ||  '%'
-       AND UPPER(v.format) LIKE '%' || UPPER(p_format) ||  '%';
-    IF v_count = 0 THEN
-       DBMS_OUTPUT.PUT_LINE('***** 0 results found for ' || p_video_name || ' (' || p_format || '). *****');
-       RETURN;
-    END IF;
-  END IF;
+  SELECT COUNT(*)
+    INTO v_count
+    FROM video v
+   INNER JOIN video_copy c
+      ON v.video_id = c.video_id
+   WHERE c.status != 'D' AND UPPER(video_name) LIKE '%' || UPPER(p_video_name) ||  '%'
+     AND UPPER(v.format) LIKE '%' || UPPER(p_format) ||  '%';
 
   IF p_format IS NULL THEN
-    SELECT COUNT(*)
-      INTO v_count_available
-      FROM video v
-     INNER JOIN video_copy c
-        ON v.video_id = c.video_id
-     WHERE c.status = 'A' AND UPPER(video_name) LIKE '%' || UPPER(p_video_name) ||  '%';
-    IF v_count = 0 THEN
-       DBMS_OUTPUT.PUT_LINE('***** 0 results found for '|| p_video_name ||'. *****');
-       RETURN;
-    END IF;
-    DBMS_OUTPUT.PUT_LINE('***** '|| v_count ||' results found for ' || p_video_name || '. (Available copies: ' || v_count_available || ') *****');
+    v_format := '';
   ELSE
-    SELECT COUNT(*)
-      INTO v_count_available
-      FROM video v
-     INNER JOIN video_copy c
-        ON v.video_id = c.video_id
-     WHERE c.status = 'A' AND UPPER(video_name) LIKE '%' || UPPER(p_video_name) ||  '%'
-       AND UPPER(v.format) LIKE '%' || UPPER(p_format) ||  '%';
-    IF v_count = 0 THEN
-       DBMS_OUTPUT.PUT_LINE('***** 0 results found for ' || p_video_name || ' (' || p_format || '). *****');
-       RETURN;
-    END IF;
-    DBMS_OUTPUT.PUT_LINE('***** '|| v_count ||' results found for ' || p_video_name || '(' || p_format || '). (Available copies: ' || v_count_available || ') *****');
+    v_format := ' (' || p_format || ')';
   END IF;
 
+  IF v_count = 0 THEN
+     DBMS_OUTPUT.PUT_LINE('***** 0 results found for ' || p_video_name || v_format || '. *****');
+     RETURN;
+  END IF;
+
+  SELECT COUNT(*)
+    INTO v_count_available
+    FROM video v
+   INNER JOIN video_copy c
+      ON v.video_id = c.video_id
+   WHERE c.status = 'A' AND UPPER(video_name) LIKE '%' || UPPER(p_video_name) ||  '%'
+     AND UPPER(v.format) LIKE '%' || UPPER(p_format) ||  '%';
+
+  DBMS_OUTPUT.PUT_LINE('***** '|| v_count ||' results found for ' || p_video_name || v_format || '. (Available copies: ' || v_count_available || ') *****');
 
   DBMS_OUTPUT.PUT_LINE('');
   DBMS_OUTPUT.PUT_LINE(RPAD('VIDEO NAME', 15) || LPAD('VIDEO COPY ID', 19) || LPAD(' ', 4, ' ') || RPAD('FORMAT', 12) || RPAD('STATUS', 13) || LPAD('CHECKOUT DATE', 15) || LPAD('DUE DATE', 15));
   DBMS_OUTPUT.PUT_LINE(LPAD('-', 93, '-'));
 
-  IF p_format IS NULL THEN
-    FOR idx IN c_video LOOP
-      v_output := RPAD(idx.video_name, 15) || LPAD(idx.video_copy_id, 19) || LPAD(' ', 4, ' ') || RPAD(idx.format, 12);
-      IF UPPER(idx.status) = 'A' THEN
-        v_output := v_output || RPAD('Available', 15);
-      ELSE
-        v_output := v_output || RPAD('Rented', 15);
-      END IF;
-      v_output := v_output || LPAD(TO_CHAR(idx.checkout_date, 'DD-MON-YYYY'), 13) || LPAD(TO_CHAR(idx.due_date, 'DD-MON-YYYY'), 15);
-      DBMS_OUTPUT.PUT_LINE(v_output);
-    END LOOP;
-  ELSE
-    FOR idx IN c_video2 LOOP
-      v_output := RPAD(idx.video_name, 15) || LPAD(idx.video_copy_id, 19) || LPAD(' ', 4, ' ') || RPAD(idx.format, 12);
-      IF UPPER(idx.status) = 'A' THEN
-        v_output := v_output || RPAD('Available', 15);
-      ELSE
-        v_output := v_output || RPAD('Rented', 15);
-      END IF;
-      v_output := v_output || LPAD(TO_CHAR(idx.checkout_date, 'DD-MON-YYYY'), 13) || LPAD(TO_CHAR(idx.due_date, 'DD-MON-YYYY'), 15);
-      DBMS_OUTPUT.PUT_LINE(v_output);
-    END LOOP;
-  END IF;
+  FOR idx IN c_video LOOP
+    v_output := RPAD(idx.video_name, 15) || LPAD(idx.video_copy_id, 19) || LPAD(' ', 4, ' ') || RPAD(idx.format, 12);
+    IF UPPER(idx.status) = 'A' THEN
+      v_output := v_output || RPAD('Available', 15);
+    ELSE
+      v_output := v_output || RPAD('Rented', 15);
+    END IF;
+    v_output := v_output || LPAD(TO_CHAR(idx.checkout_date, 'DD-MON-YYYY'), 13) || LPAD(TO_CHAR(idx.due_date, 'DD-MON-YYYY'), 15);
+    DBMS_OUTPUT.PUT_LINE(v_output);
+  END LOOP;
 
   EXCEPTION
     WHEN OTHERS THEN
@@ -198,7 +147,7 @@ BEGIN
     INTO v_count
     FROM member
    WHERE member_id = p_member_id
-     AND TO_CHAR(expiration_date, 'yyyymmdd') >= TO_CHAR(sysdate, 'yyyymmdd');
+     AND TO_DATE(expiration_date, 'DD-MON-YYYY') >= TO_DATE(sysdate, 'DD-MON-YYYY');
 
   IF v_count = 0 THEN
     DBMS_OUTPUT.PUT_LINE('The member’s expiration date is less than the current date!');
@@ -209,14 +158,14 @@ BEGIN
     INTO v_count
     FROM video_copy
    WHERE video_copy_id = p_video_copy_id
-     AND status = 'A';
+     AND UPPER(status) = 'A';
 
   IF v_count = 0 THEN
     DBMS_OUTPUT.PUT_LINE('The copy is not available!');
     RETURN;
   END IF;
 
-  IF TO_CHAR(p_video_checkout_date, 'yyyymmdd') > TO_CHAR(sysdate, 'yyyymmdd') THEN
+  IF TO_DATE(p_video_checkout_date, 'DD-MON-YYYY') > TO_DATE(sysdate, 'DD-MON-YYYY') THEN
     DBMS_OUTPUT.PUT_LINE('The input check out date is greater than the current date!');
     RETURN;
 	END IF;
@@ -302,11 +251,11 @@ BEGIN
    WHERE video_copy_id = p_video_copy_id;
 
   IF v_status != 'R' THEN
-    DBMS_OUTPUT.PUT_LINE('Video Copy ' || p_video_copy_id || ' is not rented(Status = R)!');
+    DBMS_OUTPUT.PUT_LINE('Video Copy ' || p_video_copy_id || ' is not rented(Status != R)!');
     RETURN;
   END IF;
 
-  IF TO_CHAR(p_video_return_date, 'yyyymmdd') > TO_CHAR(sysdate, 'yyyymmdd') THEN
+  IF TO_DATE(p_video_return_date, 'DD-MON-YYYY') > TO_DATE(sysdate, 'DD-MON-YYYY') THEN
     DBMS_OUTPUT.PUT_LINE('The return date is greater than the current date!');
     RETURN;
 	END IF;

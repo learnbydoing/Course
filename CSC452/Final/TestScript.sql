@@ -1,3 +1,5 @@
+1)
+EXEC member_registration(2009, 'Adams', 'adams_1@yahoo.com', '3123621111', '02-SEP-2013', '01-SEP-2018')
 2)
 EXEC update_expiration_date(90, '01-SEP-20');
 EXEC update_expiration_date(2009, '01-SEP-20');
